@@ -79,6 +79,7 @@ clean: src/clean
 
 # Recursive "all" directory target.
 src/all: src/CMakeFiles/emulator.dir/all
+src/all: src/CMakeFiles/tests.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -87,6 +88,7 @@ src/preinstall:
 
 # Recursive "clean" directory target.
 src/clean: src/CMakeFiles/emulator.dir/clean
+src/clean: src/CMakeFiles/tests.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
@@ -114,6 +116,32 @@ emulator: src/CMakeFiles/emulator.dir/rule
 src/CMakeFiles/emulator.dir/clean:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/clean
 .PHONY : src/CMakeFiles/emulator.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/tests.dir
+
+# All Build rule for target.
+src/CMakeFiles/tests.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/hyperwin/d/Projects/HyperCPU/build/CMakeFiles --progress-num=5,6,7,8 "Built target tests"
+.PHONY : src/CMakeFiles/tests.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hyperwin/d/Projects/HyperCPU/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hyperwin/d/Projects/HyperCPU/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/tests.dir/rule
+
+# Convenience name for target.
+tests: src/CMakeFiles/tests.dir/rule
+.PHONY : tests
+
+# clean rule for target.
+src/CMakeFiles/tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/clean
+.PHONY : src/CMakeFiles/tests.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

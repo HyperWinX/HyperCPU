@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "\$(PROJECT_SOURCE_DIR)/build/emulator"
-  "\$(PROJECT_SOURCE_DIR)/build/emulator.pdb"
+  "../emulator"
+  "../emulator.pdb"
   "CMakeFiles/emulator.dir/cpu.cpp.o"
   "CMakeFiles/emulator.dir/cpu.cpp.o.d"
   "CMakeFiles/emulator.dir/main.cpp.o"

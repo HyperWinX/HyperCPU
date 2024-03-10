@@ -129,6 +129,19 @@ emulator/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/build
 .PHONY : emulator/fast
 
+#=============================================================================
+# Target rules for targets named tests
+
+# Build rule for target.
+tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
+.PHONY : tests
+
+# fast build rule for target.
+tests/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/build
+.PHONY : tests/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -138,6 +151,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... emulator"
+	@echo "... tests"
 .PHONY : help
 
 

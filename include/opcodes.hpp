@@ -1,3 +1,5 @@
 #pragma once
 
-#define AND         1
+#define ADC         0x10
+#define AND         0x11
+#define HLT         0x00

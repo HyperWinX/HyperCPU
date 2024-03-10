@@ -2,52 +2,90 @@
 
 #pragma once
 
-#define byte_is_instr(byte) byte
-
 namespace HyperCPU{
     enum instr_t{
-        INS_AND
+        INS_ADC,
+        INS_AND,
+        INS_HLT,
+        INS_JE,
+        INS_UNKNOWN
+    };
+    enum argtp_t{
+        RM_R=0,
+        R_RM=1,
+        RM_IMM=2,
+        R_IMM=3,
+        RM_M=4,
+        R_M=5,
+        R=6,
+        M_R=7,
+        M_RM=8,
+        IMM=9
+    };
+    enum datasize_t{
+        b8=0,
+        b16=1,
+        b32=2
     };
     enum reg_t{
-        x0, x1, x2, x3, x4, x5, x6, x7,
-        x8, x9, x10, x11, x12, x13, x14, x15,
-        x16, x17, x18, x19, x20, x21, x22, x23,
-        x24, x25, x26, x27, x28, x29, x30, x31, // GP registers
+        x0=0, x1=1, x2=2, x3=3, x4=4, x5=5, x6=6, x7=7,
+        x8=8, x9=9, x10=10, x11=11, x12=12, x13=13, x14=14, x15=15,
+        x16=16, x17=17, x18=18, x19=19, x20=20, x21=21, x22=22, x23=23,
+        x24=24, x25=25, x26=26, x27=27, x28=28, x29=29, x30=30, x31=31, // GP registers
 
-        xh0, xh1, xh2, xh3, xh4, xh5, xh6, xh7,
-        xh8, xh9, xh10, xh11, xh12, xh13, xh14, xh15,
-        xh16, xh17, xh18, xh19, xh20, xh21, xh22, xh23,
-        xh24, xh25, xh26, xh27, xh28, xh29, xh30, xh31, // GP registers: high halfs
+        xh0=32, xh1=33, xh2=34, xh3=35, xh4=36, xh5=37, xh6=38, xh7=39,
+        xh8=40, xh9=41, xh10=42, xh11=43, xh12=44, xh13=45, xh14=46, xh15=47,
+        xh16=48, xh17=49, xh18=50, xh19=51, xh20=52, xh21=53, xh22=54, xh23=55,
+        xh24=56, xh25=57, xh26=58, xh27=59, xh28=60, xh29=61, xh30=62, xh31=63, // GP registers: high halfs
 
-        xl0, xl1, xl2, xl3, xl4, xl5, xl6, xl7,
-        xl8, xl9, xl10, xl11, xl12, xl13, xl14, xl15,
-        xl16, xl17, xl18, xl19, xl20, xl21, xl22, xl23,
-        xl24, xl25, xl26, xl27, xl28, xl29, xl30, xl31, // GP registers: low halfs
+        xl0=64, xl1=65, xl2=66, xl3=67, xl4=68, xl5=69, xl6=70, xl7=71,
+        xl8=72, xl9=73, xl10=74, xl11=75, xl12=76, xl13=77, xl14=78, xl15=79,
+        xl16=80, xl17=81, xl18=82, xl19=83, xl20=84, xl21=85, xl22=86, xl23=87,
+        xl24=88, xl25=89, xl26=90, xl27=91, xl28=92, xl29=93, xl30=94, xl31=95, // GP registers: low halfs
 
-        stp, bstp, // Stack related registers
+        xlh0=96, xlh1=97, xlh2=98, xlh3=99, xlh4=100, xlh5=101, xlh6=102, xlh7=103,
+        xlh8=104, xlh9=105, xlh10=106, xlh11=107, xlh12=108, xlh13=109, xlh14=110, xlh15=111,
+        xlh16=112, xlh17=113, xlh18=114, xlh19=115, xlh20=116, xlh21=117, xlh22=118, xlh23=119,
+        xlh24=120, xlh25=121, xlh26=122, xlh27=123, xlh28=124, xlh29=125, xlh30=126, xlh31=127, // GP registers: high halfs of low halfs
 
-        insp, // Instruction pointer register
+        xll0=128, xll1=129, xll2=130, xll3=131, xll4=132, xll5=133, xll6=134, xll7=135,
+        xll8=136, xll9=137, xll10=138, xll11=139, xll12=140, xll13=141, xll14=142, xll15=143,
+        xll16=144, xll17=145, xll18=146, xll19=147, xll20=148, xll21=149, xll22=150, xll23=151,
+        xll24=152, xll25=153, xll26=154, xll27=155, xll28=156, xll29=157, xll30=158, xll31=159, // GP registers: low halfs of low halfs
 
-        vecr0, vecr1, vecr2, vecr3, vecr4, vecr5, vecr6, vecr7 // Vector operation registers
+        stp=160, bstp=161, // Stack related registers
+
+        insp=162, // Instruction pointer register
+
+        vecr0=163, vecr1=164, vecr2=165, vecr3=166, vecr4=167, vecr5=168, vecr6=169, vecr7=170 // Vector operation registers
     };
+
     struct _instruction_t{
         instr_t _instrtp;
+        argtp_t args;
+        datasize_t size;
         uint32_t arg1, arg2;
     };
     class CPU{
-        private:
+        public:
         char* _memory;
         uint32_t _xRegs[32]; // General purpose register
         uint32_t _stp, _bstp; // Stack related registers
         uint32_t _insp; // Instruction pointer
         uint32_t _idtr; // IDT pointer register
         bool _CMPR; // CMP result flag
+        bool _CAR; // Carry flag
+        bool _OVR; // Overflow flag
+
         uint8_t _fetch_byte(void);
+        uint16_t _fetch_word(void);
+        uint32_t _fetch_dword(void);
         _instruction_t _gen_instr(uint8_t);
         instr_t _define_instr(uint16_t);
+        void _set_datasize(_instruction_t& instr);
 
-        public:
         void Reset(int mem_size);
+        void CleanUp();
         int Execute();
     };
 }

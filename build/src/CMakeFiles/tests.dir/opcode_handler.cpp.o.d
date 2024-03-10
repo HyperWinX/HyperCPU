@@ -1,4 +1,4 @@
-src/CMakeFiles/emulator.dir/opcode_handler.cpp.o: \
+src/CMakeFiles/tests.dir/opcode_handler.cpp.o: \
  /home/hyperwin/d/Projects/HyperCPU/src/opcode_handler.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/13.2.1/cstdint \
  /usr/include/c++/13.2.1/x86_64-pc-linux-gnu/bits/c++config.h \

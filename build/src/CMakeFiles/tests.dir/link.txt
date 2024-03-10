@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/tests.dir/cpu.cpp.o CMakeFiles/tests.dir/opcode_handler.cpp.o CMakeFiles/tests.dir/__/test/tests.cpp.o -o ../tests  -lgtest_main -lgtest -lpthread 

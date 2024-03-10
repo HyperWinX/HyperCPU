@@ -130,12 +130,51 @@ emulator/fast:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/build
 .PHONY : emulator/fast
 
+# Convenience name for target.
+src/CMakeFiles/tests.dir/rule:
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/tests.dir/rule
+.PHONY : src/CMakeFiles/tests.dir/rule
+
+# Convenience name for target.
+tests: src/CMakeFiles/tests.dir/rule
+.PHONY : tests
+
+# fast build rule for target.
+tests/fast:
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/build
+.PHONY : tests/fast
+
+__/test/tests.o: __/test/tests.cpp.o
+.PHONY : __/test/tests.o
+
+# target to build an object file
+__/test/tests.cpp.o:
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/__/test/tests.cpp.o
+.PHONY : __/test/tests.cpp.o
+
+__/test/tests.i: __/test/tests.cpp.i
+.PHONY : __/test/tests.i
+
+# target to preprocess a source file
+__/test/tests.cpp.i:
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/__/test/tests.cpp.i
+.PHONY : __/test/tests.cpp.i
+
+__/test/tests.s: __/test/tests.cpp.s
+.PHONY : __/test/tests.s
+
+# target to generate assembly for a file
+__/test/tests.cpp.s:
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/__/test/tests.cpp.s
+.PHONY : __/test/tests.cpp.s
+
 cpu.o: cpu.cpp.o
 .PHONY : cpu.o
 
 # target to build an object file
 cpu.cpp.o:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/cpu.cpp.o
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/cpu.cpp.o
 .PHONY : cpu.cpp.o
 
 cpu.i: cpu.cpp.i
@@ -144,6 +183,7 @@ cpu.i: cpu.cpp.i
 # target to preprocess a source file
 cpu.cpp.i:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/cpu.cpp.i
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/cpu.cpp.i
 .PHONY : cpu.cpp.i
 
 cpu.s: cpu.cpp.s
@@ -152,6 +192,7 @@ cpu.s: cpu.cpp.s
 # target to generate assembly for a file
 cpu.cpp.s:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/cpu.cpp.s
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/cpu.cpp.s
 .PHONY : cpu.cpp.s
 
 main.o: main.cpp.o
@@ -184,6 +225,7 @@ opcode_handler.o: opcode_handler.cpp.o
 # target to build an object file
 opcode_handler.cpp.o:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/opcode_handler.cpp.o
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/opcode_handler.cpp.o
 .PHONY : opcode_handler.cpp.o
 
 opcode_handler.i: opcode_handler.cpp.i
@@ -192,6 +234,7 @@ opcode_handler.i: opcode_handler.cpp.i
 # target to preprocess a source file
 opcode_handler.cpp.i:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/opcode_handler.cpp.i
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/opcode_handler.cpp.i
 .PHONY : opcode_handler.cpp.i
 
 opcode_handler.s: opcode_handler.cpp.s
@@ -200,6 +243,7 @@ opcode_handler.s: opcode_handler.cpp.s
 # target to generate assembly for a file
 opcode_handler.cpp.s:
 	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/opcode_handler.cpp.s
+	cd /home/hyperwin/d/Projects/HyperCPU/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/tests.dir/build.make src/CMakeFiles/tests.dir/opcode_handler.cpp.s
 .PHONY : opcode_handler.cpp.s
 
 # Help Target
@@ -211,6 +255,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... emulator"
+	@echo "... tests"
+	@echo "... __/test/tests.o"
+	@echo "... __/test/tests.i"
+	@echo "... __/test/tests.s"
 	@echo "... cpu.o"
 	@echo "... cpu.i"
 	@echo "... cpu.s"

@@ -1,4 +1,4 @@
-src/CMakeFiles/emulator.dir/cpu.cpp.o: \
+src/CMakeFiles/tests.dir/cpu.cpp.o: \
  /home/hyperwin/d/Projects/HyperCPU/src/cpu.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/13.2.1/cstdint \
  /usr/include/c++/13.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -33,7 +33,8 @@ src/CMakeFiles/emulator.dir/cpu.cpp.o: \
  /usr/include/bits/pthreadtypes-arch.h \
  /usr/include/bits/atomic_wide_counter.h /usr/include/bits/struct_mutex.h \
  /usr/include/bits/struct_rwlock.h /usr/include/alloca.h \
- /usr/include/bits/stdlib-bsearch.h /usr/include/bits/stdlib-float.h \
- /usr/include/c++/13.2.1/bits/std_abs.h \
+ /usr/include/bits/stdlib-float.h /usr/include/c++/13.2.1/bits/std_abs.h \
  /home/hyperwin/d/Projects/HyperCPU/include/cpu.hpp \
- /home/hyperwin/d/Projects/HyperCPU/include/errcode.hpp
+ /home/hyperwin/d/Projects/HyperCPU/include/errcode.hpp \
+ /home/hyperwin/d/Projects/HyperCPU/include/exitcodes.hpp \
+ /home/hyperwin/d/Projects/HyperCPU/include/opcodes.hpp
