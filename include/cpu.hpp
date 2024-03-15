@@ -11,16 +11,17 @@ namespace HyperCPU{
         INS_UNKNOWN
     };
     enum argtp_t{
-        RM_R=0,
-        R_RM=1,
-        RM_IMM=2,
-        R_IMM=3,
-        RM_M=4,
-        R_M=5,
-        R=6,
-        M_R=7,
-        M_RM=8,
-        IMM=9
+        RM_R=0x01,
+        R_RM=0x02,
+        RM_IMM=0x03,
+        R_IMM=0x04,
+        RM_M=0x05,
+        R_M=0x06,
+        M_R=0x07,
+        M_RM=0x08,
+        R=0x09,
+        IMM=0x0A,
+        NOARG=0x0F
     };
     enum datasize_t{
         b8=0,
@@ -69,22 +70,27 @@ namespace HyperCPU{
     class CPU{
         public:
         char* _memory;
+        void** _regPointers;
         uint32_t _xRegs[32]; // General purpose register
         uint32_t _stp, _bstp; // Stack related registers
         uint32_t _insp; // Instruction pointer
         uint32_t _idtr; // IDT pointer register
-        bool _CMPR; // CMP result flag
-        bool _CAR; // Carry flag
-        bool _OVR; // Overflow flag
+        uint64_t _vRegs[8];
+        bool _cmpr; // CMP result flag
+        bool _carry; // Carry flag
+        bool _ovr; // Overflow flag
 
         uint8_t _fetch_byte(void);
         uint16_t _fetch_word(void);
         uint32_t _fetch_dword(void);
-        _instruction_t _gen_instr(uint8_t);
+        _instruction_t _gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2);
         instr_t _define_instr(uint16_t);
         void _set_datasize(_instruction_t& instr);
 
-        void Reset(int mem_size);
+        // All instructions
+        int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
+
+        int Reset(int mem_size);
         void CleanUp();
         int Execute();
     };

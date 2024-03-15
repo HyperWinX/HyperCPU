@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <cstdio>
 #include <opcodes.hpp>
 #include <cpu.hpp>
 
