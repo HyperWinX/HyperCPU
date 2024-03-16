@@ -31,7 +31,7 @@ uint32_t HyperCPU::CPU::_fetch_dword(void){
 }
 
 void HyperCPU::CPU::_set_datasize(HyperCPU::_instruction_t& instr, uint8_t byte){
-    switch(static_cast<datasize_t>(byte & 0b00110000)){
+    switch(static_cast<datasize_t>((byte & 0b00110000) >> 4)){
 		case b8:
 			instr.size = b8;
 			return;
@@ -112,8 +112,6 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
         default: return instr;
     }
 	_set_datasize(instr, byte);
-	if (instr.size == b16) puts("FUCK YEAAAAAA");
-	else if (instr.size == b32) puts("HECK NOOOOOOO-");
 	return instr;
 }
 
