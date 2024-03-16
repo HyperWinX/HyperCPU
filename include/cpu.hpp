@@ -26,7 +26,8 @@ namespace HyperCPU{
     enum datasize_t{
         b8=0,
         b16=1,
-        b32=2
+        b32=2,
+		bUNKNOWN=3
     };
     enum reg_t{
         x0=0, x1=1, x2=2, x3=3, x4=4, x5=5, x6=6, x7=7,
@@ -85,7 +86,7 @@ namespace HyperCPU{
         uint32_t _fetch_dword(void);
         _instruction_t _gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2);
         instr_t _define_instr(uint16_t);
-        void _set_datasize(_instruction_t& instr);
+        void _set_datasize(_instruction_t&, uint8_t);
 
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);

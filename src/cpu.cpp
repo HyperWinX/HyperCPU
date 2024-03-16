@@ -30,24 +30,21 @@ uint32_t HyperCPU::CPU::_fetch_dword(void){
     return val;
 }
 
-void HyperCPU::CPU::_set_datasize(HyperCPU::_instruction_t& instr){
-    int type = static_cast<int>(instr._instrtp);
-    int reg;
-
-    if (type >= 0x10)
-        reg = static_cast<int>(instr.arg2);
-    else if (type == 7 || type == 8)
-        reg = static_cast<int>(instr.arg1);
-    else{
-        instr.size = b32;
-        return;
-    }
-    if ((reg >= 0 && reg <= 31) || (reg == 160 || reg == 161))
-        instr.size = b32;
-    else if (reg >= 32 && reg <= 95)
-        instr.size = b16;
-    else
-        instr.size = b8;
+void HyperCPU::CPU::_set_datasize(HyperCPU::_instruction_t& instr, uint8_t byte){
+    switch(static_cast<datasize_t>(byte & 0b00110000)){
+		case b8:
+			instr.size = b8;
+			return;
+		case b16:
+			instr.size = b16;
+			return;
+		case b32:
+			instr.size = b32;
+			return;
+		default:
+			instr.size = bUNKNOWN;
+			return;
+	}
 }
 
 HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2){
@@ -56,64 +53,68 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
 
     if (is_one_byte(fopcode)) return instr;
 
-    _set_datasize(instr);
-    switch(static_cast<argtp_t>(_fetch_byte() & 0xF)){
+	uint8_t byte = _fetch_byte();
+    switch(static_cast<argtp_t>(byte & 0xF)){
         case RM_R:
             instr.args = RM_R;
             ptr1 = _regPointers[_fetch_byte()];
             ptr2 = _regPointers[_fetch_byte()];
-            return instr;
+            break;
         case R_RM:
             instr.args = R_RM;
             ptr1 = _regPointers[_fetch_byte()];
             ptr2 = _regPointers[_fetch_byte()];
-            return instr;
+            break;
         case RM_IMM:
             instr.args = RM_IMM;
             ptr1 = _regPointers[_fetch_byte()];
             ptr2 = _memory + _insp;
             _insp += 4;
-            return instr;
+            break;
         case R_IMM:
             instr.args = R_IMM;
             ptr1 = _regPointers[_fetch_byte()];
             ptr2 = _memory + _insp;
             _insp += 4;
-            return instr;
+            break;
         case RM_M:
             instr.args = RM_M;
             ptr1 = _regPointers[_fetch_byte()];
             ptr2 = _memory + _fetch_dword();
-            return instr;
+            break;
         case R_M:
             instr.args = R_M;
             ptr1 = _regPointers[_fetch_byte()];
             ptr2 = _memory + _fetch_dword();
-            return instr;
+            break;
         case M_R:
             instr.args = M_R;
             ptr1 = _memory + _fetch_dword();
             ptr2 = _regPointers[_fetch_byte()];
-            return instr;
+            break;
         case M_RM:
             instr.args = M_RM;
             ptr1 = _memory + _fetch_dword();
             ptr2 = _regPointers[_fetch_byte()];
-            return instr;
+            break;
         case R:
             instr.args = R;
             ptr1 = _regPointers[_fetch_byte()];
-            return instr;
+            break;
         case IMM:
             instr.args = IMM;
             ptr1 = _memory + _insp;
             _insp += 4;
-            return instr;
+            break;
         case NOARG:
             instr.args = NOARG;
             return instr;
         default: return instr;
     }
+	_set_datasize(instr, byte);
+	if (instr.size == b16) puts("FUCK YEAAAAAA");
+	else if (instr.size == b32) puts("HECK NOOOOOOO-");
+	return instr;
 }
 
 int HyperCPU::CPU::Reset(int mem_size){
