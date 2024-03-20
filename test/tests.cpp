@@ -1191,7 +1191,7 @@ TEST(INSTRUCTIONS, ANDN_b8_RM_R){
     cpu._xRegs[1] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(cpu._memory[0x010A], ~(5 & 0x17));
+    EXPECT_EQ(cpu._memory[0x010A], static_cast<unsigned>(~(5 & 0x17)));
     cpu.CleanUp();
 }
 
@@ -1207,7 +1207,7 @@ TEST(INSTRUCTIONS, ANDN_b16_RM_R){
     cpu._xRegs[1] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1223,7 +1223,7 @@ TEST(INSTRUCTIONS, ANDN_b32_RM_R){
     cpu._xRegs[1] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint32_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint32_t*>(&cpu._memory[0x010A]), static_cast<uint32_t>(~(5 & 0x0A0A0A0A)));
     cpu.CleanUp();
 }
 
@@ -1239,7 +1239,7 @@ TEST(INSTRUCTIONS, ANDN_b8_R_RM){
     cpu._xRegs[0] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 2), ~(5 & 0x0A));
+    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 2), static_cast<uint8_t>(~(5 & 0x0A)));
     cpu.CleanUp();
 }
 
@@ -1255,7 +1255,7 @@ TEST(INSTRUCTIONS, ANDN_b16_R_RM){
     cpu._xRegs[0] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1286,7 +1286,7 @@ TEST(INSTRUCTIONS, ANDN_b8_RM_IMM){
     cpu._xRegs[1] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A));
+    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._memory[0x010A]), static_cast<uint8_t>(~(5 & 0x0A)));
     cpu.CleanUp();
 }
 
@@ -1302,7 +1302,7 @@ TEST(INSTRUCTIONS, ANDN_b16_RM_IMM){
     cpu._xRegs[1] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1334,7 +1334,7 @@ TEST(INSTRUCTIONS, ANDN_b8_R_IMM){
     *reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 2) = 5;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 2), ~(5 & 0x0A));
+    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 2), static_cast<uint8_t>(~(5 & 0x0A)));
     cpu.CleanUp();
 }
 
@@ -1349,7 +1349,7 @@ TEST(INSTRUCTIONS, ANDN_b16_R_IMM){
     *reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2) = 5;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1398,7 +1398,7 @@ TEST(INSTRUCTIONS, ANDN_b16_RM_M){
     cpu._xRegs[1] = 0x010A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1429,7 +1429,7 @@ TEST(INSTRUCTIONS, ANDN_b8_R_M){
     *reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 3) = 5;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 3), ~(5 & 0x0A));
+    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 3), static_cast<uint8_t>(~(5 & 0x0A)));
     cpu.CleanUp();
 }
 
@@ -1444,7 +1444,7 @@ TEST(INSTRUCTIONS, ANDN_b16_R_M){
     *reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2) = 0x0A0A;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1474,7 +1474,7 @@ TEST(INSTRUCTIONS, ANDN_b8_M_R){
     *reinterpret_cast<uint8_t*>(&cpu._xRegs[1] + 3) = 5;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A));
+    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._memory[0x010A]), static_cast<uint8_t>(~(5 & 0x0A)));
     cpu.CleanUp();
 }
 
@@ -1489,7 +1489,7 @@ TEST(INSTRUCTIONS, ANDN_b16_M_R){
     *reinterpret_cast<uint16_t*>(&cpu._xRegs[1] + 2) = 5;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 
@@ -1520,7 +1520,7 @@ TEST(INSTRUCTIONS, ANDN_b8_M_RM){
     cpu._xRegs[1] = 0x010E;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A));
+    EXPECT_EQ(*reinterpret_cast<uint8_t*>(&cpu._memory[0x010A]), static_cast<uint8_t>(~(5 & 0x0A)));
     cpu.CleanUp();
 }
 
@@ -1536,7 +1536,7 @@ TEST(INSTRUCTIONS, ANDN_b16_M_RM){
     cpu._xRegs[1] = 0x010E;
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
-    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A));
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x010A]), static_cast<uint16_t>(~(5 & 0x0A0A)));
     cpu.CleanUp();
 }
 

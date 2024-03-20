@@ -8,6 +8,7 @@ namespace HyperCPU{
         INS_ADD,
         INS_AND,
         INS_ANDN,
+        INS_CALL,
         INS_HLT,
         INS_JE,
         INS_UNKNOWN

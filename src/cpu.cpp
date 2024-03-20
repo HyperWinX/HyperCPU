@@ -185,6 +185,9 @@ int HyperCPU::CPU::Execute(){
                     return EXIT_OPCODEFAILURE;
                 break;
             }
+            case INS_CALL:{
+
+            }
             case INS_JE:{
                 break;
             }
