@@ -170,6 +170,11 @@ int HyperCPU::CPU::Execute(){
                 if (_ins_adc_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
+            case INS_ADD:{
+                if (_ins_add_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
+                break;
+            }
             case INS_AND:{
                 break;
             }

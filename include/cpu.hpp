@@ -5,6 +5,7 @@
 namespace HyperCPU{
     enum instr_t{
         INS_ADC,
+        INS_ADD,
         INS_AND,
         INS_HLT,
         INS_JE,
@@ -90,6 +91,7 @@ namespace HyperCPU{
 
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
+        int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
 
         int Reset(int mem_size);
         void CleanUp();
