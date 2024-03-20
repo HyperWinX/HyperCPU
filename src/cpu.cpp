@@ -26,7 +26,7 @@ uint32_t HyperCPU::CPU::_fetch_dword(void){
     uint32_t val;
     memcpy(&val, _memory + _insp, sizeof(uint32_t));
     _insp += 4;
-    val = std::byteswap(val);
+    //val = std::byteswap(val);
     return val;
 }
 
@@ -77,11 +77,13 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
             ptr2 = _memory + _insp;
             _insp += 4;
             break;
-        case RM_M:
+        case RM_M: {
             instr.args = RM_M;
             ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _memory + _fetch_dword();
+            uint32_t dword = _fetch_dword();
+            ptr2 = _memory + dword;
             break;
+        }
         case R_M:
             instr.args = R_M;
             ptr1 = _regPointers[_fetch_byte()];
@@ -133,16 +135,16 @@ int HyperCPU::CPU::Reset(int mem_size){
         _regPointers[index] = &(_xRegs[i]);
     // Set xh# registers
     for (int i = 0; index < 64; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&(_xRegs[i]) + 2);
+        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i]);
     // Set xl# registers
     for (int i = 0; index < 96; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&(_xRegs[i]));
+        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i] + 2);
     // Set xlh# registers
     for (int i = 0; index < 128; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&(_xRegs[i]) + 3);
+        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i] + 2);
     // Set xll# registers
     for (int i = 0; index < 160; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&(_xRegs[i]) + 2);
+        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i] + 3);
     // Set other register pointers
     _regPointers[index++] = reinterpret_cast<void*>(&_stp);
     _regPointers[index++] = reinterpret_cast<void*>(&_bstp);
@@ -160,7 +162,7 @@ int HyperCPU::CPU::Execute(){
     if (!_memory) return ERR_MEMFAIL;
     void *ptr1, *ptr2;
     while (1){
-        _instruction_t instr = _gen_instr(_fetch_byte(), ptr1, ptr2); // Generate instruction from fetched byte.
+        _instruction_t instr = _gen_instr(_fetch_byte(), ptr1, ptr2); // Generate instruction from fetched byte
 
         /* Main loop */
         switch(instr._instrtp){
