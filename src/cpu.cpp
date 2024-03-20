@@ -176,6 +176,13 @@ int HyperCPU::CPU::Execute(){
                 break;
             }
             case INS_AND:{
+                if (_ins_and_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
+                break;
+            }
+            case INS_ANDN:{
+                if (_ins_andn_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
                 break;
             }
             case INS_JE:{

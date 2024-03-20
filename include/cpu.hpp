@@ -7,6 +7,7 @@ namespace HyperCPU{
         INS_ADC,
         INS_ADD,
         INS_AND,
+        INS_ANDN,
         INS_HLT,
         INS_JE,
         INS_UNKNOWN
@@ -92,6 +93,8 @@ namespace HyperCPU{
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
+        int _ins_and_exec(_instruction_t& instr, void* ptr1, void* ptr2);
+        int _ins_andn_exec(_instruction_t& instr, void* ptr1, void* ptr2);
 
         int Reset(int mem_size);
         void CleanUp();
