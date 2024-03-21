@@ -13,6 +13,7 @@ namespace HyperCPU{
         INS_INC,
         INS_DEC,
         INS_HLT,
+        INS_MOV,
         INS_JE,
         INS_UNKNOWN
     };
@@ -95,6 +96,14 @@ namespace HyperCPU{
         instr_t _define_instr(uint16_t);
         void _set_datasize(_instruction_t&, uint8_t);
 
+        // Stack helpers
+        void _push_byte(uint8_t byte);
+        void _push_word(uint16_t word);
+        void _push_dword(uint32_t dword);
+        uint8_t _pop_byte(void);
+        uint16_t _pop_word(void);
+        uint32_t _pop_dword(void);
+
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
@@ -103,6 +112,7 @@ namespace HyperCPU{
         void _ins_clc_exec(void);
         int _ins_inc_exec(_instruction_t& instr, void* ptr1);
         int _ins_dec_exec(_instruction_t& instr, void* ptr1);
+        int _ins_mov_exec(_instruction_t& instr, void* ptr1, void* ptr2);
 
         int Reset(int mem_size);
         void CleanUp();

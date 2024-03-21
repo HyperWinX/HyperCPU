@@ -190,7 +190,7 @@ int HyperCPU::CPU::Execute(){
                 break;
             }
             case INS_CALL:{
-
+                return EXIT_NOTIMPLEMENTED;
             }
             case INS_CLC:
                 _ins_clc_exec();
@@ -203,6 +203,9 @@ int HyperCPU::CPU::Execute(){
                 if (_ins_dec_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
+            case INS_MOV:
+                if (_ins_mov_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
             case INS_JE:{
                 break;
             }
