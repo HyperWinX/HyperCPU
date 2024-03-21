@@ -9,6 +9,9 @@ namespace HyperCPU{
         INS_AND,
         INS_ANDN,
         INS_CALL,
+        INS_CLC,
+        INS_INC,
+        INS_DEC,
         INS_HLT,
         INS_JE,
         INS_UNKNOWN
@@ -23,7 +26,8 @@ namespace HyperCPU{
         M_R=0x07,
         M_RM=0x08,
         R=0x09,
-        IMM=0x0A,
+        M=0x0A,
+        IMM=0x0B,
         NOARG=0x0F
     };
     enum datasize_t{
@@ -96,6 +100,9 @@ namespace HyperCPU{
         int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         int _ins_and_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         int _ins_andn_exec(_instruction_t& instr, void* ptr1, void* ptr2);
+        void _ins_clc_exec(void);
+        int _ins_inc_exec(_instruction_t& instr, void* ptr1);
+        int _ins_dec_exec(_instruction_t& instr, void* ptr1);
 
         int Reset(int mem_size);
         void CleanUp();

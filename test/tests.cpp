@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <cpu.hpp>
 #include <exitcodes.hpp>
 #include <opcodes.hpp>
@@ -1553,5 +1552,87 @@ TEST(INSTRUCTIONS, ANDN_b32_M_RM){
     cpu._carry = true;
     EXPECT_EQ(cpu.Execute(), EXIT_HALT);
     EXPECT_EQ(*reinterpret_cast<uint32_t*>(&cpu._memory[0x010A]), ~(5 & 0x0A0A0A0A));
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, INS_CLC){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CLC;
+    cpu._memory[0x0101] = HLT;
+    cpu._carry = true;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._carry, false);
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, INC_b8_M){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = INC;
+    cpu._memory[0x0101] = ((static_cast<uint8_t>(HyperCPU::b8) << 4) | static_cast<uint8_t>(HyperCPU::M));
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0102]) = 0x0107;
+    cpu._memory[0x0106] = HLT;
+    cpu._memory[0x0107] = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._memory[0x0107], 11);
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, INC_b16_M){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = INC;
+    cpu._memory[0x0101] = ((static_cast<uint8_t>(HyperCPU::b16) << 4) | static_cast<uint8_t>(HyperCPU::M));
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0102]) = 0x0107;
+    cpu._memory[0x0106] = HLT;
+    *reinterpret_cast<uint16_t*>(&cpu._memory[0x0107]) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x0107]), 11);
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, INC_b32_M){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = INC;
+    cpu._memory[0x0101] = ((static_cast<uint8_t>(HyperCPU::b32) << 4) | static_cast<uint8_t>(HyperCPU::M));
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0102]) = 0x0107;
+    cpu._memory[0x0106] = HLT;
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0107]) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(*reinterpret_cast<uint32_t*>(&cpu._memory[0x0107]), 11);
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, DEC_b8_M){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = DEC;
+    cpu._memory[0x0101] = ((static_cast<uint8_t>(HyperCPU::b8) << 4) | static_cast<uint8_t>(HyperCPU::M));
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0102]) = 0x0107;
+    cpu._memory[0x0106] = HLT;
+    cpu._memory[0x0107] = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._memory[0x0107], 9);
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, DEC_b16_M){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = DEC;
+    cpu._memory[0x0101] = ((static_cast<uint8_t>(HyperCPU::b16) << 4) | static_cast<uint8_t>(HyperCPU::M));
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0102]) = 0x0107;
+    cpu._memory[0x0106] = HLT;
+    *reinterpret_cast<uint16_t*>(&cpu._memory[0x0107]) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(*reinterpret_cast<uint16_t*>(&cpu._memory[0x0107]), 9);
+    cpu.CleanUp();
+}
+
+TEST(INSTRUCTIONS, DEC_b32_M){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = DEC;
+    cpu._memory[0x0101] = ((static_cast<uint8_t>(HyperCPU::b32) << 4) | static_cast<uint8_t>(HyperCPU::M));
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0102]) = 0x0107;
+    cpu._memory[0x0106] = HLT;
+    *reinterpret_cast<uint32_t*>(&cpu._memory[0x0107]) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(*reinterpret_cast<uint32_t*>(&cpu._memory[0x0107]), 9);
     cpu.CleanUp();
 }

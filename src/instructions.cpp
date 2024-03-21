@@ -1,12 +1,10 @@
 #include <cpu.hpp>
-#include <bit>
-#include <cstdio>
 
-#define RM_T(ptr, type) *reinterpret_cast<type*>(_memory + *reinterpret_cast<uint32_t*>(ptr))
-#define R_T(ptr, type) *reinterpret_cast<type*>(ptr)
-#define M_T(ptr, type) *reinterpret_cast<type*>(ptr)
-#define IMM_T(ptr, type) *reinterpret_cast<type*>(ptr)
-#define CARRY_T() static_cast<int>(_carry)
+#define RM_T(ptr, type) (*reinterpret_cast<type*>(_memory + *reinterpret_cast<uint32_t*>(ptr)))
+#define R_T(ptr, type) (*reinterpret_cast<type*>(ptr))
+#define M_T(ptr, type) (*reinterpret_cast<type*>(ptr))
+#define IMM_T(ptr, type) (*reinterpret_cast<type*>(ptr))
+#define CARRY_T() (static_cast<int>(_carry))
 
 int HyperCPU::CPU::_ins_adc_exec(HyperCPU::_instruction_t &instr, void* ptr1, void* ptr2) {
     switch (instr.args){
@@ -365,6 +363,48 @@ int HyperCPU::CPU::_ins_andn_exec(HyperCPU::_instruction_t &instr, void* ptr1, v
                 M_T(ptr1, uint32_t) &= RM_T(ptr2, uint32_t);
                 M_T(ptr1, uint32_t) = ~M_T(ptr1, uint32_t);
             }
+            else return 1;
+            break;
+        default: return 1;
+    }
+    return 0;
+}
+
+void HyperCPU::CPU::_ins_clc_exec(void){
+    _carry = false;
+}
+
+int HyperCPU::CPU::_ins_inc_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
+    switch(instr.args){
+        case M:
+            if (instr.size == b8)           M_T(ptr1, uint8_t)++;
+            else if (instr.size == b16)     M_T(ptr1, uint16_t)++;
+            else if (instr.size == b32)     M_T(ptr1, uint32_t)++;
+            else return 1;
+            break;
+        case R:
+            if (instr.size == b8)           M_T(ptr1, uint8_t)++;
+            else if (instr.size == b16)     M_T(ptr1, uint16_t)++;
+            else if (instr.size == b32)     M_T(ptr1, uint32_t)++;
+            else return 1;
+            break;
+        default: return 1;
+    }
+    return 0;
+}
+
+int HyperCPU::CPU::_ins_dec_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
+    switch(instr.args){
+        case M:
+            if (instr.size == b8)           M_T(ptr1, uint8_t)--;
+            else if (instr.size == b16)     M_T(ptr1, uint16_t)--;
+            else if (instr.size == b32)     M_T(ptr1, uint32_t)--;
+            else return 1;
+            break;
+        case R:
+            if (instr.size == b8)           M_T(ptr1, uint8_t)--;
+            else if (instr.size == b16)     M_T(ptr1, uint16_t)--;
+            else if (instr.size == b32)     M_T(ptr1, uint32_t)--;
             else return 1;
             break;
         default: return 1;

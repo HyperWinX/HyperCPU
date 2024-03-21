@@ -103,6 +103,10 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
             instr.args = R;
             ptr1 = _regPointers[_fetch_byte()];
             break;
+        case M:
+            instr.args = M;
+            ptr1 = _memory + _fetch_dword();
+            break;
         case IMM:
             instr.args = IMM;
             ptr1 = _memory + _insp;
@@ -188,6 +192,17 @@ int HyperCPU::CPU::Execute(){
             case INS_CALL:{
 
             }
+            case INS_CLC:
+                _ins_clc_exec();
+                break;
+            case INS_INC:
+                if (_ins_inc_exec(instr, ptr1))
+                    return EXIT_OPCODEFAILURE;
+                break;
+            case INS_DEC:
+                if (_ins_dec_exec(instr, ptr1))
+                    return EXIT_OPCODEFAILURE;
+                break;
             case INS_JE:{
                 break;
             }
