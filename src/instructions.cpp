@@ -490,3 +490,28 @@ int HyperCPU::CPU::_ins_mov_exec(HyperCPU::_instruction_t &instr, void* ptr1, vo
     }
     return 0;
 }
+
+void HyperCPU::CPU::_ins_call_exec(void *ptr1) {
+    uint32_t addr = _fetch_dword();
+    _push_dword(_insp);
+    _insp = addr;
+}
+
+int HyperCPU::CPU::_ins_push_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
+    switch (instr.args){
+        case R:
+            if (instr.size == b8) _push_byte(*reinterpret_cast<uint8_t*>(ptr1));
+            else if (instr.size == b16) _push_word(*reinterpret_cast<uint16_t*>(ptr1));
+            else if (instr.size == b32) _push_dword(*reinterpret_cast<uint32_t*>(ptr1));
+            else return 1;
+            break;
+        case IMM:
+            if (instr.size == b8) _push_byte(*reinterpret_cast<uint8_t*>(ptr1));
+            else if (instr.size == b16) _push_word(*reinterpret_cast<uint16_t*>(ptr1));
+            else if (instr.size == b32) _push_dword(*reinterpret_cast<uint32_t*>(ptr1));
+            else return 1;
+            break;
+        default: return 1;
+    }
+    return 0;
+}

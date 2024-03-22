@@ -1,15 +1,12 @@
 #include <cstdint>
 #include <cstdlib>
-#include <cstdio>
 #include <cstring>
-#include <bit>
 #include <cpu.hpp>
 #include <errcode.hpp>
 #include <exitcodes.hpp>
 #include <opcodes.hpp>
 
 #define is_one_byte(fopcode) fopcode > 0x00 && fopcode <= 0x0F
-
 
 uint8_t HyperCPU::CPU::_fetch_byte(void){
     return _memory[_insp++];
@@ -52,6 +49,11 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
     instr._instrtp = _define_instr(static_cast<uint16_t>(fopcode));
 
     if (is_one_byte(fopcode)) return instr;
+
+    if (fopcode == CALL){
+        instr.args = NOARG;
+        return instr;
+    }
 
 	uint8_t byte = _fetch_byte();
     switch(static_cast<argtp_t>(byte & 0xF)){
@@ -190,7 +192,8 @@ int HyperCPU::CPU::Execute(){
                 break;
             }
             case INS_CALL:{
-                return EXIT_NOTIMPLEMENTED;
+                _ins_call_exec(ptr1);
+                break;
             }
             case INS_CLC:
                 _ins_clc_exec();
@@ -206,6 +209,10 @@ int HyperCPU::CPU::Execute(){
             case INS_MOV:
                 if (_ins_mov_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
+                break;
+            case INS_PUSH:
+                _ins_push_exec(instr, ptr1);
+                break;
             case INS_JE:{
                 break;
             }
