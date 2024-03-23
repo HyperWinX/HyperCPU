@@ -9,6 +9,7 @@
 #define INC         0x16
 #define DEC         0x17
 #define MOV         0x18
+#define POP         0x19
 
 #define HLT         0x01
 #define CLC         0x02

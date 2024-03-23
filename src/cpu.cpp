@@ -5,6 +5,7 @@
 #include <errcode.hpp>
 #include <exitcodes.hpp>
 #include <opcodes.hpp>
+#include <cstdio>
 
 #define is_one_byte(fopcode) fopcode > 0x00 && fopcode <= 0x0F
 
@@ -50,12 +51,13 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
 
     if (is_one_byte(fopcode)) return instr;
 
-    if (fopcode == CALL){
+    if (fopcode == CALL ||
+        fopcode == POP){
         instr.args = NOARG;
         return instr;
     }
-
 	uint8_t byte = _fetch_byte();
+    _set_datasize(instr, byte);
     switch(static_cast<argtp_t>(byte & 0xF)){
         case RM_R:
             instr.args = RM_R;
@@ -112,14 +114,18 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
         case IMM:
             instr.args = IMM;
             ptr1 = _memory + _insp;
-            _insp += 4;
+            switch (instr.size){
+                case b8: _insp += 1; break;
+                case b16: _insp += 2; break;
+                case b32: _insp += 4; break;
+                case bUNKNOWN: return instr;
+            }
             break;
         case NOARG:
             instr.args = NOARG;
             return instr;
         default: return instr;
     }
-	_set_datasize(instr, byte);
 	return instr;
 }
 
@@ -211,7 +217,14 @@ int HyperCPU::CPU::Execute(){
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_PUSH:
-                _ins_push_exec(instr, ptr1);
+                if (_ins_push_exec(instr, ptr1))
+                    return EXIT_OPCODEFAILURE;
+                break;
+            case INS_POP:
+                if (_ins_pop_exec(instr, ptr1)){
+                    puts("WHAT THE FUCK\n");
+                    return EXIT_OPCODEFAILURE;
+                }
                 break;
             case INS_JE:{
                 break;

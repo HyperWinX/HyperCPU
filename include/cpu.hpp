@@ -15,6 +15,7 @@ namespace HyperCPU{
         INS_HLT,
         INS_MOV,
         INS_PUSH,
+        INS_POP,
         INS_JE,
         INS_UNKNOWN
     };
@@ -116,6 +117,7 @@ namespace HyperCPU{
         int _ins_mov_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         void _ins_call_exec(void* ptr1);
         int _ins_push_exec(_instruction_t& instr, void* ptr1);
+        int _ins_pop_exec(_instruction_t& instr, void* ptr1);
 
         int Reset(int mem_size);
         void CleanUp();

@@ -515,3 +515,16 @@ int HyperCPU::CPU::_ins_push_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
     }
     return 0;
 }
+
+int HyperCPU::CPU::_ins_pop_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
+    switch (instr.args) {
+        case R:
+            if (instr.size == b8) R_T(ptr1, uint8_t) = _pop_byte();
+            else if (instr.size == b16) R_T(ptr1, uint16_t) = _pop_word();
+            else if (instr.size == b32) R_T(ptr1, uint32_t) = _pop_dword();
+            else return 1;
+            break;
+        default: return 1;
+    }
+    return 0;
+}

@@ -13,6 +13,7 @@ HyperCPU::instr_t HyperCPU::CPU::_define_instr(uint16_t opcode){
         case DEC: return HyperCPU::INS_DEC;
         case MOV: return HyperCPU::INS_MOV;
         case PUSH: return HyperCPU::INS_PUSH;
+        case POP: return HyperCPU::INS_POP;
         case HLT: return HyperCPU::INS_HLT;
         default: return HyperCPU::INS_UNKNOWN;
     }
