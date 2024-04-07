@@ -80,6 +80,15 @@ int HyperCPU::CPU::_ins_adc_exec(HyperCPU::_instruction_t &instr, void* ptr1, vo
                 M_T(ptr1, uint32_t) += RM_T(ptr2, uint32_t) + CARRY_T();
             else return 1;
             break;
+        case R_R:
+            if (instr.size == b8)
+                R_T(ptr1, uint8_t) += R_T(ptr2, uint8_t) + CARRY_T();
+            else if (instr.size == b16)
+                R_T(ptr1, uint16_t) += R_T(ptr2, uint16_t) + CARRY_T();
+            else if (instr.size == b32)
+                R_T(ptr1, uint32_t) += R_T(ptr2, uint32_t) + CARRY_T();
+            else return 1;
+            break;
         default: return 1;
     }
     return 0;
@@ -526,5 +535,31 @@ int HyperCPU::CPU::_ins_pop_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
             break;
         default: return 1;
     }
+    return 0;
+}
+
+int HyperCPU::CPU::_ins_cmp_exec(HyperCPU::_instruction_t &instr, void *ptr1, void *ptr2) {
+    int64_t result = 0;
+    switch (instr._instrtp){
+        case R_R:
+            if (instr.size == b8) result = R_T(ptr1, uint8_t) - R_T(ptr2, uint8_t);
+            else if (instr.size == b16) result = R_T(ptr1, uint16_t) - R_T(ptr2, uint16_t);
+            else if (instr.size == b32) result = R_T(ptr1, uint32_t) - R_T(ptr2, uint32_t);
+            else return 1;
+        case R_RM:
+            if (instr.size == b8) result = R_T(ptr1, uint8_t) - RM_T(ptr2, uint8_t);
+            else if (instr.size == b16) result = R_T(ptr1, uint16_t) - RM_T(ptr2, uint16_t);
+            else if (instr.size == b32) result = R_T(ptr1, uint32_t) - RM_T(ptr2, uint32_t);
+            else return 1;
+        case R_IMM:
+            if (instr.size == b8) result = R_T(ptr1, uint8_t) - IMM_T(ptr2, uint8_t);
+            else if (instr.size == b16) result = R_T(ptr1, uint16_t) - IMM_T(ptr2, uint16_t);
+            else if (instr.size == b32) result = R_T(ptr1, uint32_t) - IMM_T(ptr2, uint32_t);
+            else return 1;
+        default: return 1;
+    }
+    if (!result) _cmpr = true;
+    else if (result < 0){_cmpr = false; _carry = false;}
+    else {_cmpr = false; _carry = true;}
     return 0;
 }

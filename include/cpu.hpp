@@ -16,6 +16,7 @@ namespace HyperCPU{
         INS_MOV,
         INS_PUSH,
         INS_POP,
+        INS_CMP,
         INS_JE,
         INS_UNKNOWN
     };
@@ -28,9 +29,10 @@ namespace HyperCPU{
         R_M=0x06,
         M_R=0x07,
         M_RM=0x08,
-        R=0x09,
-        M=0x0A,
-        IMM=0x0B,
+        R_R=0x09,
+        R=0x0A,
+        M=0x0B,
+        IMM=0x0C,
         NOARG=0x0F
     };
     enum datasize_t{
@@ -88,6 +90,7 @@ namespace HyperCPU{
         uint32_t _idtr; // IDT pointer register
         uint64_t _vRegs[8];
         bool _cmpr; // CMP result flag
+        bool _bigger; // Affected if _cmpr after CMP instruction is set to 0
         bool _carry; // Carry flag
         bool _ovr; // Overflow flag
 
@@ -118,6 +121,7 @@ namespace HyperCPU{
         void _ins_call_exec(void* ptr1);
         int _ins_push_exec(_instruction_t& instr, void* ptr1);
         int _ins_pop_exec(_instruction_t& instr, void* ptr1);
+        int _ins_cmp_exec(_instruction_t& instr, void* ptr1, void* ptr2);
 
         int Reset(int mem_size);
         void CleanUp();

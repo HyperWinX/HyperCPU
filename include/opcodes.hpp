@@ -10,6 +10,7 @@
 #define DEC         0x17
 #define MOV         0x18
 #define POP         0x19
+#define CMP         0x1A
 
 #define HLT         0x01
 #define CLC         0x02

@@ -7,7 +7,7 @@
 #include <opcodes.hpp>
 #include <cstdio>
 
-#define is_one_byte(fopcode) fopcode > 0x00 && fopcode <= 0x0F
+#define is_one_byte(fopcode) (fopcode > 0x00 && fopcode <= 0x0F)
 
 uint8_t HyperCPU::CPU::_fetch_byte(void){
     return _memory[_insp++];
@@ -51,8 +51,7 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
 
     if (is_one_byte(fopcode)) return instr;
 
-    if (fopcode == CALL ||
-        fopcode == POP){
+    if (fopcode == CALL){
         instr.args = NOARG;
         return instr;
     }
@@ -103,6 +102,11 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
             ptr1 = _memory + _fetch_dword();
             ptr2 = _regPointers[_fetch_byte()];
             break;
+        case R_R:
+            instr.args = R_R;
+            ptr1 = _regPointers[_fetch_byte()];
+            ptr2 = _regPointers[_fetch_byte()];
+            break;
         case R:
             instr.args = R;
             ptr1 = _regPointers[_fetch_byte()];
@@ -150,13 +154,13 @@ int HyperCPU::CPU::Reset(int mem_size){
         _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i]);
     // Set xl# registers
     for (int i = 0; index < 96; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i] + 2);
+        _regPointers[index] = reinterpret_cast<void*>((void*)&_xRegs[i] + 2);
     // Set xlh# registers
     for (int i = 0; index < 128; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i] + 2);
+        _regPointers[index] = reinterpret_cast<void*>((void*)&_xRegs[i] + 2);
     // Set xll# registers
     for (int i = 0; index < 160; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i] + 3);
+        _regPointers[index] = reinterpret_cast<void*>((void*)&_xRegs[i] + 3);
     // Set other register pointers
     _regPointers[index++] = reinterpret_cast<void*>(&_stp);
     _regPointers[index++] = reinterpret_cast<void*>(&_bstp);
@@ -221,10 +225,12 @@ int HyperCPU::CPU::Execute(){
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_POP:
-                if (_ins_pop_exec(instr, ptr1)){
-                    puts("WHAT THE FUCK\n");
+                if (_ins_pop_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
-                }
+                break;
+            case INS_CMP:
+                if (_ins_cmp_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
                 break;
             case INS_JE:{
                 break;
