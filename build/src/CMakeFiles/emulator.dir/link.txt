@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/emulator.dir/cpu.cpp.o CMakeFiles/emulator.dir/opcode_handler.cpp.o CMakeFiles/emulator.dir/instructions.cpp.o CMakeFiles/emulator.dir/stack.cpp.o CMakeFiles/emulator.dir/main.cpp.o -o ../emulator
