@@ -1,4 +1,5 @@
 #include <cpu.hpp>
+#include <cstdio>
 
 #define RM_T(ptr, type) (*reinterpret_cast<type*>(_memory + *reinterpret_cast<uint32_t*>(ptr)))
 #define R_T(ptr, type) (*reinterpret_cast<type*>(ptr))
@@ -540,25 +541,28 @@ int HyperCPU::CPU::_ins_pop_exec(HyperCPU::_instruction_t &instr, void *ptr1) {
 
 int HyperCPU::CPU::_ins_cmp_exec(HyperCPU::_instruction_t &instr, void *ptr1, void *ptr2) {
     int64_t result = 0;
-    switch (instr._instrtp){
+    switch (instr.args){
         case R_R:
             if (instr.size == b8) result = R_T(ptr1, uint8_t) - R_T(ptr2, uint8_t);
             else if (instr.size == b16) result = R_T(ptr1, uint16_t) - R_T(ptr2, uint16_t);
             else if (instr.size == b32) result = R_T(ptr1, uint32_t) - R_T(ptr2, uint32_t);
             else return 1;
+            break;
         case R_RM:
             if (instr.size == b8) result = R_T(ptr1, uint8_t) - RM_T(ptr2, uint8_t);
             else if (instr.size == b16) result = R_T(ptr1, uint16_t) - RM_T(ptr2, uint16_t);
             else if (instr.size == b32) result = R_T(ptr1, uint32_t) - RM_T(ptr2, uint32_t);
             else return 1;
+            break;
         case R_IMM:
             if (instr.size == b8) result = R_T(ptr1, uint8_t) - IMM_T(ptr2, uint8_t);
             else if (instr.size == b16) result = R_T(ptr1, uint16_t) - IMM_T(ptr2, uint16_t);
             else if (instr.size == b32) result = R_T(ptr1, uint32_t) - IMM_T(ptr2, uint32_t);
             else return 1;
+            break;
         default: return 1;
     }
-    if (!result) _cmpr = true;
+    if (!result){_cmpr = true; _carry = false;}
     else if (result < 0){_cmpr = false; _carry = false;}
     else {_cmpr = false; _carry = true;}
     return 0;

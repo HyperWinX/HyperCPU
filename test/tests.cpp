@@ -2300,3 +2300,115 @@ TEST(INSTRUCTIONS, CMP_b8_R_R_LESS){
     EXPECT_EQ(cpu._cmpr, false);
     EXPECT_EQ(cpu._carry, false);
 }
+
+TEST(INSTRUCTIONS, CMP_b8_R_R_BIGGER){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b8) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::xlh1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::xll0);
+    cpu._memory[0x0104] = HLT;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[1] + 2) = 50;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[0] + 3) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, false);
+    EXPECT_EQ(cpu._carry, true);
+}
+
+TEST(INSTRUCTIONS, CMP_b8_R_R_EQ){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b8) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::xlh1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::xll0);
+    cpu._memory[0x0104] = HLT;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[1] + 2) = 50;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[0] + 3) = 50;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, true);
+    EXPECT_EQ(cpu._carry, false);
+}
+
+TEST(INSTRUCTIONS, CMP_b16_R_R_LESS){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b16) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::xl1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::xl0);
+    cpu._memory[0x0104] = HLT;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[1] + 2) = 5;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[0] + 2) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, false);
+    EXPECT_EQ(cpu._carry, false);
+}
+
+TEST(INSTRUCTIONS, CMP_b16_R_R_BIGGER){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b16) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::xl1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::xl0);
+    cpu._memory[0x0104] = HLT;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[1] + 2) = 50;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[0] + 2) = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, false);
+    EXPECT_EQ(cpu._carry, true);
+}
+
+TEST(INSTRUCTIONS, CMP_b16_R_R_EQ){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b16) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::xl1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::xl0);
+    cpu._memory[0x0104] = HLT;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[1] + 2) = 50;
+    *reinterpret_cast<uint8_t*>((void*)&cpu._xRegs[0] + 2) = 50;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, true);
+    EXPECT_EQ(cpu._carry, false);
+}
+
+TEST(INSTRUCTIONS, CMP_b32_R_R_LESS){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b32) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::x1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::x0);
+    cpu._memory[0x0104] = HLT;
+    cpu._xRegs[1] = 5;
+    cpu._xRegs[0] = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, false);
+    EXPECT_EQ(cpu._carry, false);
+}
+
+TEST(INSTRUCTIONS, CMP_b32_R_R_BIGGER){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b32) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::x1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::x0);
+    cpu._memory[0x0104] = HLT;
+    cpu._xRegs[1] = 50;
+    cpu._xRegs[0] = 10;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, false);
+    EXPECT_EQ(cpu._carry, true);
+}
+
+TEST(INSTRUCTIONS, CMP_b32_R_R_EQ){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = CMP;
+    cpu._memory[0x0101] = (static_cast<uint8_t>(HyperCPU::b32) | static_cast<uint8_t>(HyperCPU::R_R));
+    cpu._memory[0x0102] = static_cast<uint8_t>(HyperCPU::x1);
+    cpu._memory[0x0103] = static_cast<uint8_t>(HyperCPU::x0);
+    cpu._memory[0x0104] = HLT;
+    cpu._xRegs[1] = 50;
+    cpu._xRegs[0] = 50;
+    EXPECT_EQ(cpu.Execute(), EXIT_HALT);
+    EXPECT_EQ(cpu._cmpr, true);
+    EXPECT_EQ(cpu._carry, false);
+}
