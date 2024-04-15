@@ -1,5 +1,8 @@
 #include <cpu.hpp>
 #include <cstdio>
+#include <iostream>
+
+
 
 #define RM_T(ptr, type) (*reinterpret_cast<type*>(_memory + *reinterpret_cast<uint32_t*>(ptr)))
 #define R_T(ptr, type) (*reinterpret_cast<type*>(ptr))
@@ -560,10 +563,11 @@ int HyperCPU::CPU::_ins_cmp_exec(HyperCPU::_instruction_t &instr, void *ptr1, vo
             else if (instr.size == b32) result = R_T(ptr1, uint32_t) - IMM_T(ptr2, uint32_t);
             else return 1;
             break;
-        default: return 1;
+        default: printf("WTF is this mode code 0x%X", static_cast<int>(instr.args)); return 1;
     }
-    if (!result){_cmpr = true; _carry = false;}
-    else if (result < 0){_cmpr = false; _carry = false;}
-    else {_cmpr = false; _carry = true;}
+    std::cout << result << std::endl;
+    if (!result){_cmpr = true; _carry = false;puts("0");}
+    else if (result < 0){_cmpr = false; _carry = false;puts("<");}
+    else {_cmpr = false; _carry = true;puts(">");}
     return 0;
 }

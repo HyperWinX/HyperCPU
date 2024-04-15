@@ -143,7 +143,7 @@ int HyperCPU::CPU::Reset(int mem_size){
     _idtr = 0;
     _cmpr = 0;
     // Creating array of register pointers
-    _regPointers = static_cast<void**>(calloc(vecr7, sizeof(void*)));
+    _regPointers = static_cast<void**>(calloc(vecr7, sizeof(char*)));
     if (!_regPointers) return 1;
     int index = 0;
     // Set x# registers
@@ -154,13 +154,13 @@ int HyperCPU::CPU::Reset(int mem_size){
         _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i]);
     // Set xl# registers
     for (int i = 0; index < 96; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>((void*)&_xRegs[i] + 2);
+        _regPointers[index] = reinterpret_cast<void*>((char*)&_xRegs[i] + 2);
     // Set xlh# registers
     for (int i = 0; index < 128; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>((void*)&_xRegs[i] + 2);
+        _regPointers[index] = reinterpret_cast<void*>((char*)&_xRegs[i] + 2);
     // Set xll# registers
     for (int i = 0; index < 160; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>((void*)&_xRegs[i] + 3);
+        _regPointers[index] = reinterpret_cast<void*>((char*)&_xRegs[i] + 3);
     // Set other register pointers
     _regPointers[index++] = reinterpret_cast<void*>(&_stp);
     _regPointers[index++] = reinterpret_cast<void*>(&_bstp);

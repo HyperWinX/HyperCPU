@@ -81,19 +81,8 @@ namespace HyperCPU{
         uint32_t arg1, arg2;
     };
     class CPU{
-        public:
-        char* _memory;
-        void** _regPointers;
-        uint32_t _xRegs[32]; // General purpose register
-        uint32_t _stp, _bstp; // Stack related registers
-        uint32_t _insp; // Instruction pointer
-        uint32_t _idtr; // IDT pointer register
-        uint64_t _vRegs[8];
-        bool _cmpr; // CMP result flag
-        bool _bigger; // Affected if _cmpr after CMP instruction is set to 0
-        bool _carry; // Carry flag
-        bool _ovr; // Overflow flag
-
+        private:
+        // Functions
         uint8_t _fetch_byte(void);
         uint16_t _fetch_word(void);
         uint32_t _fetch_dword(void);
@@ -108,6 +97,21 @@ namespace HyperCPU{
         uint8_t _pop_byte(void);
         uint16_t _pop_word(void);
         uint32_t _pop_dword(void);
+        
+        // Data fetchers
+        inline uint8_t HyperCPU::CPU::rm_8(char* ptr);
+        inline uint16_t rHyperCPU::CPU::m_16(char* ptr);
+        inline uint32_t HyperCPU::CPU::rm_32(char* ptr);
+        inline uint8_t HyperCPU::CPU::r_8(char* ptr);
+        inline uint16_t HyperCPU::CPU::r_16(char* ptr);
+        inline uint32_t HyperCPU::CPU::r_32(char* ptr);
+        inline uint8_t HyperCPU::CPU::m_8(char* ptr);
+        inline uint16_t HyperCPU::CPU::m_16(char* ptr);
+        inline uint32_t HyperCPU::CPU::m_32(char* ptr);
+        inline uint8_t HyperCPU::CPU::imm_8(char* ptr);
+        inline uint16_t HyperCPU::CPU::imm_16(char* ptr);
+        inline uint32_t HyperCPU::CPU::imm_32(char* ptr);
+        inline int HyperCPU::CPU::carry(void);
 
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
@@ -123,6 +127,20 @@ namespace HyperCPU{
         int _ins_pop_exec(_instruction_t& instr, void* ptr1);
         int _ins_cmp_exec(_instruction_t& instr, void* ptr1, void* ptr2);
 
+        public:
+        // Variables
+        char* _memory;
+        void** _regPointers;
+        uint32_t _xRegs[32]; // General purpose register
+        uint32_t _stp, _bstp; // Stack related registers
+        uint32_t _insp; // Instruction pointer
+        uint32_t _idtr; // IDT pointer register
+        uint64_t _vRegs[8];
+        bool _cmpr; // CMP result flag
+        bool _bigger; // Affected if _cmpr after CMP instruction is set to 0
+        bool _carry; // Carry flag
+        bool _ovr; // Overflow flag
+        
         int Reset(int mem_size);
         void CleanUp();
         int Execute();
