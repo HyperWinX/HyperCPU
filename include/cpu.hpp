@@ -99,19 +99,19 @@ namespace HyperCPU{
         uint32_t _pop_dword(void);
         
         // Data fetchers
-        inline uint8_t HyperCPU::CPU::rm_8(char* ptr);
-        inline uint16_t rHyperCPU::CPU::m_16(char* ptr);
-        inline uint32_t HyperCPU::CPU::rm_32(char* ptr);
-        inline uint8_t HyperCPU::CPU::r_8(char* ptr);
-        inline uint16_t HyperCPU::CPU::r_16(char* ptr);
-        inline uint32_t HyperCPU::CPU::r_32(char* ptr);
-        inline uint8_t HyperCPU::CPU::m_8(char* ptr);
-        inline uint16_t HyperCPU::CPU::m_16(char* ptr);
-        inline uint32_t HyperCPU::CPU::m_32(char* ptr);
-        inline uint8_t HyperCPU::CPU::imm_8(char* ptr);
-        inline uint16_t HyperCPU::CPU::imm_16(char* ptr);
-        inline uint32_t HyperCPU::CPU::imm_32(char* ptr);
-        inline int HyperCPU::CPU::carry(void);
+        inline uint8_t rm_8(char* ptr);
+        inline uint16_t rm_16(char* ptr);
+        inline uint32_t rm_32(char* ptr);
+        inline uint8_t r_8(char* ptr);
+        inline uint16_t r_16(char* ptr);
+        inline uint32_t r_32(char* ptr);
+        inline uint8_t m_8(char* ptr);
+        inline uint16_t m_16(char* ptr);
+        inline uint32_t m_32(char* ptr);
+        inline uint8_t imm_8(char* ptr);
+        inline uint16_t imm_16(char* ptr);
+        inline uint32_t imm_32(char* ptr);
+        inline int carry(void);
 
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);

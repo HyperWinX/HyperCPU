@@ -1,12 +1,19 @@
 #include <cstdint>
 
+inline void HyperCPU::CPU::rm(char* ptr, int size){
+    switch(size){
+        case b8:
+            
+    }
+}
+
 inline uint8_t HyperCPU::CPU::rm_8(char* ptr){
     uint32_t addr;
     memcpy(&addr, ptr, 4);
     return _memory[addr];
 }
 
-inline uint16_t rHyperCPU::CPU::m_16(char* ptr){
+inline uint16_t rHyperCPU::CPU::rm_16(char* ptr){
     uint32_t addr;
     uint16_t v;
     memcpy(&addr, ptr, 4);
