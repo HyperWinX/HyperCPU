@@ -3,7 +3,8 @@ include_directories(${HyperCPU_SOURCE_DIR}/include)
 set(CORE_SRCS cpu.cpp
               opcode_handler.cpp
               instructions.cpp
-              stack.cpp)
+              stack.cpp
+              io_ops.cpp)
 
 set(CPU_SRCS ${CORE_SRCS} main.cpp)
 
