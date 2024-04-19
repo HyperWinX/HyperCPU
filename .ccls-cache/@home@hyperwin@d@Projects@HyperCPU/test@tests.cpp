@@ -2386,3 +2386,9 @@ TEST(INSTRUCTIONS, CMP_b32_R_R_EQ){
     EXPECT_EQ(cpu._carry, false);
     cpu.CleanUp();
 }
+
+TEST(INSTRUCTIONS, BSWP_b16){
+    cpu.Reset(1024);
+    cpu._memory[0x0100] = BSWP;
+    cpu.CleanUp();  
+}

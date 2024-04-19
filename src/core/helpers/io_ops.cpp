@@ -155,25 +155,26 @@ int HyperCPU::CPU::carry(void){
 }
 
 int HyperCPU::CPU::_write_instruction_result(HyperCPU::_instruction_t &instr, void *dst, void *src, int length){
-    if (instr.args == R_M   ||
-        instr.args == R_R   ||
-        instr.args == R_RM  ||
-        instr.args == R_IMM ||
-        instr.args == M     ||
-        instr.args == M_R   ||
-        instr.args == M_RM){
-        
-        memcpy(dst, src, length);
+    switch(instr.args){
+        case R_M:
+        case R_R:
+        case R_RM:
+        case R_IMM:
+        case M:
+        case M_R:
+        case M_RM:
+        case R:
+            memcpy(dst, src, length);
+            break;
+        case RM_M:
+        case RM_R:
+        case RM_IMM:{
+            uint32_t addr;
+            memcpy(&addr, dst, 4);
+            memcpy(_memory + addr, src, length);
+            break;
+        }
+        default: return 1;
     }
-    else if (instr.args == RM_M ||
-            instr.args == RM_R ||
-            instr.args == RM_IMM){
-        
-        uint32_t addr;
-        memcpy(&addr, dst, 4);
-        memcpy(_memory + addr, src, length);
-    }
-    else return 1;
-
     return 0;
 }

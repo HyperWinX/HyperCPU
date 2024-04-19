@@ -19,6 +19,7 @@ namespace HyperCPU{
         INS_PUSH,
         INS_POP,
         INS_CMP,
+        INS_BSWP,
         INS_JE,
         INS_UNKNOWN
     };
@@ -82,6 +83,10 @@ namespace HyperCPU{
         datasize_t size;
         uint32_t arg1, arg2;
     };
+
+    enum _exception_t{
+        INVALID_OPCODE=0
+    };
     class CPU{
         private:
         // Functions
@@ -121,7 +126,8 @@ namespace HyperCPU{
         inline uint32_t imm_32(void* ptr);
         int carry(void);
         int _write_instruction_result(_instruction_t &instr, void *dst, void *src, int length);
-
+        // Exception handlers
+        int _raise_fatal_exception(_exception_t exception);
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
@@ -135,7 +141,7 @@ namespace HyperCPU{
         int _ins_push_exec(_instruction_t& instr, void* ptr1);
         int _ins_pop_exec(_instruction_t& instr, void* ptr1);
         int _ins_cmp_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-
+        int _ins_bswp_exec(_instruction_t& instr, void *ptr1);
         public:
         // Variables
         char* _memory;

@@ -12,5 +12,6 @@
 #define POP         0x19
 #define CMP         0x1A    
 
+#define BSWP        0x1B
 #define HLT         0x01
 #define CLC         0x02

@@ -232,6 +232,10 @@ int HyperCPU::CPU::Execute(){
                 if (_ins_cmp_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
+            case INS_BSWP:
+                if (_ins_bswp_exec(instr, ptr1))
+                    return EXIT_OPCODEFAILURE;
+                break;
             case INS_JE:{
                 break;
             }

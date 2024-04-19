@@ -161,7 +161,8 @@ int HyperCPU::CPU::_write_instruction_result(HyperCPU::_instruction_t &instr, vo
         instr.args == R_IMM ||
         instr.args == M     ||
         instr.args == M_R   ||
-        instr.args == M_RM){
+        instr.args == M_RM  ||
+        instr.args == R){
         
         memcpy(dst, src, length);
     }
