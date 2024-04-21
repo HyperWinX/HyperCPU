@@ -141,7 +141,14 @@ int HyperCPU::CPU::Reset(int mem_size){
     _stp = _bstp = 0;
     _insp = 0x0100;
     _idtr = 0;
+    _gdtr = 0;
     _cmpr = 0;
+    _gdt_init = false;
+    _idt_init = false;
+    _cmpr = false;
+    _ovr = false;
+    _bigger = false;
+    _carry = false;
     // Creating array of register pointers
     _regPointers = static_cast<void**>(calloc(vecr7, sizeof(char*)));
     if (!_regPointers) return 1;

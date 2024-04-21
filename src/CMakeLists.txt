@@ -1,14 +1,15 @@
 include_directories(${HyperCPU_SOURCE_DIR}/include)
 
-set(CORE_SRCS core/cpu.cpp
-              core/opcode_handler.cpp
-              core/instructions.cpp
-              core/helpers/stack.cpp
-              core/helpers/io_ops.cpp)
+file(GLOB_RECURSE ALL_SRCS ${HyperCPU_SOURCE_DIR}/src/*.cpp)
+string(REPLACE ${HyperCPU_SOURCE_DIR}/src/main.cpp "" CORE_SRCS ${ALL_SRCS})
 
-set(CPU_SRCS ${CORE_SRCS} main.cpp)
+set(CPU_SRCS ${ALL_SRCS})
 
-set(TESTS_SRCS ${CORE_SRCS} ../test/tests.cpp)
+set(TESTS_SRCS ${CORE_SRCS} ${HyperCPU_SOURCE_DIR}/tests/tests.cpp)
+
+message(STATUS "all srcs: ${ALL_SRCS}")
+message(STATUS "core srcs: ${CORE_SRCS}")
+message(STATUS "tests srcs: ${TESTS_SRCS}")
 
 add_executable(emulator ${CPU_SRCS})
 set_target_properties(emulator PROPERTIES COMPILE_FLAGS "-Wall -Wextra -O2")

@@ -6,22 +6,22 @@
 
 namespace HyperCPU{
     enum instr_t{
-        INS_ADC,
-        INS_ADD,
-        INS_AND,
-        INS_ANDN,
-        INS_CALL,
-        INS_CLC,
-        INS_INC,
-        INS_DEC,
-        INS_HLT,
-        INS_MOV,
-        INS_PUSH,
-        INS_POP,
-        INS_CMP,
-        INS_BSWP,
-        INS_JE,
-        INS_UNKNOWN
+        INS_ADC=0,
+        INS_ADD=1,
+        INS_AND=2,
+        INS_ANDN=3,
+        INS_CALL=4,
+        INS_CLC=5,
+        INS_INC=6,
+        INS_DEC=7,
+        INS_HLT=8,
+        INS_MOV=9,
+        INS_PUSH=10,
+        INS_POP=11,
+        INS_CMP=12,
+        INS_BSWP=13,
+        INS_JE=13,
+        INS_UNKNOWN=65535
     };
     enum argtp_t{
         RM_R=0x01,
@@ -36,7 +36,8 @@ namespace HyperCPU{
         R=0x0A,
         M=0x0B,
         IMM=0x0C,
-        NOARG=0x0F
+        NOARG=0x0D,
+        UNDEF=0x0F
     };
     enum datasize_t{
         b8=0,
@@ -76,17 +77,35 @@ namespace HyperCPU{
 
         vecr0=163, vecr1=164, vecr2=165, vecr3=166, vecr4=167, vecr5=168, vecr6=169, vecr7=170 // Vector operation registers
     };
-
+    enum _exception_t{
+        INVALID_OPCODE=0,
+        SEGMENTATION_FAULT=1,
+        GDT_READ_FAILURE=2,
+        GDT_INVALID_ADDRESS=3
+    };
     struct _instruction_t{
         instr_t _instrtp;
         argtp_t args;
         datasize_t size;
         uint32_t arg1, arg2;
     };
-
-    enum _exception_t{
-        INVALID_OPCODE=0
+    struct _idt_entry_t{
+        uint32_t address;
+    } __attribute__((packed));
+    struct _gdt_table_t{
+        uint16_t length;
+        uint32_t base;
+    } __attribute__((packed));
+    struct _gdt_entry_t{
+        uint32_t base;
+        uint32_t limit;
+        uint8_t flags;
+        uint8_t type;
+    } __attribute__((packed));
+    struct _allowed_operand_types{
+        uint8_t types[14];
     };
+    extern _allowed_operand_types _allowed_op_types[];
     class CPU{
         private:
         // Functions
@@ -96,6 +115,7 @@ namespace HyperCPU{
         _instruction_t _gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2);
         instr_t _define_instr(uint16_t);
         void _set_datasize(_instruction_t&, uint8_t);
+        int _verify_operand_types(_instruction_t&);
 
         // Stack helpers
         void _push_byte(uint8_t byte);
@@ -127,7 +147,12 @@ namespace HyperCPU{
         int carry(void);
         int _write_instruction_result(_instruction_t &instr, void *dst, void *src, int length);
         // Exception handlers
+        int _raise_exception_interrupt(_exception_t exception);
         int _raise_fatal_exception(_exception_t exception);
+        // Memory controller
+        void _write_memory(uint32_t addr, void *ptr, int length);
+        // GDT
+        int _is_access_allowed(uint32_t addr);
         // All instructions
         int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
         int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
@@ -150,7 +175,10 @@ namespace HyperCPU{
         uint32_t _stp, _bstp; // Stack related registers
         uint32_t _insp; // Instruction pointer
         uint32_t _idtr; // IDT pointer register
+        uint32_t _gdtr; // GDT pointer register
         uint64_t _vRegs[8];
+        bool _gdt_init; // GDT is initialized
+        bool _idt_init; // IDT is initialized
         bool _cmpr; // CMP result flag
         bool _bigger; // Affected if _cmpr after CMP instruction is set to 0
         bool _carry; // Carry flag
