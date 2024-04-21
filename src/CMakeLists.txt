@@ -11,6 +11,13 @@ message(STATUS "all srcs: ${ALL_SRCS}")
 message(STATUS "core srcs: ${CORE_SRCS}")
 message(STATUS "tests srcs: ${TESTS_SRCS}")
 
+add_custom_target(
+    copy-compile-commands ALL
+    ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_BINARY_DIR}/compile_commands.json
+        ${CMAKE_CURRENT_LIST_DIR}
+    )
+
 add_executable(emulator ${CPU_SRCS})
 set_target_properties(emulator PROPERTIES COMPILE_FLAGS "-Wall -Wextra -O2")
 
