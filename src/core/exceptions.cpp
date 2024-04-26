@@ -6,7 +6,7 @@
 constexpr auto RED_TEXT_START = "\033[31;1;4m";
 constexpr auto COLOR_RESET = "\033[0m";
 
-int HyperCPU::CPU::_raise_fatal_exception(HyperCPU::_exception_t exception){
+int HyperCPU::CPU::raise_fatal_exception(HyperCPU::exception_t exception){
     switch (exception){
         case GDT_READ_FAILURE:
             fprintf(stderr, "%sGDT entries read failure! Exiting now.\n%s", RED_TEXT_START, COLOR_RESET);
@@ -18,6 +18,6 @@ int HyperCPU::CPU::_raise_fatal_exception(HyperCPU::_exception_t exception){
             fprintf(stderr, "%sUnknown exception was raised! Exiting now.\n%s", RED_TEXT_START, COLOR_RESET);
             break;
     }
-    free(_memory);
+    free(memoryptr);
     exit(1);
 }

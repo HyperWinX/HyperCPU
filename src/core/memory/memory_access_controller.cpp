@@ -2,8 +2,8 @@
 
 #include <cstring>
 
-void HyperCPU::CPU::_write_memory(uint32_t addr, void *ptr, int length){
-    if (!_is_access_allowed(addr)) _raise_exception_interrupt(SEGMENTATION_FAULT);
+void HyperCPU::CPU::writememoryptr(uint32_t addr, void *ptr, int length){
+    if (is_access_allowed(addr)) raise_exception_interrupt(SEGMENTATION_FAULT);
 
-    memcpy(_memory + addr, ptr, length);
+    memcpy(memoryptr + addr, ptr, length);
 }

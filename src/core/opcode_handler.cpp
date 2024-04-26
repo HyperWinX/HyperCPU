@@ -1,7 +1,7 @@
 #include <opcodes.hpp>
 #include <cpu.hpp>
 
-HyperCPU::instr_t HyperCPU::CPU::_define_instr(uint16_t opcode){
+HyperCPU::instr_t HyperCPU::CPU::define_instr(uint16_t opcode){
     switch(opcode){
         case ADC: return HyperCPU::INS_ADC;
         case ADD: return HyperCPU::INS_ADD;

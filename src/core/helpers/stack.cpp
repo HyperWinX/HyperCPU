@@ -1,27 +1,27 @@
 #include <cpu.hpp>
 
-void HyperCPU::CPU::_push_byte(uint8_t byte) {
-    _memory[--_stp] = byte;
+void HyperCPU::CPU::push_byte(uint8_t byte) {
+    memoryptr[--stp] = byte;
 }
 
-void HyperCPU::CPU::_push_word(uint16_t word) {
-    _stp -= 2;
-    *reinterpret_cast<uint16_t*>(&_memory[_stp]) = word;
+void HyperCPU::CPU::push_word(uint16_t word) {
+    stp -= 2;
+    *reinterpret_cast<uint16_t*>(&memoryptr[stp]) = word;
 }
 
-void HyperCPU::CPU::_push_dword(uint32_t dword) {
-    _stp -= 4;
-    *reinterpret_cast<uint32_t*>(&_memory[_stp]) = dword;
+void HyperCPU::CPU::push_dword(uint32_t dword) {
+    stp -= 4;
+    *reinterpret_cast<uint32_t*>(&memoryptr[stp]) = dword;
 }
 
-uint8_t HyperCPU::CPU::_pop_byte() {
-    return _memory[_stp++];
+uint8_t HyperCPU::CPU::pop_byte() {
+    return memoryptr[stp++];
 }
 
-uint16_t HyperCPU::CPU::_pop_word() {
-    return *reinterpret_cast<uint16_t*>(&_memory[(_stp += 2) - 2]);
+uint16_t HyperCPU::CPU::pop_word() {
+    return *reinterpret_cast<uint16_t*>(&memoryptr[(stp += 2) - 2]);
 }
 
-uint32_t HyperCPU::CPU::_pop_dword() {
-    return *reinterpret_cast<uint32_t*>(&_memory[(_stp += 4) - 4]);
+uint32_t HyperCPU::CPU::pop_dword() {
+    return *reinterpret_cast<uint32_t*>(&memoryptr[(stp += 4) - 4]);
 }

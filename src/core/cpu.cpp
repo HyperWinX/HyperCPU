@@ -9,26 +9,26 @@
 
 #define is_one_byte(fopcode) (fopcode > 0x00 && fopcode <= 0x0F)
 
-uint8_t HyperCPU::CPU::_fetch_byte(void){
-    return _memory[_insp++];
+uint8_t HyperCPU::CPU::fetch_byte(void){
+    return memoryptr[insp++];
 }
 
-uint16_t HyperCPU::CPU::_fetch_word(void){
+uint16_t HyperCPU::CPU::fetch_word(void){
     uint16_t val = 0;
-    val = _memory[_insp++];
-    val = (val << 8) | _memory[_insp++];
+    val = memoryptr[insp++];
+    val = (val << 8) | memoryptr[insp++];
     return val;
 }
 
-uint32_t HyperCPU::CPU::_fetch_dword(void){
+uint32_t HyperCPU::CPU::fetch_dword(void){
     uint32_t val;
-    memcpy(&val, _memory + _insp, sizeof(uint32_t));
-    _insp += 4;
+    memcpy(&val, memoryptr + insp, sizeof(uint32_t));
+    insp += 4;
     //val = std::byteswap(val);
     return val;
 }
 
-void HyperCPU::CPU::_set_datasize(HyperCPU::_instruction_t& instr, uint8_t byte){
+void HyperCPU::CPU::set_datasize(HyperCPU::instruction_t& instr, uint8_t byte){
     switch(static_cast<datasize_t>((byte & 0b00110000) >> 4)){
 		case b8:
 			instr.size = b8;
@@ -45,9 +45,9 @@ void HyperCPU::CPU::_set_datasize(HyperCPU::_instruction_t& instr, uint8_t byte)
 	}
 }
 
-HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2){
-    _instruction_t instr = {};
-    instr._instrtp = _define_instr(static_cast<uint16_t>(fopcode));
+HyperCPU::instruction_t HyperCPU::CPU::gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2){
+    instruction_t instr = {};
+    instr._instrtp = define_instr(static_cast<uint16_t>(fopcode));
 
     if (is_one_byte(fopcode)) return instr;
 
@@ -55,73 +55,73 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
         instr.args = NOARG;
         return instr;
     }
-	uint8_t byte = _fetch_byte();
-    _set_datasize(instr, byte);
+	uint8_t byte = fetch_byte();
+    set_datasize(instr, byte);
     switch(static_cast<argtp_t>(byte & 0xF)){
         case RM_R:
             instr.args = RM_R;
-            ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _regPointers[_fetch_byte()];
+            ptr1 = regPointers[fetch_byte()];
+            ptr2 = regPointers[fetch_byte()];
             break;
         case R_RM:
             instr.args = R_RM;
-            ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _regPointers[_fetch_byte()];
+            ptr1 = regPointers[fetch_byte()];
+            ptr2 = regPointers[fetch_byte()];
             break;
         case RM_IMM:
             instr.args = RM_IMM;
-            ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _memory + _insp;
-            _insp += 4;
+            ptr1 = regPointers[fetch_byte()];
+            ptr2 = memoryptr + insp;
+            insp += 4;
             break;
         case R_IMM:
             instr.args = R_IMM;
-            ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _memory + _insp;
-            _insp += 4;
+            ptr1 = regPointers[fetch_byte()];
+            ptr2 = memoryptr + insp;
+            insp += 4;
             break;
         case RM_M: {
             instr.args = RM_M;
-            ptr1 = _regPointers[_fetch_byte()];
-            uint32_t dword = _fetch_dword();
-            ptr2 = _memory + dword;
+            ptr1 = regPointers[fetch_byte()];
+            uint32_t dword = fetch_dword();
+            ptr2 = memoryptr + dword;
             break;
         }
         case R_M:
             instr.args = R_M;
-            ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _memory + _fetch_dword();
+            ptr1 = regPointers[fetch_byte()];
+            ptr2 = memoryptr + fetch_dword();
             break;
         case M_R:
             instr.args = M_R;
-            ptr1 = _memory + _fetch_dword();
-            ptr2 = _regPointers[_fetch_byte()];
+            ptr1 = memoryptr + fetch_dword();
+            ptr2 = regPointers[fetch_byte()];
             break;
         case M_RM:
             instr.args = M_RM;
-            ptr1 = _memory + _fetch_dword();
-            ptr2 = _regPointers[_fetch_byte()];
+            ptr1 = memoryptr + fetch_dword();
+            ptr2 = regPointers[fetch_byte()];
             break;
         case R_R:
             instr.args = R_R;
-            ptr1 = _regPointers[_fetch_byte()];
-            ptr2 = _regPointers[_fetch_byte()];
+            ptr1 = regPointers[fetch_byte()];
+            ptr2 = regPointers[fetch_byte()];
             break;
         case R:
             instr.args = R;
-            ptr1 = _regPointers[_fetch_byte()];
+            ptr1 = regPointers[fetch_byte()];
             break;
         case M:
             instr.args = M;
-            ptr1 = _memory + _fetch_dword();
+            ptr1 = memoryptr + fetch_dword();
             break;
         case IMM:
             instr.args = IMM;
-            ptr1 = _memory + _insp;
+            ptr1 = memoryptr + insp;
             switch (instr.size){
-                case b8: _insp += 1; break;
-                case b16: _insp += 2; break;
-                case b32: _insp += 4; break;
+                case b8: insp += 1; break;
+                case b16: insp += 2; break;
+                case b32: insp += 4; break;
                 case bUNKNOWN: return instr;
             }
             break;
@@ -134,118 +134,116 @@ HyperCPU::_instruction_t HyperCPU::CPU::_gen_instr(uint8_t fopcode, void*& ptr1,
 }
 
 int HyperCPU::CPU::Reset(int mem_size){
-    _memory = (char*)calloc(mem_size, sizeof(char));
-    if (!_memory) return 1;
-    for (int i = 0; i < static_cast<int>(sizeof(_xRegs) / sizeof(uint32_t)); i++)
-        _xRegs[i] = 0;
-    _stp = _bstp = 0;
-    _insp = 0x0100;
-    _idtr = 0;
-    _gdtr = 0;
-    _cmpr = 0;
-    _gdt_init = false;
-    _idt_init = false;
-    _cmpr = false;
-    _ovr = false;
-    _bigger = false;
-    _carry = false;
+    memoryptr = (char*)calloc(mem_size, sizeof(char));
+    if (!memoryptr) return 1;
+    for (int i = 0; i < static_cast<int>(sizeof(xRegs) / sizeof(uint32_t)); i++)
+        xRegs[i] = 0;
+    stp = bstp = 0;
+    insp = 0x0100;
+    idtr = 0;
+    gdtr = 0;
+    cmpr = 0;
+    gdt_initialized = false;
+    idt_initialized = false;
+    cmpr = false;
+    ovr = false;
+    bigger = false;
+    carry_flag = false;
     // Creating array of register pointers
-    _regPointers = static_cast<void**>(calloc(vecr7, sizeof(char*)));
-    if (!_regPointers) return 1;
+    regPointers = static_cast<void**>(calloc(vecr7, sizeof(char*)));
+    if (!regPointers) return 1;
     int index = 0;
     // Set x# registers
     for (int i = 0; index < 32; index++, i++)
-        _regPointers[index] = &(_xRegs[i]);
+        regPointers[index] = &(xRegs[i]);
     // Set xh# registers
     for (int i = 0; index < 64; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>(&_xRegs[i]);
+        regPointers[index] = reinterpret_cast<void*>(&xRegs[i]);
     // Set xl# registers
     for (int i = 0; index < 96; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>((char*)&_xRegs[i] + 2);
+        regPointers[index] = reinterpret_cast<void*>((char*)&xRegs[i] + 2);
     // Set xlh# registers
     for (int i = 0; index < 128; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>((char*)&_xRegs[i] + 2);
+        regPointers[index] = reinterpret_cast<void*>((char*)&xRegs[i] + 2);
     // Set xll# registers
     for (int i = 0; index < 160; index++, i++)
-        _regPointers[index] = reinterpret_cast<void*>((char*)&_xRegs[i] + 3);
+        regPointers[index] = reinterpret_cast<void*>((char*)&xRegs[i] + 3);
     // Set other register pointers
-    _regPointers[index++] = reinterpret_cast<void*>(&_stp);
-    _regPointers[index++] = reinterpret_cast<void*>(&_bstp);
-    _regPointers[index++] = reinterpret_cast<void*>(&_insp);
-    for (int i = 0; i < 8; i++, index++)
-        _regPointers[index] = reinterpret_cast<void*>(&_vRegs[i]);
+    regPointers[index++] = reinterpret_cast<void*>(&stp);
+    regPointers[index++] = reinterpret_cast<void*>(&bstp);
+    regPointers[index++] = reinterpret_cast<void*>(&insp);
+    //for (int i = 0; i < 8; i++, index++)
+        //regPointers[index] = reinterpret_cast<void*>(&vRegs[i]);
     return 0;
 }
 
 void HyperCPU::CPU::CleanUp(){
-    if (_memory) free(_memory);
+    if (memoryptr) free(memoryptr);
 }
 
 int HyperCPU::CPU::Execute(){
-    if (!_memory) return ERR_MEMFAIL;
+    if (!memoryptr) return ERR_MEMFAIL;
     void *ptr1, *ptr2;
     while (1){
-        _instruction_t instr = _gen_instr(_fetch_byte(), ptr1, ptr2); // Generate instruction from fetched byte
+        instruction_t instr = gen_instr(fetch_byte(), ptr1, ptr2); // Generate instruction from fetched byte
 
         /* Main loop */
         switch(instr._instrtp){
             case INS_ADC:
-                if (_ins_adc_exec(instr, ptr1, ptr2))
+                if (ins_adc_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_ADD:{
-                if (_ins_add_exec(instr, ptr1, ptr2))
+                if (ins_add_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
             }
             case INS_AND:{
-                if (_ins_and_exec(instr, ptr1, ptr2))
+                if (ins_and_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
             }
             case INS_ANDN:{
-                if (_ins_andn_exec(instr, ptr1, ptr2))
+                if (ins_andn_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
             }
             case INS_CALL:{
-                _ins_call_exec(ptr1);
+                if (ins_call_exec(instr))
+                    return EXIT_OPCODEFAILURE;
                 break;
             }
             case INS_CLC:
-                _ins_clc_exec();
+                ins_clc_exec();
                 break;
             case INS_INC:
-                if (_ins_inc_exec(instr, ptr1))
+                if (ins_inc_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_DEC:
-                if (_ins_dec_exec(instr, ptr1))
+                if (ins_dec_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_MOV:
-                if (_ins_mov_exec(instr, ptr1, ptr2))
+                if (ins_mov_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_PUSH:
-                if (_ins_push_exec(instr, ptr1))
+                if (ins_push_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_POP:
-                if (_ins_pop_exec(instr, ptr1))
+                if (ins_pop_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_CMP:
-                if (_ins_cmp_exec(instr, ptr1, ptr2))
+                if (ins_cmp_exec(instr, ptr1, ptr2))
                     return EXIT_OPCODEFAILURE;
                 break;
             case INS_BSWP:
-                if (_ins_bswp_exec(instr, ptr1))
+                if (ins_bswp_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
-            case INS_JE:{
-                break;
-            }
             case INS_UNKNOWN: return EXIT_UNKNOWN;
             case INS_HLT: return EXIT_HALT;
         }
