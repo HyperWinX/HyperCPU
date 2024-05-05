@@ -5,7 +5,7 @@
 #include <errcode.hpp>
 #include <exitcodes.hpp>
 #include <opcodes.hpp>
-#include <cstdio>
+#include <iostream>
 
 #define is_one_byte(fopcode) (fopcode > 0x00 && fopcode <= 0x0F)
 
@@ -208,11 +208,9 @@ int HyperCPU::CPU::Execute(){
                     return EXIT_OPCODEFAILURE;
                 break;
             }
-            case INS_CALL:{
-                if (ins_call_exec(instr))
-                    return EXIT_OPCODEFAILURE;
+            case INS_CALL:
+                ins_call_exec();
                 break;
-            }
             case INS_CLC:
                 ins_clc_exec();
                 break;
@@ -244,8 +242,45 @@ int HyperCPU::CPU::Execute(){
                 if (ins_bswp_exec(instr, ptr1))
                     return EXIT_OPCODEFAILURE;
                 break;
+            case INS_INFO:
+                ins_info_exec();
+                break;
+            case INS_JMP:
+                ins_jmp_exec(instr, ptr1);
+                break;
+            case INS_JGE:
+                ins_jge_exec(instr, ptr1);
+                break;
+            case INS_JLE:
+                ins_jle_exec(instr, ptr1);
+                break;
+            case INS_JE:
+                ins_je_exec(instr, ptr1);
+                break;
+            case INS_JG:
+                ins_jg_exec(instr, ptr1);
+                break;
+            case INS_JL:
+                ins_jl_exec(instr, ptr1);
+                break;
+            case INS_RET:
+                ins_ret_exec();
+                break;
+            case INS_SUB:
+                if (ins_sub_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
+                break;
+            case INS_MUL:
+                if (ins_mul_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
+                break;
+            case INS_DIV:
+                if (ins_div_exec(instr, ptr1, ptr2))
+                    return EXIT_OPCODEFAILURE;
+                break;
             case INS_UNKNOWN: return EXIT_UNKNOWN;
             case INS_HLT: return EXIT_HALT;
+            default: return EXIT_UNKNOWN;
         }
     }
 }

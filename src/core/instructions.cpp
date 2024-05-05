@@ -269,15 +269,7 @@ int HyperCPU::CPU::ins_mov_exec(HyperCPU::instruction_t &instr, void* ptr1, void
     return 0;
 }
 
-int HyperCPU::CPU::ins_call_exec(HyperCPU::instruction_t &instr) {
-    if (!verify_operand_types(instr)){
-#ifndef INTERRUPTS_ENABLED
-        return 1;
-#else
-        raise_exception_interrupt(INVALID_OPCODE);
-        return 0;
-#endif
-    }
+int HyperCPU::CPU::ins_call_exec() {
     uint32_t addr = fetch_dword();
     push_dword(insp);
     insp = addr;
@@ -377,5 +369,216 @@ int HyperCPU::CPU::ins_bswp_exec(HyperCPU::instruction_t &instr, void *ptr1){
     }
     else return 1;
     
+    return 0;
+}
+
+void HyperCPU::CPU::ins_info_exec(){
+    switch (xRegs[31]){
+        case 0:
+            memcpy(&xRegs[0], developer.c_str(), 4);
+            memcpy(&xRegs[1], developer.c_str() + 4, 4);
+            xRegs[0] = std::byteswap(xRegs[0]);
+            xRegs[1] = std::byteswap(xRegs[1]);
+            break;
+        case 1:
+            memcpy(&xRegs[0], version.c_str(), 4);
+            xRegs[0] = std::byteswap(xRegs[0]);
+            break;
+        case 2:
+            memcpy(&xRegs[0], name.c_str(), 4);
+            memcpy(&xRegs[1], name.c_str() + 4, 4);
+            xRegs[0] = std::byteswap(xRegs[0]);
+            xRegs[1] = std::byteswap(xRegs[1]);
+            break;
+        default: raise_exception_interrupt(INFO_INVALID_MODE);
+    }
+}
+
+void HyperCPU::CPU::ins_jmp_exec(HyperCPU::instruction_t& instr, void *ptr1){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+        return;
+#endif
+    }
+
+    insp = fetch_fptr32(instr.args, ptr1);
+}
+
+void HyperCPU::CPU::ins_jge_exec(HyperCPU::instruction_t& instr, void *ptr1){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+#endif
+    }
+
+    if ((!cmpr && carry_flag) || (cmpr && !carry_flag))
+        insp = fetch_fptr32(instr.args, ptr1);
+}
+
+void HyperCPU::CPU::ins_jle_exec(HyperCPU::instruction_t& instr, void *ptr1){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+#endif
+    }
+
+    if ((!cmpr && !carry_flag) || (cmpr && !carry_flag))
+        insp = fetch_fptr32(instr.args, ptr1);
+}
+
+void HyperCPU::CPU::ins_je_exec(HyperCPU::instruction_t& instr, void *ptr1){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+#endif
+    }
+
+    if (cmpr && !carry_flag)
+        insp = fetch_fptr32(instr.args, ptr1);
+}
+
+void HyperCPU::CPU::ins_jg_exec(HyperCPU::instruction_t& instr, void *ptr1){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+#endif
+    }
+
+    if (!cmpr && carry_flag)
+        insp = fetch_fptr32(instr.args, ptr1);
+}
+
+void HyperCPU::CPU::ins_jl_exec(HyperCPU::instruction_t& instr, void *ptr1){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+#endif
+    }
+
+    if (!cmpr && !carry_flag)
+        insp = fetch_fptr32(instr.args, ptr1);
+}
+
+void HyperCPU::CPU::ins_ret_exec(){
+    insp = pop_dword();
+}
+
+int HyperCPU::CPU::ins_sub_exec(HyperCPU::instruction_t& instr, void *ptr1, void *ptr2){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+        return 0;
+#endif
+        return 1;
+    }
+    if (instr.size == b8){
+        std::tuple<uint8_t, uint8_t> data = fetch_content8(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        else ovr = false;
+        uint8_t result = std::get<0>(data) - std::get<1>(data);
+        write_instruction_result(instr, ptr1, &result, 1);
+    } else if (instr.size == b16){
+        std::tuple<uint16_t, uint16_t> data = fetch_content16(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        else ovr = false;
+        uint16_t result = std::get<0>(data) - std::get<1>(data);
+        write_instruction_result(instr, ptr1, &result, 2);
+    } else if (instr.size == b32){
+        std::tuple<uint32_t, uint32_t> data = fetch_content32(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        else ovr = false;
+        uint32_t result = std::get<0>(data) - std::get<1>(data);
+        write_instruction_result(instr, ptr1, &result, 4);
+    } else return 1;
+
+    return 0;
+}
+
+int HyperCPU::CPU::ins_mul_exec(HyperCPU::instruction_t& instr, void *ptr1, void *ptr2){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+        return 0;
+#endif
+        return 1;
+    }
+
+    if (instr.size == b8){
+        std::tuple<uint8_t, uint8_t> data = fetch_content8(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        uint16_t result = std::get<0>(data) * std::get<1>(data);
+        if (result > UINT8_MAX){
+            ovr = true;
+            uint8_t overflow = result - UINT8_MAX;
+            memcpy(&xRegs[1] + 3, &overflow, 1);
+        } else ovr = false;
+        write_instruction_result(instr, ptr1, &result, 1);
+    } else if (instr.size == b16){
+        std::tuple<uint16_t, uint16_t> data = fetch_content16(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        uint32_t result = std::get<0>(data) * std::get<1>(data);
+        if (result > UINT16_MAX){
+            ovr = true;
+            uint16_t overflow = result - UINT8_MAX;
+            memcpy(&xRegs[1] + 2, &overflow, 2);
+        } else ovr = false;
+        write_instruction_result(instr, ptr1, &result, 2);
+    } else if (instr.size == b32){
+        std::tuple<uint32_t, uint32_t> data = fetch_content32(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        uint64_t result = std::get<0>(data) * std::get<1>(data);
+        if (result > UINT32_MAX){
+            ovr = true;
+            uint32_t overflow = result - UINT8_MAX;
+            memcpy(&xRegs[1], &overflow, 4);
+        } else ovr = false;
+        write_instruction_result(instr, ptr1, &result, 4);
+    } else return 1;
+
+    return 0;
+}
+
+int HyperCPU::CPU::ins_div_exec(HyperCPU::instruction_t& instr, void *ptr1, void *ptr2){
+    if (!verify_operand_types(instr)){
+#ifdef INTERRUPTS_ENABLED
+        raise_exception_interrupt(INVALID_OPCODE);
+        return 0;
+#endif
+        return 1;
+    }
+
+    if (instr.size == b8){
+        std::tuple<uint8_t, uint8_t> data = fetch_content8(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        uint8_t result = std::get<0>(data) / std::get<1>(data);
+        uint8_t overflow = std::get<0>(data) % std::get<1>(data);
+        if (overflow){
+            ovr = true;
+            memcpy(&xRegs[1] + 3, &overflow, 1);
+        } else ovr = false;
+        write_instruction_result(instr, ptr1, &result, 1);
+    } else if (instr.size == b16){
+        std::tuple<uint16_t, uint16_t> data = fetch_content16(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        uint16_t result = std::get<0>(data) / std::get<1>(data);
+        uint16_t overflow = std::get<0>(data) % std::get<1>(data);
+        if (overflow){
+            ovr = true;
+            memcpy(&xRegs[1] + 2, &overflow, 2);
+        } else ovr = false;
+        write_instruction_result(instr, ptr1, &result, 2);
+    } else if (instr.size == b32){
+        std::tuple<uint32_t, uint32_t> data = fetch_content32(instr.args, ptr1, ptr2);
+        if (std::get<1>(data) > std::get<0>(data)) ovr = true;
+        uint32_t result = std::get<0>(data) / std::get<1>(data);
+        uint32_t overflow = std::get<0>(data) % std::get<1>(data);
+        if (overflow){
+            ovr = true;
+            memcpy(&xRegs[1], &overflow, 4);
+        } else ovr = false;
+        write_instruction_result(instr, ptr1, &result, 4);
+    } else return 1;
+
     return 0;
 }

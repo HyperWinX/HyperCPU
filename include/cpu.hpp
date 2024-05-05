@@ -1,6 +1,7 @@
 #include <cstdint>
 
 #include <tuple>
+#include <string>
 
 #pragma once
 
@@ -20,7 +21,17 @@ namespace HyperCPU{
         INS_POP=11,
         INS_CMP=12,
         INS_BSWP=13,
-        INS_JE=13,
+        INS_JMP=14,
+        INS_INFO=15,
+        INS_JE=16,
+        INS_JGE=17,
+        INS_JLE=18,
+        INS_JG=19,
+        INS_JL=20,
+        INS_RET=21,
+        INS_SUB=22,
+        INS_MUL=23,
+        INS_DIV=24,
         INS_UNKNOWN=65535
     };
     enum argtp_t{
@@ -77,61 +88,60 @@ namespace HyperCPU{
 
         vecr0=163, vecr1=164, vecr2=165, vecr3=166, vecr4=167, vecr5=168, vecr6=169, vecr7=170 // Vector operation registers
     };
-    enum _exception_t{
+    enum exception_t{
         INVALID_OPCODE=0,
         SEGMENTATION_FAULT=1,
         GDT_READ_FAILURE=2,
-        GDT_INVALID_ADDRESS=3
+        GDT_INVALID_ADDRESS=3,
+        INFO_INVALID_MODE=4,
+        TRIPLE_FAULT=5
     };
-    struct _instruction_t{
+    struct instruction_t{
         instr_t _instrtp;
         argtp_t args;
         datasize_t size;
         uint32_t arg1, arg2;
     };
-    struct _idt_entry_t{
+    struct idt_entry_t{
         uint32_t address;
     } __attribute__((packed));
-    struct _gdt_table_t{
+    struct gdt_table_t{
         uint16_t length;
         uint32_t base;
     } __attribute__((packed));
-    struct _gdt_entry_t{
+    struct gdt_entry_t{
         uint32_t base;
         uint32_t limit;
         uint8_t flags;
         uint8_t type;
     } __attribute__((packed));
-    struct _allowed_operand_types{
-        uint8_t types[14];
-    };
-    extern _allowed_operand_types _allowed_op_types[];
+    extern uint8_t allowed_op_types[][14];
     class CPU{
         private:
         // Functions
-        uint8_t _fetch_byte(void);
-        uint16_t _fetch_word(void);
-        uint32_t _fetch_dword(void);
-        _instruction_t _gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2);
-        instr_t _define_instr(uint16_t);
-        void _set_datasize(_instruction_t&, uint8_t);
-        int _verify_operand_types(_instruction_t&);
+        uint8_t fetch_byte(void);
+        uint16_t fetch_word(void);
+        uint32_t fetch_dword(void);
+        instruction_t gen_instr(uint8_t fopcode, void*& ptr1, void*& ptr2);
+        instr_t define_instr(uint16_t);
+        void set_datasize(instruction_t&, uint8_t);
+        uint8_t verify_operand_types(instruction_t&);
 
         // Stack helpers
-        void _push_byte(uint8_t byte);
-        void _push_word(uint16_t word);
-        void _push_dword(uint32_t dword);
-        uint8_t _pop_byte(void);
-        uint16_t _pop_word(void);
-        uint32_t _pop_dword(void);
+        void push_byte(uint8_t byte);
+        void push_word(uint16_t word);
+        void push_dword(uint32_t dword);
+        uint8_t pop_byte(void);
+        uint16_t pop_word(void);
+        uint32_t pop_dword(void);
         
         // Data fetchers
-        std::tuple<uint8_t, uint8_t> _fetch_content8(argtp_t type, void *ptr1, void *ptr2);
-        std::tuple<uint16_t, uint16_t> _fetch_content16(argtp_t type, void *ptr1, void *ptr2);
-        std::tuple<uint32_t, uint32_t> _fetch_content32(argtp_t type, void *ptr1, void *ptr2);
-        uint8_t _fetch_fptr8(argtp_t type, void *ptr);
-        uint16_t _fetch_fptr16(argtp_t type, void *ptr);
-        uint32_t _fetch_fptr32(argtp_t type, void *ptr);
+        std::tuple<uint8_t, uint8_t> fetch_content8(argtp_t type, void *ptr1, void *ptr2);
+        std::tuple<uint16_t, uint16_t> fetch_content16(argtp_t type, void *ptr1, void *ptr2);
+        std::tuple<uint32_t, uint32_t> fetch_content32(argtp_t type, void *ptr1, void *ptr2);
+        uint8_t fetch_fptr8(argtp_t type, void *ptr);
+        uint16_t fetch_fptr16(argtp_t type, void *ptr);
+        uint32_t fetch_fptr32(argtp_t type, void *ptr);
         inline uint8_t rm_8(void* ptr);
         inline uint16_t rm_16(void* ptr);
         inline uint32_t rm_32(void* ptr);
@@ -145,45 +155,60 @@ namespace HyperCPU{
         inline uint16_t imm_16(void* ptr);
         inline uint32_t imm_32(void* ptr);
         int carry(void);
-        int _write_instruction_result(_instruction_t &instr, void *dst, void *src, int length);
+        int write_instruction_result(instruction_t &instr, void *dst, void *src, int length);
         // Exception handlers
-        int _raise_exception_interrupt(_exception_t exception);
-        int _raise_fatal_exception(_exception_t exception);
+        int raise_fatal_exception(exception_t exception);
         // Memory controller
-        void _write_memory(uint32_t addr, void *ptr, int length);
+        void writememoryptr(uint32_t addr, void *ptr, int length);
         // GDT
-        int _is_access_allowed(uint32_t addr);
+        int is_access_allowed(uint32_t addr);
+        // IDT
+        void raise_exception_interrupt(exception_t exception);
+        void execute_IDT_entry(uint8_t entry);
         // All instructions
-        int _ins_adc_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-        int _ins_add_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-        int _ins_and_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-        int _ins_andn_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-        void _ins_clc_exec(void);
-        int _ins_inc_exec(_instruction_t& instr, void* ptr1);
-        int _ins_dec_exec(_instruction_t& instr, void* ptr1);
-        int _ins_mov_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-        void _ins_call_exec(void* ptr1);
-        int _ins_push_exec(_instruction_t& instr, void* ptr1);
-        int _ins_pop_exec(_instruction_t& instr, void* ptr1);
-        int _ins_cmp_exec(_instruction_t& instr, void* ptr1, void* ptr2);
-        int _ins_bswp_exec(_instruction_t& instr, void *ptr1);
+        int ins_adc_exec(instruction_t& instr, void* ptr1, void* ptr2);
+        int ins_add_exec(instruction_t& instr, void* ptr1, void* ptr2);
+        int ins_and_exec(instruction_t& instr, void* ptr1, void* ptr2);
+        int ins_andn_exec(instruction_t& instr, void* ptr1, void* ptr2);
+        void ins_clc_exec();
+        int ins_inc_exec(instruction_t& instr, void* ptr1);
+        int ins_dec_exec(instruction_t& instr, void* ptr1);
+        int ins_mov_exec(instruction_t& instr, void* ptr1, void* ptr2);
+        int ins_call_exec();
+        int ins_push_exec(instruction_t& instr, void* ptr1);
+        int ins_pop_exec(instruction_t& instr, void* ptr1);
+        int ins_cmp_exec(instruction_t& instr, void* ptr1, void* ptr2);
+        int ins_bswp_exec(instruction_t& instr, void *ptr1);
+        void ins_info_exec();
+        void ins_jmp_exec(instruction_t& instr, void *ptr1);
+        void ins_je_exec(instruction_t& instr, void *ptr1);
+        void ins_jge_exec(instruction_t& instr, void *ptr1);
+        void ins_jle_exec(instruction_t& instr, void *ptr1);
+        void ins_jg_exec(instruction_t& instr, void *ptr1);
+        void ins_jl_exec(instruction_t& instr, void *ptr1);
+        void ins_ret_exec();
+        int ins_sub_exec(instruction_t& instr, void *ptr1, void *ptr2);
+        int ins_mul_exec(instruction_t& instr, void *ptr1, void *ptr2);
+        int ins_div_exec(instruction_t& instr, void *ptr1, void *ptr2);
         public:
         // Variables
-        char* _memory;
-        void** _regPointers;
-        uint32_t _xRegs[32]; // General purpose register
-        uint32_t _stp, _bstp; // Stack related registers
-        uint32_t _insp; // Instruction pointer
-        uint32_t _idtr; // IDT pointer register
-        uint32_t _gdtr; // GDT pointer register
-        uint64_t _vRegs[8];
-        bool _gdt_init; // GDT is initialized
-        bool _idt_init; // IDT is initialized
-        bool _cmpr; // CMP result flag
-        bool _bigger; // Affected if _cmpr after CMP instruction is set to 0
-        bool _carry; // Carry flag
-        bool _ovr; // Overflow flag
-        
+        char* memoryptr;
+        void** regPointers;
+        uint32_t xRegs[32]; // General purpose register
+        uint32_t stp, bstp; // Stack related registers
+        uint32_t insp; // Instruction pointer
+        uint32_t idtr; // IDT pointer register
+        uint32_t gdtr; // GDT pointer register
+        uint64_t vRegs[8];
+        bool gdt_initialized; // GDT is initialized
+        bool idt_initialized; // IDT is initialized
+        bool cmpr; // CMP result flag
+        bool bigger; // Affected if cmpr after CMP instruction is set to 0
+        bool carry_flag; // Carry flag
+        bool ovr; // Overflow flag
+        std::string developer = "HyperWin";
+        std::string version = "0.1a";
+        std::string name = "HyperCPU";
         int Reset(int mem_size);
         void CleanUp();
         int Execute();
