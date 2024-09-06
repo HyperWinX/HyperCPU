@@ -1,4 +1,4 @@
-include_directories(${HyperCPU_SOURCE_DIR}/include)
+include_directories(${HyperCPU_SOURCE_DIR}/src)
 
 file(GLOB_RECURSE ALL_SRCS ${HyperCPU_SOURCE_DIR}/src/*.cpp)
 list(REMOVE_ITEM ALL_SRCS "${HyperCPU_SOURCE_DIR}/src/main.cpp")
