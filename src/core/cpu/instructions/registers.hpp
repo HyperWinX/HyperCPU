@@ -1,0 +1,5 @@
+namespace hypercpu {
+  enum registers {
+    
+  };
+}

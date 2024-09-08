@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstddef>
 
 #include <core/cpu/fetch/fetcher.hpp>
@@ -11,7 +13,6 @@ namespace hypercpu {
   private:
     // Components
     i_memory_controller* mem_controller;
-    fetcher fetcher;
 
     // Data
     std::size_t core_count;
@@ -26,7 +27,6 @@ namespace hypercpu {
       mem_controller(core_count == 1 ?
         dynamic_cast<i_memory_controller*>(new memory_controller_st(mem_size)) : 
         dynamic_cast<i_memory_controller*>(new memory_controller_mt(mem_size))),
-      fetcher(mem_controller, &rip),
       core_count(core_count),
       total_mem(mem_size) {}
 

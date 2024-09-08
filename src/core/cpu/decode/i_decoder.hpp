@@ -3,22 +3,18 @@
 #include <core/memory_controller/i_memory_controller.hpp>
 #include <core/cpu/instructions/opcodes.hpp>
 #include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/fetch/fetcher.hpp>
 
 
 namespace hypercpu {
   struct i_instruction {
-    opcode op;
-    mode op_mode;
+    opcode opcode;
+    mode opcode_mode;
+    operand_types op_types;
+    std::size_t op1, op2;
   };
 
-  class decoder {
-  private:
-    i_memory_controller* mem_controller;
-
+  class i_decoder {
   public:
-    explicit decoder(i_memory_controller* mc) : mem_controller(mc) {}
-
-    i_instruction decode(fetched_instruction instr);
+    virtual i_instruction fetch_and_decode() = 0;
   };
 }
