@@ -1,14 +1,17 @@
 #pragma once
 
-#include <oneapi/tbb/mutex.h>
-#include <tbb/mutex.h>
+#include <cstddef>
+#include <cassert>
+#include <cstdlib>
+#include <iostream>
+#include <stdexcept>
 
 #include <cstring>
 
 #include <core/memory_controller/i_memory_controller.hpp>
 
 namespace hypercpu {
-  class memory_controller_st : i_memory_controller {
+  class memory_controller_st : public i_memory_controller {
   private:
     char* memory;
     std::size_t total_mem;
@@ -20,6 +23,7 @@ namespace hypercpu {
         throw std::runtime_error("Failed to allocate memory!");
     }
     inline std::uint8_t _fetch8(std::size_t& ptr) override {
+      assert(ptr + sizeof(std::uint8_t) - 1 < total_mem);
       std::uint8_t data;
       memcpy(&data, &memory[ptr], sizeof(std::uint8_t));
       ptr += sizeof(std::uint8_t);
@@ -27,6 +31,7 @@ namespace hypercpu {
     }
 
     inline std::uint16_t _fetch16(std::size_t& ptr) override {
+      assert(ptr + sizeof(std::uint16_t) - 1 < total_mem);
       std::uint16_t data;
       memcpy(&data, &memory[ptr], sizeof(std::uint16_t));
       ptr += sizeof(std::uint16_t);
@@ -34,22 +39,39 @@ namespace hypercpu {
     }
 
     inline std::uint32_t _fetch32(std::size_t& ptr) override {
+      assert(ptr + sizeof(std::uint32_t) - 1 < total_mem);
       std::uint32_t data;
       memcpy(&data, &memory[ptr], sizeof(std::uint32_t));
       ptr += sizeof(std::uint32_t);
       return data;
     }
 
+    inline std::uint64_t _fetch64(std::size_t& ptr) override {
+      assert(ptr + sizeof(std::uint64_t) - 1 < total_mem);
+      std::uint64_t data;
+      memcpy(&data, &memory[ptr], sizeof(std::uint64_t));
+      ptr += sizeof(std::uint64_t);
+      return data;
+    }
+
     inline void _load8(std::size_t& ptr, std::uint8_t data) override {
+      assert(ptr + sizeof(std::uint8_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint8_t));
     }
 
     inline void _load16(std::size_t& ptr, std::uint16_t data) override {
+      assert(ptr + sizeof(std::uint16_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint16_t));
     }
 
     inline void _load32(std::size_t& ptr, std::uint32_t data) override {
+      assert(ptr + sizeof(std::uint32_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint32_t));
+    }
+
+    inline void _load64(std::size_t& ptr, std::uint64_t data) override {
+      assert(ptr + sizeof(std::uint64_t) - 1 < total_mem);
+      memcpy(&memory[ptr], &data, sizeof(std::uint64_t));
     }
 
     ~memory_controller_st() {

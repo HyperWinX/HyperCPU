@@ -7,9 +7,7 @@ include_directories(${HyperCPU_SOURCE_DIR}/src)
 
 add_executable(tests ${TESTS_SRCS})
 target_link_libraries(tests gtest_main gtest pthread)
-set_target_properties(tests PROPERTIES COMPILE_FLAGS "-Wall -std=c++23 -Wno-strict-aliasing -Wno-pointer-arith -O2")
-add_custom_command(TARGET tests COMMAND POST_BUILD strip -s ${PROJECT_SOURCE_DIR}/build/tests)
-add_custom_command(TARGET tests POST_BUILD COMMAND ${PROJECT_SOURCE_DIR}/build/tests && rm -f ${PROJECT_SOURCE_DIR}/build/tests)
+set_target_properties(tests PROPERTIES COMPILE_FLAGS "-Wall -std=c++23 -Wno-strict-aliasing -Wno-pointer-arith -O3")
 
 add_executable(tests-debug ${TESTS_SRCS})
 target_link_libraries(tests-debug gtest_main gtest pthread)

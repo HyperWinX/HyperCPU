@@ -1,6 +1,3 @@
 [submodule "dist/HBench"]
 	path = dist/HBench
 	url = git@github.com:randommfs/HBench.git
-[submodule "dist/oneTBB"]
-	path = dist/oneTBB
-	url = https://github.com/oneapi-src/oneTBB.git
