@@ -1,5 +1,6 @@
 #include <cassert>
 
+#include <core/cpu/instructions/allowed_modes.hpp>
 #include <core/cpu/instructions/opcodes.hpp>
 #include <core/cpu/instructions/flags.hpp>
 #include <core/cpu/decode/i_decoder.hpp>
@@ -25,7 +26,9 @@ hypercpu::i_instruction hypercpu::decoder::fetch_and_decode() {
   assert((flags & 0b00001111) <= MAX_OPERAND_TYPE);
   instruction.op_types = static_cast<enum operand_types>(flags & 0b00001111);
 
-  // Fetch operands
+  // Check if op mode is valid for this opcode
+  assert(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.op_types)]);
+
   switch (instruction.op_types) {
     case R_R:
       
