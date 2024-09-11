@@ -48,38 +48,38 @@ namespace hypercpu {
         x6 = &data[6];
         x7 = &data[7];
 
-        xh0 = reinterpret_cast<std::uint32_t*>(&data[0]);
-        xh1 = reinterpret_cast<std::uint32_t*>(&data[1]);
-        xh2 = reinterpret_cast<std::uint32_t*>(&data[2]);
-        xh3 = reinterpret_cast<std::uint32_t*>(&data[3]);
-        xh4 = reinterpret_cast<std::uint32_t*>(&data[4]);
-        xh5 = reinterpret_cast<std::uint32_t*>(&data[5]);
-        xh6 = reinterpret_cast<std::uint32_t*>(&data[6]);
-        xh7 = reinterpret_cast<std::uint32_t*>(&data[7]);
+        xl0 = reinterpret_cast<std::uint32_t*>(&data[0]);
+        xl1 = reinterpret_cast<std::uint32_t*>(&data[1]);
+        xl2 = reinterpret_cast<std::uint32_t*>(&data[2]);
+        xl3 = reinterpret_cast<std::uint32_t*>(&data[3]);
+        xl4 = reinterpret_cast<std::uint32_t*>(&data[4]);
+        xl5 = reinterpret_cast<std::uint32_t*>(&data[5]);
+        xl6 = reinterpret_cast<std::uint32_t*>(&data[6]);
+        xl7 = reinterpret_cast<std::uint32_t*>(&data[7]);
 
-        xl0 = reinterpret_cast<std::uint32_t*>(&data[0]) + 1;
-        xl1 = reinterpret_cast<std::uint32_t*>(&data[1]) + 1;
-        xl2 = reinterpret_cast<std::uint32_t*>(&data[2]) + 1;
-        xl3 = reinterpret_cast<std::uint32_t*>(&data[3]) + 1;
-        xl4 = reinterpret_cast<std::uint32_t*>(&data[4]) + 1;
-        xl5 = reinterpret_cast<std::uint32_t*>(&data[5]) + 1;
-        xl6 = reinterpret_cast<std::uint32_t*>(&data[6]) + 1;
-        xl7 = reinterpret_cast<std::uint32_t*>(&data[7]) + 1;
+        xh0 = reinterpret_cast<std::uint32_t*>(&data[0]) + 1;
+        xh1 = reinterpret_cast<std::uint32_t*>(&data[1]) + 1;
+        xh2 = reinterpret_cast<std::uint32_t*>(&data[2]) + 1;
+        xh3 = reinterpret_cast<std::uint32_t*>(&data[3]) + 1;
+        xh4 = reinterpret_cast<std::uint32_t*>(&data[4]) + 1;
+        xh5 = reinterpret_cast<std::uint32_t*>(&data[5]) + 1;
+        xh6 = reinterpret_cast<std::uint32_t*>(&data[6]) + 1;
+        xh7 = reinterpret_cast<std::uint32_t*>(&data[7]) + 1;
 
-        xll0 = reinterpret_cast<std::uint16_t*>(&data[0]) + 3;
-        xll1 = reinterpret_cast<std::uint16_t*>(&data[1]) + 3;
-        xll2 = reinterpret_cast<std::uint16_t*>(&data[2]) + 3;
-        xll3 = reinterpret_cast<std::uint16_t*>(&data[3]) + 3;
+        xll0 = reinterpret_cast<std::uint16_t*>(&data[0]);
+        xll1 = reinterpret_cast<std::uint16_t*>(&data[1]);
+        xll2 = reinterpret_cast<std::uint16_t*>(&data[2]);
+        xll3 = reinterpret_cast<std::uint16_t*>(&data[3]);
 
-        xllh0 = reinterpret_cast<std::uint8_t*>(&data[0]) + 6;
-        xllh1 = reinterpret_cast<std::uint8_t*>(&data[1]) + 6;
-        xllh2 = reinterpret_cast<std::uint8_t*>(&data[2]) + 6;
-        xllh3 = reinterpret_cast<std::uint8_t*>(&data[3]) + 6;
+        xllh0 = reinterpret_cast<std::uint8_t*>(&data[0]) + 1;
+        xllh1 = reinterpret_cast<std::uint8_t*>(&data[1]) + 1;
+        xllh2 = reinterpret_cast<std::uint8_t*>(&data[2]) + 1;
+        xllh3 = reinterpret_cast<std::uint8_t*>(&data[3]) + 1;
 
-        xlll0 = reinterpret_cast<std::uint8_t*>(&data[0]) + 7;
-        xlll1 = reinterpret_cast<std::uint8_t*>(&data[1]) + 7;
-        xlll2 = reinterpret_cast<std::uint8_t*>(&data[2]) + 7;
-        xlll3 = reinterpret_cast<std::uint8_t*>(&data[3]) + 7;
+        xlll0 = reinterpret_cast<std::uint8_t*>(&data[0]);
+        xlll1 = reinterpret_cast<std::uint8_t*>(&data[1]);
+        xlll2 = reinterpret_cast<std::uint8_t*>(&data[2]);
+        xlll3 = reinterpret_cast<std::uint8_t*>(&data[3]);
 
         xbp = &data[8];
         xsp = &data[9];
