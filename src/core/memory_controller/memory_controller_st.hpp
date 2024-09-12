@@ -30,6 +30,7 @@ namespace hypercpu {
     }
 
     inline std::uint16_t fetch16(std::size_t& ptr) override {
+      std::cout << ptr << ' ' << total_mem << '\n';
       assert(ptr + sizeof(std::uint16_t) - 1 < total_mem);
       std::uint16_t data;
       memcpy(&data, &memory[ptr], sizeof(std::uint16_t));
