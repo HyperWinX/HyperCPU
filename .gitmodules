@@ -1,3 +1,6 @@
 [submodule "dist/HBench"]
 	path = dist/HBench
 	url = git@github.com:randommfs/HBench.git
+[submodule "dist/googletest"]
+	path = dist/googletest
+	url = https://github.com/google/googletest

@@ -5,6 +5,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 23)
 
+add_subdirectory(dist/googletest)
 add_subdirectory(bench)
 add_subdirectory(src)
 add_subdirectory(test)
