@@ -22,8 +22,8 @@ class decoder_test : public ::testing::Test {
     decoder_test() : decoder(new hypercpu::memory_controller_st(MEM_SIZE), &counter), counter(0) {}
 };
 
-TEST_F(decoder_test, MOV_INSTR_R_IMM_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::opcode::MOV);
+TEST_F(decoder_test, ADD_INSTR_R_IMM_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::opcode::ADD);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -36,7 +36,7 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B8) {
   std::uint8_t data;
   hypercpu::i_instruction instr = decoder.fetch_and_decode();
 
-  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::MOV);
+  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::ADD);
   ASSERT_EQ(instr.m_opcode_mode, hypercpu::mode::b8);
   ASSERT_EQ(instr.m_op_types, hypercpu::operand_types::R_IMM);
 
@@ -46,8 +46,8 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B8) {
   ASSERT_EQ(data, 0x55);
 }
 
-TEST_F(decoder_test, MOV_INSTR_R_IMM_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::MOV);
+TEST_F(decoder_test, ADD_INSTR_R_IMM_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::ADD);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -60,7 +60,7 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B16) {
   std::uint16_t data;
   hypercpu::i_instruction instr = decoder.fetch_and_decode();
 
-  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::MOV);
+  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::ADD);
   ASSERT_EQ(instr.m_opcode_mode, hypercpu::mode::b16);
   ASSERT_EQ(instr.m_op_types, hypercpu::operand_types::R_IMM);
 
@@ -70,8 +70,8 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B16) {
   ASSERT_EQ(data, 0x5555);
 }
 
-TEST_F(decoder_test, MOV_INSTR_R_IMM_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::MOV);
+TEST_F(decoder_test, ADD_INSTR_R_IMM_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::ADD);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -84,7 +84,7 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B32) {
   std::uint32_t data;
   hypercpu::i_instruction instr = decoder.fetch_and_decode();
 
-  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::MOV);
+  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::ADD);
   ASSERT_EQ(instr.m_opcode_mode, hypercpu::mode::b32);
   ASSERT_EQ(instr.m_op_types, hypercpu::operand_types::R_IMM);
 
@@ -94,8 +94,8 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B32) {
   ASSERT_EQ(data, 0x55555555);
 }
 
-TEST_F(decoder_test, MOV_INSTR_R_IMM_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::MOV);
+TEST_F(decoder_test, ADD_INSTR_R_IMM_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::ADD);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -108,7 +108,7 @@ TEST_F(decoder_test, MOV_INSTR_R_IMM_B64) {
   std::uint64_t data;
   hypercpu::i_instruction instr = decoder.fetch_and_decode();
 
-  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::MOV);
+  ASSERT_EQ(instr.m_opcode, hypercpu::opcode::ADD);
   ASSERT_EQ(instr.m_opcode_mode, hypercpu::mode::b64);
   ASSERT_EQ(instr.m_op_types, hypercpu::operand_types::R_IMM);
 

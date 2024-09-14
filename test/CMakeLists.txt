@@ -7,11 +7,11 @@ include_directories(${HyperCPU_SOURCE_DIR}/src)
 
 add_executable(tests ${TESTS_SRCS})
 target_link_libraries(tests gtest_main gtest pthread gcov)
-set_target_properties(tests PROPERTIES COMPILE_FLAGS "-Wall -Wextra -Werror -std=c++23 -Wno-pointer-arith -O0 -ggdb3")
+set_target_properties(tests PROPERTIES COMPILE_FLAGS "-Wall -Wextra -Werror -std=c++23 -Wno-pointer-arith -O0 -ggdb3 -Wno-unused-const-variable")
 
 add_executable(tests-debug ${TESTS_SRCS})
 target_link_libraries(tests-debug gtest_main gtest pthread gcov)
-set_target_properties(tests-debug PROPERTIES COMPILE_FLAGS "-Wall -Wextra -Werror -std=c++23 -Wno-pointer-arith -O0 -ggdb3")
+set_target_properties(tests-debug PROPERTIES COMPILE_FLAGS "-Wall -Wextra -Werror -std=c++23 -Wno-pointer-arith -O0 -ggdb3 -Wno-unused-const-variable")
 
 add_test(NAME tests COMMAND tests)
 add_test(NAME tests-debug COMMAND tests-debug)

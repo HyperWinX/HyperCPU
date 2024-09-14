@@ -20,85 +20,281 @@ Main terms
 * imm32 - immediate 32 bit value
 * imm64 - immediate 64 bit value
 
+----------------------
+'Opcode' field meaning
+----------------------
+* <m> - memory address. Size - 64 bit
+* <r> - encoded register. Size - 8 bit
+* <imm> - immediate value. Size - (8 - 64) bit
+
+
+========================
+ADC - Add With Carry
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 010000<r><r>
+    - add <r8>, <r8>
+    - R_R
+  * - 010040<r><r>
+    - add <r16>, <r16>
+    - R_R
+  * - 010080<r><r>
+    - add <r32>, <r32>
+    - R_R
+  * - 0100C0<r><r>
+    - add <r64>, <r64>
+    - R_R
+  * - 010001<r><r>
+    - add <r8>, <rm>
+    - R_RM
+  * - 010041<r><r>
+    - add <r16>, <rm>
+    - R_RM
+  * - 010081<r><r>
+    - add <r32>, <rm>
+    - R_RM
+  * - 0100C1<r><r>
+    - add <r64>, <rm>
+    - R_RM
+  * - 010002<r><m>
+    - add <r8>, <m8>
+    - R_M
+  * - 010042<r><m>
+    - add <r16>, <m16>
+    - R_M
+  * - 010082<r><m>
+    - add <r32>, <m32>
+    - R_M
+  * - 0100C2<r><m>
+    - add <r64>, <m64>
+    - R_M
+  * - 010003<r><imm>
+    - add <r8>, <imm8>
+    - R_IMM
+  * - 010043<r><imm>
+    - add <r16>, <imm16>
+    - R_IMM
+  * - 010083<r><imm>
+    - add <r32>, <imm32>
+    - R_IMM
+  * - 0100C3<r><imm>
+    - add <r64>, <imm64>
+    - R_IMM
+
+
+| **Description**:
+| Adds the source operand (second operand) and the carry flag to destination operand (first operand).
+| The source operand can be either register, memory address or immediate value.
+| The destination operand is a register.
+
+| **Exceptions**:
+| IA - access to invalid memory area.
+
+| **Flags affected**:
+| Overflow flag set if result is overflown.
+
+
+========================
+ADD - Add With Carry
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 020000<r><r>
+    - add <r8>, <r8>
+    - R_R
+  * - 020040<r><r>
+    - add <r16>, <r16>
+    - R_R
+  * - 020080<r><r>
+    - add <r32>, <r32>
+    - R_R
+  * - 0200C0<r><r>
+    - add <r64>, <r64>
+    - R_R
+  * - 020001<r><r>
+    - add <r8>, <rm>
+    - R_RM
+  * - 020041<r><r>
+    - add <r16>, <rm>
+    - R_RM
+  * - 020081<r><r>
+    - add <r32>, <rm>
+    - R_RM
+  * - 0200C1<r><r>
+    - add <r64>, <rm>
+    - R_RM
+  * - 020002<r><m>
+    - add <r8>, <m8>
+    - R_M
+  * - 020042<r><m>
+    - add <r16>, <m16>
+    - R_M
+  * - 020082<r><m>
+    - add <r32>, <m32>
+    - R_M
+  * - 0200C2<r><m>
+    - add <r64>, <m64>
+    - R_M
+  * - 020003<r><imm>
+    - add <r8>, <imm8>
+    - R_IMM
+  * - 020043<r><imm>
+    - add <r16>, <imm16>
+    - R_IMM
+  * - 020083<r><imm>
+    - add <r32>, <imm32>
+    - R_IMM
+  * - 0200C3<r><imm>
+    - add <r64>, <imm64>
+    - R_IMM
+
+| **Description**:
+| Adds the source operand (second operand) and the carry flag to destination operand (first operand).
+| The source operand can be either register, memory address or immediate value.
+| The destination operand is a register.
+
+| **Exceptions**:
+| IA - access to invalid memory area.
+
+| **Flags affected**:
+| Overflow flag set if result is overflown.
+
 ========================
 MOV - Move
 ========================
 
-+-----------------+---------------------+---------------+-----------------------------------------+
-|     Opcode      |     Instruction     | Operands type |               Description               |
-+=================+=====================+===============+=========================================+
-|  010000<r><r>   |   mov <r8>, <r8>    |      R_R      |  Moves data from second r8 to first r8  |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010040<r><r>   |  mov <r16>, <r16>   |      R_R      | Moves data from second r16 to first r16 |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010080<r><r>   |  mov <r32>, <r32>   |      R_R      | Moves data from second r32 to first r32 |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  0100C0<r><r>   |  mov <r64>, <r64>   |      R_R      | Moves data from second r64 to first r64 |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010001<r><r>   |   mov <r8>, <rm>    |     R_RM      |        Moves data to r8 from rm         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010041<r><r>   |  mov <r16>, <rm>    |     R_RM      |        Moves data to r16 from rm        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010081<r><r>   |  mov <r32>, <rm>    |     R_RM      |        Moves data to r32 from rm        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  0100C1<r><r>   |  mov <r64>, <rm>    |     R_RM      |        Moves data to r64 from rm        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010002<r><m>   |   mov <r8>, <m>     |      R_M      |         Moves data from m to r8         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010042<r><m>   |   mov <r16>, <m>    |      R_M      |        Moves data from m to r16         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010082<r><m>   |   mov <r32>, <m>    |      R_M      |        Moves data from m to r32         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  0100C2<r><m>   |   mov <r64>, <m>    |      R_M      |        Moves data from m to r64         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010003<r><imm>  |  mov <r8>, <imm8>   |     R_IMM     |            Moves imm8 to r8             |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010043<r><imm>  |  mov <r16>, <imm16> |     R_IMM     |           Moves imm16 to r16            |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010083<r><imm>  |  mov <r32>, <imm32> |     R_IMM     |           Moves imm32 to r32            |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 0100C3<r><imm>  |  mov <r64>, <imm64> |     R_IMM     |           Moves imm64 to r64            |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010004<rm><r8>  |   mov <rm>, <r8>    |     RM_R      |        Moves data to rm from r8         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010044<rm><r16> |  mov <rm>, <r16>    |     RM_R      |        Moves data to rm from r16        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010084<rm><r32> |  mov <rm>, <r32>    |     RM_R      |        Moves data to rm from r32        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 0100C4<rm><r64> |  mov <rm>, <r64>    |     RM_R      |        Moves data to rm from r64        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010005<rm><m8>  |   mov <rm>, <m8>    |     RM_M      |        Moves data from m8 to rm         |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010045<rm><m16> |   mov <rm>, <m16>   |     RM_M      |        Moves data from m16 to rm        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 010085<rm><m32> |   mov <rm>, <m32>   |     RM_M      |        Moves data from m32 to rm        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-| 0100C5<rm><m64> |   mov <rm>, <m64>   |     RM_M      |        Moves data from m64 to rm        |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|010006<rm><imm8> |  mov <rm>, <imm8>   |     RM_IMM    |            Moves imm8 to rm             |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|010046<rm><imm16>|  mov <rm>, <imm16>  |     RM_IMM    |           Moves imm16 to rm             |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|010086<rm><imm32>|  mov <rm>, <imm32>  |     RM_IMM    |           Moves imm32 to rm             |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|0100C6<rm><imm64>|  mov <rm>, <imm64>  |     RM_IMM    |           Moves imm64 to rm             |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010006<m><r8>  |   mov <m>, <r8>     |      M_R      |            Moves r8 to m                |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010046<m><r16> |   mov <m>, <r16>    |      M_R      |            Moves r16 to m               |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  010086<m><r32> |   mov <m>, <r32>    |      M_R      |            Moves r32 to m               |
-+-----------------+---------------------+---------------+-----------------------------------------+
-|  0100C6<m><r64> |   mov <m>, <r64>    |      M_R      |            Moves r64 to m               |
-+-----------------+---------------------+---------------+-----------------------------------------+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
 
-**Description**
-Copies the value of the second operand to the first operand.
-The source can be either a register, a memory location, or an immediate value.
-The destination can be either a register or a memory location.
+  * - Opcode
+    - Instruction
+    - Operands type
 
-**Exceptions**
-IA - access to invalid memory area.
+  * - 7F0000<r><r>
+    - mov <r8>, <r8>
+    - R_R
+  * - 7F0040<r><r>
+    - mov <r16>, <r16>
+    - R_R
+  * - 7F0080<r><r>
+    - mov <r32>, <r32>
+    - R_R
+  * - 7F00C0<r><r>
+    - mov <r64>, <r64>
+    - R_R
 
-**Flags affected**
-None.
+  * - 7F0001<r><r>
+    - mov <r8>, <rm>
+    - R_RM
+  * - 7F0041<r><r>
+    - mov <r16>, <rm>
+    - R_RM
+  * - 7F0081<r><r>
+    - mov <r32>, <rm>
+    - R_RM
+  * - 7F00C1<r><r>
+    - mov <r64>, <rm>
+    - R_RM
+
+  * - 7F0002<r><m>
+    - mov <r8>, <m8>
+    - R_M
+  * - 7F0042<r><m>
+    - mov <r16>, <m16>
+    - R_M
+  * - 7F0082<r><m>
+    - mov <r32>, <m32>
+    - R_M
+  * - 7F00C2<r><m>
+    - mov <r64>, <m64>
+    - R_M
+
+  * - 7F0003<r><imm>
+    - mov <r8>, <imm8>
+    - R_IMM
+  * - 7F0043<r><imm>
+    - mov <r16>, <imm16>
+    - R_IMM
+  * - 7F0083<r><imm>
+    - mov <r32>, <imm32>
+    - R_IMM
+  * - 7F00C3<r><imm>
+    - mov <r64>, <imm64>
+    - R_IMM
+
+  * - 7F0004<r><r>
+    - mov <rm>, <r8>
+    - RM_R
+  * - 7F0044<r><r>
+    - mov <rm>, <r16>
+    - RM_R
+  * - 7F0084<r><r>
+    - mov <rm>, <r32>
+    - RM_R
+  * - 7F00C4<r><r>
+    - mov <rm>, <r64>
+    - RM_R
+
+  * - 7F0005<r><m>
+    - mov <rm>, <m8>
+    - RM_M
+  * - 7F0045<r><m>
+    - mov <rm>, <m16>
+    - RM_M
+  * - 7F0085<r><m>
+    - mov <rm>, <m32>
+    - RM_M
+  * - 7F00C5<r><m>
+    - mov <rm>, <m64>
+    - RM_M
+
+  * - 7F0006<r><imm>
+    - mov <rm>, <imm8>
+    - RM_IMM
+  * - 7F0046<r><imm>
+    - mov <rm>, <imm16>
+    - RM_IMM
+  * - 7F0086<r><imm>
+    - mov <rm>, <imm32>
+    - RM_IMM
+  * - 7F00C6<r><imm>
+    - mov <rm>, <imm64>
+    - RM_IMM
+
+  * - 7F0007<m><r>
+    - mov <m8>, <r8>
+    - M_R
+  * - 7F0047<m><r>
+    - mov <m16>, <r16>
+    - M_R
+  * - 7F0087<m><r>
+    - mov <m32>, <r32>
+    - M_R
+  * - 7F00C7<m><r>
+    - mov <m64>, <r64>
+    - M_R
+
+| **Description**:
+| Copies the value of the second operand to the first operand.
+| The source can be either a register, a memory location, or an immediate value.
+| The destination can be either a register or a memory location.
+
+| **Exceptions**:
+| IA - access to invalid memory area.
+
+| **Flags affected**:
+| None.

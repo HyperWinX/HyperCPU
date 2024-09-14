@@ -27,7 +27,9 @@ namespace hypercpu {
   };
 
   enum opcode : std::uint_fast16_t {
-    MOV = 0x0001
+    ADC = 0x0001,
+    ADD = 0x0002,
+    MOV = 0x007F
   };
 
   using op_validator = check_valid_opcode<opcode, MOV>;
