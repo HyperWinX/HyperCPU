@@ -7,10 +7,10 @@
 
 namespace hypercpu {
   struct i_instruction {
-    opcode opcode;
-    mode opcode_mode;
-    operand_types op_types;
-    std::size_t op1, op2;
+    opcode m_opcode;
+    mode m_opcode_mode;
+    operand_types m_op_types;
+    std::size_t m_op1, m_op2;
   };
 
   class i_decoder {

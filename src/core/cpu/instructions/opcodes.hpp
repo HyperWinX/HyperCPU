@@ -12,7 +12,7 @@ namespace hypercpu {
   class check_valid_opcode<enum_type> {
   public:
     template<typename int_type>
-    static bool constexpr is_value(int_type) { return false; }
+    static bool constexpr is_valid(int_type) { return false; }
   };
 
   template<typename enum_type, enum_type v, enum_type... next>
@@ -21,8 +21,8 @@ namespace hypercpu {
 
   public:
     template<typename int_type>
-    static bool constexpr is_value(int_type value) {
-      return value == static_cast<int_type>(value) || super::is_value(value);
+    static bool constexpr is_valid(int_type value) {
+      return value == static_cast<int_type>(value) || super::is_valid(value);
     }
   };
 
@@ -30,5 +30,5 @@ namespace hypercpu {
     MOV = 0x0001
   };
 
-  using valid_opcode = check_valid_opcode<opcode, MOV>;
+  using op_validator = check_valid_opcode<opcode, MOV>;
 }

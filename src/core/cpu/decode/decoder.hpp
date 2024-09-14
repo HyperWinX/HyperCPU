@@ -16,7 +16,7 @@ namespace hypercpu {
     std::size_t* rip;
 
   public:
-    explicit decoder(i_memory_controller* mc) : mem_controller(mc) {}
+    explicit decoder(i_memory_controller* mc, std::size_t* counter) : mem_controller(mc), rip(counter) {}
 
     i_instruction fetch_and_decode() override;
   };

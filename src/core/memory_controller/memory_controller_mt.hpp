@@ -17,7 +17,7 @@ namespace hypercpu {
   
   public:
     explicit memory_controller_mt(std::size_t mem_size) : total_mem(mem_size) {
-      memory  = static_cast<char*>(malloc(total_mem));
+      memory  = static_cast<char*>(calloc(total_mem, 1));
       if (!memory)
         throw std::runtime_error("Failed to allocate memory!");
     }
