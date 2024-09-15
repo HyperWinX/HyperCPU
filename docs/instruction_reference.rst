@@ -172,6 +172,213 @@ ADD - Add With Carry
 | **Flags affected**:
 | Overflow flag set if result is overflown.
 
+
+========================
+AND - Logical AND
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 030000<r><r>
+    - and <r8>, <r8>
+    - R_R
+  * - 030040<r><r>
+    - and <r16>, <r16>
+    - R_R
+  * - 030080<r><r>
+    - and <r32>, <r32>
+    - R_R
+  * - 0300C0<r><r>
+    - and <r64>, <r64>
+    - R_R
+  * - 030001<r><r>
+    - and <r8>, <rm>
+    - R_RM
+  * - 030041<r><r>
+    - and <r16>, <rm>
+    - R_RM
+  * - 030081<r><r>
+    - and <r32>, <rm>
+    - R_RM
+  * - 0300C1<r><r>
+    - and <r64>, <rm>
+    - R_RM
+  * - 030002<r><m>
+    - and <r8>, <m8>
+    - R_M
+  * - 030042<r><m>
+    - and <r16>, <m16>
+    - R_M
+  * - 030082<r><m>
+    - and <r32>, <m32>
+    - R_M
+  * - 0300C2<r><m>
+    - and <r64>, <m64>
+    - R_M
+  * - 030003<r><imm>
+    - and <r8>, <imm8>
+    - R_IMM
+  * - 030043<r><imm>
+    - and <r16>, <imm16>
+    - R_IMM
+  * - 030083<r><imm>
+    - and <r32>, <imm32>
+    - R_IMM
+  * - 0300C3<r><imm>
+    - and <r64>, <imm64>
+    - R_IMM
+
+| **Description**:
+| Performs a bitwise AND operation on the destination and source operands, and stores the result in the destination operand location.
+| The source operand can be either register, memory address or immediate value.
+| The destination operand is a register.
+
+| **Exceptions**:
+| IA - access to invalid memory area.
+
+| **Flags affected**:
+| None.
+
+
+========================
+ANDN - Logical AND NOT
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 040000<r><r>
+    - andn <r8>, <r8>
+    - R_R
+  * - 040040<r><r>
+    - andn <r16>, <r16>
+    - R_R
+  * - 040080<r><r>
+    - andn <r32>, <r32>
+    - R_R
+  * - 0400C0<r><r>
+    - andn <r64>, <r64>
+    - R_R
+  * - 040001<r><r>
+    - andn <r8>, <rm>
+    - R_RM
+  * - 040041<r><r>
+    - andn <r16>, <rm>
+    - R_RM
+  * - 040081<r><r>
+    - andn <r32>, <rm>
+    - R_RM
+  * - 0400C1<r><r>
+    - andn <r64>, <rm>
+    - R_RM
+  * - 040002<r><m>
+    - andn <r8>, <m8>
+    - R_M
+  * - 040042<r><m>
+    - andn <r16>, <m16>
+    - R_M
+  * - 040082<r><m>
+    - andn <r32>, <m32>
+    - R_M
+  * - 0400C2<r><m>
+    - andn <r64>, <m64>
+    - R_M
+  * - 040003<r><imm>
+    - andn <r8>, <imm8>
+    - R_IMM
+  * - 040043<r><imm>
+    - andn <r16>, <imm16>
+    - R_IMM
+  * - 040083<r><imm>
+    - andn <r32>, <imm32>
+    - R_IMM
+  * - 0400C3<r><imm>
+    - andn <r64>, <imm64>
+    - R_IMM
+
+| **Description**:
+| Performs a bitwise AND operation on the destination and source operands, and stores the result in the destination operand location.
+| The source operand can be either register, memory address or immediate value.
+| The destination operand is a register.
+
+| **Exceptions**:
+| IA - access to invalid memory area.
+
+| **Flags affected**:
+| None.
+
+
+========================
+BSWAP - Byte Swap
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 050008<r>
+    - andn <r8>
+    - R
+  * - 050048<r>
+    - andn <r16>
+    - R
+  * - 050088<r>
+    - andn <r32>
+    - R
+  * - 0500C8<r>
+    - andn <r64>
+    - R
+
+| **Description**:
+| Performs a byte swap operation on destination register. If 8 bit register is passed - works as NOP.
+| The destination operand is a register.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+========================
+CALL - Call procedure
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0600C8<r>
+    - andn <r64>
+    - R
+  * - 0600C9<m>
+    - andn <m>
+    - M
+
+| **Description**:
+| Performs a call procedure to address, specified by destination operand
+| The destination operand is a register or a memory address.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
 ========================
 MOV - Move
 ========================

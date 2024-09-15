@@ -5,10 +5,10 @@ namespace hypercpu {
     {}, // NULL
     {true, true, true, true, false, false, false, false, false, false, false, false}, // ADC
     {true, true, true, true, false, false, false, false, false, false, false, false}, // ADD
-    {},
-    {},
-    {},
-    {},
+    {true, true, true, true, false, false, false, false, false, false, false, false}, // AND
+    {true, true, true, true, false, false, false, false, false, false, false, false}, // ANDN
+    {false, false, false, false, false, false, false, false, true, false, false, false}, // BSWAP
+    {false, false, false, false, false, false, false, false, true, true, false, false}, // CALL
     {},
     {},
     {},

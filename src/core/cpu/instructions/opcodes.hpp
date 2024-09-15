@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <stop_token>
 
 
 namespace hypercpu {
@@ -27,9 +28,13 @@ namespace hypercpu {
   };
 
   enum opcode : std::uint_fast16_t {
-    ADC = 0x0001,
-    ADD = 0x0002,
-    MOV = 0x007F
+    ADC   = 0x0001,
+    ADD   = 0x0002,
+    AND   = 0x0003,
+    ANDN  = 0x0004,
+    BSWAP = 0x0005,
+    CALL  = 0x0006,
+    MOV   = 0x007F
   };
 
   using op_validator = check_valid_opcode<opcode, MOV>;
