@@ -448,7 +448,7 @@ TEST_F(decoder_test, CALL_INSTR_R_B8) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Unsupported operand size!");
 }
 
 TEST_F(decoder_test, CALL_INSTR_R_B16) {
@@ -461,7 +461,7 @@ TEST_F(decoder_test, CALL_INSTR_R_B16) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Unsupported operand size!");
 }
 
 TEST_F(decoder_test, CALL_INSTR_R_B32) {
@@ -474,7 +474,7 @@ TEST_F(decoder_test, CALL_INSTR_R_B32) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Unsupported operand size!");
 }
 
 TEST_F(decoder_test, CALL_INSTR_IMM) {

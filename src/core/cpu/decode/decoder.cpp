@@ -9,6 +9,12 @@
 #include <core/cpu/decode/decoder.hpp>
 #include <core/cpu/assert.hpp>
 
+bool hypercpu::decoder::check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) {
+  return ((byte & 0b11) == mask || 
+         ((byte >> 2) & 0b11) == mask ||
+         ((byte >> 4) & 0b11) == mask ||
+         ((byte >> 6) & 0b11) == mask);
+}
 
 hypercpu::i_instruction hypercpu::decoder::fetch_and_decode() {
   std::uint16_t opcode;
@@ -31,6 +37,9 @@ hypercpu::i_instruction hypercpu::decoder::fetch_and_decode() {
 
   // Check if op mode is valid for this opcode
   h_assert(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)], "Invalid operation mode for this opcode!");
+  h_assert(check_supported_operand_size(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)],
+   static_cast<std::uint8_t>(instruction.m_opcode_mode)),
+   "Unsupported operand size!");
 
   switch (instruction.m_op_types) {
     case R_R:

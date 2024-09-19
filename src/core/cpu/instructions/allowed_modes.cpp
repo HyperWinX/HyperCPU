@@ -1,14 +1,18 @@
+#include <cstdint>
+
 #include <core/cpu/instructions/allowed_modes.hpp>
 
+static constexpr std::uint8_t SUPPORT_ALL = 0b00011011;
+
 namespace hypercpu {
-  const bool allowed_op_modes[128][12] = {
+  const std::uint8_t allowed_op_modes[128][12] = {
     {}, // NULL
-    {true, true, true, true, false, false, false, false, false, false, false, false}, // ADC
-    {true, true, true, true, false, false, false, false, false, false, false, false}, // ADD
-    {true, true, true, true, false, false, false, false, false, false, false, false}, // AND
-    {true, true, true, true, false, false, false, false, false, false, false, false}, // ANDN
-    {false, false, false, false, false, false, false, false, true, false, false, false}, // BSWAP
-    {false, false, false, false, false, false, false, false, true, true, false, false}, // CALL
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ADC
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ADD
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // AND
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ANDN
+    {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // BSWAP
+    {0, 0, 0, 0, 0, 0, 0, 0, 0b00000011, SUPPORT_ALL, 0, 0}, // CALL
     {},
     {},
     {},
@@ -129,6 +133,6 @@ namespace hypercpu {
     {},
     {},
     {},
-    {true, true, true, true, true, true, true, true, false, false, false, false}, // MOV
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0}, // MOV
   };
 }

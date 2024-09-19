@@ -18,6 +18,7 @@ namespace hypercpu {
   public:
     explicit decoder(i_memory_controller* mc, std::size_t* counter) : mem_controller(mc), rip(counter) {}
 
+    bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) override;
     i_instruction fetch_and_decode() override;
   };
 }

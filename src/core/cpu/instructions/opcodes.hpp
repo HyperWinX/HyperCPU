@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <stop_token>
-
 
 namespace hypercpu {
 

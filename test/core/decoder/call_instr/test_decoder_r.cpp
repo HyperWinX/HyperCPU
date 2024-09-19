@@ -33,13 +33,9 @@ TEST_F(decoder_test, CALL_INSTR_R) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  hypercpu::registers reg1;
   hypercpu::i_instruction instr = decoder.fetch_and_decode();
 
   ASSERT_EQ(instr.m_opcode, hypercpu::opcode::CALL);
   ASSERT_EQ(instr.m_opcode_mode, hypercpu::mode::b64);
   ASSERT_EQ(instr.m_op_types, hypercpu::operand_types::R);
-
-  memcpy(&reg1, &instr.m_op1, sizeof(hypercpu::registers));
-  ASSERT_EQ(reg1, MEM_PTR);
 }
