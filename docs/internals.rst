@@ -57,3 +57,25 @@ Registers
                                                   ┣━━━━━━━━┳━━━━━━━┫
                                                   ┃ xllh0  ┃ xlll0 ┃
                                                   ┗━━━━━━━━┻━━━━━━━┛
+
+Flags
+-----
+
+Flags have only two states - "set" or "not set".
+List of flags with descriptions:
+
+.. list-table:: Flags
+  :widths: 5 30
+  :header-rows: 1
+
+  * - Flag name
+    - Description
+  
+  * - CRF
+    - Carry flag, can be used for mathematical operations.
+  
+  * - OVF
+    - Overflow flag, shows if number has been overflown during math operation.
+  
+  * - UDF
+    - Underflow flag, shows if number has been underflown during math operation.

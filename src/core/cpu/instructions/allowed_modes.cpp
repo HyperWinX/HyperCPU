@@ -2,8 +2,6 @@
 
 #include <core/cpu/instructions/allowed_modes.hpp>
 
-static constexpr std::uint8_t SUPPORT_ALL = 0b00011011;
-
 namespace hypercpu {
   const std::uint8_t allowed_op_modes[128][12] = {
     {}, // NULL
@@ -13,12 +11,12 @@ namespace hypercpu {
     {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ANDN
     {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // BSWAP
     {0, 0, 0, 0, 0, 0, 0, 0, 0b00000011, SUPPORT_ALL, 0, 0}, // CALL
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // CCRF
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // COVF
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // CUDF
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // HID
+    {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // INC
+    {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // DEC
     {},
     {},
     {},

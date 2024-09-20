@@ -37,9 +37,9 @@ hypercpu::i_instruction hypercpu::decoder::fetch_and_decode() {
 
   // Check if op mode is valid for this opcode
   h_assert(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)], "Invalid operation mode for this opcode!");
-  h_assert(check_supported_operand_size(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)],
-   static_cast<std::uint8_t>(instruction.m_opcode_mode)),
-   "Unsupported operand size!");
+  h_assert((allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)] == SUPPORT_ALL) ||
+      check_supported_operand_size(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)],
+      static_cast<std::uint8_t>(instruction.m_opcode_mode)), "Unsupported operand size!");
 
   switch (instruction.m_op_types) {
     case R_R:

@@ -10,7 +10,7 @@
 #include <core/memory_controller/i_memory_controller.hpp>
 
 namespace hypercpu {
-  class memory_controller_st : public i_memory_controller {
+  class memory_controller_st final : public i_memory_controller {
   private:
     char* memory;
     std::size_t total_mem;

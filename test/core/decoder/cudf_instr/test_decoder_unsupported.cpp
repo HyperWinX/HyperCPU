@@ -4,8 +4,8 @@
 
 #include <fixtures.hpp>
 
-TEST_F(decoder_test, BSWAP_INSTR_R_R_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_R_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 3;
   decoder.mem_controller->load8(counter, hypercpu::registers::X3);
   ++counter;
@@ -15,8 +15,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_R_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_R_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_R_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R_R);
   ++counter;
@@ -28,8 +28,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_R_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_R_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_R_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::R_R);
   ++counter;
@@ -41,8 +41,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_R_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_R_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_R_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::R_R);
   ++counter;
@@ -54,8 +54,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_R_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_RM_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_RM_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::R_RM);
   ++counter;
@@ -67,8 +67,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_RM_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_RM_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_RM_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R_RM);
   ++counter;
@@ -80,8 +80,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_RM_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_RM_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_RM_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::R_RM);
   ++counter;
@@ -93,8 +93,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_RM_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_RM_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_RM_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::R_RM);
   ++counter;
@@ -106,8 +106,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_RM_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_M_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_M_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::R_M);
   ++counter;
@@ -119,8 +119,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_M_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_M_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_M_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R_M);
   ++counter;
@@ -132,8 +132,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_M_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_M_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_M_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::R_M);
   ++counter;
@@ -145,8 +145,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_M_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_M_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_M_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::R_M);
   ++counter;
@@ -158,8 +158,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_M_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::opcode::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_IMM_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::opcode::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -171,8 +171,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_IMM_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -184,8 +184,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_IMM_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -197,8 +197,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_IMM_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::R_IMM);
   ++counter;
@@ -210,8 +210,8 @@ TEST_F(decoder_test, BSWAP_INSTR_R_IMM_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_M_R_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_M_R_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::M_R);
   ++counter;
@@ -223,8 +223,8 @@ TEST_F(decoder_test, BSWAP_INSTR_M_R_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_M_R_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_M_R_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::M_R);
   ++counter;
@@ -236,8 +236,8 @@ TEST_F(decoder_test, BSWAP_INSTR_M_R_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_M_R_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_M_R_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::M_R);
   ++counter;
@@ -249,8 +249,8 @@ TEST_F(decoder_test, BSWAP_INSTR_M_R_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_M_R_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_M_R_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::M_R);
   ++counter;
@@ -262,8 +262,8 @@ TEST_F(decoder_test, BSWAP_INSTR_M_R_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_R_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_R_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::RM_R);
   ++counter;
@@ -275,8 +275,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_R_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_R_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_R_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::RM_R);
   ++counter;
@@ -288,8 +288,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_R_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_R_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_R_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::RM_R);
   ++counter;
@@ -301,8 +301,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_R_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_R_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_R_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::RM_R);
   ++counter;
@@ -314,8 +314,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_R_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_M_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_M_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::RM_M);
   ++counter;
@@ -327,8 +327,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_M_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_M_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_M_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::RM_M);
   ++counter;
@@ -340,8 +340,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_M_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_M_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_M_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::RM_M);
   ++counter;
@@ -353,8 +353,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_M_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_M_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_M_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::RM_M);
   ++counter;
@@ -366,8 +366,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_M_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B8) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_IMM_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b8 << 6) | hypercpu::operand_types::RM_IMM);
   ++counter;
@@ -379,8 +379,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B8) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B16) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_IMM_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::RM_IMM);
   ++counter;
@@ -392,8 +392,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B16) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B32) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_IMM_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::RM_IMM);
   ++counter;
@@ -405,8 +405,8 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B64) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_RM_IMM_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::RM_IMM);
   ++counter;
@@ -418,10 +418,10 @@ TEST_F(decoder_test, BSWAP_INSTR_RM_IMM_B64) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_M) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
-  decoder.mem_controller->load8(counter, hypercpu::operand_types::M);
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R);
   ++counter;
   decoder.mem_controller->load8(counter, hypercpu::registers::X3);
   ++counter;
@@ -431,23 +431,102 @@ TEST_F(decoder_test, BSWAP_INSTR_M) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
 }
 
-TEST_F(decoder_test, BSWAP_INSTR_IMM) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
+TEST_F(decoder_test, CUDF_INSTR_R_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::R);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+TEST_F(decoder_test, CUDF_INSTR_R_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::R);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+TEST_F(decoder_test, CUDF_INSTR_R_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::R);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+TEST_F(decoder_test, CUDF_INSTR_M_B8) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::M);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+TEST_F(decoder_test, CUDF_INSTR_M_B16) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b16 << 6) | hypercpu::operand_types::M);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+TEST_F(decoder_test, CUDF_INSTR_M_B32) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b32 << 6) | hypercpu::operand_types::M);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+TEST_F(decoder_test, CUDF_INSTR_M_B64) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
+  counter += 2;
+  decoder.mem_controller->load8(counter, (hypercpu::mode::b64 << 6) | hypercpu::operand_types::M);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
+  ++counter;
+  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
+  counter = 0;
+  
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+}
+
+
+TEST_F(decoder_test, CUDF_INSTR_IMM) {
+  decoder.mem_controller->load16(counter, hypercpu::CUDF);
   counter += 2;
   decoder.mem_controller->load8(counter, hypercpu::operand_types::IMM);
-  ++counter;
-  decoder.mem_controller->load8(counter, hypercpu::registers::X3);
-  ++counter;
-  decoder.mem_controller->load8(counter, hypercpu::registers::X7);
-  counter = 0;
-  
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
-}
-
-TEST_F(decoder_test, BSWAP_INSTR_NONE) {
-  decoder.mem_controller->load16(counter, hypercpu::BSWAP);
-  counter += 2;
-  decoder.mem_controller->load8(counter, hypercpu::operand_types::NONE);
   ++counter;
   decoder.mem_controller->load8(counter, hypercpu::registers::X3);
   ++counter;

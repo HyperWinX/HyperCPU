@@ -363,10 +363,10 @@ CALL - Call procedure
     - Instruction
     - Operands type
   * - 0600C8<r>
-    - andn <r64>
+    - call <r64>
     - R
   * - 0600C9<m>
-    - andn <m>
+    - call <m>
     - M
 
 | **Description**:
@@ -505,3 +505,78 @@ MOV - Move
 
 | **Flags affected**:
 | None.
+
+
+========================
+CCRF - Clear Carry Flag
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 070000
+    - ccrf
+    - NONE
+
+| **Description**:
+| Clears carry flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| CRF -> not set.
+
+
+========================
+COVF - Clear Overflow Flag
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 080000
+    - covf
+    - NONE
+
+| **Description**:
+| Clears overflow flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| OVF -> not set.
+
+
+========================
+CUDF - Clear Undeflow Flag
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 090000
+    - cudf
+    - NONE
+
+| **Description**:
+| Clears underflow flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| UDF -> not set.

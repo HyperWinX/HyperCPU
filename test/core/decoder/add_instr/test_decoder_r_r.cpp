@@ -2,25 +2,7 @@
 
 #include <cstring>
 
-#include <core/cpu/decode/i_decoder.hpp>
-#include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/instructions/opcodes.hpp>
-#include <core/cpu/instructions/registers.hpp>
-#include <core/memory_controller/memory_controller_st.hpp>
-
-#define private public
-#include <core/cpu/decode/decoder.hpp>
-#undef private
-
-static constexpr std::size_t MEM_SIZE = 4096;
-
-class decoder_test : public ::testing::Test {
-  protected:
-    hypercpu::decoder decoder;
-    std::size_t counter;
-
-    decoder_test() : decoder(new hypercpu::memory_controller_st(MEM_SIZE), &counter), counter(0) {}
-};
+#include <fixtures.hpp>
 
 TEST_F(decoder_test, ADD_INSTR_R_R_B8) {
   decoder.mem_controller->load16(counter, hypercpu::ADD);

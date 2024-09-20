@@ -21,5 +21,7 @@ namespace hypercpu {
     virtual void load16(std::size_t&, std::uint16_t) = 0;
     virtual void load32(std::size_t&, std::uint32_t) = 0;
     virtual void load64(std::size_t&, std::uint64_t) = 0;
+
+    ~i_memory_controller() = default;
   };
 }

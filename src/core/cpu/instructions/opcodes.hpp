@@ -32,8 +32,27 @@ namespace hypercpu {
     ANDN  = 0x0004,
     BSWAP = 0x0005,
     CALL  = 0x0006,
+    CCRF  = 0x0007,
+    COVF  = 0x0008,
+    CUDF  = 0x0009,
+    HID   = 0x000A,
+    INC   = 0x000B,
+    DEC   = 0x000C,
     MOV   = 0x007F
   };
 
-  using op_validator = check_valid_opcode<opcode, MOV>;
+  using op_validator = check_valid_opcode<opcode,
+    ADC,
+    ADD,
+    AND,
+    ANDN,
+    BSWAP,
+    CALL,
+    CCRF,
+    COVF,
+    CUDF,
+    HID,
+    INC,
+    DEC,
+    MOV>;
 }
