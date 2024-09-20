@@ -17,12 +17,12 @@ namespace hypercpu {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // HID
     {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // INC
     {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // DEC
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
+    {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, SUPPORT_ALL, 0}, // DIV
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // MUL
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // SUB
+    {SUPPORT_ALL, 0, 0, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // SHFR
+    {SUPPORT_ALL, 0, 0, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // SHFL
+    {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // OR
     {},
     {},
     {},

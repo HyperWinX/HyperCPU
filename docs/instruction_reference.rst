@@ -691,3 +691,50 @@ DEC - Decrement register value.
 | **Flags affected**:
 | UDF -> set, if value has been underflown.
 | UDF -> not set, if value has not been underflown.
+
+
+========================
+DEC - Decrement register value.
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0D0008<r>
+    - div <r8>
+    - R
+  * - 0D0048<r>
+    - div <r16>
+    - R
+  * - 0D0088<r>
+    - div <r32>
+    - R
+  * - 0D00C8<r>
+    - div <r64>
+    - R
+  
+  * - 0D000A<imm>
+    - div <imm8>
+    - IMM
+  * - 0D004A<imm>
+    - div <imm16>
+    - IMM
+  * - 0D008A<imm>
+    - div <imm32>
+    - IMM
+  * - 0D00CA<imm>
+    - div <imm64>
+    - IMM
+
+| **Description**:
+| Divide x1 by provided number, save result in x1 and remainder in x2.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.

@@ -38,6 +38,12 @@ namespace hypercpu {
     HID   = 0x000A,
     INC   = 0x000B,
     DEC   = 0x000C,
+    DIV   = 0x000D,
+    MUL   = 0x000E,
+    SUB   = 0x000F,
+    SHFR  = 0x0010,
+    SHFL  = 0x0011,
+    OR    = 0x0012,
     MOV   = 0x007F
   };
 
@@ -54,5 +60,11 @@ namespace hypercpu {
     HID,
     INC,
     DEC,
+    DIV,
+    MUL,
+    SUB,
+    SHFR,
+    SHFL,
+    OR,
     MOV>;
 }
