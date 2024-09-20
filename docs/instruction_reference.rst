@@ -329,16 +329,16 @@ BSWAP - Byte Swap
     - Instruction
     - Operands type
   * - 050008<r>
-    - andn <r8>
+    - bswap <r8>
     - R
   * - 050048<r>
-    - andn <r16>
+    - bswap <r16>
     - R
   * - 050088<r>
-    - andn <r32>
+    - bswap <r32>
     - R
   * - 0500C8<r>
-    - andn <r64>
+    - bswap <r64>
     - R
 
 | **Description**:
@@ -580,3 +580,114 @@ CUDF - Clear Undeflow Flag
 
 | **Flags affected**:
 | UDF -> not set.
+
+========================
+HID - HyperCPU ID
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0A000A<imm>
+    - hid <imm8>
+    - IMM
+
+| **Description**:
+| Fetches information about CPU. Acts as **nop** if unsupported value is passed.
+
+.. list-table:: Possible values
+  :widths: 4 50
+  :header-rows: 1
+
+  * - Hex value
+    - Returned value
+
+  * - 00
+    - Returns maximum value that **hid** can accept.
+  
+  * - 01
+    - Fetch CPU name and version. Result is stored as string in x0-x3.
+  
+  * - 02
+    - x0 becomes bit mask of supported instruction sets. Right now there is no additional instruction sets - does nothing.
+
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None
+
+
+========================
+INC - Increment register value.
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0B0008<r>
+    - inc <r8>
+    - R
+  * - 0B0048<r>
+    - inc <r16>
+    - R
+  * - 0B0088<r>
+    - inc <r32>
+    - R
+  * - 0B00C8<r>
+    - inc <r64>
+    - R
+
+| **Description**:
+| Increments register value.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| OVF -> set, if value has been overflown.
+| OVF -> not set, if value has not been overflown.
+
+
+========================
+DEC - Decrement register value.
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0B0008<r>
+    - dec <r8>
+    - R
+  * - 0B0048<r>
+    - dec <r16>
+    - R
+  * - 0B0088<r>
+    - dec <r32>
+    - R
+  * - 0B00C8<r>
+    - dec <r64>
+    - R
+
+| **Description**:
+| Increments register value.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| UDF -> set, if value has been underflown.
+| UDF -> not set, if value has not been underflown.
