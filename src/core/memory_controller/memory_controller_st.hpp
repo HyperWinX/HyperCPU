@@ -101,6 +101,8 @@ namespace hypercpu {
       memcpy(&memory[ptr], &data, sizeof(std::uint64_t));
     }
 
+    std::uint8_t* get_ptr() const noexcept override { return reinterpret_cast<std::uint8_t*>(memory); }
+
     ~memory_controller_st() {
       free(memory);
     }

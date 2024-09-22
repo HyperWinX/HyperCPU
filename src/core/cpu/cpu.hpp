@@ -1,17 +1,26 @@
 #pragma once
 
+#include "core/cpu/instructions/flags.hpp"
 #include <cstddef>
+#include <functional>
 
+#include <core/cpu/decode/decoder.hpp>
+#include <core/cpu/decode/i_decoder.hpp>
 #include <core/memory_controller/i_memory_controller.hpp>
 #include <core/memory_controller/memory_controller_st.hpp>
 #include <core/memory_controller/memory_controller_mt.hpp>
 
 
 namespace hypercpu {
+  using opcode_handler = std::function<void(hypercpu::operand_types op_types, hypercpu::mode md, void* op1, void* op2)>;
+
+  extern std::array<opcode_handler, 128> opcodes_assoc;
+
   class cpu {
   private:
     // Components
     i_memory_controller* mem_controller;
+    i_decoder* m_decoder;
 
     // Data
     std::size_t core_count;
@@ -30,6 +39,13 @@ namespace hypercpu {
 
     // Specific registers
     std::uint64_t *xbp, *xsp, *xip, *xgdp, *xidp;
+
+    std::array<opcode_handler, 128> opcode_handler_assoc;
+
+    std::pair<void*, void*> get_operands(operand_types op_types, mode md, std::size_t& op1, std::size_t& op2);
+    void* get_register(std::size_t& op1);
+
+    void exec_mov(operand_types op_types, mode md, void* op1, void* op2);
     
   public:
     explicit inline cpu(std::size_t core_count, std::size_t mem_size) :
@@ -38,6 +54,7 @@ namespace hypercpu {
         dynamic_cast<i_memory_controller*>(new memory_controller_mt(mem_size))),
       core_count(core_count),
       total_mem(mem_size) {
+        m_decoder = dynamic_cast<i_decoder*>(new decoder(mem_controller, xip));
         // Initializing all register pointers
         x0 = &data[0];
         x1 = &data[1];
@@ -86,6 +103,8 @@ namespace hypercpu {
         xip = &data[10];
         xgdp = &data[11];
         xidp = &data[12];
+
+        opcode_handler_assoc[127] = [this](operand_types op_types, mode md, void* op1, void* op2)-> void { this->exec_mov(op_types, md, op1, op2); };
       }
 
     void run();

@@ -12,14 +12,14 @@ namespace hypercpu {
     mode op_mode;
   };
 
-  class decoder final : i_decoder {
+  class decoder final : public i_decoder {
   private:
     i_memory_controller* mem_controller;
-    std::size_t* rip;
+    std::uint64_t* rip;
 
   public:
     explicit decoder() = default; // For testing purposes - causes UB if used incorrectly
-    explicit decoder(i_memory_controller* mc, std::size_t* counter) : mem_controller(mc), rip(counter) {}
+    explicit decoder(i_memory_controller* mc, std::uint64_t* counter) : mem_controller(mc), rip(counter) {}
 
     bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) override;
     i_instruction fetch_and_decode() override;
