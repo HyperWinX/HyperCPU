@@ -53,6 +53,7 @@ void* hypercpu::cpu::get_register(std::size_t& op1) {
     case XIP: return reinterpret_cast<void*>(xip);
     case XGDP: return reinterpret_cast<void*>(xgdp);
     case XIDP: return reinterpret_cast<void*>(xidp);
+    default: throw std::runtime_error("Invalid register");
   }
 }
 
@@ -97,11 +98,13 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
       return std::make_pair(reinterpret_cast<void*>(op1), get_register(op2));
     
     case R:
-      return std::make_pair(get_register(op1), reinterpret_cast<void*>(0));
+      return std::make_pair(get_register(op1), nullptr);
     
     case M:
-      return std::make_pair(reinterpret_cast<void*>(op1), reinterpret_cast<void*>(0));
+      return std::make_pair(reinterpret_cast<void*>(op1), nullptr);
 
+    case NONE:
+      return std::make_pair(nullptr, nullptr);
     default: exit(1);
   }
 }

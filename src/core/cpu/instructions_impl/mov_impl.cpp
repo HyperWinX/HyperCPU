@@ -210,5 +210,8 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
       }
       break;
     }
+
+    default:
+      break;
   }
 }

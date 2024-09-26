@@ -14,8 +14,6 @@
 namespace hypercpu {
   using opcode_handler = std::function<void(hypercpu::operand_types op_types, hypercpu::mode md, void* op1, void* op2)>;
 
-  extern std::array<opcode_handler, 128> opcodes_assoc;
-
   class cpu {
   private:
     // Components
@@ -25,6 +23,7 @@ namespace hypercpu {
     // Data
     std::size_t core_count;
     std::size_t total_mem;
+    bool halted;
 
     // General space for registers
     std::uint64_t data[13];
@@ -45,6 +44,7 @@ namespace hypercpu {
     std::pair<void*, void*> get_operands(operand_types op_types, mode md, std::size_t& op1, std::size_t& op2);
     void* get_register(std::size_t& op1);
 
+    void exec_halt(operand_types op_types, mode md, void* op1, void* op2);
     void exec_mov(operand_types op_types, mode md, void* op1, void* op2);
     
   public:
@@ -53,9 +53,10 @@ namespace hypercpu {
         dynamic_cast<i_memory_controller*>(new memory_controller_st(mem_size)) : 
         dynamic_cast<i_memory_controller*>(new memory_controller_mt(mem_size))),
       core_count(core_count),
-      total_mem(mem_size) {
-        m_decoder = dynamic_cast<i_decoder*>(new decoder(mem_controller, xip));
+      total_mem(mem_size),
+      halted(false) {
         // Initializing all register pointers
+        std::memset(&data, 0, sizeof(data));
         x0 = &data[0];
         x1 = &data[1];
         x2 = &data[2];
@@ -103,8 +104,13 @@ namespace hypercpu {
         xip = &data[10];
         xgdp = &data[11];
         xidp = &data[12];
-
-        opcode_handler_assoc[127] = [this](operand_types op_types, mode md, void* op1, void* op2)-> void { this->exec_mov(op_types, md, op1, op2); };
+        
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::HALT)] =
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_halt(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
+        
+        m_decoder = dynamic_cast<i_decoder*>(new decoder(mem_controller, xip));
       }
 
     void run();

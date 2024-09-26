@@ -69,27 +69,27 @@ TEST_F(mc_mt_test, FETCH8) {
   mcmt.load64(counter, QWORD);
 
   for (std::size_t i = 0; i < 8; ++i)
-    ASSERT_EQ(mcmt.fetch8(counter), BYTE);
+    ASSERT_EQ(mcmt.fetch8(&counter), BYTE);
 }
 
 TEST_F(mc_mt_test, FETCH16) {
   mcmt.load64(counter, QWORD);
 
   for (std::size_t i = 0; i < 4; ++i)
-    ASSERT_EQ(mcmt.fetch16(counter), WORD);
+    ASSERT_EQ(mcmt.fetch16(&counter), WORD);
 }
 
 TEST_F(mc_mt_test, FETCH32) {
   mcmt.load64(counter, QWORD);
 
   for (std::size_t i = 0; i < 2; ++i)
-    ASSERT_EQ(mcmt.fetch32(counter), DWORD);
+    ASSERT_EQ(mcmt.fetch32(&counter), DWORD);
 }
 
 TEST_F(mc_mt_test, FETCH64) {
   mcmt.load64(counter, QWORD);
 
-  ASSERT_EQ(mcmt.fetch64(counter), QWORD);
+  ASSERT_EQ(mcmt.fetch64(&counter), QWORD);
 }
 
 TEST_F(mc_mt_test, READ8) {
@@ -136,19 +136,19 @@ TEST_F(mc_mt_fail_test, LOAD64) {
 }
 
 TEST_F(mc_mt_fail_test, FETCH8) {
-  ASSERT_EXIT(mcmt.fetch8(counter), ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT(mcmt.fetch8(&counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_fail_test, FETCH16) {
-  ASSERT_EXIT(mcmt.fetch16(counter), ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT(mcmt.fetch16(&counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_fail_test, FETCH32) {
-  ASSERT_EXIT(mcmt.fetch32(counter), ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT(mcmt.fetch32(&counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_fail_test, FETCH64) {
-  ASSERT_EXIT(mcmt.fetch64(counter), ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT(mcmt.fetch64(&counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_fail_test, READ8) {
@@ -197,30 +197,30 @@ TEST_F(mc_mt_near_fail_test, LOAD64) {
 
 TEST_F(mc_mt_near_fail_test, FETCH8) {
   counter = 1023;
-  ASSERT_EXIT({mcmt.fetch8(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  ASSERT_EXIT({mcmt.fetch8(&counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1024;
-  ASSERT_EXIT({mcmt.fetch8(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT({mcmt.fetch8(&counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_near_fail_test, FETCH16) {
   counter = 1022;
-  ASSERT_EXIT({mcmt.fetch16(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  ASSERT_EXIT({mcmt.fetch16(&counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1023;
-  ASSERT_EXIT({mcmt.fetch16(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT({mcmt.fetch16(&counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_near_fail_test, FETCH32) {
   counter = 1020;
-  ASSERT_EXIT({mcmt.fetch32(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  ASSERT_EXIT({mcmt.fetch32(&counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1021;
-  ASSERT_EXIT({mcmt.fetch32(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT({mcmt.fetch32(&counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_near_fail_test, FETCH64) {
   counter = 1016;
-  ASSERT_EXIT({mcmt.fetch64(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  ASSERT_EXIT({mcmt.fetch64(&counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1017;
-  ASSERT_EXIT({mcmt.fetch64(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  ASSERT_EXIT({mcmt.fetch64(&counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(mc_mt_near_fail_test, READ8) {

@@ -2,28 +2,10 @@
 
 #include <cstdint>
 
+#define OPCODE_CASE(opcode) case static_cast<std::uint16_t>(opcode): return true;
+#define OPCODE_DEFAULT_CASE() default: return false;
+
 namespace hypercpu {
-
-  template<typename enum_type, enum_type... values>
-  class check_valid_opcode;
-
-  template<typename enum_type>
-  class check_valid_opcode<enum_type> {
-  public:
-    template<typename int_type>
-    static bool constexpr is_valid(int_type) { return false; }
-  };
-
-  template<typename enum_type, enum_type v, enum_type... next>
-  class check_valid_opcode<enum_type, v, next...> : private check_valid_opcode<enum_type, next...> {
-    using super = check_valid_opcode<enum_type, next...>;
-
-  public:
-    template<typename int_type>
-    static bool constexpr is_valid(int_type value) {
-      return value == static_cast<int_type>(value) || super::is_valid(value);
-    }
-  };
 
   enum opcode : std::uint_fast16_t {
     ADC   = 0x0001,
@@ -44,27 +26,39 @@ namespace hypercpu {
     SHFR  = 0x0010,
     SHFL  = 0x0011,
     OR    = 0x0012,
+    HALT  = 0x0013,
     MOV   = 0x007F
   };
 
-  using op_validator = check_valid_opcode<opcode,
-    ADC,
-    ADD,
-    AND,
-    ANDN,
-    BSWAP,
-    CALL,
-    CCRF,
-    COVF,
-    CUDF,
-    HID,
-    INC,
-    DEC,
-    DIV,
-    MUL,
-    SUB,
-    SHFR,
-    SHFL,
-    OR,
-    MOV>;
+  namespace validator {
+    static constexpr inline bool is_valid_opcode(std::uint16_t op) {
+      switch (op) {
+        OPCODE_CASE(ADC)
+        OPCODE_CASE(ADD)
+        OPCODE_CASE(AND)
+        OPCODE_CASE(ANDN)
+        OPCODE_CASE(BSWAP)
+        OPCODE_CASE(CALL)
+        OPCODE_CASE(CCRF)
+        OPCODE_CASE(COVF)
+        OPCODE_CASE(CUDF)
+        OPCODE_CASE(HID)
+        OPCODE_CASE(INC)
+        OPCODE_CASE(DEC)
+        OPCODE_CASE(DIV)
+        OPCODE_CASE(MUL)
+        OPCODE_CASE(SUB)
+        OPCODE_CASE(SHFR)
+        OPCODE_CASE(SHFL)
+        OPCODE_CASE(OR)
+        OPCODE_CASE(HALT)
+        OPCODE_CASE(MOV)
+        OPCODE_DEFAULT_CASE()
+      }
+    }
+  }
+
 }
+
+#undef OPCODE_CASE
+#undef OPCODE_DEFAULT_CASE
