@@ -24,6 +24,6 @@ namespace hypercpu {
 
     virtual std::uint8_t* get_ptr() const noexcept = 0;
 
-    ~i_memory_controller() = default;
+    virtual ~i_memory_controller() { };
   };
 }

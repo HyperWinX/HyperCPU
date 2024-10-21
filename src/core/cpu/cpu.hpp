@@ -114,5 +114,10 @@ namespace hypercpu {
       }
 
     void run();
+
+    ~cpu() {
+      delete mem_controller;
+      delete m_decoder;
+    }
   };
 }
