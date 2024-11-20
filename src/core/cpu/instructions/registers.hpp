@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#define REGISTER_CASE(reg) case static_cast<std::uint8_t>(reg): return true;
+#define REGISTER_CASE(reg) case static_cast<std::uint8_t>(reg):
 #define REGISTER_DEFAULT_CASE() default: return false;
 
 namespace hypercpu {
@@ -62,6 +62,7 @@ namespace hypercpu {
         REGISTER_CASE(XIP)
         REGISTER_CASE(XGDP)
         REGISTER_CASE(XIDP)
+          return true;
         REGISTER_DEFAULT_CASE()
       }
     }

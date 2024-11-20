@@ -113,3 +113,63 @@ TEST_F(cpu_test, INSTR_MOV_R_RM_b64) {
 
   ASSERT_EQ(*cpu.x0, static_cast<std::uint64_t>(0x5555555555555555));
 }
+
+TEST_F(cpu_test, INSTR_MOV_R_M_b8) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b8 << 6 | hypercpu::operand_types::R_M);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::XLLL0);
+  cpu.mem_controller->load64(*cpu.xip + 4, 1024);
+  cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load8(*cpu.xip + 1024, 0x55);
+  *cpu.x1 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(*cpu.xlll0, static_cast<std::uint8_t>(0x55));
+}
+
+TEST_F(cpu_test, INSTR_MOV_R_M_b16) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b16 << 6 | hypercpu::operand_types::R_M);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::XLL0);
+  cpu.mem_controller->load64(*cpu.xip + 4, 1024);
+  cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load16(*cpu.xip + 1024, 0x5555);
+  *cpu.x1 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(*cpu.xll0, static_cast<std::uint16_t>(0x5555));
+}
+
+TEST_F(cpu_test, INSTR_MOV_R_M_b32) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b32 << 6 | hypercpu::operand_types::R_M);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::XL0);
+  cpu.mem_controller->load64(*cpu.xip + 4, 1024);
+  cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load32(*cpu.xip + 1024, 0x55555555);
+  *cpu.x1 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(*cpu.xl0, static_cast<std::uint32_t>(0x55555555));
+}
+
+TEST_F(cpu_test, INSTR_MOV_R_M_b64) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b64 << 6 | hypercpu::operand_types::R_M);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load64(*cpu.xip + 4, 1024);
+  cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load64(*cpu.xip + 1024, 0x5555555555555555);
+  *cpu.x1 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(*cpu.x0, static_cast<std::uint64_t>(0x5555555555555555));
+}
