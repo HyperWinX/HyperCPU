@@ -1,11 +1,13 @@
-include_directories(${HyperCPU_SOURCE_DIR}/src)
+set(FAST_COMPILE_FLAGS "-Wall -Wextra -Wno-pointer-arith -O3 -Wno-unused-const-variable")
+set(DEBUG_COMPILE_FLAGS "-Wall -Wextra -Werror -Wno-pointer-arith -O0 -ggdb3 -Wno-unused-const-variable -fno-sanitize-recover=all -fsanitize=address,undefined")
 
-file(GLOB_RECURSE ALL_SRCS ${HyperCPU_SOURCE_DIR}/src/*.cpp)
-list(REMOVE_ITEM ALL_SRCS "${HyperCPU_SOURCE_DIR}/src/main.cpp")
-set(CORE_SRCS ${ALL_SRCS})
-set(CPU_SRCS ${ALL_SRCS})
+set(GENERIC_INCLUDE_DIR 
+  ${HyperCPU_SOURCE_DIR}/src)
 
-set(TESTS_SRCS ${CORE_SRCS} ${HyperCPU_SOURCE_DIR}/test/tests.cpp)
+add_library(core STATIC ${SOURCES_core})
+target_include_directories(core PUBLIC ${GENERIC_INCLUDE_DIR})
+set_target_properties(core PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
 
-add_executable(emulator ${CPU_SRCS})
-set_target_properties(emulator PROPERTIES COMPILE_FLAGS "-Wall -Wextra -O2")
+add_executable(emulator ${SOURCES_main})
+target_include_directories(emulator PUBLIC ${GENERIC_INCLUDE_DIR})
+set_target_properties(emulator PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
