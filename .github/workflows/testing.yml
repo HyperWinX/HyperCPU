@@ -14,9 +14,9 @@ jobs:
       
       - name: Configure CMake
         run: |
-          cmake -S. -Bbuild -G "Unix Makefiles"
+          cmake -S. -Bbuild -G "Unix Makefiles" -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
 
-      - name: Build target
+      - name: Build and execute tests
         run: |
           cd build
           make run-all-tests-github
