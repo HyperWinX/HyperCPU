@@ -14,10 +14,10 @@ jobs:
       
       - name: Configure CMake
         run: |
-          cmake -S. -Bbuild
+          cmake -S. -Bbuild -G "Unix Makefiles"
 
       - name: Build target
         run: |
           cd build
-          ninja run-all-tests-github
+          make run-all-tests-github
             
