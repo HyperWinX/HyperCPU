@@ -13,7 +13,8 @@ jobs:
           submodules: recursive
       
       - name: Configure CMake
-        uses: threeal/cmake-action@v2.0.0
+        run: |
+          cmake -S. -Bbuild
 
       - name: Build target
         run: |
