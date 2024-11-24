@@ -1,0 +1,25 @@
+name: Testing suites
+
+on: [push]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup LLVM CLang
+        uses: egor-tensin/setup-clang@v1.4
+
+      - name: Setup CMake
+        uses: jwlawson/actions-setup-cmake@v2.0.2
+      
+      - name: Configure CMake
+        uses: threeal/cmake-action@v2.0.0
+
+      - name: Build target
+        run: |
+          cd build
+          ninja run-all-tests-github
+            
