@@ -93,9 +93,8 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
     }
 
     case RM_M: {
-      std::size_t ptr1, ptr2;
+      std::size_t ptr1, ptr2 = 0;
       std::memcpy(&ptr1, op1, 8);
-      ptr2 = reinterpret_cast<std::size_t>(op2);
 
       switch (md) {
         case b8: 
@@ -118,35 +117,27 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
     }
 
     case RM_R: {
-      std::size_t ptr1;
-      std::memcpy(&ptr1, op1, 8);
+      std::size_t ptr;
+      std::memcpy(&ptr, op1, 8);
 
       switch (md) {
         case b8: {
-          std::uint8_t val;
-          std::memcpy(&val, op2, 1);
-          mem_controller->load8(ptr1, val);
+          *static_cast<std::uint8_t*>(op2) = mem_controller->read8(ptr);
           break;
         }
 
         case b16: {
-          std::uint16_t val;
-          std::memcpy(&val, op2, 2);
-          mem_controller->load16(ptr1, val);
+          *static_cast<std::uint16_t*>(op2) = mem_controller->read16(ptr);
           break;
         }
 
         case b32: {
-          std::uint32_t val;
-          std::memcpy(&val, op2, 4);
-          mem_controller->load32(ptr1, val);
+          *static_cast<std::uint32_t*>(op2) = mem_controller->read32(ptr);
           break;
         }
 
         case b64: {
-          std::uint64_t val;
-          std::memcpy(&val, op2, 8);
-          mem_controller->load64(ptr1, val);
+          *static_cast<std::uint64_t*>(op2) = mem_controller->read64(ptr);
           break;
         }
       }
