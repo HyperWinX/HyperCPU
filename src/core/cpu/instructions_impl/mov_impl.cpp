@@ -1,6 +1,8 @@
 #include <core/cpu/instructions_impl/instructions.hpp>
 #include <core/cpu/cpu.hpp>
 
+#include <iostream>
+
 void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* op2) {
   switch (op_types) {
     case R_R: {
@@ -119,6 +121,11 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
     case RM_R: {
       std::size_t ptr;
       std::memcpy(&ptr, op1, 8);
+      std::cout << "X0:  " << x0 << '\n';
+      std::cout << "op1: " << op1 << "\n\n"; 
+      std::cout << "XLLL1: " << xlll1 << '\n';
+      std::cout << "op2:   " << op2 << '\n';
+      std::cout << "Fetched ptr: " << ptr << '\n';
 
       switch (md) {
         case b8: {
