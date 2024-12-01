@@ -20,6 +20,5 @@ jobs:
       - name: Build and execute tests
         run: |
           cd build
-          make integration_testing-noopt
-          ./integration_testing-noopt
+          make run-all-tests-github
             

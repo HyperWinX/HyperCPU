@@ -121,30 +121,25 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
     case RM_R: {
       std::size_t ptr;
       std::memcpy(&ptr, op1, 8);
-      std::cout << "X0:  " << x0 << '\n';
-      std::cout << "op1: " << op1 << "\n\n"; 
-      std::cout << "XLLL1: " << xlll1 << '\n';
-      std::cout << "op2:   " << op2 << '\n';
-      std::cout << "Fetched ptr: " << ptr << '\n';
 
       switch (md) {
         case b8: {
-          *static_cast<std::uint8_t*>(op2) = mem_controller->read8(ptr);
+          mem_controller->load8(ptr, *static_cast<std::uint8_t*>(op2));
           break;
         }
 
         case b16: {
-          *static_cast<std::uint16_t*>(op2) = mem_controller->read16(ptr);
+          mem_controller->load16(ptr, *static_cast<std::uint16_t*>(op2));
           break;
         }
 
         case b32: {
-          *static_cast<std::uint32_t*>(op2) = mem_controller->read32(ptr);
+          mem_controller->load32(ptr, *static_cast<std::uint32_t*>(op2));
           break;
         }
 
         case b64: {
-          *static_cast<std::uint64_t*>(op2) = mem_controller->read64(ptr);
+          mem_controller->load64(ptr, *static_cast<std::uint64_t*>(op2));
           break;
         }
       }

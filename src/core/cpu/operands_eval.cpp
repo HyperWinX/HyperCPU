@@ -61,8 +61,12 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
   switch (op_types) {
     case R_R:
     case R_RM:
-    case RM_R:
-      return std::make_pair(get_register(op1), get_register(op2));
+    case RM_R: {
+      void *op_1, *op_2;
+      op_1 = get_register(op1);
+      op_2 = get_register(op2);
+      return std::make_pair(op_1, op_2);
+    }
     
     case RM_M:
     case R_M:

@@ -229,7 +229,8 @@ TEST_F(cpu_test, INSTR_MOV_R_IMM_b64) {
 TEST_F(cpu_test, INSTR_MOV_RM_R_b8) {
   cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
   cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b8 << 6 | hypercpu::operand_types::RM_R);
-  cpu.mem_controller->load16(*cpu.xip + 3, hypercpu::registers::X0 << 8 | hypercpu::registers::XLLL1);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load8(*cpu.xip + 4, hypercpu::registers::XLLL1);
   cpu.mem_controller->load16(*cpu.xip + 5, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(*cpu.xip + 7, hypercpu::operand_types::NONE);
   *cpu.x0 = 1024;
