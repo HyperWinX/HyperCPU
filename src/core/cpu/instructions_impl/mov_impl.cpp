@@ -97,6 +97,7 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
     case RM_M: {
       std::size_t ptr1, ptr2 = 0;
       std::memcpy(&ptr1, op1, 8);
+      ptr2 = reinterpret_cast<std::size_t>(op2);
 
       switch (md) {
         case b8: 
