@@ -9,9 +9,11 @@ set(ROOT_DIR ${HyperCPU_SOURCE_DIR})
 
 include(cmake/Configuration.cmake)
 
-set(HCPU_DEBUG_INFO_ENABLED ON)
+option(HCPU_DEBUG_INFO_ENABLED ON)
+option(HCPU_SANITIZERS_ENABLED ON)
 
 message(STATUS "Debug info enabled: ${HCPU_DEBUG_INFO_ENABLED}")
+message(STATUS "Sanitizers enabled: ${HCPU_SANITIZERS_ENABLED}")
 set_compile_flags(${HCPU_DEBUG_INFO_ENABLED})
 
 message(STATUS "Generating source files list")
