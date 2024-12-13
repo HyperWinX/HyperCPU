@@ -147,7 +147,7 @@ TEST_F(cpu_test, INSTR_ADD_R_M_b8) {
   cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
   *cpu.xlll0 = BYTE_DATA1;
-  cpu.mem_controller->load8(1024, BYTE_DATA1);
+  cpu.mem_controller->load8(1024, BYTE_DATA2);
 
   cpu.run();
 
