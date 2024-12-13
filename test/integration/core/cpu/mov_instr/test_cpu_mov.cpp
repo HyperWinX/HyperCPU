@@ -351,3 +351,123 @@ TEST_F(cpu_test, INSTR_MOV_RM_M_b64) {
 
   ASSERT_EQ(cpu.mem_controller->read64(1024), QWORD_DATA);
 }
+
+TEST_F(cpu_test, INSTR_MOV_RM_IMM_b8) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b8 << 6 | hypercpu::operand_types::RM_IMM);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load8(*cpu.xip + 4, BYTE_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 5, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 7, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load8(1536, BYTE_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read8(1024), BYTE_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_RM_IMM_b16) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b16 << 6 | hypercpu::operand_types::RM_IMM);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load16(*cpu.xip + 4, WORD_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 6, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 8, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load16(1536, WORD_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read16(1024), WORD_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_RM_IMM_b32) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b32 << 6 | hypercpu::operand_types::RM_IMM);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load32(*cpu.xip + 4, DWORD_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 8, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 10, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load32(1536, DWORD_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read32(1024), DWORD_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_RM_IMM_b64) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b64 << 6 | hypercpu::operand_types::RM_IMM);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load64(*cpu.xip + 4, QWORD_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load64(1536,  QWORD_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read64(1024), QWORD_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_M_R_b8) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b8 << 6 | hypercpu::operand_types::M_R);
+  cpu.mem_controller->load64(*cpu.xip + 3, 1024);
+  cpu.mem_controller->load8(*cpu.xip + 4, hypercpu::registers::XLLL0);
+  cpu.mem_controller->load16(*cpu.xip + 5, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 7, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load8(1536, BYTE_DATA);
+  *cpu.xlll0 = BYTE_DATA;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read8(1024), BYTE_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_M_R_b16) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b16 << 6 | hypercpu::operand_types::M_R);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load16(*cpu.xip + 4, WORD_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 6, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 8, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load16(1536, WORD_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read16(1024), WORD_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_M_R_b32) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b32 << 6 | hypercpu::operand_types::M_R);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load32(*cpu.xip + 4, DWORD_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 8, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 10, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load32(1536, DWORD_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read32(1024), DWORD_DATA);
+}
+
+TEST_F(cpu_test, INSTR_MOV_M_R_b64) {
+  cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::MOV);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b64 << 6 | hypercpu::operand_types::M_R);
+  cpu.mem_controller->load8(*cpu.xip + 3, hypercpu::registers::X0);
+  cpu.mem_controller->load64(*cpu.xip + 4, QWORD_DATA);
+  cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
+  cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
+  cpu.mem_controller->load64(1536,  QWORD_DATA);
+  *cpu.x0 = 1024;
+
+  cpu.run();
+
+  ASSERT_EQ(cpu.mem_controller->read64(1024), QWORD_DATA);
+}
