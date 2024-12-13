@@ -121,12 +121,7 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
 
     case RM_R: {
       std::size_t ptr;
-      std::memcpy(&ptr, op1, 8);
-      std::cout << "Ptr: {}" << ptr;
-      std::cout << "X0: {}" << x0;
-      std::cout << "op1: {}" << op1;
-      std::cout << "XLL1: {}" << xll1;
-      std::cout << "op2: {}" << op2;
+      std::memcpy(&ptr, op1, 8); 
 
       switch (md) {
         case b8: {
