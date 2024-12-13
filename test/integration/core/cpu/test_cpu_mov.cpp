@@ -360,7 +360,6 @@ TEST_F(cpu_test, INSTR_MOV_M_R_b8) {
   cpu.mem_controller->load8(*cpu.xip + 11, hypercpu::registers::XLLL0);
   cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
-  cpu.mem_controller->load64(1536,  QWORD_DATA);
   *cpu.xlll0 = BYTE_DATA;
 
   cpu.run();
@@ -375,7 +374,6 @@ TEST_F(cpu_test, INSTR_MOV_M_R_b16) {
   cpu.mem_controller->load8(*cpu.xip + 11, hypercpu::registers::XLL0);
   cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
-  cpu.mem_controller->load16(1536, WORD_DATA);
   *cpu.xll0 = WORD_DATA;
 
   cpu.run();
@@ -390,7 +388,6 @@ TEST_F(cpu_test, INSTR_MOV_M_R_b32) {
   cpu.mem_controller->load8(*cpu.xip + 11, hypercpu::registers::XL0);
   cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
-  cpu.mem_controller->load32(1536, DWORD_DATA);
   *cpu.xl0 = DWORD_DATA;
 
   cpu.run();
@@ -405,7 +402,6 @@ TEST_F(cpu_test, INSTR_MOV_M_R_b64) {
   cpu.mem_controller->load8(*cpu.xip + 11, hypercpu::registers::X0);
   cpu.mem_controller->load16(*cpu.xip + 12, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(*cpu.xip + 14, hypercpu::operand_types::NONE);
-  cpu.mem_controller->load64(1536,  QWORD_DATA);
   *cpu.x0 = QWORD_DATA;
 
   cpu.run();

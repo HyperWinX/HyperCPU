@@ -169,26 +169,26 @@ void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* o
     }
 
     case M_R: {
-      std::size_t ptr1 = hypercpu::bit_cast_from<std::size_t>(op2);
+      std::size_t ptr1 = hypercpu::bit_cast<std::size_t>(op1);
 
       switch (md) {
         case b8: {
-          mem_controller->load8(ptr1, hypercpu::bit_cast<std::uint8_t>(op2));
+          mem_controller->load8(ptr1, hypercpu::bit_cast_from<std::uint8_t>(op2));
           break;
         }
 
         case b16: {
-          mem_controller->load16(ptr1, hypercpu::bit_cast<std::uint16_t>(op2));
+          mem_controller->load16(ptr1, hypercpu::bit_cast_from<std::uint16_t>(op2));
           break;
         }
 
         case b32: {
-          mem_controller->load32(ptr1, hypercpu::bit_cast<std::uint32_t>(op2));
+          mem_controller->load32(ptr1, hypercpu::bit_cast_from<std::uint32_t>(op2));
           break;
         }
 
         case b64: {
-          mem_controller->load64(ptr1, hypercpu::bit_cast<std::uint64_t>(op2));
+          mem_controller->load64(ptr1, hypercpu::bit_cast_from<std::uint64_t>(op2));
           break;
         }
       }
