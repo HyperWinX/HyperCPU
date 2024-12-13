@@ -5,15 +5,15 @@
 static constexpr std::uint8_t BYTE_DATA1 = 0x55;
 static constexpr std::uint8_t BYTE_DATA2 = 0x60;
 static constexpr std::uint8_t BYTE_SUM = BYTE_DATA1 + BYTE_DATA2;
-static constexpr std::uint8_t WORD_DATA1 = 0x5555;
-static constexpr std::uint8_t WORD_DATA2 = 0x6060;
-static constexpr std::uint8_t WORD_SUM = WORD_DATA1 + WORD_DATA2;
-static constexpr std::uint8_t DWORD_DATA1 = 0x55555555;
-static constexpr std::uint8_t DWORD_DATA2 = 0x60606060;
-static constexpr std::uint8_t DWORD_SUM = DWORD_DATA1 + DWORD_DATA2;
-static constexpr std::uint8_t QWORD_DATA1 = 0x555555555555555;
-static constexpr std::uint8_t QWORD_DATA2 = 0x6060606060606060;
-static constexpr std::uint8_t QWORD_SUM = QWORD_DATA1 + QWORD_DATA2;
+static constexpr std::uint16_t WORD_DATA1 = 0x5555;
+static constexpr std::uint16_t WORD_DATA2 = 0x6060;
+static constexpr std::uint16_t WORD_SUM = WORD_DATA1 + WORD_DATA2;
+static constexpr std::uint32_t DWORD_DATA1 = 0x55555555;
+static constexpr std::uint32_t DWORD_DATA2 = 0x60606060;
+static constexpr std::uint32_t DWORD_SUM = DWORD_DATA1 + DWORD_DATA2;
+static constexpr std::uint64_t QWORD_DATA1 = 0x555555555555555;
+static constexpr std::uint64_t QWORD_DATA2 = 0x6060606060606060;
+static constexpr std::uint64_t QWORD_SUM = QWORD_DATA1 + QWORD_DATA2;
 
 TEST_F(cpu_test, INSTR_ADD_R_R_b8) {
   cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::ADD);
