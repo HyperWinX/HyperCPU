@@ -110,14 +110,14 @@ void hypercpu::cpu::exec_add(operand_types op_types, mode md, void* op1, void* o
         case b32: {
           std::uint32_t val;
           std::memcpy(&val, &op2, 4);
-          *static_cast<std::uint16_t*>(op1) += val;
+          *static_cast<std::uint32_t*>(op1) += val;
           break;
         }
         
         case b64: {
           std::uint64_t val;
           std::memcpy(&val, &op2, 8);
-          *static_cast<std::uint16_t*>(op1) += val;
+          *static_cast<std::uint64_t*>(op1) += val;
           break;
         }
       }
