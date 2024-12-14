@@ -2,6 +2,7 @@
 
 #include <core/cpu/instructions/allowed_modes.hpp>
 
+
 namespace hypercpu {
   const std::uint8_t allowed_op_modes[128][12] = {
     {}, // NULL

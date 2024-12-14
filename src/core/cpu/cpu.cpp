@@ -5,6 +5,7 @@
 #include <core/cpu/decode/decoder.hpp>
 #include <core/cpu/cpu.hpp>
 
+
 void hypercpu::cpu::run() {
   while (1) {
     if (halted) return;

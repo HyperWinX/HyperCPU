@@ -1,6 +1,8 @@
 #include <core/cpu/instructions_impl/instructions.hpp>
 #include <core/cpu/cpu.hpp>
+
 #include <misc/bit_cast.hpp>
+
 
 void hypercpu::cpu::exec_mov(operand_types op_types, mode md, void* op1, void* op2) {
   switch (op_types) {

@@ -1,7 +1,8 @@
-#include <type_traits>
+#pragma once
 
 #include <cstdlib>
 #include <cstring>
+
 
 namespace hypercpu {
   template<typename To, typename From>

@@ -1,5 +1,7 @@
-#include "core/cpu/instructions/flags.hpp"
+#include <core/cpu/instructions/flags.hpp>
+
 #include <fixtures.hpp>
+
 
 TEST_F(operand_eval_test, PROPER_REGISTERS_EVALUATION) {
   std::size_t arg = 0;

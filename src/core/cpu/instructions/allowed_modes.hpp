@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+
 namespace hypercpu {
   static constexpr std::uint8_t SUPPORT_ALL = 0b00011011;
   

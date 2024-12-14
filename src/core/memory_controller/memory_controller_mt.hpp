@@ -8,6 +8,7 @@
 
 #include <core/memory_controller/i_memory_controller.hpp>
 
+
 namespace hypercpu {
   class memory_controller_mt final : public i_memory_controller {
   private:

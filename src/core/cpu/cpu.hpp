@@ -1,14 +1,15 @@
 #pragma once
 
-#include "core/cpu/instructions/flags.hpp"
 #include <cstddef>
 #include <functional>
 
-#include <core/cpu/decode/decoder.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
-#include <core/memory_controller/i_memory_controller.hpp>
 #include <core/memory_controller/memory_controller_st.hpp>
 #include <core/memory_controller/memory_controller_mt.hpp>
+#include <core/memory_controller/i_memory_controller.hpp>
+#include <core/cpu/instructions/flags.hpp>
+#include <core/cpu/decode/i_decoder.hpp>
+#include <core/cpu/decode/decoder.hpp>
+
 
 #define DECLARE_INSTR(name) void exec_##name(operand_types op_types, mode md, void* op1, void* op2)
 

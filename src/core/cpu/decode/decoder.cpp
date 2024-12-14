@@ -9,6 +9,7 @@
 #include <core/cpu/decode/decoder.hpp>
 #include <core/cpu/assert.hpp>
 
+
 bool hypercpu::decoder::check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) {
   return ((byte & 0b11) == mask || 
          ((byte >> 2) & 0b11) == mask ||

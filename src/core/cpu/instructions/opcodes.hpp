@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+
 #define OPCODE_CASE(opcode) case static_cast<std::uint16_t>(opcode): return true;
 #define OPCODE_DEFAULT_CASE() default: return false;
 

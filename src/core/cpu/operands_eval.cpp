@@ -1,7 +1,8 @@
 #include <iostream>
 
-#include <core/cpu/cpu.hpp>
 #include <core/cpu/instructions/registers.hpp>
+#include <core/cpu/cpu.hpp>
+
 
 void* hypercpu::cpu::get_register(std::size_t& op1) {
   hypercpu::registers reg;

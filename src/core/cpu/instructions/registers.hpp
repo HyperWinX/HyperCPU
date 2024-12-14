@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+
 #define REGISTER_CASE(reg) case static_cast<std::uint8_t>(reg):
 #define REGISTER_DEFAULT_CASE() default: return false;
 
