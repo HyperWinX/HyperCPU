@@ -39,6 +39,9 @@ namespace hypercpu {
     // Specific registers
     std::uint64_t *xbp, *xsp, *xip, *xgdp, *xidp;
 
+    // Flags
+    bool crf, ovf, udf;
+
     std::array<opcode_handler, 128> opcode_handler_assoc;
 
     std::pair<void*, void*> get_operands(operand_types op_types, mode md, std::size_t& op1, std::size_t& op2);
