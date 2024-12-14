@@ -10,6 +10,7 @@
 #include <core/memory_controller/memory_controller_st.hpp>
 #include <core/memory_controller/memory_controller_mt.hpp>
 
+#define DECLARE_INSTR(name) void exec_##name(operand_types op_types, mode md, void* op1, void* op2)
 
 namespace hypercpu {
   using opcode_handler = std::function<void(hypercpu::operand_types op_types, hypercpu::mode md, void* op1, void* op2)>;
@@ -47,9 +48,10 @@ namespace hypercpu {
     std::pair<void*, void*> get_operands(operand_types op_types, mode md, std::size_t& op1, std::size_t& op2);
     void* get_register(std::size_t& op1);
     
-    void exec_add(operand_types op_types, mode md, void* op1, void* op2);
-    void exec_halt(operand_types op_types, mode md, void* op1, void* op2);
-    void exec_mov(operand_types op_types, mode md, void* op1, void* op2);
+    DECLARE_INSTR(add);
+    DECLARE_INSTR(adc);
+    DECLARE_INSTR(halt);
+    DECLARE_INSTR(mov);
     
   public:
     explicit inline cpu(std::size_t core_count, std::size_t mem_size) :
@@ -111,7 +113,10 @@ namespace hypercpu {
         
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::HALT)] =
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_halt(op_types, md, op1, op2); };
-        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::ADD)] = [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_add(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::ADD)] = 
+        [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_add(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::ADC)] = 
+        [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_adc(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
         
