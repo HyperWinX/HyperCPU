@@ -46,3 +46,13 @@ protected:
 
   operand_eval_test() : cpu(1, 4096) { }
 };
+
+class stack_test : public ::testing::Test {
+protected:
+  hypercpu::cpu cpu;
+
+  stack_test() : cpu(1, 4096) {
+    *cpu.xbp = 1024;
+    *cpu.xsp = 1024;
+  }
+};

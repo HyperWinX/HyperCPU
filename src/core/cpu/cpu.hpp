@@ -48,6 +48,16 @@ namespace hypercpu {
 
     std::pair<void*, void*> get_operands(operand_types op_types, mode md, std::size_t& op1, std::size_t& op2);
     void* get_register(std::size_t& op1);
+
+    void stack_push8(std::uint8_t) noexcept;
+    void stack_push16(std::uint16_t) noexcept;
+    void stack_push32(std::uint32_t) noexcept;
+    void stack_push64(std::uint64_t) noexcept;
+
+    std::uint8_t stack_pop8() noexcept;
+    std::uint16_t stack_pop16() noexcept;
+    std::uint32_t stack_pop32() noexcept;
+    std::uint64_t stack_pop64() noexcept;
     
     DECLARE_INSTR(add);
     DECLARE_INSTR(adc);
