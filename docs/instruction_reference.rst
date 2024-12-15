@@ -343,6 +343,7 @@ BSWAP - Byte Swap
 
 | **Description**:
 | Performs a byte swap operation on destination register. If 8 bit register is passed - works as NOP.
+| If r8 is passed: does no effect.
 | The destination operand is a register.
 
 | **Exceptions**:

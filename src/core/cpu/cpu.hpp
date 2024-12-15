@@ -53,6 +53,8 @@ namespace hypercpu {
     DECLARE_INSTR(adc);
     DECLARE_INSTR(and);
     DECLARE_INSTR(andn);
+    DECLARE_INSTR(bswap);
+    DECLARE_INSTR(call);
     DECLARE_INSTR(halt);
     DECLARE_INSTR(mov);
     
@@ -124,6 +126,10 @@ namespace hypercpu {
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_and(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::ANDN)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_andn(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::BSWAP)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_bswap(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::CALL)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_call(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
         
