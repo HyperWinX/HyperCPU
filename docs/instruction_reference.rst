@@ -306,7 +306,7 @@ ANDN - Logical AND NOT
     - R_IMM
 
 | **Description**:
-| Performs a bitwise AND operation on the destination and source operands, and stores the result in the destination operand location.
+| Performs a bitwise ANDN operation on the destination and source operands, and stores the result in the destination operand location.
 | The source operand can be either register, memory address or immediate value.
 | The destination operand is a register.
 
