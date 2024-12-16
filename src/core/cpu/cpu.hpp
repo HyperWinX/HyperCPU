@@ -65,6 +65,9 @@ namespace hypercpu {
     DECLARE_INSTR(andn);
     DECLARE_INSTR(bswap);
     DECLARE_INSTR(call);
+    DECLARE_INSTR(ccrf);
+    DECLARE_INSTR(covf);
+    DECLARE_INSTR(cudf);
     DECLARE_INSTR(halt);
     DECLARE_INSTR(mov);
     
@@ -140,6 +143,12 @@ namespace hypercpu {
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_bswap(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::CALL)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_call(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::CCRF)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_ccrf(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::COVF)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_covf(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::CUDF)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_cudf(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
         
