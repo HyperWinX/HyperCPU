@@ -9,7 +9,7 @@
     <a href="https://github.com/HyperWinX/HyperCPU/issues">
     <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU?color=lime"
          alt="GitHub opened issues">
-    <img src="https://img.shields.io/badge/status-stable-lime"
+    <img src="https://img.shields.io/badge/status-in_development-red"
          alt="Status">
     <img src="https://img.shields.io/github/license/HyperWinX/HyperCPU?color=lime"
          alt="License">
