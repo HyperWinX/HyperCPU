@@ -593,12 +593,12 @@ HID - HyperCPU ID
   * - Opcode
     - Instruction
     - Operands type
-  * - 0A000A<imm>
-    - hid <imm8>
+  * - 0A000A
+    - hid
     - IMM
 
 | **Description**:
-| Fetches information about CPU. Acts as **nop** if unsupported value is passed.
+| Fetches information about CPU. Acts as **nop** if unsupported argument is passed. Argument is passed in **x0** register.
 
 .. list-table:: Possible values
   :widths: 4 50
@@ -608,10 +608,10 @@ HID - HyperCPU ID
     - Returned value
 
   * - 00
-    - Returns maximum value that **hid** can accept.
+    - Stores maximum value that **hid** can accept in register x0.
   
   * - 01
-    - Fetch CPU name and version. Result is stored as string in x0-x3.
+    - Fetch CPU name and version. Result is stored as string in registers x0-x3.
   
   * - 02
     - x0 becomes bit mask of supported instruction sets. Right now there is no additional instruction sets - does nothing.

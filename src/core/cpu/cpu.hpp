@@ -68,6 +68,15 @@ namespace hypercpu {
     DECLARE_INSTR(ccrf);
     DECLARE_INSTR(covf);
     DECLARE_INSTR(cudf);
+    DECLARE_INSTR(inc);
+    DECLARE_INSTR(dec);
+    DECLARE_INSTR(hid);
+    DECLARE_INSTR(mul);
+    DECLARE_INSTR(or);
+    DECLARE_INSTR(sub);
+    DECLARE_INSTR(shfl);
+    DECLARE_INSTR(shfr);
+    DECLARE_INSTR(div);
     DECLARE_INSTR(halt);
     DECLARE_INSTR(mov);
     
@@ -149,6 +158,24 @@ namespace hypercpu {
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_covf(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::CUDF)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_cudf(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::INC)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_inc(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::DEC)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_dec(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::HID)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_hid(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MUL)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mul(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::OR)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_or(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::SUB)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_sub(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::SHFL)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_shfl(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::SHFR)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_shfr(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::DIV)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_div(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
         
