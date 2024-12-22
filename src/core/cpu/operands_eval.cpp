@@ -55,7 +55,7 @@ void* hypercpu::cpu::get_register(std::size_t& op1) {
     case XSP: return reinterpret_cast<void*>(xsp);
     case XIP: return reinterpret_cast<void*>(xip);
     case XGDP: return reinterpret_cast<void*>(xgdp);
-    case XIDP: return reinterpret_cast<void*>(xidp);
+    case XIVT: return reinterpret_cast<void*>(xivt);
     default: throw std::runtime_error("Invalid register");
   }
 }

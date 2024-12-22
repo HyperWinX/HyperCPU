@@ -3,7 +3,7 @@
 #include <cstdint>
 
 
-#define OPCODE_CASE(opcode) case static_cast<std::uint16_t>(opcode): return true;
+#define OPCODE_CASE(opcode) case static_cast<std::uint16_t>(opcode):
 #define OPCODE_DEFAULT_CASE() default: return false;
 
 namespace hypercpu {
@@ -28,6 +28,10 @@ namespace hypercpu {
     SHFL  = 0x0011,
     OR    = 0x0012,
     HALT  = 0x0013,
+    LOIVT = 0x0014,
+    INTR  = 0x0015,
+    RET   = 0x0016,
+    IRET  = 0x0017,
     MOV   = 0x007F
   };
 
@@ -54,6 +58,9 @@ namespace hypercpu {
         OPCODE_CASE(OR)
         OPCODE_CASE(HALT)
         OPCODE_CASE(MOV)
+        OPCODE_CASE(LOIVT)
+        OPCODE_CASE(INTR)
+          return true;
         OPCODE_DEFAULT_CASE()
       }
     }

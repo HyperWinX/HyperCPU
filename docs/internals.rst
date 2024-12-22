@@ -29,7 +29,7 @@ Registers
 +---------------+---------------+----------------------------------------------------------+
 | xgdp          | 64 bit        | Inaccessible - holds pointer to GDT                      |
 +---------------+---------------+----------------------------------------------------------+
-| xidp          | 64 bit        | Inaccessible - holds pointer to IDT                      |
+| xivt          | 64 bit        | Inaccessible - holds pointer to IVT                      |
 +---------------+---------------+----------------------------------------------------------+
 | x0 - x7       | 64 bit        | Biggest GP registers                                     |
 +---------------+---------------+----------------------------------------------------------+
@@ -79,3 +79,34 @@ List of flags with descriptions:
   
   * - UDF
     - Underflow flag, shows if number has been underflown during math operation.
+
+IVT
+---
+
+IVT stands for Interrupt Vector Table. As the name says, it stores interrupt vectors, which are called when the interrupt is raised.
+IVT can store up to 256 vectors. Each vector is a pointer to the code.
+
+
+Interrupts
+----------
+
+Interrupts are "signals", that stop CPU from executing user code. Every interrupt has its own index, and when CPU gets such signal, it fetches vector from IVT, and then starts executing it.
+
+There are different kinds of interrupts. First 8 interrupts are reserved by CPU.
+
+.. list-table:: Reserved interrupts
+  :widths: 17 21 21
+  :header-rows: 1
+
+  * - Index
+    - Interrupt name
+    - Description
+  * - 0
+    - IA (Invalid Memory Access)
+    - Code tried to access memory, inaccessible on the current execution level.
+  * - 1
+    - ZRDIV (Division by zero)
+    - Code tried to divide value by zero.
+  * - 2
+    - IO (Invalid Opcode)
+    - CPU encountered invalid opcode.

@@ -16,7 +16,7 @@ namespace hypercpu {
     XLLH0, XLLH1, XLLH2, XLLH3,
     XLLL0, XLLL1, XLLL2, XLLL3,
     XBP, XSP, XIP,
-    XGDP, XIDP
+    XGDP, XIVT
   };
 
   namespace validator {
@@ -62,7 +62,7 @@ namespace hypercpu {
         REGISTER_CASE(XSP)
         REGISTER_CASE(XIP)
         REGISTER_CASE(XGDP)
-        REGISTER_CASE(XIDP)
+        REGISTER_CASE(XIVT)
           return true;
         REGISTER_DEFAULT_CASE()
       }

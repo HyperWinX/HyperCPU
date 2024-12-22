@@ -39,7 +39,7 @@ namespace hypercpu {
     std::uint8_t *xlll0, *xlll1, *xlll2, *xlll3;
 
     // Specific registers
-    std::uint64_t *xbp, *xsp, *xip, *xgdp, *xidp;
+    std::uint64_t *xbp, *xsp, *xip, *xgdp, *xivt;
 
     // Flags
     bool crf, ovf, udf;
@@ -58,6 +58,9 @@ namespace hypercpu {
     std::uint16_t stack_pop16() noexcept;
     std::uint32_t stack_pop32() noexcept;
     std::uint64_t stack_pop64() noexcept;
+
+    void trigger_interrupt(std::uint8_t num);
+    void run_interrupt_subroutine();
     
     DECLARE_INSTR(add);
     DECLARE_INSTR(adc);
@@ -79,6 +82,8 @@ namespace hypercpu {
     DECLARE_INSTR(div);
     DECLARE_INSTR(halt);
     DECLARE_INSTR(mov);
+    DECLARE_INSTR(loivt);
+    DECLARE_INSTR(intr);
     
   public:
     explicit inline cpu(std::size_t core_count, std::size_t mem_size) :
@@ -136,7 +141,7 @@ namespace hypercpu {
         xsp = &data[9];
         xip = &data[10];
         xgdp = &data[11];
-        xidp = &data[12];
+        xivt = &data[12];
         
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::HALT)] =
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_halt(op_types, md, op1, op2); };
@@ -176,6 +181,10 @@ namespace hypercpu {
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_shfr(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::DIV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_div(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::LOIVT)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_loivt(op_types, md, op1, op2); };
+        opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::INTR)] = 
+          [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_intr(op_types, md, op1, op2); };
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
         

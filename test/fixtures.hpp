@@ -56,3 +56,12 @@ protected:
     *cpu.xsp = 1024;
   }
 };
+
+class ivt_init_test : public ::testing::Test {
+protected:
+  hypercpu::cpu cpu;
+
+  ivt_init_test() : cpu(1, 4096) {
+
+  }
+};
