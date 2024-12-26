@@ -4,7 +4,7 @@
 
 
 namespace hypercpu {
-  enum class cpu_exceptions : std::int_fast8_t {
+  enum class cpu_exceptions : std::uint_fast8_t {
     IA,
     IO,
     ZRDIV

@@ -7,7 +7,6 @@
 #include <core/memory_controller/memory_controller_mt.hpp>
 #include <core/memory_controller/i_memory_controller.hpp>
 #include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
 #include <core/cpu/decode/decoder.hpp>
 
 
@@ -18,9 +17,10 @@ namespace hypercpu {
 
   class cpu {
   private:
+    friend class decoder;
     // Components
     i_memory_controller* mem_controller;
-    i_decoder* m_decoder;
+    decoder* m_decoder;
 
     // Data
     std::size_t core_count;
@@ -188,7 +188,7 @@ namespace hypercpu {
         opcode_handler_assoc[static_cast<std::uint16_t>(hypercpu::opcode::MOV)] = 
           [this](operand_types op_types, mode md, void* op1, void* op2) -> void { this->exec_mov(op_types, md, op1, op2); };
         
-        m_decoder = dynamic_cast<i_decoder*>(new decoder(mem_controller, xip));
+        m_decoder = new decoder(mem_controller, xip, this);
       }
 
     void run();

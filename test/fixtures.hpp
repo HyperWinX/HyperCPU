@@ -22,7 +22,7 @@ protected:
   decoder_test() = default;
 
   void SetUp() {
-    decoder = hypercpu::decoder(new hypercpu::memory_controller_st(MEM_SIZE), &counter);
+    decoder = hypercpu::decoder(new hypercpu::memory_controller_st(MEM_SIZE), &counter, nullptr);
     counter = 0;
   }
 
@@ -63,5 +63,21 @@ protected:
 
   ivt_init_test() : cpu(1, 4096) {
 
+  }
+};
+
+class exception_test : public ::testing::Test {
+protected:
+  hypercpu::cpu cpu;
+
+  exception_test() : cpu(1, 4096) { }
+
+  virtual void SetUp() {
+    *cpu.xivt = 2048;
+    cpu.mem_controller->load64(2048, 1536);
+    cpu.mem_controller->load64(2056, 1536);
+    cpu.mem_controller->load64(2064, 1536);
+    cpu.mem_controller->load64(1536, hypercpu::opcode::HALT);
+    cpu.mem_controller->load64(1538, hypercpu::operand_types::NONE);
   }
 };
