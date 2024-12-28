@@ -1,5 +1,7 @@
-set(FAST_COMPILE_FLAGS "-Wall -Wextra -Wno-pointer-arith -O3 -Wno-unused-const-variable")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(FAST_COMPILE_FLAGS "-Wall -Wextra -Werror -Wno-pointer-arith -flto=thin -O3 -Wno-unused-const-variable")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(FAST_COMPILE_FLAGS "-Wall -Wextra -Werror -Wno-pointer-arith -flto -O3 -Wno-unused-const-variable")
+endif()
 set(DEBUG_COMPILE_FLAGS "-Wall -Wextra -Werror -Wno-pointer-arith -O0 -ggdb3 -Wno-unused-const-variable")
-
-set(TESTING_COMPILE_FLAGS_NOOPT "-Wall -Wextra -Werror -Wno-pointer-arith -O0 -ggdb3 -Wno-unused-const-variable")
-set(TESTING_COMPILE_FLAGS_ALLOPT "-Wall -Wextra -Werror -Wno-pointer-arith -O3 -Wno-unused-const-variable")
+set(NOOPT_COMPILE_FLAGS "-Wall -Wextra -Werror -Wno-pointer-arith -O0 -Wno-unused-const-variable")

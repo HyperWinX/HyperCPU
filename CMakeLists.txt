@@ -19,6 +19,9 @@ set_compile_flags(${HCPU_DEBUG_INFO_ENABLED})
 message(STATUS "Generating source files list")
 include(cmake/SourceListGenerator.cmake)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+endif()
+
 add_subdirectory(dist/googletest)
 add_subdirectory(bench)
 add_subdirectory(src)

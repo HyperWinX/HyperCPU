@@ -74,6 +74,8 @@ protected:
   exception_test() : cpu(1, 4096) { }
 
   virtual void SetUp() {
+    *cpu.xsp = 512;
+    *cpu.xbp = 512;
     *cpu.xivt = 2048;
     cpu.mem_controller->load64(2048, 1536);
     cpu.mem_controller->load64(2056, 1536);

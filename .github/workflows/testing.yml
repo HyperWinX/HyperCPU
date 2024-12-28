@@ -1,40 +1,48 @@
-name: Testing suites
+name: HyperCPU CI/CD Pipeline
 
-on: [push]
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
 
 jobs:
-  lint:
-    runs-on: self-hosted
-    if: "contains(github.event.head_commit.message, 'lint')"
-    steps:
-      - uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
 
-      - name: Run analyzer
-        uses: deep5050/cppcheck-action@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish report
-        uses: mikeal/publish-to-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: "dev"
-  build-and-test:
-    runs-on: self-hosted
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
-          submodules: recursive
+          submodules: 'true'
       
-      - name: Configure CMake
+      - name: Install GCC
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: 'gcc'
+        
+      - name: Install LLVM toolchain
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: 'llvm'
+      
+      - name: Install all tools
+        uses: aminya/setup-cpp@v1
+        with:
+          cmake: true
+          cppcheck: true
+      
+      - name: Build and test with GCC
         run: |
-          rm -rf build
-          cmake -S. -Bbuild -G "Unix Makefiles" -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
-
-      - name: Build and execute tests
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++)
+          cd build && make run-all-tests-github
+          cd .. && rm -rf build
+      
+      - name: Build and tests with LLVM
         run: |
-          cd build
-          make run-all-tests-github
-            
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
+          cd build && make run-all-tests-github
+          
+        
