@@ -11,17 +11,20 @@
 #include <core/cpu/assert.hpp>
 #include <core/cpu/cpu.hpp>
 
-#define dcdr_assert(expr) \
-  if (!(expr)) { \
-    if (cpu == nullptr) { \
-      std::cout << "Invalid opcode!\n"; \
-      exit(1); \
-    } else { \
-      cpu->trigger_interrupt(static_cast<std::uint8_t>(hypercpu::cpu_exceptions::IO)); \
-    } \
-  }
+#define dcdr_assert(expr) raise_exception((expr))
 
-bool hypercpu::decoder::check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) {
+void hypercpu::decoder::raise_exception(bool expr) const noexcept {
+  if (!expr) {
+    if (cpu == nullptr) {
+      std::cerr << "Invalid opcode!\n";
+      std::exit(1);
+    } else {
+      cpu->trigger_interrupt(static_cast<std::uint8_t>(hypercpu::cpu_exceptions::IO));
+    }
+  }
+}
+
+bool hypercpu::decoder::check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) const noexcept {
   return ((byte & 0b11) == mask || 
          ((byte >> 2) & 0b11) == mask ||
          ((byte >> 4) & 0b11) == mask ||

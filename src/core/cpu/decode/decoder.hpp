@@ -20,11 +20,13 @@ namespace hypercpu {
     std::uint64_t* rip;
     cpu* cpu;
 
+    bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) const noexcept;
+    void raise_exception(bool expr) const noexcept;
+
   public:
     explicit decoder() = default; // For testing purposes - causes UB if used incorrectly
     explicit decoder(i_memory_controller* mc, std::uint64_t* counter, class cpu* cpu) : mem_controller(mc), rip(counter), cpu(cpu) {}
 
-    bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) override;
     i_instruction fetch_and_decode() override;
 
     ~decoder() = default;

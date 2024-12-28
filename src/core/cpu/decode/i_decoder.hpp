@@ -15,8 +15,6 @@ namespace hypercpu {
 
   class i_decoder {
   public:
-    virtual bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) = 0;
     virtual i_instruction fetch_and_decode() = 0;
-    virtual ~i_decoder() = default;
   };
 }

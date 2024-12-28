@@ -24,6 +24,7 @@ protected:
   void SetUp() {
     decoder = hypercpu::decoder(new hypercpu::memory_controller_st(MEM_SIZE), &counter, nullptr);
     counter = 0;
+    
   }
 
   void TearDown() {

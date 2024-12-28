@@ -14,7 +14,7 @@ TEST_F(decoder_test, MOV_INSTR_R) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
 TEST_F(decoder_test, MOV_INSTR_M) {
@@ -27,7 +27,7 @@ TEST_F(decoder_test, MOV_INSTR_M) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
 TEST_F(decoder_test, MOV_INSTR_IMM) {
@@ -40,7 +40,7 @@ TEST_F(decoder_test, MOV_INSTR_IMM) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
 TEST_F(decoder_test, MOV_INSTR_NONE) {
@@ -53,5 +53,5 @@ TEST_F(decoder_test, MOV_INSTR_NONE) {
   decoder.mem_controller->load8(counter, hypercpu::registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid operation mode for this opcode!");
+  ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
