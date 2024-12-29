@@ -36,8 +36,8 @@ jobs:
       
       - name: Install GTest
         run: \
-          apt update && apt upgrade -y
-          apt install googletest -y
+          sudo apt-get update && sudo apt-get upgrade -y
+          sudo apt-get install googletest -y
       
       - name: Build and test with GCC on Debug profile
         run: |
