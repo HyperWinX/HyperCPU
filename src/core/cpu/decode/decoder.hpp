@@ -18,7 +18,7 @@ namespace hypercpu {
   private:
     i_memory_controller* mem_controller;
     std::uint64_t* rip;
-    cpu* cpu;
+    class cpu* cpu;
 
     bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) const noexcept;
     void raise_exception(bool expr) const noexcept;

@@ -101,6 +101,7 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
           return std::make_pair(get_register(op1), imm64);
         }
       }
+      break;
     }
 
     case M_R:
@@ -116,4 +117,5 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
       return std::make_pair(nullptr, nullptr);
     default: exit(1);
   }
+  return {};
 }

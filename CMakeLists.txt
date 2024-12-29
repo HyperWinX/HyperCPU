@@ -9,18 +9,27 @@ set(ROOT_DIR ${HyperCPU_SOURCE_DIR})
 
 include(cmake/Configuration.cmake)
 
-set(HCPU_DEBUG_INFO_ENABLED ON)
 set(HCPU_SANITIZERS_ENABLED ON)
 
-message(STATUS "Debug info enabled: ${HCPU_DEBUG_INFO_ENABLED}")
-message(STATUS "Sanitizers enabled: ${HCPU_SANITIZERS_ENABLED}")
-set_compile_flags(${HCPU_DEBUG_INFO_ENABLED})
+if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+  message(STATUS "Configuring build with debug info")
+  set_compile_flags(ON)
+else()
+  message(STATUS "Configuring release build")
+  set_compile_flags(OFF)
+endif()
+
+if (${HCPU_SANITIZERS_ENABLED})
+  message(STATUS "Enabling sanitizers")
+  set(LD_FLAGS "${LD_FLAGS} -fsanitize=undefined,address,leak")
+else()
+  message(STATUS "Not enabling sanitizers")
+endif()
+
+string(STRIP ${LD_FLAGS} LD_FLAGS)
 
 message(STATUS "Generating source files list")
 include(cmake/SourceListGenerator.cmake)
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-endif()
 
 add_subdirectory(dist/googletest)
 add_subdirectory(bench)

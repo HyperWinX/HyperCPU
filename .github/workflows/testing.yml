@@ -34,15 +34,34 @@ jobs:
           cmake: true
           cppcheck: true
       
-      - name: Build and test with GCC
+      - name: Install GTest
+        run: \
+          apt-get update && apt-get upgrade -y
+          apt-get install googletest -y
+      
+      - name: Build and test with GCC on Debug profile
         run: |
-          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++)
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Debug
           cd build && make run-all-tests-github
           cd .. && rm -rf build
       
-      - name: Build and tests with LLVM
+      - name: Build and tests with LLVM on Debug profile
         run: |
-          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Debug
+          cd build && make run-all-tests-github
+      
+      - name: Build and test with GCC on Release profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release
+          cd build && make run-all-tests-github
+          cd .. && rm -rf build
+      
+      - name: Build and tests with LLVM on Release profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Release
           cd build && make run-all-tests-github
           
-        
+      - name: Lint code
+        run: |
+          cp build/compile_commands.json .
+          cppcheck --project=compile_commands.json --check-level=exhaustive -idist

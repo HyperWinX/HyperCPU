@@ -13,10 +13,10 @@ void hypercpu::cpu::exec_intr(operand_types op_types, mode md, void* op1, void* 
   std::uint64_t num;
 
   switch (md) {
-    case b8:  num = hypercpu::bit_cast_from<std::uint8_t>(op1);
-    case b16: num = hypercpu::bit_cast_from<std::uint16_t>(op1);
-    case b32: num = hypercpu::bit_cast_from<std::uint32_t>(op1);
-    case b64: num = hypercpu::bit_cast_from<std::uint64_t>(op1);
+    case b8:  num = hypercpu::bit_cast_from<std::uint8_t>(op1); break;
+    case b16: num = hypercpu::bit_cast_from<std::uint16_t>(op1); break;
+    case b32: num = hypercpu::bit_cast_from<std::uint32_t>(op1); break;
+    case b64: num = hypercpu::bit_cast_from<std::uint64_t>(op1); break;
   }
 
   if (num > 255) {
