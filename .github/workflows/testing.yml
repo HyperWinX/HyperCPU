@@ -34,11 +34,6 @@ jobs:
           cmake: true
           cppcheck: true
       
-      - name: Install GTest
-        run: \
-          apt update && apt upgrade -y
-          apt install googletest -y
-      
       - name: Build and test with GCC on Debug profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Debug
