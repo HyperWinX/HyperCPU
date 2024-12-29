@@ -23,7 +23,7 @@ namespace hypercpu {
         throw std::runtime_error("Failed to allocate memory!");
     }
 
-    inline std::uint8_t fetch8(std::size_t ptr) override {
+    inline std::uint8_t fetch8(std::size_t& ptr) override {
       assert(ptr + sizeof(std::uint8_t) - 1 < total_mem);
       std::scoped_lock lock(mutex);
       std::uint8_t data;
@@ -32,7 +32,7 @@ namespace hypercpu {
       return data;
     }
 
-    inline std::uint16_t fetch16(std::size_t ptr) override {
+    inline std::uint16_t fetch16(std::size_t& ptr) override {
       assert(ptr + sizeof(std::uint16_t) - 1 < total_mem);
       std::scoped_lock lock(mutex);
       std::uint16_t data;
@@ -41,7 +41,7 @@ namespace hypercpu {
       return data;
     }
 
-    inline std::uint32_t fetch32(std::size_t ptr) override {
+    inline std::uint32_t fetch32(std::size_t& ptr) override {
       assert(ptr + sizeof(std::uint32_t) - 1 < total_mem);
       std::scoped_lock lock(mutex);
       std::uint32_t data;
@@ -50,7 +50,7 @@ namespace hypercpu {
       return data;
     }
 
-    inline std::uint64_t fetch64(std::size_t ptr) override {
+    inline std::uint64_t fetch64(std::size_t& ptr) override {
       assert(ptr + sizeof(std::uint64_t) - 1 < total_mem);
       std::scoped_lock lock(mutex);
       std::uint64_t data;

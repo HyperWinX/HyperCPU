@@ -14,7 +14,7 @@
 #define dcdr_assert(expr) raise_exception((expr))
 
 void hypercpu::decoder::raise_exception(bool expr) const noexcept {
-  if (!expr) {
+  if (!(expr)) {
     if (cpu == nullptr) {
       std::cerr << "Invalid opcode!\n";
       std::exit(1);
