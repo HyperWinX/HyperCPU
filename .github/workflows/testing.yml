@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -36,8 +36,8 @@ jobs:
       
       - name: Install GTest
         run: \
-          sudo apt-get update && sudo apt-get upgrade -y
-          sudo apt-get install googletest -y
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install googletest -y
       
       - name: Build and test with GCC on Debug profile
         run: |
