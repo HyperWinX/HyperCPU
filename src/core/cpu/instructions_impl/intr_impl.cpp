@@ -1,3 +1,4 @@
+#include "core/cpu/interrupts/reserved_interrupts.hpp"
 #include <core/cpu/instructions_impl/instructions.hpp>
 #include <core/cpu/cpu.hpp>
 
@@ -23,7 +24,7 @@ void hypercpu::cpu::exec_intr(operand_types op_types, mode md, void* op1, void* 
     return;
   }
 
-  trigger_interrupt(num);
+  trigger_interrupt(static_cast<hypercpu::cpu_exceptions>(num));
 }
 
 #pragma GCC diagnostic pop

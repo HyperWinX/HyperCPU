@@ -11,15 +11,16 @@
 #include <core/cpu/assert.hpp>
 #include <core/cpu/cpu.hpp>
 
-#define dcdr_assert(expr) raise_exception((expr))
+#define dcdr_assert(expr) raise_exception((expr)); if (decoder_halted) return {}
 
-void hypercpu::decoder::raise_exception(bool expr) const noexcept {
+void hypercpu::decoder::raise_exception(bool expr) noexcept {
   if (!(expr)) {
     if (cpu == nullptr) {
       std::cerr << "Invalid opcode!\n";
       std::exit(1);
     } else {
-      cpu->trigger_interrupt(static_cast<std::uint8_t>(hypercpu::cpu_exceptions::IO));
+      cpu->trigger_interrupt(hypercpu::cpu_exceptions::IO);
+      decoder_halted = true;
     }
   }
 }
@@ -29,6 +30,10 @@ bool hypercpu::decoder::check_supported_operand_size(std::uint8_t byte, std::uin
          ((byte >> 2) & 0b11) == mask ||
          ((byte >> 4) & 0b11) == mask ||
          ((byte >> 6) & 0b11) == mask);
+}
+
+bool hypercpu::decoder::is_halted() const noexcept {
+  return decoder_halted;
 }
 
 hypercpu::i_instruction hypercpu::decoder::fetch_and_decode() {

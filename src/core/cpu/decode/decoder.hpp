@@ -19,15 +19,21 @@ namespace hypercpu {
     i_memory_controller* mem_controller;
     std::uint64_t* rip;
     class cpu* cpu;
+    bool decoder_halted;
 
     bool check_supported_operand_size(std::uint8_t byte, std::uint8_t mask) const noexcept;
-    void raise_exception(bool expr) const noexcept;
+    void raise_exception(bool expr) noexcept;
 
   public:
     explicit decoder() = default; // For testing purposes - causes UB if used incorrectly
-    explicit decoder(i_memory_controller* mc, std::uint64_t* counter, class cpu* cpu) : mem_controller(mc), rip(counter), cpu(cpu) {}
+    explicit decoder(i_memory_controller* mc, std::uint64_t* counter, class cpu* cpu) 
+      : mem_controller(mc)
+      , rip(counter)
+      , cpu(cpu)
+      , decoder_halted(false) {}
 
     i_instruction fetch_and_decode() override;
+    bool is_halted() const noexcept override;
 
     ~decoder() = default;
   };

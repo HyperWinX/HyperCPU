@@ -1,8 +1,9 @@
 #include "core/cpu/instructions/opcodes.hpp"
+#include "core/cpu/interrupts/reserved_interrupts.hpp"
 #include <core/cpu/cpu.hpp>
 
-void hypercpu::cpu::trigger_interrupt(std::uint8_t num) {
-  std::uint64_t code_ptr = mem_controller->read64(*xivt) + (8 * num);
+void hypercpu::cpu::trigger_interrupt(hypercpu::cpu_exceptions exception) {
+  std::uint64_t code_ptr = mem_controller->read64((*xivt) + (8 * static_cast<std::uint8_t>(exception)));
 
   if (!code_ptr) {
     return;

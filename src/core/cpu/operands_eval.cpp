@@ -68,8 +68,6 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
       void *op_1, *op_2;
       op_1 = get_register(op1);
       op_2 = get_register(op2);
-      std::cout << "op_1: " << op_1 << '\n';
-      std::cout << "op_2: " << op_2 << '\n';
       return std::make_pair(op_1, op_2);
     }
     

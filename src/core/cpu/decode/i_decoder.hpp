@@ -16,5 +16,6 @@ namespace hypercpu {
   class i_decoder {
   public:
     virtual i_instruction fetch_and_decode() = 0;
+    virtual bool is_halted() const noexcept = 0;
   };
 }

@@ -1,3 +1,4 @@
+#include "core/cpu/interrupts/reserved_interrupts.hpp"
 #include <core/cpu/instructions_impl/instructions.hpp>
 #include <core/cpu/cpu.hpp>
 
@@ -10,6 +11,11 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
 void hypercpu::cpu::exec_div(operand_types op_types, mode md, void* op1, void* op2) {
+  if (!(*x2)) {
+    trigger_interrupt(cpu_exceptions::ZRDIV);
+    return;
+  }
+
   switch (md) {
     case b8: {
       auto& dst = deref<std::uint8_t>(op1);

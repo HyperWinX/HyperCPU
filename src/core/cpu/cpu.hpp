@@ -6,6 +6,7 @@
 #include <core/memory_controller/memory_controller_st.hpp>
 #include <core/memory_controller/memory_controller_mt.hpp>
 #include <core/memory_controller/i_memory_controller.hpp>
+#include <core/cpu/interrupts/reserved_interrupts.hpp>
 #include <core/cpu/instructions/flags.hpp>
 #include <core/cpu/decode/decoder.hpp>
 
@@ -59,7 +60,7 @@ namespace hypercpu {
     std::uint32_t stack_pop32() noexcept;
     std::uint64_t stack_pop64() noexcept;
 
-    void trigger_interrupt(std::uint8_t num);
+    void trigger_interrupt(hypercpu::cpu_exceptions exception);
     void run_interrupt_subroutine();
     
     DECLARE_INSTR(add);
