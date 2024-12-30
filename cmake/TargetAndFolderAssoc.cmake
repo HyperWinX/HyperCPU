@@ -1,7 +1,7 @@
 set(__TARGETS_LIST
 # HyperCPU core sources
   core
-  main
+  emulator-main
 
 # Testing
   modular_testing
@@ -10,10 +10,10 @@ set(__TARGETS_LIST
 
 set(__DIRECTORIES_LIST
 # core target
-  ${ROOT_DIR}/src/core
+  ${ROOT_DIR}/src/emulator/core
 
 # main target
-  ${ROOT_DIR}/src/main
+  ${ROOT_DIR}/src/emulator/main
 
 # modulartesting_src target
   ${ROOT_DIR}/test/modular

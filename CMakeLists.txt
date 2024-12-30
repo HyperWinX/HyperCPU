@@ -11,6 +11,7 @@ include(cmake/Configuration.cmake)
 
 set(HCPU_SANITIZERS_ENABLED ON)
 
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
   message(STATUS "Configuring build with debug info")
   set_compile_flags(ON)
@@ -32,6 +33,7 @@ message(STATUS "Generating source files list")
 include(cmake/SourceListGenerator.cmake)
 
 add_subdirectory(dist/googletest)
+add_subdirectory(dist/argparse)
 add_subdirectory(bench)
 add_subdirectory(src)
 add_subdirectory(test)

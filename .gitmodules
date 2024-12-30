@@ -4,3 +4,6 @@
 [submodule "dist/googletest"]
 	path = dist/googletest
 	url = https://github.com/google/googletest
+[submodule "dist/argparse"]
+	path = dist/argparse
+	url = https://github.com/p-ranav/argparse
