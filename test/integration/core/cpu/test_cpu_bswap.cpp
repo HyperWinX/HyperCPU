@@ -1,3 +1,5 @@
+#include <bit>
+
 #include <core/cpu/instructions/registers.hpp>
 #include <core/cpu/instructions/flags.hpp>
 

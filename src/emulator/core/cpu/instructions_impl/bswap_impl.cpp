@@ -1,3 +1,5 @@
+#include <bit>
+
 #include <core/cpu/instructions_impl/instructions.hpp>
 #include <core/cpu/cpu.hpp>
 

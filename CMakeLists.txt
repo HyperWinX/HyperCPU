@@ -29,11 +29,18 @@ endif()
 
 string(STRIP ${LD_FLAGS} LD_FLAGS)
 
+if (CMAKE_BUILD_TYPE STREQUAL Release)
+  find_package(GTest REQUIRED)
+  set(GTEST_LINK_TARGET "GTest::gtest")
+else()
+  set(GTEST_LINK_TARGET "gtest")
+endif()
+
 message(STATUS "Generating source files list")
 include(cmake/SourceListGenerator.cmake)
 
-add_subdirectory(dist/googletest)
 add_subdirectory(dist/argparse)
+add_subdirectory(dist/pog)
 add_subdirectory(bench)
 add_subdirectory(src)
 add_subdirectory(test)

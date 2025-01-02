@@ -4,13 +4,6 @@ set(TESTS_INCLUDE_DIR
   ${HyperCPU_SOURCE_DIR}/src/emulator
   ${HyperCPU_SOURCE_DIR}/test)
 
-if (CMAKE_BUILD_TYPE STREQUAL Release)
-  find_package(GTest REQUIRED)
-  set(GTEST_LINK_TARGET "GTest::gtest")
-else()
-  set(GTEST_LINK_TARGET "gtest")
-endif()
-
 add_executable(modular_testing ${HyperCPU_SOURCE_DIR}/test/main.cpp ${SOURCES_modular_testing})
 target_link_libraries(modular_testing emulator-core ${GTEST_LINK_TARGET} pthread)
 target_include_directories(modular_testing PUBLIC ${TESTS_INCLUDE_DIR})
