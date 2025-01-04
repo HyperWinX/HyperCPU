@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <mutex>
+#include <print>
 
 #include <cassert>
 #include <cstring>
@@ -92,6 +93,7 @@ namespace hypercpu {
     }
 
     inline void load8(std::size_t ptr, std::uint8_t data) override {
+      std::println("Ptr: {}", ptr);
       assert(ptr + sizeof(std::uint8_t) - 1 < total_mem);
       std::scoped_lock lock(mutex);
       memcpy(&memory[ptr], &data, sizeof(std::uint8_t));
