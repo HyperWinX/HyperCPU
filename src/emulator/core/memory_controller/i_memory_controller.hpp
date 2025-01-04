@@ -2,7 +2,17 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 
+#define mem_ctlr_assert(expr)                       \
+  do {                                              \
+    if (!(expr) && !cpu) [[unlikely]] {             \
+      std::println("Assertion failed: {}", #expr);  \
+      std::abort();                                 \
+    } else if (!(expr) && cpu) [[unlikely]] {       \
+      cpu->trigger_interrupt(hypercpu::cpu_exceptions::SEGF); \
+    } else [[likely]] {  }                          \
+  } while (false)
 
 namespace hypercpu {
   class i_memory_controller {
@@ -26,4 +36,5 @@ namespace hypercpu {
 
     virtual ~i_memory_controller() { };
   };
+
 }

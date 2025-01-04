@@ -10,9 +10,62 @@
 #include <core/cpu/instructions/opcodes.hpp>
 #include <core/cpu/instructions/registers.hpp>
 #include <core/memory_controller/memory_controller_st.hpp>
+#include <core/memory_controller/memory_controller_mt.hpp>
 
 static constexpr std::size_t MEM_SIZE = 4096;
+static constexpr std::size_t MEM_FIXTURE_MEM_SIZE = 1024;
 static constexpr std::size_t MEM_PTR = 0x0102030405060708;
+
+class mc_mt_test : public testing::Test {
+  protected:
+    hypercpu::memory_controller_mt mcmt;
+    char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
+    std::size_t counter;
+    mc_mt_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
+      std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
+    }
+};
+
+class mc_mt_fail_test : public testing::Test {
+  protected:
+    hypercpu::memory_controller_mt mcmt;
+    std::size_t counter;
+    mc_mt_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {}
+};
+
+class mc_mt_near_fail_test : public testing::Test {
+  protected:
+    hypercpu::memory_controller_mt mcmt;
+    std::size_t counter;
+    mc_mt_near_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
+};
+
+class mc_st_test : public testing::Test {
+  protected:
+    hypercpu::memory_controller_st mcmt;
+    char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
+    std::size_t counter;
+    mc_st_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
+      std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
+    }
+};
+
+class mc_st_fail_test : public testing::Test {
+  protected:
+    hypercpu::memory_controller_st mcmt;
+    char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
+    std::size_t counter;
+    mc_st_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {
+      std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
+    }
+};
+
+class mc_st_near_fail_test : public testing::Test {
+  protected:
+    hypercpu::memory_controller_st mcmt;
+    std::size_t counter;
+    mc_st_near_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
+};
 
 class decoder_test : public ::testing::Test {
 protected:

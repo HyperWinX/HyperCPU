@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <cstring>
+
 #include <core/cpu/instructions/registers.hpp>
 #include <core/cpu/cpu.hpp>
 
