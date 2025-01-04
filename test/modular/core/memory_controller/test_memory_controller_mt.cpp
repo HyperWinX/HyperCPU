@@ -1,41 +1,16 @@
-#include "gtest/gtest.h"
 #include <climits>
 #include <gtest/gtest.h>
+
+#include <fixtures.hpp>
 
 #define private public
 #include <core/memory_controller/memory_controller_mt.hpp>
 
 
-static constexpr std::size_t MEM_SIZE = 1024;
 static constexpr std::uint8_t BYTE = 0x55;
 static constexpr std::uint16_t WORD = 0x5555;
 static constexpr std::uint32_t DWORD = 0x55555555;
 static constexpr std::uint64_t QWORD = 0x5555555555555555;
-
-class mc_mt_test : public testing::Test {
-  protected:
-    hypercpu::memory_controller_mt mcmt;
-    char tmp_buffer[MEM_SIZE];
-    std::size_t counter;
-    mc_mt_test() : mcmt(MEM_SIZE), counter(0) {
-      std::memset(tmp_buffer, BYTE, MEM_SIZE);
-    }
-};
-
-class mc_mt_fail_test : public testing::Test {
-  protected:
-    hypercpu::memory_controller_mt mcmt;
-    std::size_t counter;
-    mc_mt_fail_test() : mcmt(MEM_SIZE), counter(LONG_MAX) {}
-};
-
-class mc_mt_near_fail_test : public testing::Test {
-  protected:
-    hypercpu::memory_controller_mt mcmt;
-    std::size_t counter;
-    mc_mt_near_fail_test() : mcmt(MEM_SIZE) {}
-};
-
 
 TEST_F(mc_mt_test, LOAD8) {
   for (std::size_t i = 0; i < MEM_SIZE; ++i, ++counter)
