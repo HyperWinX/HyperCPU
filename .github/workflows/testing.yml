@@ -9,8 +9,9 @@ on:
       - dev
 
 jobs:
-  build:
+  testing:
     runs-on: self-hosted
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     steps:
       - name: Checkout code
@@ -55,3 +56,30 @@ jobs:
         run: |
           cp build/compile_commands.json .
           cppcheck --project=compile_commands.json --check-level=exhaustive -idist
+  
+  versioning:
+    runs-on: self-hosted
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    needs: [testing]
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Increment version
+        run: |
+          scripts/increment_version.sh
+        
+      - name: Push changes to master branch
+        run: |
+          MSG=$(git log -1 --pretty=%B | more)
+          git reset --soft HEAD~1
+          git add .
+          git commit -m "$MSG"
+          git pull origin dev --rebase
+          git push origin dev
+          git switch master
+          git merge dev
+          git push origin master -f
