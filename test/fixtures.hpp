@@ -1,5 +1,6 @@
 #pragma once
 
+#include "logger/logger.hpp"
 #include <gtest/gtest.h>
 
 #define private public
@@ -11,6 +12,7 @@
 #include <core/cpu/instructions/registers.hpp>
 #include <core/memory_controller/memory_controller_st.hpp>
 #include <core/memory_controller/memory_controller_mt.hpp>
+#include <assembler/core/compiler.hpp>
 
 static constexpr std::size_t MEM_SIZE = 4096;
 static constexpr std::size_t MEM_FIXTURE_MEM_SIZE = 1024;
@@ -136,4 +138,12 @@ protected:
     cpu.mem_controller->load64(1536, hypercpu::opcode::HALT);
     cpu.mem_controller->load64(1538, hypercpu::operand_types::NONE);
   }
+};
+
+class asm_parser_test : public ::testing::Test {
+protected:
+  hcasm::hcasm_compiler compiler;
+  pog::Parser<hcasm::value>& parser;
+
+  asm_parser_test() : compiler(hypercpu::loglevel::ERROR), parser(compiler.parser) { }
 };

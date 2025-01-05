@@ -56,8 +56,6 @@ namespace hcasm {
     pog::Parser<value> parser;
     hypercpu::logger logger;
 
-
-
   public:
     hcasm_compiler(hypercpu::loglevel lvl = hypercpu::loglevel::WARNING);
     void compile(std::string& source, std::string& dest);

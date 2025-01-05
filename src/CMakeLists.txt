@@ -10,6 +10,7 @@ target_link_libraries(emulator-core ${LD_FLAGS})
 
 add_library(assembler-core STATIC ${SOURCES_assembler-core})
 target_include_directories(assembler-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/assembler)
+target_link_libraries(assembler-core pog)
 
 add_executable(emulator ${SOURCES_emulator-main})
 target_include_directories(emulator PUBLIC ${GENERIC_INCLUDE_DIR})

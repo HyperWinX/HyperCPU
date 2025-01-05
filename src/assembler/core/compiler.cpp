@@ -12,7 +12,8 @@ using hypercpu::loglevel;
 
 hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) : logger(lvl) {
   // Setup tokens
-  parser.token("\\s+");
+  parser.token("\\s+")
+    .symbol("string");
   parser.token("+")
     .symbol("+");
   parser.token("-")
@@ -48,7 +49,7 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) : logger(lvl) {
   parser.set_start_symbol("statement");
   parser.rule("statement")
     .production("ident", "operand", ",", "operand", [](auto&& args) -> value {
-
+      return {};
     });
 
   parser.rule("operand")

@@ -34,7 +34,6 @@ include(cmake/SourceListGenerator.cmake)
 
 add_subdirectory(dist/argparse)
 add_subdirectory(dist/pog)
-add_subdirectory(dist/googletest)
 add_subdirectory(bench)
 add_subdirectory(src)
 add_subdirectory(test)
