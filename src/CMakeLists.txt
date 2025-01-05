@@ -1,16 +1,22 @@
-include_directories(${HyperCPU_SOURCE_DIR}/include)
+set(GENERIC_INCLUDE_DIR 
+  ${HyperCPU_SOURCE_DIR}/src
+  ${HyperCPU_SOURCE_DIR}/dist/argparse/include
+  ${HyperCPU_SOURCE_DIR}/dist/pog/include)
 
-file(GLOB_RECURSE ALL_SRCS ${HyperCPU_SOURCE_DIR}/src/*.cpp)
-list(REMOVE_ITEM ALL_SRCS "${HyperCPU_SOURCE_DIR}/src/main.cpp")
-set(CORE_SRCS ${ALL_SRCS})
-set(CPU_SRCS ${ALL_SRCS})
+add_library(emulator-core STATIC ${SOURCES_emulator-core})
+target_include_directories(emulator-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/emulator)
+set_target_properties(emulator-core PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
+target_link_libraries(emulator-core ${LD_FLAGS})
 
-set(TESTS_SRCS ${CORE_SRCS} ${HyperCPU_SOURCE_DIR}/test/tests.cpp)
+add_library(assembler-core STATIC ${SOURCES_assembler-core})
+target_include_directories(assembler-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/assembler)
+target_link_libraries(assembler-core pog)
 
-add_executable(emulator ${CPU_SRCS})
-set_target_properties(emulator PROPERTIES COMPILE_FLAGS "-Wall -Wextra -O2")
+add_executable(emulator ${SOURCES_emulator-main})
+target_include_directories(emulator PUBLIC ${GENERIC_INCLUDE_DIR})
+set_target_properties(emulator PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
 
-add_executable(tests ${TESTS_SRCS})
-target_link_libraries(tests gtest_main gtest pthread)
-#add_custom_command(TARGET tests POST_BUILD COMMAND ${PROJECT_SOURCE_DIR}/build/tests && rm -f ${PROJECT_SOURCE_DIR}/build/tests)
-set_target_properties(tests PROPERTIES COMPILE_FLAGS "-DINTERRUPTS_ENABLED -Wall -Wextra -Werror -std=c++23 -Wno-pointer-arith -g -O0")
+add_executable(hcasm ${SOURCES_assembler-main})
+target_include_directories(hcasm PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/assembler)
+target_link_libraries(hcasm assembler-core pog)
+set_target_properties(hcasm PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})

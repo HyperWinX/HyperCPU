@@ -1,10 +1,39 @@
 <h1 align="center">
-  HyperCPU
+  <br>
+  <a href="https://github.com/HyperWinX/HyperCPU/archive/master.zip">HyperCPU</a>
 </h1>
 
-<h4 align="center">
-  Set of tools (including emulator) for my own CPU architecture.
-</h4>
+<h4 align="center">Selfmade CPU architecture with all the tools required to use it.</h4>
 
-> [!IMPORTANT]
-> Project is in active development, but no alpha versions are available. Latest code can be found in development branch.
+<p align="center">
+     <a href="https://github.com/HyperWinX/HyperCPU/issues">
+     <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU?color=lime"
+          alt="GitHub opened issues">
+     <img src="https://img.shields.io/badge/status-in_development-red"
+          alt="Status">
+     <img src="https://img.shields.io/github/license/HyperWinX/HyperCPU?color=lime"
+          alt="License">
+     <img src="https://img.shields.io/github/stars/HyperWinX/HyperCPU?color=lime"
+          alt="Stars">
+     <img src="https://img.shields.io/badge/version-0.0.1-red"
+          alt="Version">
+</p>
+
+<table>
+<tr>
+<td>
+
+HyperCPU is a set of programs, created to work with my own simple ISA.
+Project was created for fun, but took a lot of time, and i learned a lot in process. 
+
+</td>
+</tr>
+</table>
+
+>[!IMPORTANT]
+> Project is on early development stage, and cannot be used. Build system targets does not contain working executables. 
+
+Tools include:
+- **hCPU emulator**
+- **hASM assembler**
+- **hASM disassembler**

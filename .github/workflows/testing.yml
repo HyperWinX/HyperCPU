@@ -1,0 +1,57 @@
+name: HyperCPU CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Pull submodules
+        run: |
+          git submodule update --init --remote --recursive
+      
+      - name: Install all tools
+        uses: aminya/setup-cpp@v1
+        with:
+          cmake: true
+          cppcheck: true
+      
+      - name: Build and test with GCC on Debug profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Debug
+          cd build && make run-all-tests-github
+          cd .. && rm -rf build
+      
+      - name: Build and test with LLVM on Debug profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Debug
+          cd build && make run-all-tests-github
+          cd .. && rm -rf build
+      
+      - name: Build and test with GCC on Release profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release
+          cd build && make run-all-tests-github
+          cd .. && rm -rf build
+      
+      - name: Build and test with LLVM on Release profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Release
+          cd build && make run-all-tests-github
+          
+      - name: Lint code
+        run: |
+          cp build/compile_commands.json .
+          cppcheck --project=compile_commands.json --check-level=exhaustive -idist

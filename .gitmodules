@@ -1,0 +1,12 @@
+[submodule "dist/googletest"]
+	path = dist/googletest
+	url = https://github.com/google/googletest
+[submodule "dist/HBench"]
+	path = dist/HBench
+	url = https://github.com/randommfs/HBench
+[submodule "dist/argparse"]
+	path = dist/argparse
+	url = https://github.com/p-ranav/argparse
+[submodule "dist/pog"]
+	path = dist/pog
+	url = https://github.com/randommfs/pog
