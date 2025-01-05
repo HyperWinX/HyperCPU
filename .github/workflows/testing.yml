@@ -32,25 +32,25 @@ jobs:
       - name: Build and test with GCC on Debug profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Debug
-          cd build && make run-all-tests-github
+          cd build && make run-all-tests-github -j2
           cd .. && rm -rf build
       
       - name: Build and test with LLVM on Debug profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Debug
-          cd build && make run-all-tests-github
+          cd build && make run-all-tests-github -j2
           cd .. && rm -rf build
       
       - name: Build and test with GCC on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release
-          cd build && make run-all-tests-github
+          cd build && make run-all-tests-github -j2
           cd .. && rm -rf build
       
       - name: Build and test with LLVM on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Release
-          cd build && make run-all-tests-github
+          cd build && make run-all-tests-github -j2
           
       - name: Lint code
         run: |
