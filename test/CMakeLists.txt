@@ -16,29 +16,14 @@ target_include_directories(integration_testing PUBLIC ${TESTS_INCLUDE_DIR})
 set_target_properties(integration_testing PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
 
 add_custom_target(run-all-tests-github
-    ${CMAKE_BINARY_DIR}/modular_testing
+    ${CMAKE_BINARY_DIR}/modular_testing --gtest_brief=1
   COMMAND
-    ${CMAKE_BINARY_DIR}/integration_testing
+    ${CMAKE_BINARY_DIR}/integration_testing --gtest_brief=1
   DEPENDS
     build-all-tests-github
 )
 
 add_custom_target(build-all-tests-github
-  DEPENDS
-    modular_testing
-    integration_testing
-)
-
-add_custom_target(run-all-tests
-    ${CMAKE_BINARY_DIR}/modular_testing
-  COMMAND
-    ${CMAKE_BINARY_DIR}/integration_testing
-  DEPENDS
-    modular_testing
-    integration_testing
-)
-
-add_custom_target(build-all-tests
   DEPENDS
     modular_testing
     integration_testing

@@ -67,6 +67,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Setup git user
+        uses: fregante/setup-git-user@v1
 
       - name: Increment version
         run: |
@@ -78,8 +81,7 @@ jobs:
           git reset --soft HEAD~1
           git add .
           git commit -m "$MSG"
-          git pull origin dev --rebase
-          git push origin dev
-          git switch master
-          git merge dev
-          git push origin master -f
+          git push origin dev -f
+          git merge -s ours master
+          git checkout master
+          git reset --hard dev
