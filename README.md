@@ -15,7 +15,7 @@
          alt="License">
     <img src="https://img.shields.io/github/stars/HyperWinX/HyperCPU?color=lime"
          alt="Stars">
-    <img src="https://img.shields.io/badge/version-0.0.1-red"
+    <img src="https://img.shields.io/badge/version-0.0.7-red"
          alt="Version">
 </p>
 
