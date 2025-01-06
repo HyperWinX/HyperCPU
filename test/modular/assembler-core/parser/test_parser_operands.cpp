@@ -21,7 +21,7 @@ TEST_F(asm_parser_test, OPERAND2) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::mem_reg_add_int);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
 }
 
@@ -34,7 +34,7 @@ TEST_F(asm_parser_test, OPERAND3) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::mem_reg_sub_int);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
 }
 
@@ -47,7 +47,7 @@ TEST_F(asm_parser_test, OPERAND2_2) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::mem_reg_add_int);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
 }
 
@@ -60,7 +60,7 @@ TEST_F(asm_parser_test, OPERAND3_2) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::mem_reg_sub_int);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
 }
 
@@ -73,7 +73,7 @@ TEST_F(asm_parser_test, OPERAND2_3) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::mem_reg_add_int);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b0100110101));
 }
 
@@ -86,7 +86,7 @@ TEST_F(asm_parser_test, OPERAND3_3) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::mem_reg_sub_int);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b0100110101));
 }
 
@@ -147,5 +147,5 @@ TEST_F(asm_parser_test, OPERAND6) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::reg);
-    EXPECT_EQ(operand.reg1, hypercpu::registers::X0);
+    EXPECT_EQ(operand.reg, hypercpu::registers::X0);
 }

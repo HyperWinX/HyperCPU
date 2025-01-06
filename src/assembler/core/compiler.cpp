@@ -7,10 +7,16 @@
 #include <core/compiler.hpp>
 #include <logger/logger.hpp>
 
-
 using hypercpu::loglevel;
 
-hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) : logger(lvl) {
+namespace hcasm {
+  hypercpu::logger logger{hypercpu::loglevel::WARNING};
+  hcasm::compiler_state* current_state;
+  std::uint64_t current_index = 0;
+}
+
+hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
+  logger = hypercpu::logger{lvl};
   // Setup tokens
   parser.token("\\s+");
   parser.token(R"(\+)")
@@ -23,9 +29,17 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) : logger(lvl) {
     .symbol("[");
   parser.token("\\]")
     .symbol("]");
+  parser.token(";")
+    .symbol(";");
+  parser.token(":")
+    .symbol(":");
+  parser.token("<")
+    .symbol("<");
+  parser.token(">")
+    .symbol(">");
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
     .symbol("ident")
-    .action(tokenize_str);
+    .action(tokenize_ident);
   parser.token("#use")
     .symbol("use");
   parser.token(R"("[^"]*")")
@@ -48,9 +62,10 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) : logger(lvl) {
   // Setup parser rules
   parser.set_start_symbol("statement");
   parser.rule("statement")
-    .production("ident", "operand", ",", "operand", [](auto&& args) -> value {
-      return {};
-    });
+    .production("ident", "operand", ",", "operand", ";", compile_stmt1)
+    .production("ident", "operand", ";", compile_stmt2)
+    .production("ident", ";", compile_stmt3)
+    .production("ident", ":", compile_label);
 
   parser.rule("operand")
     .production("[", "hex", "]", parse_operand1)
@@ -76,6 +91,24 @@ void hcasm::hcasm_compiler::compile(std::string& source, std::string& destinatio
     logger.log(loglevel::ERROR, "Failed to open source file!");
     std::exit(1);
   }
-  logger.log(hypercpu::loglevel::DEBUG, "Source and destination files handles acquired");
+  logger.log(loglevel::DEBUG, "Source and destination files handles acquired");
+  std::string contents;
+  src >> contents;
+
+  logger.log(loglevel::DEBUG, "Stage 1 compiling - transforming to IR");
+  compiler_state ir = transform_to_IR(contents);
+
+  logger.log(loglevel::DEBUG, "Stage 2 compiling - transforming to binary");
+  transform_to_binary(ir, dst);
+}
+
+hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
+  compiler_state state;
+  this->state = &state;
+
+  parser.prepare();
+  logger.log(loglevel::DEBUG, "Parser prepared.");
+  logger.log(loglevel::DEBUG, "Compiling...");
   
+  parser.parse(src);
 }

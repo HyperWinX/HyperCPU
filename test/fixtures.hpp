@@ -147,3 +147,10 @@ protected:
 
   asm_parser_test() : compiler(hypercpu::loglevel::ERROR), parser(compiler.parser) { }
 };
+
+class asm_parser_stmt_test : public ::testing::Test {
+protected:
+  hcasm::hcasm_compiler compiler;
+
+  asm_parser_stmt_test() : compiler(hypercpu::loglevel::ERROR) { }
+};
