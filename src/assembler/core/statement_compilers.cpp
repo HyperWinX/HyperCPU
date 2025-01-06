@@ -16,11 +16,12 @@ value hcasm::compile_stmt1(std::vector<value>&& args) {
 
     ++current_index;
 
-    return {instruction {
+    current_state->ir.push_back(instruction {
         opcode_assoc.at(instr_name.c_str()),
         std::get<operand>(args[1].val),
         std::get<operand>(args[3].val)
-    }};
+    });
+    return {};
 }
 
 value hcasm::compile_stmt2(std::vector<value>&& args) {
@@ -33,10 +34,12 @@ value hcasm::compile_stmt2(std::vector<value>&& args) {
 
     ++current_index;
 
-    return {instruction {
+    current_state->ir.push_back(instruction {
         opcode_assoc.at(instr_name.c_str()),
-        std::get<operand>(args[1].val)
-    }};
+        std::get<operand>(args[1].val),
+        { hcasm::operand_type::none }
+    });
+    return {};
 }
 
 value hcasm::compile_stmt3(std::vector<value>&& args) {
@@ -49,9 +52,12 @@ value hcasm::compile_stmt3(std::vector<value>&& args) {
 
     ++current_index;
 
-    return {instruction{
-        opcode_assoc.at(instr_name.c_str())
-    }};
+    current_state->ir.push_back(instruction{
+        opcode_assoc.at(instr_name.c_str()),
+        { hcasm::operand_type::none },
+        { hcasm::operand_type::none }
+    });
+    return {};
 }
 
 value hcasm::compile_label(std::vector<value>&& args) {

@@ -60,7 +60,10 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
   logger.log(hypercpu::loglevel::DEBUG, "Tokens configured");
 
   // Setup parser rules
-  parser.set_start_symbol("statement");
+  parser.set_start_symbol("statements");
+  parser.rule("statements")
+    .production("statements", "statement")
+    .production("statement");
   parser.rule("statement")
     .production("ident", "operand", ",", "operand", ";", compile_stmt1)
     .production("ident", "operand", ";", compile_stmt2)
@@ -104,6 +107,7 @@ void hcasm::hcasm_compiler::compile(std::string& source, std::string& destinatio
 
 hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
   compiler_state state;
+  current_state = &state;
   this->state = &state;
 
   parser.prepare();
@@ -111,4 +115,10 @@ hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
   logger.log(loglevel::DEBUG, "Compiling...");
   
   parser.parse(src);
+  current_state = 0;
+  return state;
+}
+
+void hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_state& ir, std::ofstream& dst) {
+
 }

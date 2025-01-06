@@ -153,4 +153,8 @@ protected:
   hcasm::hcasm_compiler compiler;
 
   asm_parser_stmt_test() : compiler(hypercpu::loglevel::ERROR) { }
+
+  virtual void TearDown() {
+    hcasm::current_index = 0;
+  }
 };

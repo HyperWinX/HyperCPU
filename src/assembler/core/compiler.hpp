@@ -24,7 +24,8 @@ namespace hcasm {
     mem_reg_sub_int,
     sint,
     uint,
-    memaddr
+    memaddr,
+    none
   };
 
   struct operand {
