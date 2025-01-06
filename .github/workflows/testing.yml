@@ -110,14 +110,6 @@ jobs:
 
       - name: Push changes to master branch
         run: |
-          git checkout dev
-          git switch dev
-          MSG=$(git log -1 --pretty=%B | more)
-          git reset --soft HEAD~1
-          git add .
-          git commit -m "$MSG"
-          git push origin dev -f
-          git merge -s ours origin/master
           git checkout master
           git reset --hard dev
           git push origin master -f
