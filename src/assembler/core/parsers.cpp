@@ -1,4 +1,5 @@
 #include <core/compiler.hpp>
+#include <core/reg_name_assoc.hpp>
 
 using hcasm::value;
 
@@ -15,6 +16,7 @@ value hcasm::parse_operand2(std::vector<value>&& args) {
   return {
     .val = operand {
       .type = hcasm::operand_type::mem_reg_add_int,
+      .reg1 = register_assoc.at(std::get<std::string>(args[1].val).c_str()),
       .uint1 = std::get<std::uint64_t>(args[3].val)
     }
   };
@@ -24,6 +26,7 @@ value hcasm::parse_operand3(std::vector<value>&& args) {
   return {
     .val = operand {
       .type = hcasm::operand_type::mem_reg_sub_int,
+      .reg1 = register_assoc.at(std::get<std::string>(args[1].val).c_str()),
       .uint1 = std::get<std::uint64_t>(args[3].val)
     }
   };
@@ -51,7 +54,7 @@ value hcasm::parse_operand6(std::vector<value>&& args) {
   return {
     .val = operand {
       .type = hcasm::operand_type::reg,
-      .uint1 = std::get<std::uint64_t>(args[0].val)
+      .reg1 = register_assoc.at(std::get<std::string>(args[1].val).c_str())
     }
   };
 }

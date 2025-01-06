@@ -10,3 +10,6 @@
 [submodule "dist/pog"]
 	path = dist/pog
 	url = https://github.com/randommfs/pog
+[submodule "dist/eternal"]
+	path = dist/eternal
+	url = https://github.com/mapbox/eternal

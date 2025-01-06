@@ -16,6 +16,9 @@ std::uint64_t binary_string_to_uint64(const std::string_view& binary_str) {
   std::uint64_t result = 0;
   for (char c : binary_str) {
     if (c != '0' && c != '1') {
+      if (c == 'b') {
+        break;
+      }
       throw std::invalid_argument("Invalid character in binary string");
     }
     result = (result << 1) | (c - '0');
@@ -35,10 +38,14 @@ value hcasm::tokenize_str(std::string_view str) {
   return { std::string{str.begin() + 1, str.end() - 1} };
 }
 
+value hcasm::tokenize_ident(std::string_view str) {
+  return {std::string{str}};
+}
+
 value hcasm::tokenize_hex(std::string_view str) {
   std::uint64_t x;
   std::stringstream ss;
-  ss << std::hex << str.begin() + 2;
+  ss << std::hex << str.begin();
   ss >> x;
   return {x};
 }

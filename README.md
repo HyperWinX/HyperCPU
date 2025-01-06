@@ -6,17 +6,19 @@
 <h4 align="center">Selfmade CPU architecture with all the tools required to use it.</h4>
 
 <p align="center">
-    <a href="https://github.com/HyperWinX/HyperCPU/issues">
-    <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU?color=lime"
-         alt="GitHub opened issues">
-    <img src="https://img.shields.io/badge/status-in_development-red"
-         alt="Status">
-    <img src="https://img.shields.io/github/license/HyperWinX/HyperCPU?color=lime"
-         alt="License">
-    <img src="https://img.shields.io/github/stars/HyperWinX/HyperCPU?color=lime"
-         alt="Stars">
-    <img src="https://img.shields.io/badge/version-0.0.2-red"
-         alt="Version">
+     <a href="https://github.com/HyperWinX/HyperCPU/issues">
+     <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
+          alt="GitHub opened issues">
+     <img src="https://img.shields.io/badge/version-0.0.2-default"
+          alt="Version">
+     <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
+          alt="CI status">
+     <img src="https://img.shields.io/badge/status-in_development-red"
+          alt="Status">
+     <img src="https://img.shields.io/github/license/HyperWinX/HyperCPU"
+          alt="License">
+     <img src="https://img.shields.io/github/stars/HyperWinX/HyperCPU?color=lime"
+          alt="Stars">
 </p>
 
 <table>

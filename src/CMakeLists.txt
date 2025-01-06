@@ -1,7 +1,8 @@
 set(GENERIC_INCLUDE_DIR 
   ${HyperCPU_SOURCE_DIR}/src
   ${HyperCPU_SOURCE_DIR}/dist/argparse/include
-  ${HyperCPU_SOURCE_DIR}/dist/pog/include)
+  ${HyperCPU_SOURCE_DIR}/dist/pog/include
+  ${HyperCPU_SOURCE_DIR}/dist/eternal/include)
 
 add_library(emulator-core STATIC ${SOURCES_emulator-core})
 target_include_directories(emulator-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/emulator)

@@ -42,6 +42,7 @@ namespace hcasm {
   value tokenize_uint(std::string_view str);
   value tokenize_str(std::string_view str);
   value tokenize_hex(std::string_view str);
+  value tokenize_ident(std::string_view str);
   value tokenize_binary(std::string_view str);
 
   value parse_operand1(std::vector<value>&& args);

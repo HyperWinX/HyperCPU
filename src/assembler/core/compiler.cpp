@@ -12,35 +12,35 @@ using hypercpu::loglevel;
 
 hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) : logger(lvl) {
   // Setup tokens
-  parser.token("\\s+")
-    .symbol("string");
-  parser.token("+")
+  parser.token("\\s+");
+  parser.token(R"(\+)")
     .symbol("+");
-  parser.token("-")
+  parser.token(R"(-)")
     .symbol("-");
   parser.token(",")
     .symbol(",");
-  parser.token("[")
+  parser.token("\\[")
     .symbol("[");
-  parser.token("]")
+  parser.token("\\]")
     .symbol("]");
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
-    .symbol("ident");
+    .symbol("ident")
+    .action(tokenize_str);
   parser.token("#use")
     .symbol("use");
   parser.token(R"("[^"]*")")
     .symbol("string")
     .action(tokenize_str);
-  parser.token("s[0-9]+")
+  parser.token("[0-9]+s")
     .symbol("sint")
     .action(tokenize_sint);
-  parser.token("u[0-9]+")
+  parser.token("[0-9]+u")
     .symbol("uint")
     .action(tokenize_uint);
-  parser.token("^(h)[0-9a-fA-F]+$")
+  parser.token(R"([0-9a-fA-F]+h)")
     .symbol("hex")
     .action(tokenize_hex);
-  parser.token("^(b)[01]+$")
+  parser.token(R"([01]+b)")
     .symbol("binary")
     .action(tokenize_binary);
   logger.log(hypercpu::loglevel::DEBUG, "Tokens configured");
