@@ -1,9 +1,20 @@
-<h1 align="center">
+<div align="center">
+     <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="git/logo_dark_shadow_medium.png">
+          <source media="(prefers-color-scheme: light)" srcset="git/logo_shadow_medium.png">
+          <img alt="yes" src="https://user-images.githubusercontent.com/25423296/163456779-a8556205-d0a5-45e2-ac17-42d089e3c3f8.png">
+     </picture>
+</div>
+<!-- 
+<h1 align="center" style="align-items: center;">
   <br>
+  <img src="git/logo.png">
   <a href="https://github.com/HyperWinX/HyperCPU/archive/master.zip">HyperCPU</a>
 </h1>
+-->
 
-<h4 align="center">Selfmade CPU architecture with all the tools required to use it.</h4>
+
+<h4 align="center">Toolkit for custom ISA</h4>
 
 <p align="center">
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
