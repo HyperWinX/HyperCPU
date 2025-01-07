@@ -135,5 +135,7 @@ hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
 }
 
 unsigned char* hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_state& ir) {
+  
 
+  return nullptr;
 }

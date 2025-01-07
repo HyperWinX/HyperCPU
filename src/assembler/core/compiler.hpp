@@ -41,7 +41,7 @@ namespace hcasm {
   struct operand {
     operand_type type;
     hypercpu::registers reg;
-    mode mode;
+    enum mode mode;
     union {
       std::uint64_t uint1;
       std::int64_t sint2;
