@@ -1,15 +1,18 @@
-<h1 align="center">
-  <br>
-  <a href="https://github.com/HyperWinX/HyperCPU/archive/master.zip">HyperCPU</a>
-</h1>
+<div align="center">
+     <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="git/logo_glow_dark.png">
+          <source media="(prefers-color-scheme: light)" srcset="git/logo_glow.png">
+          <img alt="yes" src="https://user-images.githubusercontent.com/25423296/163456779-a8556205-d0a5-45e2-ac17-42d089e3c3f8.png">
+     </picture>
+</div>
 
-<h4 align="center">Selfmade CPU architecture with all the tools required to use it.</h4>
+<h4 align="center">Toolkit for custom ISA</h4>
 
 <p align="center">
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
      <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
           alt="GitHub opened issues">
-     <img src="https://img.shields.io/badge/version-0.0.3-red"
+     <img src="https://img.shields.io/badge/version-0.0.4-red"
           alt="Version">
      <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
           alt="CI status">
