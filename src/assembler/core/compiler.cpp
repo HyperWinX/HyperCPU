@@ -37,11 +37,17 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
     .symbol("<");
   parser.token(">")
     .symbol(">");
+  
+  parser.token("#use")
+    .fullword()
+    .symbol("use");
+  parser.token("ptr")
+    .fullword()
+    .symbol("ptr");
+  
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
     .symbol("ident")
     .action(tokenize_ident);
-  parser.token("#use")
-    .symbol("use");
   parser.token(R"("[^"]*")")
     .symbol("string")
     .action(tokenize_str);
@@ -72,17 +78,26 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
 
   parser.rule("operand")
     .production("[", "hex", "]", parse_operand1)
-    .production("[", "ident", "+", "uint", "]", parse_operand2)
-    .production("[", "ident", "-", "uint", "]", parse_operand3)
-    .production("[", "ident", "+", "hex", "]", parse_operand2)
-    .production("[", "ident", "-", "hex", "]", parse_operand3)
-    .production("[", "ident", "+", "binary", "]", parse_operand2)
-    .production("[", "ident", "-", "binary", "]", parse_operand3)
-    .production("hex", parse_operand5)
-    .production("binary", parse_operand5)
-    .production("sint", parse_operand4)
-    .production("uint", parse_operand5)
-    .production("ident", parse_operand6);
+    .production("[", "ident", "]", parse_operand2)
+    .production("[", "ident", "+", "uint", "]", parse_operand3)
+    .production("[", "ident", "-", "uint", "]", parse_operand4)
+    .production("[", "ident", "+", "hex", "]", parse_operand3)
+    .production("[", "ident", "-", "hex", "]", parse_operand4)
+    .production("[", "ident", "+", "binary", "]", parse_operand3)
+    .production("[", "ident", "-", "binary", "]", parse_operand4)
+    .production("ident", "ptr", "[", "hex", "]", parse_operand5)
+    .production("ident", "ptr", "[", "ident", "]", parse_operand6)
+    .production("ident", "ptr", "[", "ident", "+", "uint", "]", parse_operand7)
+    .production("ident", "ptr", "[", "ident", "-", "uint", "]", parse_operand8)
+    .production("ident", "ptr", "[", "ident", "+", "hex", "]", parse_operand7)
+    .production("ident", "ptr", "[", "ident", "-", "hex", "]", parse_operand8)
+    .production("ident", "ptr", "[", "ident", "+", "binary", "]", parse_operand7)
+    .production("ident", "ptr", "[", "ident", "-", "binary", "]", parse_operand8)
+    .production("hex", parse_operand10)
+    .production("binary", parse_operand10)
+    .production("sint", parse_operand9)
+    .production("uint", parse_operand10)
+    .production("ident", parse_operand11);
 
 }
 
@@ -102,7 +117,7 @@ void hcasm::hcasm_compiler::compile(std::string& source, std::string& destinatio
   compiler_state ir = transform_to_IR(contents);
 
   logger.log(loglevel::DEBUG, "Stage 2 compiling - transforming to binary");
-  transform_to_binary(ir, dst);
+  auto binary = transform_to_binary(ir);
 }
 
 hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
@@ -119,6 +134,6 @@ hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
   return state;
 }
 
-void hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_state& ir, std::ofstream& dst) {
+unsigned char* hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_state& ir) {
 
 }

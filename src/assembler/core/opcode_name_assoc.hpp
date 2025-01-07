@@ -3,7 +3,7 @@
 #include <mapbox/eternal.hpp>
 #include <emulator/core/cpu/instructions/opcodes.hpp>
 
-constexpr const auto opcode_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, hypercpu::opcode>({
+constexpr inline const auto opcode_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, hypercpu::opcode>({
     {"adc",   hypercpu::opcode::ADC},
     {"add",   hypercpu::opcode::ADD},
     {"and",   hypercpu::opcode::AND},

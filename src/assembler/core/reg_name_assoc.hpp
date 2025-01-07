@@ -3,7 +3,7 @@
 #include <mapbox/eternal.hpp>
 #include <emulator/core/cpu/instructions/registers.hpp>
 
-constexpr const auto registers_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, hypercpu::registers>({
+constexpr inline const auto registers_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, hypercpu::registers>({
     {"x0", hypercpu::registers::X0},
     {"x1", hypercpu::registers::X1},
     {"x2", hypercpu::registers::X2},

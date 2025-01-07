@@ -1,5 +1,6 @@
 #pragma once
 
+#include "emulator/core/cpu/instructions/flags.hpp"
 #include "emulator/core/cpu/instructions/opcodes.hpp"
 #include <string>
 
@@ -24,13 +25,23 @@ namespace hcasm {
     mem_reg_sub_int,
     sint,
     uint,
-    memaddr,
+    memaddr_reg,
+    memaddr_int,
+    none
+  };
+
+  enum class mode {
+    b8,
+    b16,
+    b32,
+    b64,
     none
   };
 
   struct operand {
     operand_type type;
     hypercpu::registers reg;
+    mode mode;
     union {
       std::uint64_t uint1;
       std::int64_t sint2;
@@ -69,6 +80,11 @@ namespace hcasm {
   value parse_operand4(std::vector<value>&& args);
   value parse_operand5(std::vector<value>&& args);
   value parse_operand6(std::vector<value>&& args);
+  value parse_operand7(std::vector<value>&& args);
+  value parse_operand8(std::vector<value>&& args);
+  value parse_operand9(std::vector<value>&& args);
+  value parse_operand10(std::vector<value>&& args);
+  value parse_operand11(std::vector<value>&& args);
 
   value compile_stmt1(std::vector<value>&& args);
   value compile_stmt2(std::vector<value>&& args);
@@ -89,7 +105,7 @@ namespace hcasm {
 
     void compile(std::string& source, std::string& destination);
     compiler_state transform_to_IR(std::string& src);
-    void transform_to_binary(compiler_state& ir, std::ofstream& dst);
+    unsigned char* transform_to_binary(compiler_state& ir);
   };
   
 }
