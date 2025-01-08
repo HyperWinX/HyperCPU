@@ -11,13 +11,14 @@ TEST_F(asm_parser_stmt_test, STMT1) {
     EXPECT_EQ(state.ir.size(), 1);
     EXPECT_EQ(state.labels.size(), 0);
 
-    EXPECT_EQ(state.ir[0].opcode, hypercpu::opcode::ADC);
+    auto& instr = std::get<hcasm::instruction>(state.ir[0]);
+    EXPECT_EQ(instr.opcode, hypercpu::opcode::ADC);
     
-    EXPECT_EQ(state.ir[0].op1.type, hcasm::operand_type::reg);
-    EXPECT_EQ(state.ir[0].op1.reg, hypercpu::registers::X0);
+    EXPECT_EQ(instr.op1.type, hcasm::operand_type::reg);
+    EXPECT_EQ(instr.op1.reg, hypercpu::registers::X0);
 
-    EXPECT_EQ(state.ir[0].op2.type, hcasm::operand_type::reg);
-    EXPECT_EQ(state.ir[0].op2.reg, hypercpu::registers::X1);
+    EXPECT_EQ(instr.op2.type, hcasm::operand_type::reg);
+    EXPECT_EQ(instr.op2.reg, hypercpu::registers::X1);
 }
 
 TEST_F(asm_parser_stmt_test, STMT2) {
@@ -29,12 +30,13 @@ TEST_F(asm_parser_stmt_test, STMT2) {
     EXPECT_EQ(state.ir.size(), 1);
     EXPECT_EQ(state.labels.size(), 0);
 
-    EXPECT_EQ(state.ir[0].opcode, hypercpu::opcode::ADC);
+    auto& instr = std::get<hcasm::instruction>(state.ir[0]);
+    EXPECT_EQ(instr.opcode, hypercpu::opcode::ADC);
     
-    EXPECT_EQ(state.ir[0].op1.type, hcasm::operand_type::reg);
-    EXPECT_EQ(state.ir[0].op1.reg, hypercpu::registers::X0);
+    EXPECT_EQ(instr.op1.type, hcasm::operand_type::reg);
+    EXPECT_EQ(instr.op1.reg, hypercpu::registers::X0);
 
-    EXPECT_EQ(state.ir[0].op2.type, hcasm::operand_type::none);
+    EXPECT_EQ(instr.op2.type, hcasm::operand_type::none);
 }
 
 TEST_F(asm_parser_stmt_test, STMT3) {
@@ -46,11 +48,12 @@ TEST_F(asm_parser_stmt_test, STMT3) {
     EXPECT_EQ(state.ir.size(), 1);
     EXPECT_EQ(state.labels.size(), 0);
 
-    EXPECT_EQ(state.ir[0].opcode, hypercpu::opcode::ADC);
+    auto& instr = std::get<hcasm::instruction>(state.ir[0]);
+    EXPECT_EQ(instr.opcode, hypercpu::opcode::ADC);
     
-    EXPECT_EQ(state.ir[0].op1.type, hcasm::operand_type::none);
+    EXPECT_EQ(instr.op1.type, hcasm::operand_type::none);
 
-    EXPECT_EQ(state.ir[0].op2.type, hcasm::operand_type::none);
+    EXPECT_EQ(instr.op2.type, hcasm::operand_type::none);
 }
 
 TEST_F(asm_parser_stmt_test, LABEL) {
@@ -62,5 +65,5 @@ TEST_F(asm_parser_stmt_test, LABEL) {
     EXPECT_EQ(state.ir.size(), 0);
     EXPECT_EQ(state.labels.size(), 1);
 
-    EXPECT_EQ(state.labels[0].index, 0);
+    EXPECT_EQ(std::get<hcasm::label>(state.ir[0]).index, 0);
 }

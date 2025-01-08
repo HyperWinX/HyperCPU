@@ -8,6 +8,7 @@
 
 #include <logger/logger.hpp>
 #include <emulator/core/cpu/instructions/registers.hpp>
+#include <type_traits>
 #include <vector>
 
 
@@ -22,7 +23,6 @@ namespace hcasm {
   enum class operand_type {
     reg,
     mem_reg_add_int,
-    mem_reg_sub_int,
     sint,
     uint,
     memaddr_reg,
@@ -30,11 +30,11 @@ namespace hcasm {
     none
   };
 
-  enum class mode {
-    b8,
-    b16,
-    b32,
-    b64,
+  enum class mode : std::uint8_t {
+    b8  = 0b00,
+    b16 = 0b01,
+    b32 = 0b10,
+    b64 = 0b11,
     none
   };
 
@@ -54,6 +54,7 @@ namespace hcasm {
   };
 
   struct label {
+    std::string name;
     std::uint64_t index;
   };
 
@@ -61,11 +62,71 @@ namespace hcasm {
     std::variant<std::int64_t, std::uint64_t, std::string, operand, instruction> val;
   };
 
+  struct binary_result {
+    unsigned char* binary;
+    std::uint64_t ptr;
+
+    template<typename T, std::enable_if_t<
+      std::is_integral_v<T> && 
+      std::is_unsigned_v<T>, bool> = true>
+    constexpr inline void push(T data) {
+      std::memcpy(binary + ptr, &data, sizeof(data));
+    }
+  };
+
   struct compiler_state {
-    std::vector<instruction> ir;
-    std::vector<label> labels;
+    std::vector<std::variant<instruction, label>> ir;
+    std::unordered_map<std::string, std::uint64_t> labels;
     std::uint64_t code_size;
   };
+
+  constexpr inline mode mode_from_register(hypercpu::registers reg) {
+    using namespace hypercpu;
+    switch (reg) {
+      case registers::X0:
+      case registers::X1:
+      case registers::X2:
+      case registers::X3:
+      case registers::X4:
+      case registers::X5:
+      case registers::X6:
+      case registers::X7:
+        return mode::b64;
+      case registers::XH0:
+      case registers::XH1:
+      case registers::XH2:
+      case registers::XH3:
+      case registers::XH4:
+      case registers::XH5:
+      case registers::XH6:
+      case registers::XH7:
+      case registers::XL0:
+      case registers::XL1:
+      case registers::XL2:
+      case registers::XL3:
+      case registers::XL4:
+      case registers::XL5:
+      case registers::XL6:
+      case registers::XL7:
+        return mode::b32;
+      case registers::XLL0:
+      case registers::XLL1:
+      case registers::XLL2:
+      case registers::XLL3:
+        return mode::b16;
+      case registers::XLLH0:
+      case registers::XLLH1:
+      case registers::XLLH2:
+      case registers::XLLH3:
+      case registers::XLLL0:
+      case registers::XLLL1:
+      case registers::XLLL2:
+      case registers::XLLL3:
+        return mode::b8;
+      default:
+        __builtin_unreachable();
+    }
+  }
 
   value tokenize_sint(std::string_view str);
   value tokenize_uint(std::string_view str);
@@ -96,16 +157,19 @@ namespace hcasm {
   extern std::uint64_t current_index;
 
   class hcasm_compiler {
-  private:
-    pog::Parser<value> parser;
-    compiler_state* state;
-
   public:
     hcasm_compiler(hypercpu::loglevel lvl = hypercpu::loglevel::WARNING);
 
     void compile(std::string& source, std::string& destination);
     compiler_state transform_to_IR(std::string& src);
-    unsigned char* transform_to_binary(compiler_state& ir);
+    binary_result transform_to_binary(compiler_state& ir);
+
+  private:
+    pog::Parser<value> parser;
+    compiler_state* state;
+
+    constexpr inline std::uint8_t operand_size(operand op);
+    std::uint8_t instruction_size(instruction& instr);
   };
   
 }

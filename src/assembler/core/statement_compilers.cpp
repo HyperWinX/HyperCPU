@@ -69,6 +69,11 @@ value hcasm::compile_label(std::vector<value>&& args) {
         std::abort();
     }
 
-    current_state->labels.push_back({ current_index++ });
-    return { std::get<std::string>(args[0].val) };
+    if (current_state->labels.contains(name)) {
+        logger.log(loglevel::ERROR, "Redefitinion of label \"{}\"", name);
+        std::abort();
+    }
+
+    current_state->ir.push_back(hcasm::label{ name, current_index++ });
+    return { std::get<std::string>(args[0].val) }; // Technically, placeholder
 }

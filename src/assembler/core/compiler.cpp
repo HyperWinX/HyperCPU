@@ -6,6 +6,7 @@
 
 #include <core/compiler.hpp>
 #include <logger/logger.hpp>
+#include <variant>
 
 using hypercpu::loglevel;
 
@@ -80,24 +81,18 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
     .production("[", "hex", "]", parse_operand1)
     .production("[", "ident", "]", parse_operand2)
     .production("[", "ident", "+", "uint", "]", parse_operand3)
-    .production("[", "ident", "-", "uint", "]", parse_operand4)
     .production("[", "ident", "+", "hex", "]", parse_operand3)
-    .production("[", "ident", "-", "hex", "]", parse_operand4)
     .production("[", "ident", "+", "binary", "]", parse_operand3)
-    .production("[", "ident", "-", "binary", "]", parse_operand4)
-    .production("ident", "ptr", "[", "hex", "]", parse_operand5)
-    .production("ident", "ptr", "[", "ident", "]", parse_operand6)
-    .production("ident", "ptr", "[", "ident", "+", "uint", "]", parse_operand7)
-    .production("ident", "ptr", "[", "ident", "-", "uint", "]", parse_operand8)
-    .production("ident", "ptr", "[", "ident", "+", "hex", "]", parse_operand7)
-    .production("ident", "ptr", "[", "ident", "-", "hex", "]", parse_operand8)
-    .production("ident", "ptr", "[", "ident", "+", "binary", "]", parse_operand7)
-    .production("ident", "ptr", "[", "ident", "-", "binary", "]", parse_operand8)
-    .production("hex", parse_operand10)
-    .production("binary", parse_operand10)
-    .production("sint", parse_operand9)
-    .production("uint", parse_operand10)
-    .production("ident", parse_operand11);
+    .production("ident", "ptr", "[", "hex", "]", parse_operand4)
+    .production("ident", "ptr", "[", "ident", "]", parse_operand5)
+    .production("ident", "ptr", "[", "ident", "+", "uint", "]", parse_operand6)
+    .production("ident", "ptr", "[", "ident", "+", "hex", "]", parse_operand6)
+    .production("ident", "ptr", "[", "ident", "+", "binary", "]", parse_operand6)
+    .production("hex", parse_operand8)
+    .production("binary", parse_operand8)
+    .production("sint", parse_operand7)
+    .production("uint", parse_operand8)
+    .production("ident", parse_operand9);
 
 }
 
@@ -118,6 +113,8 @@ void hcasm::hcasm_compiler::compile(std::string& source, std::string& destinatio
 
   logger.log(loglevel::DEBUG, "Stage 2 compiling - transforming to binary");
   auto binary = transform_to_binary(ir);
+
+
 }
 
 hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
@@ -134,8 +131,72 @@ hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
   return state;
 }
 
-unsigned char* hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_state& ir) {
-  
+constexpr inline std::uint8_t hcasm::hcasm_compiler::operand_size(hcasm::operand op) {
+  switch (op.type) {
+    case hcasm::operand_type::mem_reg_add_int:
+    case hcasm::operand_type::memaddr_reg:
+    case hcasm::operand_type::reg:
+      return 1;
+    case hcasm::operand_type::memaddr_int:
+      return 8;
+    case hcasm::operand_type::sint:
+    case hcasm::operand_type::uint:
+      switch (op.mode) {
+        case hcasm::mode::b8:   return 1;
+        case hcasm::mode::b16:  return 2;
+        case hcasm::mode::b32:  return 4;
+        case hcasm::mode::b64:  return 8;
+        default: __builtin_unreachable();
+      }
+    default: __builtin_unreachable();
+  }
+}
 
-  return nullptr;
+std::uint8_t hcasm::hcasm_compiler::instruction_size(hcasm::instruction& instr) {
+  std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
+
+  if (instr.op1.type != hcasm::operand_type::none && instr.op2.type != hcasm::operand_type::none) {
+    if (instr.op1.type == hcasm::operand_type::mem_reg_add_int || instr.op2.type == hcasm::operand_type::mem_reg_add_int) {
+      ++result; // Prefix byte
+    }
+    result += operand_size(instr.op1);
+    result += operand_size(instr.op2);
+  } else if (instr.op1.type != hcasm::operand_type::none && instr.op2.type == hcasm::operand_type::none) {
+    result += operand_size(instr.op1);
+  } else if (instr.op1.type == hcasm::operand_type::none && instr.op2.type != hcasm::operand_type::none) {
+    result += operand_size(instr.op2);
+  }
+
+  return result;
+}
+
+hcasm::binary_result hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_state& ir) {
+  // Count code size - pass 1
+  logger.log(loglevel::DEBUG, "Running pass 1 - counting code size");
+  
+  for (auto& instr : ir.ir) {
+    if (std::holds_alternative<instruction>(instr)) {
+      ir.code_size += instruction_size(std::get<instruction>(instr));
+    } else if (std::holds_alternative<label>(instr)) {
+      auto& lbl = std::get<label>(instr);
+      current_state->labels[lbl.name] = ir.code_size;
+    }
+  }
+
+  // Compile code - pass 2
+  binary_result binary = { new unsigned char[ir.code_size] };
+  if (!binary.binary) {
+    logger.log(loglevel::ERROR, "Failed to allocate memory for binary data!");
+    std::abort();
+  }
+
+  for (auto& instr : ir.ir) {
+    if (std::holds_alternative<instruction>(instr)) {
+      auto& ins = std::get<instruction>(instr);
+
+      
+    }
+  }
+
+  return binary;
 }
