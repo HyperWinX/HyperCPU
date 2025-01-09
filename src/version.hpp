@@ -1,1 +1,1 @@
-static constexpr char HCPU_VERSION[] = "0.0.5";
+static constexpr char HCPU_VERSION[] = "0.0.6";

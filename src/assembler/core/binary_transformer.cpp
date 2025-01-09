@@ -43,14 +43,25 @@ hypercpu::operand_types hcasm::binary_transformer::determine_op_types(operand& o
   return quick_cast(quick_or(tp1, tp2));
 }
 
+
+
 void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
   hypercpu::operand_types types = determine_op_types(instr.op1, instr.op2);
 
   res.push(static_cast<std::uint16_t>(instr.opcode));
 
   std::uint8_t encoded_operands = 0;
-  if (types == hypercpu::operand_types::RM_IMM) {
+
+  if (has_addr_addition(instr.op1.type) && has_addr_addition(instr.op2.type)) {
+    logger.log(hypercpu::loglevel::ERROR, "You can't use memory address additions for two operands!");
+    std::abort();
+  } else if (has_addr_addition(instr.op1.type) || has_addr_addition(instr.op2.type)) {
     encoded_operands |= 0b10000000;
+    if (has_addr_addition(instr.op2.type)) {
+      encoded_operands |= 0b01000000;
+    } else {
+      // Do nothing - bit 0 means first operand
+    }
   }
 
   hcasm::mode md;
@@ -79,7 +90,10 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
     default:
       __builtin_unreachable();
   }
-  encoded_operands |= (static_cast<std::uint8_t>(md) << 6);
+  encoded_operands |= (static_cast<std::uint8_t>(md) << 4);
+  encoded_operands |= static_cast<std::uint8_t>(types);
+
+  res.push(static_cast<std::uint8_t>(encoded_operands));
 
   switch (types) {
     case hypercpu::operand_types::R_R:
@@ -88,9 +102,12 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
       res.push(static_cast<std::uint8_t>(instr.op2.reg));
       break;
+    case hypercpu::operand_types::RM_M:
     case hypercpu::operand_types::R_M:
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
       res.push(instr.op2.uint1);
+      break;
+    case hypercpu::operand_types::RM_IMM:
     case hypercpu::operand_types::R_IMM:
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
       switch (md) {
@@ -101,13 +118,29 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
         default:
           __builtin_unreachable();
       }
+      break;
     case hypercpu::operand_types::R:
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
       break;
-    
+    case hypercpu::operand_types::M:
+      res.push(instr.op1.uint1);
+      break;
+    case hypercpu::operand_types::IMM:
+      switch (md) {
+        case hcasm::mode::b8:   res.push(static_cast<std::uint8_t>(instr.op1.uint1));  break;
+        case hcasm::mode::b16:  res.push(static_cast<std::uint16_t>(instr.op1.uint1)); break;
+        case hcasm::mode::b32:  res.push(static_cast<std::uint32_t>(instr.op1.uint1)); break;
+        case hcasm::mode::b64:  res.push(static_cast<std::uint64_t>(instr.op1.uint1)); break;
+        default:
+          __builtin_unreachable();
+      }
     case hypercpu::operand_types::M_R:
       res.push(instr.op2.uint1);
       res.push(static_cast<std::uint8_t>(instr.op2.reg));
       break;
+    case hypercpu::operand_types::NONE:
+      break;
+    default:
+      __builtin_unreachable();
   }
 }

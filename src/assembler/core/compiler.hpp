@@ -71,10 +71,17 @@ namespace hcasm {
       std::is_unsigned_v<T>, bool> = true>
     constexpr inline void push(T data) {
       std::memcpy(binary + ptr, &data, sizeof(data));
+      ptr += sizeof(data);
+    }
+
+    ~binary_result() {
+      delete[] binary;
     }
   };
 
   struct compiler_state {
+    compiler_state() : code_size(0) { }
+
     std::vector<std::variant<instruction, label>> ir;
     std::unordered_map<std::string, std::uint64_t> labels;
     std::uint64_t code_size;

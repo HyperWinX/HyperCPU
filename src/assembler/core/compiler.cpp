@@ -1,3 +1,4 @@
+#include "core/binary_transformer.hpp"
 #include <print>
 #include <string>
 #include <fstream>
@@ -141,14 +142,10 @@ constexpr inline std::uint8_t hcasm::hcasm_compiler::operand_size(hcasm::operand
       return 8;
     case hcasm::operand_type::sint:
     case hcasm::operand_type::uint:
-      switch (op.mode) {
-        case hcasm::mode::b8:   return 1;
-        case hcasm::mode::b16:  return 2;
-        case hcasm::mode::b32:  return 4;
-        case hcasm::mode::b64:  return 8;
-        default: __builtin_unreachable();
-      }
-    default: __builtin_unreachable();
+      // Return 8, because it is the max size of that type of operand. We don't know exact size of operand at this stage.
+      return 8;
+    default: std::abort();
+    //default: __builtin_unreachable();
   }
 }
 
@@ -190,11 +187,13 @@ hcasm::binary_result hcasm::hcasm_compiler::transform_to_binary(hcasm::compiler_
     std::abort();
   }
 
+  binary_transformer transformer(binary);
+
   for (auto& instr : ir.ir) {
     if (std::holds_alternative<instruction>(instr)) {
       auto& ins = std::get<instruction>(instr);
 
-      
+      transformer.encode_instruction(ins);
     }
   }
 

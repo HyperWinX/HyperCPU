@@ -27,6 +27,8 @@ namespace hypercpu {
         case hypercpu::loglevel::INFO:    return '*';
         case hypercpu::loglevel::WARNING: return '=';
         case hypercpu::loglevel::ERROR:   return '!';
+        default:
+          __builtin_unreachable();
       }
     }
 
@@ -36,6 +38,8 @@ namespace hypercpu {
         case hypercpu::loglevel::INFO:    return RESET;
         case hypercpu::loglevel::WARNING: return B_YELLOW;
         case hypercpu::loglevel::ERROR:   return B_RED;
+        default:
+          __builtin_unreachable();
       }
     }
 
@@ -45,6 +49,8 @@ namespace hypercpu {
         case hypercpu::loglevel::INFO:    return RESET;
         case hypercpu::loglevel::WARNING: return YELLOW;
         case hypercpu::loglevel::ERROR:   return RED;
+        default:
+          __builtin_unreachable();
       }
     }
 
@@ -62,7 +68,7 @@ namespace hypercpu {
       auto col = define_color(lvl);
 
       std::print("{}[{}]{} {}", bold_col, ch, RESET, col);
-      std::fputs(std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)).c_str(), stdout);
+      std::puts(std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)).c_str());
       std::print("{}\n", RESET);
     }
   };

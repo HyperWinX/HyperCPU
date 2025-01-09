@@ -30,6 +30,10 @@ namespace hcasm {
     return static_cast<std::uint8_t>(a) | static_cast<std::uint8_t>(b);
   }
 
+  constexpr inline bool has_addr_addition(hcasm::operand_type tp) {
+    return tp == operand_type::mem_reg_add_int;
+  }
+
   enum class operand_types : std::uint8_t {
     R_R     = quick_or(op1_t::R, op2_t::R),
     R_RM    = quick_or(op1_t::R, op2_t::RM),

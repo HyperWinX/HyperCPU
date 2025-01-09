@@ -158,3 +158,14 @@ protected:
     hcasm::current_index = 0;
   }
 };
+
+class asm_binary_transformer : public ::testing::Test {
+protected:
+  hcasm::hcasm_compiler compiler;
+
+  asm_binary_transformer() : compiler(hypercpu::loglevel::ERROR) { }
+
+  virtual void TearDown() {
+    hcasm::current_index = 0;
+  }
+};
