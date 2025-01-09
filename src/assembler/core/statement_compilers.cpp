@@ -75,5 +75,6 @@ value hcasm::compile_label(std::vector<value>&& args) {
     }
 
     current_state->ir.push_back(hcasm::label{ name, current_index++ });
+    current_state->labels[name] = current_index - 1;
     return { std::get<std::string>(args[0].val) }; // Technically, placeholder
 }

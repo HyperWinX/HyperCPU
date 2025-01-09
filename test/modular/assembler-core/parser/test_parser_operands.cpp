@@ -192,6 +192,6 @@ TEST_F(asm_parser_test, OPERAND9) {
     auto operand = std::get<hcasm::operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, hcasm::operand_type::reg);
-    EXPECT_EQ(operand.mode, hcasm::mode::none);
+    EXPECT_EQ(operand.mode, hcasm::mode::b64);
     EXPECT_EQ(operand.reg, hypercpu::registers::X0);
 }

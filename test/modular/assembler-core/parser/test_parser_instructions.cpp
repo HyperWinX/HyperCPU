@@ -62,7 +62,7 @@ TEST_F(asm_parser_stmt_test, LABEL) {
 
     state = compiler.transform_to_IR(data);
 
-    EXPECT_EQ(state.ir.size(), 0);
+    EXPECT_EQ(state.ir.size(), 1);
     EXPECT_EQ(state.labels.size(), 1);
 
     EXPECT_EQ(std::get<hcasm::label>(state.ir[0]).index, 0);
