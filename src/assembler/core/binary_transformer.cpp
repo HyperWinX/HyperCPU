@@ -20,7 +20,7 @@ hypercpu::operand_types hcasm::binary_transformer::determine_op_types(operand& o
     case hcasm::operand_type::none:
       tp1 = op1_t::NONE; break;
     default:
-      __builtin_unreachable();
+      std::unreachable();
   }
 
   switch (op2.type) {
@@ -37,7 +37,7 @@ hypercpu::operand_types hcasm::binary_transformer::determine_op_types(operand& o
     case hcasm::operand_type::none:
       tp2 = op2_t::NONE; break;
     default:
-      __builtin_unreachable();
+      std::unreachable();
   }
 
   return quick_cast(quick_or(tp1, tp2));
@@ -83,12 +83,15 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
     case hypercpu::operand_types::R:
       md = instr.op1.mode;
       break;
+    case hypercpu::operand_types::IMM:
+      md = hcasm::mode::b64;
+      break;
     case hypercpu::operand_types::RM_R:
     case hypercpu::operand_types::M_R:
       md = instr.op2.mode;
       break;
     default:
-      __builtin_unreachable();
+      std::unreachable();
   }
   encoded_operands |= (static_cast<std::uint8_t>(md) << 4);
   encoded_operands |= static_cast<std::uint8_t>(types);
@@ -116,7 +119,7 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
         case hcasm::mode::b32:  res.push(static_cast<std::uint32_t>(instr.op2.uint1)); break;
         case hcasm::mode::b64:  res.push(static_cast<std::uint64_t>(instr.op2.uint1)); break;
         default:
-          __builtin_unreachable();
+          std::unreachable();
       }
       break;
     case hypercpu::operand_types::R:
@@ -132,7 +135,7 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
         case hcasm::mode::b32:  res.push(static_cast<std::uint32_t>(instr.op1.uint1)); break;
         case hcasm::mode::b64:  res.push(static_cast<std::uint64_t>(instr.op1.uint1)); break;
         default:
-          __builtin_unreachable();
+          std::unreachable();
       }
     case hypercpu::operand_types::M_R:
       res.push(instr.op2.uint1);
@@ -141,6 +144,6 @@ void hcasm::binary_transformer::encode_instruction(hcasm::instruction& instr) {
     case hypercpu::operand_types::NONE:
       break;
     default:
-      __builtin_unreachable();
+      std::unreachable();
   }
 }

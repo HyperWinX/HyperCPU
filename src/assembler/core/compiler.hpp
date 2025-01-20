@@ -79,6 +79,10 @@ namespace hcasm {
     }
   };
 
+  struct line_counter {
+    int a;
+  };
+
   struct compiler_state {
     compiler_state() : code_size(0) { }
 
@@ -131,7 +135,7 @@ namespace hcasm {
       case registers::XLLL3:
         return mode::b8;
       default:
-        __builtin_unreachable();
+        std::unreachable();
     }
   }
 

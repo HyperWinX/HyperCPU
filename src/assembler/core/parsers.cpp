@@ -55,6 +55,9 @@ value hcasm::parse_operand4(std::vector<value>&& args) {
   if (!mode_assoc.contains(mode.c_str())) {
     logger.log(hypercpu::loglevel::ERROR, "Unknown data size: {}", mode);
     std::abort();
+  } else if (std::get<std::string>(args[1].val) != "ptr") {
+    logger.log(hypercpu::loglevel::ERROR, "Cannot use data size without \"ptr\"");
+    std::abort();
   }
 
   return {
@@ -76,6 +79,9 @@ value hcasm::parse_operand5(std::vector<value>&& args) {
   } else if (!mode_assoc.contains(mode.c_str())) {
     logger.log(hypercpu::loglevel::ERROR, "Unknown data size: {}", mode);
     std::abort();
+  } else if (std::get<std::string>(args[1].val) != "ptr") {
+    logger.log(hypercpu::loglevel::ERROR, "Cannot use data size without \"ptr\"");
+    std::abort();
   }
 
   return {
@@ -96,6 +102,9 @@ value hcasm::parse_operand6(std::vector<value>&& args) {
     std::abort();
   } else if (!mode_assoc.contains(mode.c_str())) {
     logger.log(hypercpu::loglevel::ERROR, "Unknown data size: {}", mode);
+    std::abort();
+  } else if (std::get<std::string>(args[1].val) != "ptr") {
+    logger.log(hypercpu::loglevel::ERROR, "Cannot use data size without \"ptr\"");
     std::abort();
   }
 

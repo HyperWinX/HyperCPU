@@ -75,7 +75,7 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
     
     case RM_M:
     case R_M:
-      return std::make_pair(get_register(op1), reinterpret_cast<void*>(op2));
+      return std::make_pair(get_register(op1), std::bit_cast<void*>(op2));
 
     case RM_IMM:
     case R_IMM:{
@@ -105,17 +105,19 @@ std::pair<void*, void*> hypercpu::cpu::get_operands(operand_types op_types, mode
     }
 
     case M_R:
-      return std::make_pair(reinterpret_cast<void*>(op1), get_register(op2));
+      return std::make_pair(std::bit_cast<void*>(op1), get_register(op2));
     
     case R:
       return std::make_pair(get_register(op1), nullptr);
     
+    case IMM:
     case M:
-      return std::make_pair(reinterpret_cast<void*>(op1), nullptr);
+      return std::make_pair(std::bit_cast<void*>(op1), nullptr);
 
     case NONE:
       return std::make_pair(nullptr, nullptr);
-    default: exit(1);
+    default:
+      std::abort();
   }
   return {};
 }

@@ -18,7 +18,7 @@ void hypercpu::cpu::exec_call(operand_types op_types, mode md, void* op1, void* 
       stack_push64(*xip);
       *xip = deref<std::uint64_t>(op1);
       break;
-    case M:
+    case IMM:
       stack_push64(*xip);
       *xip = hypercpu::bit_cast<std::uint64_t>(op1);
       break;

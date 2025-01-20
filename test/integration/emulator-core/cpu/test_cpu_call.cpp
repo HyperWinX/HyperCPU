@@ -19,9 +19,9 @@ TEST_F(cpu_test, INSTR_CALL_R) {
   ASSERT_EQ(*cpu.xip, 1539);
 }
 
-TEST_F(cpu_test, INSTR_CALL_M) {
+TEST_F(cpu_test, INSTR_CALL_IMM) {
   cpu.mem_controller->load16(*cpu.xip, hypercpu::opcode::CALL);
-  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::operand_types::M);
+  cpu.mem_controller->load8(*cpu.xip + 2, hypercpu::mode::b64 << 6 | hypercpu::operand_types::IMM);
   cpu.mem_controller->load64(*cpu.xip + 3, 1536);
   cpu.mem_controller->load16(1536, hypercpu::opcode::HALT);
   cpu.mem_controller->load8(1538, hypercpu::operand_types::NONE);

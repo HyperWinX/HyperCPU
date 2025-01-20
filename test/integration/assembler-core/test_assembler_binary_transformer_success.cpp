@@ -836,8 +836,8 @@ TEST_F(asm_binary_transformer, ASM_M_R_b64) {
   EXPECT_EQ(static_cast<hypercpu::registers>(reg), hypercpu::registers::X1);
 }
 
-TEST_F(asm_binary_transformer, ASM_M) {
-  std::string data = "call, ";
+TEST_F(asm_binary_transformer, ASM_IMM) {
+  std::string data = "call 16h;";
 
   auto state = compiler.transform_to_IR(data);
 
@@ -846,18 +846,15 @@ TEST_F(asm_binary_transformer, ASM_M) {
   std::uint16_t opcode;
   std::uint8_t flags;
   std::uint64_t addr;
-  std::uint8_t reg;
 
   std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
   std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
   std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
-  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
 
-  EXPECT_EQ(static_cast<hypercpu::opcode>(opcode), hypercpu::opcode::MOV);
+  EXPECT_EQ(static_cast<hypercpu::opcode>(opcode), hypercpu::opcode::CALL);
   
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<hypercpu::mode>((flags & 0b00110000) >> 4), hypercpu::mode::b64);
-  EXPECT_EQ(static_cast<hypercpu::operand_types>(flags & 0b00001111), hypercpu::operand_types::M_R);
-  EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<hypercpu::registers>(reg), hypercpu::registers::X1);
+  EXPECT_EQ(static_cast<hypercpu::operand_types>(flags & 0b00001111), hypercpu::operand_types::IMM);
+  EXPECT_EQ(addr, 0x16);
 }

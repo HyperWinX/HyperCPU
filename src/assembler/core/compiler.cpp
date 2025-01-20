@@ -2,7 +2,7 @@
 #include <print>
 #include <string>
 #include <fstream>
-
+#include <iostream>
 #include <pog/pog.h>
 
 #include <core/compiler.hpp>
@@ -20,7 +20,7 @@ namespace hcasm {
 hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
   logger = hypercpu::logger{lvl};
   // Setup tokens
-  parser.token("\\s+");
+  parser.token("[^\\S\n]+");
   parser.token(R"(\+)")
     .symbol("+");
   parser.token(R"(-)")
@@ -39,13 +39,16 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
     .symbol("<");
   parser.token(">")
     .symbol(">");
+  parser.token(R"(\n)")
+    .symbol("\\n")
+    .action([](std::string_view tok) -> value {
+      std::cerr << "FUCKIN' YESS!\n";
+      std::abort();
+    });
   
   parser.token("#use")
     .fullword()
     .symbol("use");
-  parser.token("ptr")
-    .fullword()
-    .symbol("ptr");
   
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
     .symbol("ident")
@@ -65,6 +68,10 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
   parser.token(R"([01]+b)")
     .symbol("binary")
     .action(tokenize_binary);
+  parser.end_token().action([this](std::string_view) -> value {
+    parser.pop_input_stream();
+    return {};
+  });
   logger.log(hypercpu::loglevel::DEBUG, "Tokens configured");
 
   // Setup parser rules
@@ -84,11 +91,11 @@ hcasm::hcasm_compiler::hcasm_compiler(loglevel lvl) {
     .production("[", "ident", "+", "uint", "]", parse_operand3)
     .production("[", "ident", "+", "hex", "]", parse_operand3)
     .production("[", "ident", "+", "binary", "]", parse_operand3)
-    .production("ident", "ptr", "[", "hex", "]", parse_operand4)
-    .production("ident", "ptr", "[", "ident", "]", parse_operand5)
-    .production("ident", "ptr", "[", "ident", "+", "uint", "]", parse_operand6)
-    .production("ident", "ptr", "[", "ident", "+", "hex", "]", parse_operand6)
-    .production("ident", "ptr", "[", "ident", "+", "binary", "]", parse_operand6)
+    .production("ident", "ident", "[", "hex", "]", parse_operand4)
+    .production("ident", "ident", "[", "ident", "]", parse_operand5)
+    .production("ident", "ident", "[", "ident", "+", "uint", "]", parse_operand6)
+    .production("ident", "ident", "[", "ident", "+", "hex", "]", parse_operand6)
+    .production("ident", "ident", "[", "ident", "+", "binary", "]", parse_operand6)
     .production("hex", parse_operand8)
     .production("binary", parse_operand8)
     .production("sint", parse_operand7)
@@ -123,12 +130,13 @@ hcasm::compiler_state hcasm::hcasm_compiler::transform_to_IR(std::string& src) {
   current_state = &state;
   this->state = &state;
 
-  parser.prepare();
+  auto report = parser.prepare();
+  std::puts(report.to_string().c_str());
   logger.log(loglevel::DEBUG, "Parser prepared.");
   logger.log(loglevel::DEBUG, "Compiling...");
   
   parser.parse(src);
-  current_state = 0;
+  current_state = nullptr;
   return state;
 }
 
@@ -145,7 +153,7 @@ constexpr inline std::uint8_t hcasm::hcasm_compiler::operand_size(hcasm::operand
       // Return 8, because it is the max size of that type of operand. We don't know exact size of operand at this stage.
       return 8;
     default: std::abort();
-    //default: __builtin_unreachable();
+    //default: std::unreachable();
   }
 }
 

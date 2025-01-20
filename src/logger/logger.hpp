@@ -28,7 +28,7 @@ namespace hypercpu {
         case hypercpu::loglevel::WARNING: return '=';
         case hypercpu::loglevel::ERROR:   return '!';
         default:
-          __builtin_unreachable();
+          std::unreachable();
       }
     }
 
@@ -39,7 +39,7 @@ namespace hypercpu {
         case hypercpu::loglevel::WARNING: return B_YELLOW;
         case hypercpu::loglevel::ERROR:   return B_RED;
         default:
-          __builtin_unreachable();
+          std::unreachable();
       }
     }
 
@@ -50,7 +50,7 @@ namespace hypercpu {
         case hypercpu::loglevel::WARNING: return YELLOW;
         case hypercpu::loglevel::ERROR:   return RED;
         default:
-          __builtin_unreachable();
+          std::unreachable();
       }
     }
 

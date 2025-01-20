@@ -457,10 +457,10 @@ TEST_F(decoder_test, CALL_INSTR_R_B32) {
   ASSERT_EXIT(decoder.fetch_and_decode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
-TEST_F(decoder_test, CALL_INSTR_IMM) {
+TEST_F(decoder_test, CALL_INSTR_M) {
   decoder.mem_controller->load16(counter, hypercpu::CALL);
   counter += 2;
-  decoder.mem_controller->load8(counter, hypercpu::operand_types::IMM);
+  decoder.mem_controller->load8(counter, hypercpu::operand_types::M);
   ++counter;
   decoder.mem_controller->load8(counter, hypercpu::registers::X3);
   ++counter;

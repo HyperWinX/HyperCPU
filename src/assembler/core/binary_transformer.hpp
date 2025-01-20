@@ -76,7 +76,7 @@ namespace hcasm {
       case hcasm::mode::b32:  return hypercpu::mode::b32;
       case hcasm::mode::b64:  return hypercpu::mode::b64;
       default:
-        __builtin_unreachable();
+        std::unreachable();
     }
   }
 

@@ -11,7 +11,7 @@ namespace hypercpu {
     {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // AND
     {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ANDN
     {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // BSWAP
-    {0, 0, 0, 0, 0, 0, 0, 0, 0b00000011, SUPPORT_ALL, 0, 0}, // CALL
+    {0, 0, 0, 0, 0, 0, 0, 0, 0b00000011, 0, 0b00000011, 0}, // CALL
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // CCRF
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // COVF
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // CUDF
