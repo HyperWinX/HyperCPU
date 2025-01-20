@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Setup variables
-HEADER="src/version.hpp"
+HEADER="src/Version.hpp"
 STR=$(cat $HEADER)
 LEN=${#STR}
 
