@@ -1,6 +1,6 @@
-#include "core/mode_name_assoc.hpp"
-#include <core/compiler.hpp>
-#include <core/reg_name_assoc.hpp>
+#include <Core/ModeNameAssoc.hpp>
+#include <Core/RegNameAssoc.hpp>
+#include <Core/Compiler.hpp>
 
 using hcasm::value;
 

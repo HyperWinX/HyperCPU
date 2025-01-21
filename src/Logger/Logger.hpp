@@ -7,7 +7,7 @@
 #include <print>
 #include <utility>
 
-#include <logger/colors.hpp>
+#include <Logger/Colors.hpp>
 
 
 namespace hypercpu {

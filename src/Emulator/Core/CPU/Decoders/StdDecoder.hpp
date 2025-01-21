@@ -1,9 +1,9 @@
 #pragma once
 
-#include <core/memory_controller/i_memory_controller.hpp>
-#include <core/cpu/instructions/opcodes.hpp>
-#include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
+#include <Core/MemoryController/IMemoryController.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Decoders/IDecoder.hpp>
 
 
 namespace hypercpu {

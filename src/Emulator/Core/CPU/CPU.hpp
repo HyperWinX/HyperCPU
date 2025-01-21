@@ -1,12 +1,13 @@
 #pragma once
 
 #include <cstddef>
+
 #include <functional>
 
-#include <core/memory_controller/i_memory_controller.hpp>
-#include <core/cpu/interrupts/reserved_interrupts.hpp>
-#include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/decode/decoder.hpp>
+#include <Core/MemoryController/IMemoryController.hpp>
+#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Decoders/StdDecoder.hpp>
 
 
 #define DECLARE_INSTR(name) void exec_##name(operand_types op_types, mode md, void* op1, void* op2)

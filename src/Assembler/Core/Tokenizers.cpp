@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <sstream>
 
-#include <core/compiler.hpp>
+#include <Core/Compiler.hpp>
 
 
 using hcasm::value;

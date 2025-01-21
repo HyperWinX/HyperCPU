@@ -1,6 +1,6 @@
 #include <cstdint>
 
-#include <core/cpu/instructions/allowed_modes.hpp>
+#include <Core/CPU/Instructions/AllowedFlags.hpp>
 
 
 namespace hypercpu {

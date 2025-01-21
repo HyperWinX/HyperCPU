@@ -1,6 +1,7 @@
-#include "core/cpu/instructions/opcodes.hpp"
-#include "core/cpu/interrupts/reserved_interrupts.hpp"
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/CPU.hpp>
+
 
 void hypercpu::cpu::trigger_interrupt(hypercpu::cpu_exceptions exception) {
   std::uint64_t code_ptr = mem_controller->read64((*xivt) + (8 * static_cast<std::uint8_t>(exception)));

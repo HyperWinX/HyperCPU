@@ -1,11 +1,10 @@
 #include <functional>
 
-#include <core/memory_controller/memory_controller_mt.hpp>
-#include <core/memory_controller/memory_controller_st.hpp>
-#include <core/cpu/instructions_impl/instructions.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
-#include <core/cpu/decode/decoder.hpp>
-#include <core/cpu/cpu.hpp>
+#include <Core/MemoryController/MemoryControllerMT.hpp>
+#include <Core/MemoryController/MemoryControllerST.hpp>
+#include <Core/CPU/Decoders/IDecoder.hpp>
+#include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Core/CPU/CPU.hpp>
 
 hypercpu::cpu::cpu(std::size_t core_count, std::size_t mem_size) :
   mem_controller(core_count == 1 ?

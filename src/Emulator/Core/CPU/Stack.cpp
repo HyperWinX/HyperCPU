@@ -1,5 +1,5 @@
-#include <core/cpu/assert.hpp>
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/Assert.hpp>
+#include <Core/CPU/CPU.hpp>
 
 
 void hypercpu::cpu::stack_push8(std::uint8_t val) noexcept {

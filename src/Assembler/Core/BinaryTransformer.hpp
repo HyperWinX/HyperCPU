@@ -1,11 +1,12 @@
 #pragma once
 
-#include "core/compiler.hpp"
+#include <utility>
+
+#include <Emulator/Core/CPU/Instructions/Flags.hpp>
+#include <Core/Compiler.hpp>
+
 #include <mapbox/eternal.hpp>
 
-#include <emulator/core/cpu/instructions/flags.hpp>
-
-#include <utility>
 
 namespace hcasm {
   struct binary_result;

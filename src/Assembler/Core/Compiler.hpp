@@ -1,16 +1,16 @@
 #pragma once
 
-#include "emulator/core/cpu/instructions/flags.hpp"
-#include "emulator/core/cpu/instructions/opcodes.hpp"
+#include <type_traits>
+#include <utility>
 #include <string>
+#include <vector>
+
+#include <Emulator/Core/CPU/Instructions/Registers.hpp>
+#include <Emulator/Core/CPU/Instructions/Flags.hpp>
+#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
+#include <Logger/Logger.hpp>
 
 #include <pog/parser.h>
-
-#include <logger/logger.hpp>
-#include <emulator/core/cpu/instructions/registers.hpp>
-#include <type_traits>
-#include <vector>
-#include <utility>
 
 
 namespace hcasm {

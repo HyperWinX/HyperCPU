@@ -1,7 +1,8 @@
 #pragma once
 
+#include <Core/Compiler.hpp>
+
 #include <mapbox/eternal.hpp>
-#include <core/compiler.hpp>
 
 constexpr inline const auto mode_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, hcasm::mode>({
     {"b8", hcasm::mode::b8},

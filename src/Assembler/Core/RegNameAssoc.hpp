@@ -1,7 +1,8 @@
 #pragma once
 
+#include <Emulator/Core/CPU/Instructions/Registers.hpp>
+
 #include <mapbox/eternal.hpp>
-#include <emulator/core/cpu/instructions/registers.hpp>
 
 constexpr inline const auto registers_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, hypercpu::registers>({
     {"x0", hypercpu::registers::X0},

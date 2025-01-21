@@ -4,7 +4,7 @@
 #include <fixtures.hpp>
 
 #define private public
-#include <core/memory_controller/memory_controller_mt.hpp>
+#include <Core/MemoryController/MemoryControllerMT.hpp>
 
 
 static constexpr std::uint8_t BYTE = 0x55;

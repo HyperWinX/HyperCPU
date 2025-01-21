@@ -1,4 +1,5 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
 #include <fixtures.hpp>
 
 TEST_F(asm_binary_transformer, ASM_INVALID_INSTRUCTION) {

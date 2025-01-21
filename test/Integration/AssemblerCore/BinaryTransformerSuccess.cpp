@@ -1,7 +1,8 @@
-#include "core/cpu/instructions/flags.hpp"
-#include "core/cpu/instructions/opcodes.hpp"
-#include "core/cpu/instructions/registers.hpp"
-#include "misc/bit_cast.hpp"
+#include <Core/CPU/Instructions/Registers.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Misc/bit_cast.hpp>
+
 #include <fixtures.hpp>
 
 TEST_F(asm_binary_transformer, ASM_R_R_b8) {

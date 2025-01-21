@@ -9,7 +9,7 @@
     if (!(expr) && !cpu) [[unlikely]] {             \
       std::println("Assertion failed: {}", #expr);  \
       std::abort();                                 \
-    } else if (!(expr) && cpu) [[unlikely]] {       \
+    } else if (!(expr) && cpu) {       \
       cpu->trigger_interrupt(hypercpu::cpu_exceptions::SEGF); \
     } else [[likely]] {  }                          \
   } while (false)

@@ -1,5 +1,4 @@
-#include <core/cpu/instructions_impl/instructions.hpp>
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/CPU.hpp>
 
 
 #pragma GCC diagnostic push

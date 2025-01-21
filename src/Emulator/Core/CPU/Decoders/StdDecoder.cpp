@@ -1,15 +1,16 @@
 #include <cassert>
 #include <cstring>
 
-#include <core/cpu/interrupts/reserved_interrupts.hpp>
-#include <core/cpu/instructions/allowed_modes.hpp>
-#include <core/cpu/instructions/registers.hpp>
-#include <core/cpu/instructions/opcodes.hpp>
-#include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
-#include <core/cpu/decode/decoder.hpp>
-#include <core/cpu/assert.hpp>
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
+#include <Core/CPU/Instructions/AllowedFlags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Decoders/IDecoder.hpp>
+#include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Core/CPU/Assert.hpp>
+#include <Core/CPU/CPU.hpp>
+
 
 #define dcdr_assert(expr) raise_exception((expr)); if (decoder_halted) return {}
 

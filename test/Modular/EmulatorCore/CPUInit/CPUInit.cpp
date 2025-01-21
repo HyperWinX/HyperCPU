@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #define private public
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/CPU.hpp>
 
 static constexpr std::uint64_t FULL_CONST = 0x0001020304050607;
 static constexpr std::uint32_t CONSTH = 0x00010203;

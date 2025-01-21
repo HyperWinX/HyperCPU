@@ -1,13 +1,15 @@
-#include "core/binary_transformer.hpp"
 #include <print>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <variant>
+
+#include <Core/BinaryTransformer.hpp>
+#include <Core/Compiler.hpp>
+#include <Logger/Logger.hpp>
+
 #include <pog/pog.h>
 
-#include <core/compiler.hpp>
-#include <logger/logger.hpp>
-#include <variant>
 
 using hypercpu::loglevel;
 

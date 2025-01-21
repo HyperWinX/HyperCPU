@@ -1,17 +1,16 @@
 #pragma once
 
-#include <stdexcept>
-#include <print>
-
 #include <cstddef>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
 
+#include <stdexcept>
+#include <print>
 
-#include <core/cpu/cpu.hpp>
-#include <core/cpu/interrupts/reserved_interrupts.hpp>
-#include <core/memory_controller/i_memory_controller.hpp>
+#include <Core/CPU/CPU.hpp>
+#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
+#include <Core/MemoryController/IMemoryController.hpp>
 
 
 namespace hypercpu {

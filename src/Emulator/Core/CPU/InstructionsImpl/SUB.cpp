@@ -1,9 +1,8 @@
-#include <core/cpu/instructions_impl/instructions.hpp>
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/CPU.hpp>
 
-#include <misc/deref.hpp>
-#include <misc/bit_cast.hpp>
-#include <misc/underflow.hpp>
+#include <Misc/deref.hpp>
+#include <Misc/bit_cast.hpp>
+#include <Misc/underflow.hpp>
 
 
 void hypercpu::cpu::exec_sub(operand_types op_types, mode md, void* op1, void* op2) {

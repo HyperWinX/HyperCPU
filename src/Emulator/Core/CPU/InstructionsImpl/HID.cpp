@@ -1,11 +1,10 @@
-#include <core/cpu/instructions_impl/instructions.hpp>
-#include <core/cpu/cpu.hpp>
+#include <Core/CPU/CPU.hpp>
+#include <Core/CPU/Version.hpp>
 
-#include <misc/deref.hpp>
-#include <misc/bit_cast.hpp>
-#include <misc/overflow.hpp>
+#include <Misc/deref.hpp>
+#include <Misc/bit_cast.hpp>
+#include <Misc/overflow.hpp>
 
-#include <core/cpu/version.hpp>
 
 
 #pragma GCC diagnostic push

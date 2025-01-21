@@ -1,6 +1,6 @@
-#include "emulator/core/cpu/instructions/flags.hpp"
-#include <core/binary_transformer.hpp>
-#include <core/compiler.hpp>
+#include <Emulator/Core/CPU/Instructions/Flags.hpp>
+#include <Core/BinaryTransformer.hpp>
+#include <Core/Compiler.hpp>
 
 #include <utility>
 

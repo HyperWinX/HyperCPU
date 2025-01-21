@@ -1,5 +1,5 @@
-#include <core/cpu/instructions/registers.hpp>
-#include <core/cpu/instructions/flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
 
 #include <fixtures.hpp>
 

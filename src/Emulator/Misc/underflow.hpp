@@ -1,3 +1,5 @@
+#pragma once
+
 namespace hypercpu {
   template<typename T>
   constexpr bool subtraction_will_underflow(T& a, T& b) {

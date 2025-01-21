@@ -3,7 +3,7 @@
 #include <fixtures.hpp>
 
 #define private public
-#include <core/memory_controller/memory_controller_st.hpp>
+#include <Core/MemoryController/MemoryControllerST.hpp>
 
 
 static constexpr std::uint8_t BYTE = 0x55;

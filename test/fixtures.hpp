@@ -1,18 +1,19 @@
 #pragma once
 
-#include "logger/logger.hpp"
 #include <gtest/gtest.h>
 
 #define private public
-#include <core/cpu/cpu.hpp>
-#include <core/cpu/decode/decoder.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
-#include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/instructions/opcodes.hpp>
-#include <core/cpu/instructions/registers.hpp>
-#include <core/memory_controller/memory_controller_st.hpp>
-#include <core/memory_controller/memory_controller_mt.hpp>
-#include <assembler/core/compiler.hpp>
+#include <Core/MemoryController/MemoryControllerMT.hpp>
+#include <Core/MemoryController/MemoryControllerST.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Decoders/IDecoder.hpp>
+#include <Assembler/Core/Compiler.hpp>
+#include <Logger/Logger.hpp>
+#include <Core/CPU/CPU.hpp>
+
 
 static constexpr std::size_t MEM_SIZE = 4096;
 static constexpr std::size_t MEM_FIXTURE_MEM_SIZE = 1024;

@@ -1,12 +1,12 @@
-#include "logger/logger.hpp"
 #include <filesystem>
 #include <print>
 
-#include <argparse/argparse.hpp>
+#include <Core/Compiler.hpp>
+#include <Logger/Logger.hpp>
+#include <Logger/Colors.hpp>
+#include <Utils/Extension.hpp>
 
-#include <core/compiler.hpp>
-#include <logger/colors.hpp>
-#include <utils/extension.hpp>
+#include <argparse/argparse.hpp>
 
 
 int main(int argc, char** argv) {

@@ -1,7 +1,6 @@
-#include <core/compiler.hpp>
-
-#include <core/opcode_name_assoc.hpp>
-#include <core/reg_name_assoc.hpp>
+#include <Core/Compiler.hpp>
+#include <Core/OpcodeNameAssoc.hpp>
+#include <Core/RegNameAssoc.hpp>
 
 using hcasm::value;
 using hypercpu::loglevel;
