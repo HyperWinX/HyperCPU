@@ -12,7 +12,7 @@
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
      <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
           alt="GitHub opened issues">
-     <img src="https://img.shields.io/badge/version-0.0.6-red"
+     <img src="https://img.shields.io/badge/version-0.0.7-red"
           alt="Version">
      <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
           alt="CI status">

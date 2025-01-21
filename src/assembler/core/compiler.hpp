@@ -10,6 +10,7 @@
 #include <emulator/core/cpu/instructions/registers.hpp>
 #include <type_traits>
 #include <vector>
+#include <utility>
 
 
 namespace hcasm {

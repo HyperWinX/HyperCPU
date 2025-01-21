@@ -5,6 +5,8 @@
 
 #include <emulator/core/cpu/instructions/flags.hpp>
 
+#include <utility>
+
 namespace hcasm {
   struct binary_result;
   struct instruction;

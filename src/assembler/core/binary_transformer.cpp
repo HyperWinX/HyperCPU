@@ -2,6 +2,8 @@
 #include <core/binary_transformer.hpp>
 #include <core/compiler.hpp>
 
+#include <utility>
+
 hypercpu::operand_types hcasm::binary_transformer::determine_op_types(operand& op1, operand& op2) {
   op1_t tp1;
   op2_t tp2;
