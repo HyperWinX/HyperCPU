@@ -32,34 +32,34 @@ jobs:
       - name: Build and test with GCC on Debug profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Debug
-          cd build && make run-all-tests-github -j2
+          cd build && make run-all-tests-github -j4
           cd .. && rm -rf build
       
       - name: Build and test with LLVM on Debug profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Debug
-          cd build && make run-all-tests-github -j2
+          cd build && make run-all-tests-github -j4
           cd .. && rm -rf build
       
       - name: Build and test with GCC on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release
-          cd build && make run-all-tests-github -j2
+          cd build && make run-all-tests-github -j4
           cd .. && rm -rf build
       
       - name: Build and test with LLVM on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Release
-          cd build && make run-all-tests-github -j2
+          cd build && make run-all-tests-github -j4
           
       - name: Lint code
         run: |
           cp build/compile_commands.json .
           cppcheck --project=compile_commands.json --check-level=exhaustive -idist
   
-  versioning:
+  versioning-patch-increment:
     runs-on: self-hosted
-    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push')"
+    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push') && !contains(github.event.head_commit.message, 'minor')"
     needs: [testing]
     permissions:
       contents: write
@@ -76,7 +76,42 @@ jobs:
 
       - name: Increment version
         run: |
-          scripts/increment_version.sh
+          scripts/increment_patch.sh
+        
+      - name: Push changes to master branch
+        run: |
+          git checkout dev
+          git switch dev
+          MSG=$(git log -1 --pretty=%B | more)
+          git reset --soft HEAD~1
+          git add .
+          git commit -m "$MSG"
+          git push origin dev -f
+          git merge -s ours origin/master
+          git checkout master
+          git reset --hard dev
+          git push origin master -f
+
+  versioning-minor-increment:
+    runs-on: self-hosted
+    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push') && contains(github.event.head_commit.message, 'minor')"
+    needs: [testing]
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+
+      
+      - name: Setup git user
+        uses: fregante/setup-git-user@v1
+
+      - name: Increment version
+        run: |
+          scripts/increment_minor.sh
         
       - name: Push changes to master branch
         run: |
