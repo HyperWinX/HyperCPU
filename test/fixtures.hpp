@@ -1,171 +1,171 @@
 #pragma once
 
-#include "logger/logger.hpp"
 #include <gtest/gtest.h>
 
 #define private public
-#include <core/cpu/cpu.hpp>
-#include <core/cpu/decode/decoder.hpp>
-#include <core/cpu/decode/i_decoder.hpp>
-#include <core/cpu/instructions/flags.hpp>
-#include <core/cpu/instructions/opcodes.hpp>
-#include <core/cpu/instructions/registers.hpp>
-#include <core/memory_controller/memory_controller_st.hpp>
-#include <core/memory_controller/memory_controller_mt.hpp>
-#include <assembler/core/compiler.hpp>
+#include <Core/MemoryController/MemoryControllerMT.hpp>
+#include <Core/MemoryController/MemoryControllerST.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Decoders/IDecoder.hpp>
+#include <Assembler/Core/Compiler.hpp>
+#include <Logger/Logger.hpp>
+#include <Core/CPU/CPU.hpp>
+
 
 static constexpr std::size_t MEM_SIZE = 4096;
 static constexpr std::size_t MEM_FIXTURE_MEM_SIZE = 1024;
 static constexpr std::size_t MEM_PTR = 0x0102030405060708;
 
-class mc_mt_test : public testing::Test {
+class MC_MT_TEST : public testing::Test {
   protected:
-    hypercpu::memory_controller_mt mcmt;
+    HyperCPU::MemoryControllerMT mcmt;
     char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
     std::size_t counter;
-    mc_mt_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
+    MC_MT_TEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
       std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
     }
 };
 
-class mc_mt_fail_test : public testing::Test {
+class MC_MT_FAILTEST : public testing::Test {
   protected:
-    hypercpu::memory_controller_mt mcmt;
+    HyperCPU::MemoryControllerMT mcmt;
     std::size_t counter;
-    mc_mt_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {}
+    MC_MT_FAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {}
 };
 
-class mc_mt_near_fail_test : public testing::Test {
+class MC_MT_NEARFAILTEST : public testing::Test {
   protected:
-    hypercpu::memory_controller_mt mcmt;
+    HyperCPU::MemoryControllerMT mcmt;
     std::size_t counter;
-    mc_mt_near_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
+    MC_MT_NEARFAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
 };
 
-class mc_st_test : public testing::Test {
+class MC_ST_TEST : public testing::Test {
   protected:
-    hypercpu::memory_controller_st mcmt;
+    HyperCPU::MemoryControllerST mcmt;
     char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
     std::size_t counter;
-    mc_st_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
+    MC_ST_TEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
       std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
     }
 };
 
-class mc_st_fail_test : public testing::Test {
+class MC_ST_FAILTEST : public testing::Test {
   protected:
-    hypercpu::memory_controller_st mcmt;
+    HyperCPU::MemoryControllerST mcmt;
     char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
     std::size_t counter;
-    mc_st_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {
+    MC_ST_FAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {
       std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
     }
 };
 
-class mc_st_near_fail_test : public testing::Test {
+class MC_ST_NEARFAILTEST : public testing::Test {
   protected:
-    hypercpu::memory_controller_st mcmt;
+    HyperCPU::MemoryControllerST mcmt;
     std::size_t counter;
-    mc_st_near_fail_test() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
+    MC_ST_NEARFAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
 };
 
-class decoder_test : public ::testing::Test {
+class DECODER_TEST : public ::testing::Test {
 protected:
-  hypercpu::decoder decoder;
+  HyperCPU::Decoder decoder;
   std::size_t counter;
 
-  decoder_test() = default;
+  DECODER_TEST() = default;
 
   void SetUp() {
-    decoder = hypercpu::decoder(new hypercpu::memory_controller_st(MEM_SIZE), &counter, nullptr);
+    decoder = HyperCPU::Decoder(new HyperCPU::MemoryControllerST(MEM_SIZE), &counter, nullptr);
     counter = 0;
-    
   }
 
   void TearDown() {
-    delete dynamic_cast<hypercpu::memory_controller_st*>(decoder.mem_controller);
-    decoder.~decoder();
+    delete dynamic_cast<HyperCPU::MemoryControllerST*>(decoder.mem_controller);
+    decoder.~Decoder();
   }
 };
 
-class cpu_test : public ::testing::Test {
+class CPU_TEST : public ::testing::Test {
 protected:
-  hypercpu::cpu cpu;
+  HyperCPU::CPU cpu;
 
-  cpu_test() : cpu(1, 4096) { }
+  CPU_TEST() : cpu(1, 4096) { }
 };
 
-class operand_eval_test : public ::testing::Test {
+class OPERAND_EVAL_TEST : public ::testing::Test {
 protected:
-  hypercpu::cpu cpu;
+  HyperCPU::CPU cpu;
   std::pair<void*, void*> result;
 
-  operand_eval_test() : cpu(1, 4096) { }
+  OPERAND_EVAL_TEST() : cpu(1, 4096) { }
 };
 
-class stack_test : public ::testing::Test {
+class STACK_TEST : public ::testing::Test {
 protected:
-  hypercpu::cpu cpu;
+  HyperCPU::CPU cpu;
 
-  stack_test() : cpu(1, 4096) {
+  STACK_TEST() : cpu(1, 4096) {
     *cpu.xbp = 1024;
     *cpu.xsp = 1024;
   }
 };
 
-class ivt_init_test : public ::testing::Test {
+class IVT_INIT_TEST : public ::testing::Test {
 protected:
-  hypercpu::cpu cpu;
+  HyperCPU::CPU cpu;
 
-  ivt_init_test() : cpu(1, 4096) {
+  IVT_INIT_TEST() : cpu(1, 4096) {
 
   }
 };
 
-class exception_test : public ::testing::Test {
+class EXCEPTION_TEST : public ::testing::Test {
 protected:
-  hypercpu::cpu cpu;
+  HyperCPU::CPU cpu;
 
-  exception_test() : cpu(1, 4096) { }
+  EXCEPTION_TEST() : cpu(1, 4096) { }
 
   virtual void SetUp() {
     *cpu.xsp = 512;
     *cpu.xbp = 512;
     *cpu.xivt = 2048;
-    cpu.mem_controller->load64(2048, 1536);
-    cpu.mem_controller->load64(2056, 1536);
-    cpu.mem_controller->load64(2064, 1536);
-    cpu.mem_controller->load64(1536, hypercpu::opcode::HALT);
-    cpu.mem_controller->load64(1538, hypercpu::operand_types::NONE);
+    cpu.mem_controller->Load64(2048, 1536);
+    cpu.mem_controller->Load64(2056, 1536);
+    cpu.mem_controller->Load64(2064, 1536);
+    cpu.mem_controller->Load64(1536, HyperCPU::Opcode::HALT);
+    cpu.mem_controller->Load64(1538, HyperCPU::OperandTypes::NONE);
   }
 };
 
-class asm_parser_test : public ::testing::Test {
+class ASM_PARSER_TEST : public ::testing::Test {
 protected:
-  hcasm::hcasm_compiler compiler;
-  pog::Parser<hcasm::value>& parser;
+  HCAsm::HCAsmCompiler compiler;
+  pog::Parser<HCAsm::Value>& parser;
 
-  asm_parser_test() : compiler(hypercpu::loglevel::ERROR), parser(compiler.parser) { }
+  ASM_PARSER_TEST() : compiler(HyperCPU::LogLevel::ERROR), parser(compiler.parser) { }
 };
 
-class asm_parser_stmt_test : public ::testing::Test {
+class ASM_PARSER_STMT_TEST : public ::testing::Test {
 protected:
-  hcasm::hcasm_compiler compiler;
+  HCAsm::HCAsmCompiler compiler;
 
-  asm_parser_stmt_test() : compiler(hypercpu::loglevel::ERROR) { }
+  ASM_PARSER_STMT_TEST() : compiler(HyperCPU::LogLevel::ERROR) { }
 
   virtual void TearDown() {
-    hcasm::current_index = 0;
+    HCAsm::current_index = 0;
   }
 };
 
-class asm_binary_transformer : public ::testing::Test {
+class ASM_BINARY_TRANSFORMER : public ::testing::Test {
 protected:
-  hcasm::hcasm_compiler compiler;
+  HCAsm::HCAsmCompiler compiler;
 
-  asm_binary_transformer() : compiler(hypercpu::loglevel::ERROR) { }
+  ASM_BINARY_TRANSFORMER() : compiler(HyperCPU::LogLevel::ERROR) { }
 
   virtual void TearDown() {
-    hcasm::current_index = 0;
+    HCAsm::current_index = 0;
   }
 };

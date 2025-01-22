@@ -14,20 +14,20 @@ set(__TARGETS_LIST
 
 set(__DIRECTORIES_LIST
 # emulator-core target
-  ${ROOT_DIR}/src/emulator/core
+  ${ROOT_DIR}/src/Emulator/Core
 
 # emulator-main target
-  ${ROOT_DIR}/src/emulator/main
+  ${ROOT_DIR}/src/Emulator/Main
 
 # assembler-core target
-  ${ROOT_DIR}/src/assembler/core
+  ${ROOT_DIR}/src/Assembler/Core
 
 # assembler-main target
-  ${ROOT_DIR}/src/assembler/main
+  ${ROOT_DIR}/src/Assembler/Main
 
 # modulartesting_src target
-  ${ROOT_DIR}/test/modular
+  ${ROOT_DIR}/test/Modular
 
 # integrationtesting_src
-  ${ROOT_DIR}/test/integration
+  ${ROOT_DIR}/test/Integration
 )

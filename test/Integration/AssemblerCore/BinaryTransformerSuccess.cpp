@@ -1,0 +1,861 @@
+#include <Core/CPU/Instructions/Registers.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Misc/bit_cast.hpp>
+
+#include <fixtures.hpp>
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_R_b8) {
+  std::string data = "mov xlll0, xlll1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLLL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_R_b16) {
+  std::string data = "mov xll0, xll1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_R_b32) {
+  std::string data = "mov xl0, xl1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XL0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_R_b64) {
+  std::string data = "mov x0, x1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_RM_b8) {
+  std::string data = "mov xlll0, [x1];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_RM_b16) {
+  std::string data = "mov xll0, [x1];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_RM_b32) {
+  std::string data = "mov xl0, [x1];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XL0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_RM_b64) {
+  std::string data = "mov x0, [x1];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b8) {
+  std::string data = "mov xlll0, [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLLL0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b16) {
+  std::string data = "mov xll0, [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLL0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b32) {
+  std::string data = "mov xl0, [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XL0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b64) {
+  std::string data = "mov x0, [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b8) {
+  std::string data = "mov xlll0, 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLLL0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b16) {
+  std::string data = "mov xll0, 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint16_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint16_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLL0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b32) {
+  std::string data = "mov xl0, 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint32_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint32_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XL0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b64) {
+  std::string data = "mov x0, 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_R_b8) {
+  std::string data = "mov [x0], xlll1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLLL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_R_b16) {
+  std::string data = "mov [x0], xll1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_R_b32) {
+  std::string data = "mov [x0], xl1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_R_b64) {
+  std::string data = "mov [x0], x1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t reg1;
+  std::uint8_t reg2;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg1, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b8) {
+  std::string data = "mov b8 ptr [x0], [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b16) {
+  std::string data = "mov b16 ptr [x0], [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b32) {
+  std::string data = "mov b32 ptr [x0], [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b64) {
+  std::string data = "mov b64 ptr [x0], [0h];";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b8) {
+  std::string data = "mov b8 ptr [x0], 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint8_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b16) {
+  std::string data = "mov b16 ptr [x0], 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint16_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint16_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b32) {
+  std::string data = "mov b32 ptr [x0], 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint32_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint32_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b64) {
+  std::string data = "mov b64 ptr [x0], 16u;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t num;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 3, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 4, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
+  EXPECT_EQ(num, 16);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b8) {
+  std::string data = "mov [0h], xlll1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
+  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLLL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b16) {
+  std::string data = "mov [0h], xll1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
+  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b32) {
+  std::string data = "mov [0h], xl1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
+  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XL1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b64) {
+  std::string data = "mov [0h], x1;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+  std::uint8_t reg;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
+  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
+  EXPECT_EQ(addr, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X1);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_IMM) {
+  std::string data = "call 16h;";
+
+  auto state = compiler.TransformToIR(data);
+
+  auto binary = compiler.TransformToBinary(state);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t addr;
+
+  std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
+  std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::CALL);
+  
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::IMM);
+  EXPECT_EQ(addr, 0x16);
+}

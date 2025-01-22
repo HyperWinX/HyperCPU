@@ -1,0 +1,32 @@
+#pragma once
+
+#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
+
+#include <mapbox/eternal.hpp>
+
+constexpr inline const auto opcode_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, HyperCPU::Opcode>({
+    {"adc",   HyperCPU::Opcode::ADC},
+    {"add",   HyperCPU::Opcode::ADD},
+    {"and",   HyperCPU::Opcode::AND},
+    {"andn",  HyperCPU::Opcode::ANDN},
+    {"bswap", HyperCPU::Opcode::BSWAP},
+    {"call",  HyperCPU::Opcode::CALL},
+    {"ccrf",  HyperCPU::Opcode::CCRF},
+    {"covf",  HyperCPU::Opcode::COVF},
+    {"cudf",  HyperCPU::Opcode::CUDF},
+    {"hid",   HyperCPU::Opcode::HID},
+    {"inc",   HyperCPU::Opcode::INC},
+    {"dec",   HyperCPU::Opcode::DEC},
+    {"div",   HyperCPU::Opcode::DIV},
+    {"mul",   HyperCPU::Opcode::MUL},
+    {"sub",   HyperCPU::Opcode::SUB},
+    {"shfr",  HyperCPU::Opcode::SHFR},
+    {"shfl",  HyperCPU::Opcode::SHFL},
+    {"or",    HyperCPU::Opcode::OR},
+    {"halt",  HyperCPU::Opcode::HALT},
+    {"loivt", HyperCPU::Opcode::LOIVT},
+    {"intr",  HyperCPU::Opcode::INTR},
+    {"ret",   HyperCPU::Opcode::RET},
+    {"iret",  HyperCPU::Opcode::IRET},
+    {"mov",   HyperCPU::Opcode::MOV}
+});

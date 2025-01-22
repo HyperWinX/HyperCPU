@@ -2,7 +2,7 @@ include(../cmake/Variables.cmake)
 
 set(TESTS_INCLUDE_DIR 
   ${HyperCPU_SOURCE_DIR}/dist/eternal/include
-  ${HyperCPU_SOURCE_DIR}/src/emulator
+  ${HyperCPU_SOURCE_DIR}/src/Emulator
   ${HyperCPU_SOURCE_DIR}/test)
 
 message(STATUS "Linking tests to ${GTEST_LINK_TARGET}")
