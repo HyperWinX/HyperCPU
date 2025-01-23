@@ -139,6 +139,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
         default:
           std::unreachable();
       }
+      break;
     case HyperCPU::OperandTypes::M_R:
       res.push(instr.op2.uint1);
       res.push(static_cast<std::uint8_t>(instr.op2.reg));

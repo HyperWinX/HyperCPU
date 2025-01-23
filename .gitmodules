@@ -9,7 +9,7 @@
 	url = https://github.com/p-ranav/argparse
 [submodule "dist/pog"]
 	path = dist/pog
-	url = https://github.com/randommfs/pog
+	url = https://github.com/HyperWinX/HPog
 [submodule "dist/eternal"]
 	path = dist/eternal
 	url = https://github.com/mapbox/eternal

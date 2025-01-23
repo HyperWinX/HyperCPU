@@ -2,23 +2,31 @@
 #include <Core/RegNameAssoc.hpp>
 #include <Core/Compiler.hpp>
 
+#include <pog/line_spec.h>
+#include <string>
+
 using HCAsm::Value;
 
-Value HCAsm::ParseOperand1(std::vector<Value>&& args) {
+Value HCAsm::ParseOperand1(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   return {
     .val = Operand {
       .type = HCAsm::OperandType::memaddr_int,
       .mode = HCAsm::Mode::none,
-      .uint1 = std::get<std::uint64_t>(args[1].val)
+      .uint1 = std::get<std::uint64_t>(args[1].value.val)
     }
   };
 }
 
-Value HCAsm::ParseOperand2(std::vector<Value>&& args) {
-  auto& reg = std::get<std::string>(args[1].val);
+Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& reg = std::get<std::string>(args[1].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
+    logger.Log(HyperCPU::LogLevel::ERROR, "error: expected register, got unknown identifier", reg);
+    std::println("{} | {}", args[1].line_spec.line, FindLine(args[1].line_spec, parser.get_top_file()));
+    std::println("{:<{}} | {:<{}}{}", 
+      "", std::to_string(args[1].line_spec.line).length(),
+      "", args[1].line_spec.offset,
+      std::string(args[1].line_spec.length, '^'));
     std::abort();
   }
 
@@ -31,8 +39,8 @@ Value HCAsm::ParseOperand2(std::vector<Value>&& args) {
   };
 }
 
-Value HCAsm::ParseOperand3(std::vector<Value>&& args) {
-  auto& reg = std::get<std::string>(args[1].val);
+Value HCAsm::ParseOperand3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& reg = std::get<std::string>(args[1].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
@@ -44,18 +52,18 @@ Value HCAsm::ParseOperand3(std::vector<Value>&& args) {
       .type = HCAsm::OperandType::mem_reg_add_int,
       .reg = registers_assoc.at(reg.c_str()),
       .mode = HCAsm::Mode::none,
-      .uint1 = std::get<std::uint64_t>(args[3].val)
+      .uint1 = std::get<std::uint64_t>(args[3].value.val)
     }
   };
 }
 
-Value HCAsm::ParseOperand4(std::vector<Value>&& args) {
-  auto& Mode = std::get<std::string>(args[0].val);
+Value HCAsm::ParseOperand4(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& Mode = std::get<std::string>(args[0].value.val);
 
   if (!mode_assoc.contains(Mode.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Unknown data size: {}", Mode);
     std::abort();
-  } else if (std::get<std::string>(args[1].val) != "ptr") {
+  } else if (std::get<std::string>(args[1].value.val) != "ptr") {
     logger.Log(HyperCPU::LogLevel::ERROR, "Cannot use data size without \"ptr\"");
     std::abort();
   }
@@ -64,14 +72,14 @@ Value HCAsm::ParseOperand4(std::vector<Value>&& args) {
     .val = Operand {
       .type = HCAsm::OperandType::memaddr_int,
       .mode = mode_assoc.at(Mode.c_str()),
-      .uint1 = std::get<std::uint64_t>(args[3].val)
+      .uint1 = std::get<std::uint64_t>(args[3].value.val)
     }
   };
 }
 
-Value HCAsm::ParseOperand5(std::vector<Value>&& args) {
-  auto& reg = std::get<std::string>(args[3].val);
-  auto& Mode = std::get<std::string>(args[0].val);
+Value HCAsm::ParseOperand5(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& reg = std::get<std::string>(args[3].value.val);
+  auto& Mode = std::get<std::string>(args[0].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
@@ -79,7 +87,7 @@ Value HCAsm::ParseOperand5(std::vector<Value>&& args) {
   } else if (!mode_assoc.contains(Mode.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Unknown data size: {}", Mode);
     std::abort();
-  } else if (std::get<std::string>(args[1].val) != "ptr") {
+  } else if (std::get<std::string>(args[1].value.val) != "ptr") {
     logger.Log(HyperCPU::LogLevel::ERROR, "Cannot use data size without \"ptr\"");
     std::abort();
   }
@@ -93,9 +101,9 @@ Value HCAsm::ParseOperand5(std::vector<Value>&& args) {
   };
 }
 
-Value HCAsm::ParseOperand6(std::vector<Value>&& args) {
-  auto& reg = std::get<std::string>(args[3].val);
-  auto& Mode = std::get<std::string>(args[0].val);
+Value HCAsm::ParseOperand6(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& reg = std::get<std::string>(args[3].value.val);
+  auto& Mode = std::get<std::string>(args[0].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
@@ -103,7 +111,7 @@ Value HCAsm::ParseOperand6(std::vector<Value>&& args) {
   } else if (!mode_assoc.contains(Mode.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Unknown data size: {}", Mode);
     std::abort();
-  } else if (std::get<std::string>(args[1].val) != "ptr") {
+  } else if (std::get<std::string>(args[1].value.val) != "ptr") {
     logger.Log(HyperCPU::LogLevel::ERROR, "Cannot use data size without \"ptr\"");
     std::abort();
   }
@@ -113,33 +121,33 @@ Value HCAsm::ParseOperand6(std::vector<Value>&& args) {
       .type = HCAsm::OperandType::mem_reg_add_int,
       .reg = registers_assoc.at(reg.c_str()),
       .mode = mode_assoc.at(Mode.c_str()),
-      .uint1 = std::get<std::uint64_t>(args[5].val)
+      .uint1 = std::get<std::uint64_t>(args[5].value.val)
     }
   };
 }
 
-Value HCAsm::ParseOperand7(std::vector<Value>&& args) {
+Value HCAsm::ParseOperand7(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   return {
     .val = Operand {
       .type = HCAsm::OperandType::sint,
       .mode = HCAsm::Mode::none,
-      .sint2 = std::get<std::int64_t>(args[0].val),
+      .sint2 = std::get<std::int64_t>(args[0].value.val),
     }
   };
 }
 
-Value HCAsm::ParseOperand8(std::vector<Value>&& args) {
+Value HCAsm::ParseOperand8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   return {
     .val = Operand {
       .type = HCAsm::OperandType::uint,
       .mode = HCAsm::Mode::none,
-      .uint1 = std::get<std::uint64_t>(args[0].val)
+      .uint1 = std::get<std::uint64_t>(args[0].value.val)
     }
   };
 }
 
-Value HCAsm::ParseOperand9(std::vector<Value>&& args) {
-  auto& reg = std::get<std::string>(args[0].val);
+Value HCAsm::ParseOperand9(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& reg = std::get<std::string>(args[0].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);

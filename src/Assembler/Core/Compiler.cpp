@@ -1,3 +1,4 @@
+#include "pog/line_spec.h"
 #include <print>
 #include <string>
 #include <fstream>
@@ -117,9 +118,10 @@ void HCAsm::HCAsmCompiler::Compile(std::string& source, std::string& destination
   logger.Log(LogLevel::DEBUG, "Source and destination files handles acquired");
   std::string contents;
   src >> contents;
+  files.push(std::move(contents));
 
   logger.Log(LogLevel::DEBUG, "Stage 1 compiling - transforming to IR");
-  CompilerState ir = TransformToIR(contents);
+  CompilerState ir = TransformToIR(files.back());
 
   logger.Log(LogLevel::DEBUG, "Stage 2 compiling - transforming to binary");
   auto binary = TransformToBinary(ir);
@@ -159,7 +161,7 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::Operand o
   }
 }
 
-std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
+std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& instr) {
   std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
 
   if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none) {
@@ -208,4 +210,27 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   }
 
   return binary;
+}
+
+std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const std::string_view& str) {
+  std::size_t start = 0;
+  std::size_t end = 0;
+  std::size_t current_line = 1;
+
+  while (end < str.size()) {
+    if (str[end] == '\n') {
+      if (current_line == line_spec.line) {
+        return std::string_view { str.begin() + start, str.begin() + end - start };
+      }
+      start = end + 1;
+      current_line++;
+    }
+    end++;
+  }
+
+  if (current_line == line_spec.line) {
+    return std::string_view { str.begin() + start, str.end() };
+  }
+
+  throw std::out_of_range("Line number out of range");
 }

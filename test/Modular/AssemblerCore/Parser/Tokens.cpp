@@ -1,3 +1,4 @@
+#include "pog/line_spec.h"
 #include <fixtures.hpp>
 
 TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
@@ -10,8 +11,8 @@ TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
     
     parser.set_start_symbol("string_test");
     parser.rule("string_test")
-        .production("string", "\\", [](auto&& args) -> HCAsm::Value {
-            return std::move(args[0]);
+        .production("string", "\\", [](pog::Parser<HCAsm::Value>&, std::vector<pog::TokenWithLineSpec<HCAsm::Value>> args) -> HCAsm::Value {
+            return std::move(args[0].value);
         });
     
     parser.prepare();
@@ -28,8 +29,8 @@ TEST_F(ASM_PARSER_TEST, TOKEN_SINT) {
     
     parser.set_start_symbol("sint_test");
     parser.rule("sint_test")
-        .production("sint", "\\", [](auto&& args) -> HCAsm::Value {
-            return std::move(args[0]);
+        .production("sint", "\\", [](pog::Parser<HCAsm::Value>&, std::vector<pog::TokenWithLineSpec<HCAsm::Value>> args) -> HCAsm::Value {
+            return std::move(args[0].value);
         });
     
     parser.prepare();
@@ -46,8 +47,8 @@ TEST_F(ASM_PARSER_TEST, TOKEN_UINT) {
     
     parser.set_start_symbol("uint_test");
     parser.rule("uint_test")
-        .production("uint", "\\", [](auto&& args) -> HCAsm::Value {
-            return std::move(args[0]);
+        .production("uint", "\\", [](pog::Parser<HCAsm::Value>&, std::vector<pog::TokenWithLineSpec<HCAsm::Value>> args) -> HCAsm::Value {
+            return std::move(args[0].value);
         });
     
     parser.prepare();
@@ -64,8 +65,8 @@ TEST_F(ASM_PARSER_TEST, TOKEN_HEX) {
     
     parser.set_start_symbol("hex_test");
     parser.rule("hex_test")
-        .production("hex", "\\", [](auto&& args) -> HCAsm::Value {
-            return std::move(args[0]);
+        .production("hex", "\\", [](pog::Parser<HCAsm::Value>&, std::vector<pog::TokenWithLineSpec<HCAsm::Value>> args) -> HCAsm::Value {
+            return std::move(args[0].value);
         });
     
     parser.prepare();
@@ -82,8 +83,8 @@ TEST_F(ASM_PARSER_TEST, TOKEN_BINARY) {
     
     parser.set_start_symbol("binary_test");
     parser.rule("binary_test")
-        .production("binary", "\\", [](auto&& args) -> HCAsm::Value {
-            return std::move(args[0]);
+        .production("binary", "\\", [](pog::Parser<HCAsm::Value>&, std::vector<pog::TokenWithLineSpec<HCAsm::Value>> args) -> HCAsm::Value {
+            return std::move(args[0].value);
         });
 
     parser.prepare();

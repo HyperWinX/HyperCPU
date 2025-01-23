@@ -4,6 +4,7 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
@@ -11,6 +12,7 @@
 #include <Logger/Logger.hpp>
 
 #include <pog/parser.h>
+#include <pog/line_spec.h>
 
 
 namespace HCAsm {
@@ -140,6 +142,8 @@ namespace HCAsm {
     }
   }
 
+  std::string_view FindLine(const pog::LineSpecialization&, const std::string_view&);
+
   Value TokenizeSignedInt(std::string_view str);
   Value TokenizeUnsignedInt(std::string_view str);
   Value TokenizeString(std::string_view str);
@@ -147,22 +151,22 @@ namespace HCAsm {
   Value TokenizeIdentifier(std::string_view str);
   Value TokenizeBinary(std::string_view str);
 
-  Value ParseOperand1(std::vector<Value>&& args);
-  Value ParseOperand2(std::vector<Value>&& args);
-  Value ParseOperand3(std::vector<Value>&& args);
-  Value ParseOperand4(std::vector<Value>&& args);
-  Value ParseOperand5(std::vector<Value>&& args);
-  Value ParseOperand6(std::vector<Value>&& args);
-  Value ParseOperand7(std::vector<Value>&& args);
-  Value ParseOperand8(std::vector<Value>&& args);
-  Value ParseOperand9(std::vector<Value>&& args);
-  Value parse_operand10(std::vector<Value>&& args);
-  Value parse_operand11(std::vector<Value>&& args);
+  Value ParseOperand1(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand2(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand4(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand5(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand6(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand7(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand9(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value parse_operand10(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value parse_operand11(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
 
-  Value CompileStatement1(std::vector<Value>&& args);
-  Value CompileStatement2(std::vector<Value>&& args);
-  Value CompileStatement3(std::vector<Value>&& args);
-  Value CompileLabel(std::vector<Value>&& args);
+  Value CompileStatement1(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileStatement2(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileStatement3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
 
   extern HyperCPU::Logger logger;
   extern CompilerState* current_state;
@@ -179,9 +183,10 @@ namespace HCAsm {
   private:
     pog::Parser<Value> parser;
     CompilerState* state;
+    std::queue<std::string> files;
 
-    constexpr inline std::uint8_t OperandSize(Operand op);
-    std::uint8_t InstructionSize(Instruction& instr);
+    constexpr inline std::uint8_t OperandSize(const Operand op);
+    std::uint8_t InstructionSize(const Instruction& instr);
   };
   
 }
