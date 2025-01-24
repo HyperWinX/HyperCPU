@@ -7,9 +7,19 @@
 
 
 namespace HyperCPU {
-  struct Instruction {
-    Opcode op;
-    Mode op_mode;
+  enum class AddrExtensionStatus {
+    Disabled = 0b00,
+    EnabledOp1 = 0b10,
+    EnabledOp2 = 0b11
+  };
+
+  struct IInstruction {
+    Opcode m_opcode;
+    Mode m_opcode_mode;
+    OperandTypes m_op_types;
+    std::size_t m_op1, m_op2;
+    AddrExtensionStatus addr_extension_status;
+    std::uint8_t extension;
   };
 
   class CPU;

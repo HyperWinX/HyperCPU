@@ -56,6 +56,11 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
   dcdr_assert((flags & 0b00001111) <= MAX_OPERAND_TYPE);
   instruction.m_op_types = static_cast<enum OperandTypes>(flags & 0b00001111);
 
+  instruction.addr_extension_status = static_cast<AddrExtensionStatus>(flags >> 6);
+  if (instruction.addr_extension_status != AddrExtensionStatus::Disabled) {
+    instruction.extension = mem_controller->Fetch8(*rip);
+  }
+
   // Check if op Mode is valid for this opcode
   dcdr_assert(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)]);
   dcdr_assert((allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)] == SUPPORT_ALL) ||

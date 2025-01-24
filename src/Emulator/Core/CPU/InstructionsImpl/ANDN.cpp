@@ -5,10 +5,10 @@
 #include <Misc/overflow.hpp>
 
 
-void HyperCPU::CPU::ExecANDN(OperandTypes op_types, Mode md, void* op1, void* op2) {
-  switch (op_types) {
+void HyperCPU::CPU::ExecANDN(const IInstruction& instr, void* op1, void* op2) {
+  switch (instr.m_op_types) {
     case R_R: {
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: {
           auto& dst = deref<std::uint8_t>(op1);
           dst = ~dst & HyperCPU::bit_cast_from<std::uint8_t>(op2);
@@ -39,7 +39,7 @@ void HyperCPU::CPU::ExecANDN(OperandTypes op_types, Mode md, void* op1, void* op
     case R_RM: {
       std::uint64_t ptr = HyperCPU::bit_cast_from<std::uint64_t>(op2);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: {
           std::uint8_t val = mem_controller->Read8(ptr);
           auto& dst = deref<std::uint8_t>(op1);
@@ -74,7 +74,7 @@ void HyperCPU::CPU::ExecANDN(OperandTypes op_types, Mode md, void* op1, void* op
     case R_M: {
       std::uint64_t ptr = HyperCPU::bit_cast<std::uint64_t>(op2);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: {
           std::uint8_t val = mem_controller->Read8(ptr);
           auto& dst = deref<std::uint8_t>(op1);
@@ -107,7 +107,7 @@ void HyperCPU::CPU::ExecANDN(OperandTypes op_types, Mode md, void* op1, void* op
     }
 
     case R_IMM: {
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: {
           std::uint8_t val = HyperCPU::bit_cast<std::uint8_t>(op2);
           auto& dst = deref<std::uint8_t>(op1);

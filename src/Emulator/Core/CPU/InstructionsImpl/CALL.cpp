@@ -11,8 +11,8 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecCALL(OperandTypes op_types, Mode md, void* op1, void* op2) {
-  switch (op_types) { // Placeholders
+void HyperCPU::CPU::ExecCALL(const IInstruction& instr, void* op1, void* op2) {
+  switch (instr.m_op_types) { // Placeholders
     case R:
       StackPush64(*xip);
       *xip = deref<std::uint64_t>(op1);

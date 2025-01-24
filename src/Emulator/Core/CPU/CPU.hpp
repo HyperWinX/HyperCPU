@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/CPU/Decoders/IDecoder.hpp"
 #include <cstddef>
 
 #include <functional>
@@ -10,10 +11,10 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 
 
-#define DECLARE_INSTR(name) void Exec##name(OperandTypes op_types, Mode md, void* op1, void* op2)
+#define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, void* op1, void* op2)
 
 namespace HyperCPU {
-  using opcode_handler = std::function<void(HyperCPU::OperandTypes op_types, HyperCPU::Mode md, void* op1, void* op2)>;
+  using opcode_handler = std::function<void(const IInstruction& instr, void* op1, void* op2)>;
 
   class MemoryControllerST;
   class MemoryControllerMT;

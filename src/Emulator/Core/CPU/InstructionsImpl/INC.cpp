@@ -8,8 +8,8 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecINC(OperandTypes op_types, Mode md, void* op1, void* op2) {
-  switch (md) {
+void HyperCPU::CPU::ExecINC(const IInstruction& instr, void* op1, void* op2) {
+  switch (instr.m_opcode_mode) {
     case b8: {
       auto& dst = deref<std::uint8_t>(op1);
       ++dst;

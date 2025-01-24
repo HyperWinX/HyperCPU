@@ -64,49 +64,49 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size) :
     xivt = &data[12];
     
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::HALT)] =
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecHALT(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecHALT(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::ADD)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecADD(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecADD(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::ADC)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecADC(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecADC(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::AND)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecAND(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecAND(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::ANDN)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecANDN(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecANDN(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::BSWAP)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecBSWAP(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecBSWAP(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CALL)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecCALL(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCALL(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CCRF)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecCCRF(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCCRF(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::COVF)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecCOVF(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCOVF(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CUDF)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecCUDF(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCUDF(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::INC)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecINC(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecINC(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::DEC)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecDEC(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecDEC(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::HID)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecHID(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecHID(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::MUL)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecMUL(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecMUL(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::OR)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecOR(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecOR(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::SUB)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecSUB(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecSUB(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::SHFL)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecSHFL(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecSHFL(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::SHFR)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecSHFR(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecSHFR(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::DIV)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecDIV(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecDIV(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::LOIVT)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecLOIVT(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecLOIVT(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::INTR)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecINTR(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecINTR(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::MOV)] = 
-      [this](OperandTypes op_types, Mode md, void* op1, void* op2) -> void { this->ExecMOV(op_types, md, op1, op2); };
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecMOV(instr, op1, op2); };
     
     m_decoder = new Decoder(mem_controller, xip, this);
   }
@@ -123,6 +123,6 @@ void HyperCPU::CPU::Run() {
     HyperCPU::IInstruction instr = m_decoder->FetchAndDecode();
     if (m_decoder->IsHalted()) continue;
     std::pair<void*, void*> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
-    opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr.m_op_types, instr.m_opcode_mode, operands.first, operands.second);
+    opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
   }
 }

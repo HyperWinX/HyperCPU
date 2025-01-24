@@ -3,10 +3,10 @@
 #include <Misc/bit_cast.hpp>
 
 
-void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2) {
-  switch (op_types) {
+void HyperCPU::CPU::ExecMOV(const IInstruction& instr, void* op1, void* op2) {
+  switch (instr.m_op_types) {
     case R_R: {
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8:
           std::memcpy(op1, op2, 1);
           break;
@@ -30,7 +30,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
       std::uint64_t ptr;
       std::memcpy(&ptr, op2, 8);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8:
           *static_cast<std::uint8_t*>(op1) = mem_controller->Read8(ptr);
           break;
@@ -53,7 +53,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
     case R_M: {
       std::uint64_t ptr = reinterpret_cast<std::uint64_t>(op2);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8:
           *static_cast<std::uint8_t*>(op1) = mem_controller->Read8(ptr);
           break;
@@ -74,7 +74,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
     }
 
     case R_IMM: {
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8:
           std::memcpy(op1, &op2, 1);
           break;
@@ -99,7 +99,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
       std::memcpy(&ptr1, op1, 8);
       ptr2 = reinterpret_cast<std::size_t>(op2);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: 
           mem_controller->Load8(ptr1, mem_controller->Read8(ptr2));
           break;
@@ -122,7 +122,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
     case RM_R: {
       std::size_t ptr = HyperCPU::bit_cast_from<std::size_t>(op1);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: {
           mem_controller->Load8(ptr, *static_cast<std::uint8_t*>(op2));
           break;
@@ -149,7 +149,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
     case RM_IMM: {
       std::size_t ptr1 = HyperCPU::bit_cast_from<std::size_t>(op1);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8:
           mem_controller->Load8(ptr1, HyperCPU::bit_cast<std::uint8_t>(op2));
           break;
@@ -172,7 +172,7 @@ void HyperCPU::CPU::ExecMOV(OperandTypes op_types, Mode md, void* op1, void* op2
     case M_R: {
       std::size_t ptr1 = HyperCPU::bit_cast<std::size_t>(op1);
 
-      switch (md) {
+      switch (instr.m_opcode_mode) {
         case b8: {
           mem_controller->Load8(ptr1, HyperCPU::bit_cast_from<std::uint8_t>(op2));
           break;

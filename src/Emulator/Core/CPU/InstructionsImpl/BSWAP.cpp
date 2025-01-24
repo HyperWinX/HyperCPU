@@ -10,8 +10,8 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecBSWAP(OperandTypes op_types, Mode md, void* op1, void* op2) {
-  switch (md) {
+void HyperCPU::CPU::ExecBSWAP(const IInstruction& instr, void* op1, void* op2) {
+  switch (instr.m_opcode_mode) {
     case b8:
       break;
 

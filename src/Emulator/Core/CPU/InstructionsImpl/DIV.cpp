@@ -8,13 +8,13 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecDIV(OperandTypes op_types, Mode md, void* op1, void* op2) {
+void HyperCPU::CPU::ExecDIV(const IInstruction& instr, void* op1, void* op2) {
   if (!(*x2)) {
     TriggerInterrupt(cpu_exceptions::ZRDIV);
     return;
   }
 
-  switch (md) {
+  switch (instr.m_opcode_mode) {
     case b8: {
       auto& dst = deref<std::uint8_t>(op1);
       *x1 = dst % *x2;

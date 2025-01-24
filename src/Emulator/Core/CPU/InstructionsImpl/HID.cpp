@@ -10,7 +10,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecHID(OperandTypes op_types, Mode md, void* op1, void* op2) {
+void HyperCPU::CPU::ExecHID(const IInstruction& instr, void* op1, void* op2) {
   switch (*x0) {
     case 0:
       *x0 = 2;
