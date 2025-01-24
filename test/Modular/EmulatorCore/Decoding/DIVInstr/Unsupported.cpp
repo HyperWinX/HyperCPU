@@ -7,7 +7,7 @@
 TEST_F(DECODER_TEST, DIV_INSTR_IMM_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, 0x55);
   counter = 0;
@@ -18,7 +18,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_IMM_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_IMM_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::IMM);
   ++counter;
   decoder.mem_controller->Load16(counter, 0x5555);
   counter = 0;
@@ -29,7 +29,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_IMM_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_IMM_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::IMM);
   ++counter;
   decoder.mem_controller->Load32(counter, 0x55555555);
   counter = 0;
@@ -40,7 +40,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_IMM_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_IMM_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::IMM);
   ++counter;
   decoder.mem_controller->Load64(counter, 0x5555555555555555);
   counter = 0;
@@ -62,7 +62,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_R_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_R_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::R_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::R_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -75,7 +75,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_R_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_R_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::R_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::R_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -88,7 +88,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_R_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_R_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::R_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -101,7 +101,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_R_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::R_RM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::R_RM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -114,7 +114,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::R_RM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::R_RM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -127,7 +127,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::R_RM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::R_RM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -140,7 +140,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::R_RM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_RM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -153,7 +153,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_RM_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_M_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::R_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::R_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -166,7 +166,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_M_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_M_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::R_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::R_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -179,7 +179,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_M_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_M_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::R_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::R_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -192,7 +192,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_M_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_M_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::R_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -205,7 +205,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_M_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::Opcode::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::R_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::R_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -218,7 +218,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::R_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::R_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -231,7 +231,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::R_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::R_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -244,7 +244,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::R_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -257,7 +257,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_R_IMM_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_M_R_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::M_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::M_R);
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter += 8;
@@ -270,7 +270,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_M_R_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_M_R_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::M_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::M_R);
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter += 8;
@@ -283,7 +283,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_M_R_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_M_R_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::M_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::M_R);
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter += 8;
@@ -296,7 +296,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_M_R_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_M_R_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::M_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::M_R);
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter += 8;
@@ -309,7 +309,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_M_R_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::RM_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::RM_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -322,7 +322,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::RM_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::RM_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -335,7 +335,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::RM_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::RM_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -348,7 +348,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::RM_R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::RM_R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -361,7 +361,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_R_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::RM_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::RM_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -374,7 +374,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::RM_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::RM_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -387,7 +387,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::RM_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::RM_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -400,7 +400,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::RM_M);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::RM_M);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -413,7 +413,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_M_B64) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B8) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 6) | HyperCPU::OperandTypes::RM_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::RM_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -426,7 +426,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B8) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B16) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 6) | HyperCPU::OperandTypes::RM_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b16 << 4) | HyperCPU::OperandTypes::RM_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -439,7 +439,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B16) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B32) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 6) | HyperCPU::OperandTypes::RM_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b32 << 4) | HyperCPU::OperandTypes::RM_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;
@@ -452,7 +452,7 @@ TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B32) {
 TEST_F(DECODER_TEST, DIV_INSTR_RM_IMM_B64) {
   decoder.mem_controller->Load16(counter, HyperCPU::DIV);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::RM_IMM);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::RM_IMM);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;

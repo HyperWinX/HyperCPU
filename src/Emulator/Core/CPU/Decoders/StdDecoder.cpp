@@ -51,12 +51,12 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
 
   // Fetch flags, set opcode Mode and verify operand types
   flags = mem_controller->Fetch8(*rip);
-  instruction.m_opcode_mode = static_cast<enum Mode>((flags & 0b11000000) >> 6);
+  instruction.m_opcode_mode = static_cast<enum Mode>((flags & 0b00110000) >> 4);
 
   dcdr_assert((flags & 0b00001111) <= MAX_OPERAND_TYPE);
   instruction.m_op_types = static_cast<enum OperandTypes>(flags & 0b00001111);
 
-  instruction.addr_extension_status = static_cast<AddrExtensionStatus>(flags >> 6);
+  instruction.addr_extension_status = static_cast<AddrExtensionStatus>((flags & 0b11000000) >> 6);
   if (instruction.addr_extension_status != AddrExtensionStatus::Disabled) {
     instruction.extension = mem_controller->Fetch8(*rip);
   }

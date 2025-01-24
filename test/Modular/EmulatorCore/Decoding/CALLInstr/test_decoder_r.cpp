@@ -7,7 +7,7 @@
 TEST_F(DECODER_TEST, CALL_INSTR_R) {
   decoder.mem_controller->Load16(counter, HyperCPU::Opcode::CALL);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 6) | HyperCPU::OperandTypes::R);
+  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
   ++counter;

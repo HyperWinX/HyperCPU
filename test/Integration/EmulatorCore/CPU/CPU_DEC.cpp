@@ -20,7 +20,7 @@ static constexpr std::uint64_t QWORD_RESULT_UF = 0xFFFFFFFFFFFFFFFF;
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b8) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b8 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b8 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLLL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -34,7 +34,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b8) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b16) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b16 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b16 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -48,7 +48,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b16) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b32) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b32 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b32 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -62,7 +62,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b32) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b64) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b64 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b64 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::X0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -76,7 +76,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b64) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b8_UF) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b8 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b8 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLLL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -90,7 +90,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b8_UF) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b16_UF) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b16 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b16 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -104,7 +104,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b16_UF) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b32_UF) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b32 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b32 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -118,7 +118,7 @@ TEST_F(CPU_TEST, INSTR_DEC_R_b32_UF) {
 
 TEST_F(CPU_TEST, INSTR_DEC_R_b64_UF) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::DEC);
-  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b64 << 6 | HyperCPU::OperandTypes::R);
+  cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b64 << 4 | HyperCPU::OperandTypes::R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::X0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
