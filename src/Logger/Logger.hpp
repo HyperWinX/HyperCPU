@@ -69,8 +69,7 @@ namespace HyperCPU {
       auto col = DefineColor(lvl);
 
       std::print("{}[{}]{} {}", bold_col, ch, RESET, col);
-      std::puts(std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)).c_str());
-      std::print("{}\n", RESET);
+      std::printf("%s%s\n", std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)).c_str(), RESET);
     }
   };
 }

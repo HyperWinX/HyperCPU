@@ -20,7 +20,7 @@ namespace HCAsm {
     operand,
     string,
     sint,
-    uint
+    uint,
   };
 
   enum class OperandType {
@@ -30,6 +30,7 @@ namespace HCAsm {
     uint,
     memaddr_reg,
     memaddr_int,
+    label,
     none
   };
 
@@ -48,6 +49,7 @@ namespace HCAsm {
     union {
       std::uint64_t uint1;
       std::int64_t sint2;
+      std::string* str;
     };
   };
 

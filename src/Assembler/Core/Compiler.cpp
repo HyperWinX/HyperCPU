@@ -1,4 +1,6 @@
 #include "pog/line_spec.h"
+#include <ios>
+#include <iterator>
 #include <print>
 #include <string>
 #include <fstream>
@@ -43,10 +45,10 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
   parser.token(">")
     .symbol(">");
   parser.token(R"(\n)")
-    .symbol("\\n")
-    .action([](std::string_view tok) -> Value {
-      std::cerr << "FUCKIN' YESS!\n";
-      std::abort();
+    .action([this](std::string_view tok) -> Value {
+      ++parser.get_line_counter();
+      parser.reset_line_offset();
+      return {};
     });
   
   parser.token("#use")
@@ -110,14 +112,17 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
 void HCAsm::HCAsmCompiler::Compile(std::string& source, std::string& destination) {
   // Verify that files are available
   std::ifstream src(source);
-  std::ofstream dst(destination);
-  if (!src.is_open() || !dst.is_open()) {
+  std::ofstream dst(destination, std::ios::binary | std::ios::ate);
+  if (!src.is_open()) {
     logger.Log(LogLevel::ERROR, "Failed to open source file!");
     std::exit(1);
-  }
+  } 
+
   logger.Log(LogLevel::DEBUG, "Source and destination files handles acquired");
-  std::string contents;
-  src >> contents;
+  std::string contents(
+    (std::istreambuf_iterator<char>(src)),
+    std::istreambuf_iterator<char>()
+  );
   files.push(std::move(contents));
 
   logger.Log(LogLevel::DEBUG, "Stage 1 compiling - transforming to IR");
@@ -126,16 +131,18 @@ void HCAsm::HCAsmCompiler::Compile(std::string& source, std::string& destination
   logger.Log(LogLevel::DEBUG, "Stage 2 compiling - transforming to binary");
   auto binary = TransformToBinary(ir);
 
-
+  dst.write(reinterpret_cast<char*>(binary.binary), ir.code_size);
+  dst.flush();
+  dst.close();
 }
 
 HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
   CompilerState state;
   current_state = &state;
   this->state = &state;
+  parser.set_compiler_state(&state);
 
-  auto report = parser.prepare();
-  std::puts(report.to_string().c_str());
+  parser.prepare();
   logger.Log(LogLevel::DEBUG, "Parser prepared.");
   logger.Log(LogLevel::DEBUG, "Compiling...");
   
@@ -151,10 +158,9 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::Operand o
     case HCAsm::OperandType::reg:
       return 1;
     case HCAsm::OperandType::memaddr_int:
-      return 8;
     case HCAsm::OperandType::sint:
     case HCAsm::OperandType::uint:
-      // Return 8, because it is the max size of that type of operand. We don't know exact size of operand at this stage.
+    case HCAsm::OperandType::label:
       return 8;
     default: std::abort();
     //default: std::unreachable();
@@ -188,7 +194,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       ir.code_size += InstructionSize(std::get<Instruction>(instr));
     } else if (std::holds_alternative<Label>(instr)) {
       auto& lbl = std::get<Label>(instr);
-      current_state->labels[lbl.name] = ir.code_size;
+      ir.labels[lbl.name] = ir.code_size;
     }
   }
 
@@ -199,7 +205,9 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
     std::abort();
   }
 
-  BinaryTransformer transformer(binary);
+  logger.Log(LogLevel::DEBUG, "Running pass 2 - compiling");
+
+  BinaryTransformer transformer(binary, &ir);
 
   for (auto& instr : ir.ir) {
     if (std::holds_alternative<Instruction>(instr)) {
@@ -220,7 +228,7 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
   while (end < str.size()) {
     if (str[end] == '\n') {
       if (current_line == line_spec.line) {
-        return std::string_view { str.begin() + start, str.begin() + end - start };
+        return std::string_view { str.begin() + start, end - start };
       }
       start = end + 1;
       current_line++;
@@ -237,10 +245,11 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
 
 [[noreturn]] void HCAsm::ThrowError(pog::TokenWithLineSpec<Value>& err_token, pog::Parser<Value>& parser, std::string err_msg) {
   logger.Log(HyperCPU::LogLevel::ERROR, "error: {}", err_msg);
-  std::println("{} | {}", err_token.line_spec.line, FindLine(err_token.line_spec, parser.get_top_file()));
+  auto line = FindLine(err_token.line_spec, parser.get_top_file());
+  std::println("{} | {}", err_token.line_spec.line, line);
   std::println("{:<{}} | {:<{}}{}",
     "", std::to_string(err_token.line_spec.line).length(),
     "", err_token.line_spec.offset,
     std::string(err_token.line_spec.length, '^'));
-  std::abort();
+  std::exit(1);
 }

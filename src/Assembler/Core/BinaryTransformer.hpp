@@ -87,11 +87,12 @@ namespace HCAsm {
 
   class BinaryTransformer {
   public:
-    BinaryTransformer(BinaryResult& result) : res(result) { }
+    BinaryTransformer(BinaryResult& result, CompilerState* state = nullptr) : res(result), state(state) { }
 
     void EncodeInstruction(Instruction& instr);
     HyperCPU::OperandTypes DetermineOperandTypes(Operand& op1, Operand& op2);
   private:
     BinaryResult& res;
+    CompilerState* state;
   };
 }

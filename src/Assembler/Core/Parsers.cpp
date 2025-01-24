@@ -174,18 +174,26 @@ Value HCAsm::ParseOperand8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSp
 Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[0].value.val);
 
-  if (!registers_assoc.contains(reg.c_str())) {
+  if (registers_assoc.contains(reg.c_str())) {
+    return {
+      .val = Operand {
+        .type = HCAsm::OperandType::reg,
+        .reg = registers_assoc.at(reg.c_str()),
+        .mode = ModeFromRegister(registers_assoc.at(reg.c_str()))
+      }
+    };
+  } else if (parser.get_compiler_state()->labels.contains(reg)) {
+    return {
+      .val = Operand {
+        .type = HCAsm::OperandType::label,
+        .mode = Mode::b64,
+        .str = new std::string(reg)
+      }
+    };
+  } else {
     ThrowError(
       args[0], 
       parser, 
-      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[0].value.val)));
+      std::format("expected register or label, got unknown identifier \"{}\"", std::get<std::string>(args[0].value.val)));
   }
-
-  return {
-    .val = Operand {
-      .type = HCAsm::OperandType::reg,
-      .reg = registers_assoc.at(reg.c_str()),
-      .mode = ModeFromRegister(registers_assoc.at(reg.c_str()))
-    }
-  };
 }

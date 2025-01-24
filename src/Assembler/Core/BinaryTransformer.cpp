@@ -16,6 +16,7 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
       tp1 = Op1T::RM; break;
     case HCAsm::OperandType::sint:
     case HCAsm::OperandType::uint:
+    case HCAsm::OperandType::label:
       tp1 = Op1T::IMM; break;
     case HCAsm::OperandType::memaddr_int:
       tp1 = Op1T::M; break;
@@ -33,6 +34,7 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
       tp2 = Op2T::RM; break;
     case HCAsm::OperandType::sint:
     case HCAsm::OperandType::uint:
+    case HCAsm::OperandType::label:
       tp2 = Op2T::IMM; break;
     case HCAsm::OperandType::memaddr_int:
       tp2 = Op2T::M; break;
@@ -64,6 +66,17 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     } else {
       // Do nothing - bit 0 means first operand
     }
+  }
+  
+  // Handle case when one of operands is a label - we should mock the immediate 64 bit value
+  if (instr.op1.type == OperandType::label) {
+    std::uint64_t num = this->state->labels.at(*instr.op1.str);
+    delete instr.op1.str;
+    instr.op1.uint1 = num;
+  } else if (instr.op2.type == OperandType::label) {
+    std::uint64_t num = this->state->labels.at(*instr.op2.str);
+    delete instr.op2.str;
+    instr.op2.uint1 = num;
   }
 
   HCAsm::Mode md;
