@@ -20,14 +20,11 @@ Value HCAsm::ParseOperand1(pog::Parser<Value>&, std::vector<pog::TokenWithLineSp
 Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[1].value.val);
 
-  if (!registers_assoc.contains(reg.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "error: expected register, got unknown identifier", reg);
-    std::println("{} | {}", args[1].line_spec.line, FindLine(args[1].line_spec, parser.get_top_file()));
-    std::println("{:<{}} | {:<{}}{}", 
-      "", std::to_string(args[1].line_spec.line).length(),
-      "", args[1].line_spec.offset,
-      std::string(args[1].line_spec.length, '^'));
-    std::abort();
+  if (!registers_assoc.contains(reg.c_str())) [[unlikely]] {
+    ThrowError(
+      args[1], 
+      parser, 
+      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
   }
 
   return {
@@ -39,12 +36,19 @@ Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWit
   };
 }
 
-Value HCAsm::ParseOperand3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+Value HCAsm::ParseOperand3(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[1].value.val);
 
-  if (!registers_assoc.contains(reg.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
-    std::abort();
+  if (!registers_assoc.contains(reg.c_str())) [[unlikely]] {
+    ThrowError(
+      args[1], 
+      parser, 
+      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
+  } else if (std::get<std::uint64_t>(args[3].value.val) > 255) [[unlikely]] {
+    ThrowError(
+      args[3], 
+      parser, 
+      std::format("out of bounds integer provided: {} > 255", std::get<std::uint64_t>(args[3].value.val)));
   }
 
   return {
@@ -57,15 +61,19 @@ Value HCAsm::ParseOperand3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSp
   };
 }
 
-Value HCAsm::ParseOperand4(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+Value HCAsm::ParseOperand4(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& Mode = std::get<std::string>(args[0].value.val);
 
-  if (!mode_assoc.contains(Mode.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Unknown data size: {}", Mode);
-    std::abort();
+  if (!mode_assoc.contains(Mode.c_str())) [[unlikely]] {
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("unknown data size specified: \"{}\"", Mode));
   } else if (std::get<std::string>(args[1].value.val) != "ptr") {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Cannot use data size without \"ptr\"");
-    std::abort();
+    ThrowError(
+      args[1], 
+      parser, 
+      std::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
   }
 
   return {
@@ -77,19 +85,25 @@ Value HCAsm::ParseOperand4(pog::Parser<Value>&, std::vector<pog::TokenWithLineSp
   };
 }
 
-Value HCAsm::ParseOperand5(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+Value HCAsm::ParseOperand5(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[3].value.val);
   auto& Mode = std::get<std::string>(args[0].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
-    std::abort();
+    ThrowError(
+      args[3], 
+      parser, 
+      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[3].value.val)));
   } else if (!mode_assoc.contains(Mode.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Unknown data size: {}", Mode);
-    std::abort();
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("unknown data size specified: \"{}\"", Mode));
   } else if (std::get<std::string>(args[1].value.val) != "ptr") {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Cannot use data size without \"ptr\"");
-    std::abort();
+    ThrowError(
+      args[1], 
+      parser, 
+      std::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
   }
 
   return {
@@ -101,19 +115,30 @@ Value HCAsm::ParseOperand5(pog::Parser<Value>&, std::vector<pog::TokenWithLineSp
   };
 }
 
-Value HCAsm::ParseOperand6(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+Value HCAsm::ParseOperand6(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[3].value.val);
   auto& Mode = std::get<std::string>(args[0].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
-    std::abort();
+    ThrowError(
+      args[3], 
+      parser, 
+      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[3].value.val)));
   } else if (!mode_assoc.contains(Mode.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Unknown data size: {}", Mode);
-    std::abort();
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("unknown data size specified: \"{}\"", Mode));
   } else if (std::get<std::string>(args[1].value.val) != "ptr") {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Cannot use data size without \"ptr\"");
-    std::abort();
+    ThrowError(
+      args[1], 
+      parser, 
+      std::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
+  } else if (std::get<std::uint64_t>(args[5].value.val) > 255) [[unlikely]] {
+    ThrowError(
+      args[5], 
+      parser, 
+      std::format("out of bounds integer provided: {} > 255", std::get<std::uint64_t>(args[5].value.val)));
   }
 
   return {
@@ -146,12 +171,14 @@ Value HCAsm::ParseOperand8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSp
   };
 }
 
-Value HCAsm::ParseOperand9(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[0].value.val);
 
   if (!registers_assoc.contains(reg.c_str())) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Expected register, got unknown identifier \"{}\"", reg);
-    std::abort();
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[0].value.val)));
   }
 
   return {

@@ -234,3 +234,13 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
 
   throw std::out_of_range("Line number out of range");
 }
+
+[[noreturn]] void HCAsm::ThrowError(pog::TokenWithLineSpec<Value>& err_token, pog::Parser<Value>& parser, std::string err_msg) {
+  logger.Log(HyperCPU::LogLevel::ERROR, "error: {}", err_msg);
+  std::println("{} | {}", err_token.line_spec.line, FindLine(err_token.line_spec, parser.get_top_file()));
+  std::println("{:<{}} | {:<{}}{}",
+    "", std::to_string(err_token.line_spec.line).length(),
+    "", err_token.line_spec.offset,
+    std::string(err_token.line_spec.length, '^'));
+  std::abort();
+}

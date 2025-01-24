@@ -144,6 +144,8 @@ namespace HCAsm {
 
   std::string_view FindLine(const pog::LineSpecialization&, const std::string_view&);
 
+  [[noreturn]] void ThrowError(pog::TokenWithLineSpec<Value>& err_token, pog::Parser<Value>& parser, std::string err_msg);
+
   Value TokenizeSignedInt(std::string_view str);
   Value TokenizeUnsignedInt(std::string_view str);
   Value TokenizeString(std::string_view str);
