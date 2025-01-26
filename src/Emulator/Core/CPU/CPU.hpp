@@ -15,6 +15,8 @@
 
 namespace HyperCPU {
   using opcode_handler = std::function<void(const IInstruction& instr, void* op1, void* op2)>;
+  using read_operation_handler = std::function<std::uint8_t()>;
+  using write_operation_handler = std::function<void(std::uint8_t)>;
 
   class MemoryControllerST;
   class MemoryControllerMT;
@@ -26,7 +28,7 @@ namespace HyperCPU {
     friend class MemoryControllerMT;
     // Components
     IMemoryController* mem_controller;
-    Decoder* m_decoder;
+    std::unique_ptr<Decoder> m_decoder;
 
     // Data
     std::size_t core_count;
@@ -55,6 +57,7 @@ namespace HyperCPU {
     std::pair<void*, void*> GetOperands(OperandTypes op_types, Mode md, std::size_t& op1, std::size_t& op2);
     void* GetRegister(std::size_t& op1);
 
+    // Stack
     void StackPush8(std::uint8_t) noexcept;
     void StackPush16(std::uint16_t) noexcept;
     void StackPush32(std::uint32_t) noexcept;
@@ -65,9 +68,11 @@ namespace HyperCPU {
     std::uint32_t StackPop32() noexcept;
     std::uint64_t StackPop64() noexcept;
 
+    // Interrupts
     void TriggerInterrupt(HyperCPU::cpu_exceptions exception);
     void RunInterruptSubroutine();
     
+    // All instructions
     DECLARE_INSTR(ADD);
     DECLARE_INSTR(ADC);
     DECLARE_INSTR(AND);
@@ -90,6 +95,14 @@ namespace HyperCPU {
     DECLARE_INSTR(MOV);
     DECLARE_INSTR(LOIVT);
     DECLARE_INSTR(INTR);
+    DECLARE_INSTR(READ);
+    DECLARE_INSTR(WRITE);
+
+    // I/O
+    std::array<read_operation_handler, 16> read_io_handlers;
+    std::array<write_operation_handler, 16> write_io_handlers;
+    std::uint8_t read_console();
+    void write_console(std::uint8_t);
     
   public:
     explicit CPU(std::size_t core_count, std::size_t mem_size);

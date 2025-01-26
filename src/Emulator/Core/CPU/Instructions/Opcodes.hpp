@@ -32,6 +32,8 @@ namespace HyperCPU {
     INTR  = 0x0015,
     RET   = 0x0016,
     IRET  = 0x0017,
+    READ  = 0x0018,
+    WRITE = 0x0019,
     MOV   = 0x007F
   };
 
@@ -60,6 +62,8 @@ namespace HyperCPU {
         OPCODE_CASE(MOV)
         OPCODE_CASE(LOIVT)
         OPCODE_CASE(INTR)
+        OPCODE_CASE(READ)
+        OPCODE_CASE(WRITE)
           return true;
         OPCODE_DEFAULT_CASE()
       }

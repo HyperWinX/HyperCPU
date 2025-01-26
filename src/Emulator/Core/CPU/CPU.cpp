@@ -107,12 +107,19 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size) :
       [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecINTR(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::MOV)] = 
       [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecMOV(instr, op1, op2); };
+    opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::READ)] = 
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecREAD(instr, op1, op2); };
+    opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::WRITE)] = 
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecWRITE(instr, op1, op2); };
+
+    read_io_handlers[0] = std::bind(&CPU::read_console, this);
+
+    write_io_handlers[0] = std::bind(&CPU::write_console, this, std::placeholders::_1);
     
-    m_decoder = new Decoder(mem_controller, xip, this);
+    m_decoder = std::make_unique<Decoder>(mem_controller, xip, this);
   }
 
 HyperCPU::CPU::~CPU() {
-  delete m_decoder;
   delete mem_controller;
 }
 
@@ -125,4 +132,12 @@ void HyperCPU::CPU::Run() {
     std::pair<void*, void*> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
     opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
   }
+}
+
+std::uint8_t HyperCPU::CPU::read_console() {
+  return std::getchar();
+}
+
+void HyperCPU::CPU::write_console(std::uint8_t ch) {
+  std::putchar(ch);
 }
