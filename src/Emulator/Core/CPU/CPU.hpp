@@ -4,6 +4,7 @@
 #include <cstddef>
 
 #include <functional>
+#include <memory>
 
 #include <Core/MemoryController/IMemoryController.hpp>
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
