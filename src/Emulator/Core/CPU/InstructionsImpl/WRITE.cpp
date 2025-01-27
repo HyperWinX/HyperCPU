@@ -10,7 +10,7 @@ void HyperCPU::CPU::ExecWRITE(const IInstruction& instr, void* op1, void* op2) {
   write_operation_handler& handler = write_io_handlers[HyperCPU::bit_cast<std::uint8_t>(op2)];
 
   if (handler) {
-    handler(HyperCPU::bit_cast<std::uint8_t>(op1));
+    handler(*static_cast<std::uint8_t*>(op1));
   }
 }
 
