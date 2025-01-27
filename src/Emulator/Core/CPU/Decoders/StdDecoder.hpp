@@ -31,7 +31,7 @@ namespace HyperCPU {
     class CPU* cpu;
     bool decoder_halted;
 
-    bool CheckSupportedOperandSize(std::uint8_t byte, std::uint8_t mask) const noexcept;
+    bool CheckSupportedOperandSize(std::uint8_t byte, Mode mode) const noexcept;
     void RaiseException(bool expr) noexcept;
 
   public:

@@ -10,6 +10,7 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/Assert.hpp>
 #include <Core/CPU/CPU.hpp>
+#include <utility>
 
 
 #define dcdr_assert(expr) RaiseException((expr)); if (decoder_halted) return {}
@@ -26,11 +27,19 @@ void HyperCPU::Decoder::RaiseException(bool expr) noexcept {
   }
 }
 
-bool HyperCPU::Decoder::CheckSupportedOperandSize(std::uint8_t byte, std::uint8_t mask) const noexcept {
-  return ((byte & 0b11) == mask || 
-         ((byte >> 2) & 0b11) == mask ||
-         ((byte >> 4) & 0b11) == mask ||
-         ((byte >> 6) & 0b11) == mask);
+bool HyperCPU::Decoder::CheckSupportedOperandSize(std::uint8_t byte, Mode mode) const noexcept {
+  switch (mode) {
+    case b8:
+      return byte & 0b11000000;
+    case b16:
+      return byte & 0b00110000;
+    case b32:
+      return byte & 0b00001100;
+    case b64:
+      return byte & 0b00000011;
+    default:
+      std::unreachable();
+  }
 }
 
 bool HyperCPU::Decoder::IsHalted() const noexcept {
@@ -65,7 +74,7 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
   dcdr_assert(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)]);
   dcdr_assert((allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)] == SUPPORT_ALL) ||
       CheckSupportedOperandSize(allowed_op_modes[opcode][static_cast<std::uint8_t>(instruction.m_op_types)],
-      static_cast<std::uint8_t>(instruction.m_opcode_mode)));
+      instruction.m_opcode_mode));
 
   switch (instruction.m_op_types) {
     case R_R:

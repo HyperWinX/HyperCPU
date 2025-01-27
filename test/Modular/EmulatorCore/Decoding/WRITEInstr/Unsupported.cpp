@@ -35,7 +35,7 @@ TEST_F(DECODER_TEST, WRITE_INSTR_R_IMM_B64) {
   ++counter;
   decoder.mem_controller->Load64(counter, 0x5555555555555555);
   counter = 0;
-  
+
   ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
