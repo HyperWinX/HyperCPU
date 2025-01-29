@@ -9,3 +9,4 @@
 - [ ] Add build system functionality to the assembler, implement build configurations
 - [ ] Implement simple (read/write) and ncurses based UIs for emulator
 - [ ] Make assembler solve situations, when label is not yet defined
+- [ ] Write proper benchmarks
