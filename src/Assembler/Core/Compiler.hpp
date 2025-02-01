@@ -46,6 +46,7 @@ namespace HCAsm {
     OperandType type;
     HyperCPU::Registers reg;
     enum Mode mode;
+    bool needs_resolve;
     union {
       std::uint64_t uint1;
       std::int64_t sint2;
@@ -85,8 +86,7 @@ namespace HCAsm {
   };
 
   struct PendingLabelReferenceResolve {
-    std::uint64_t idx;
-    std::uint8_t operand;
+    Operand& op;
     std::vector<pog::TokenWithLineSpec<Value>> args;
   };
 
@@ -99,6 +99,7 @@ namespace HCAsm {
     CompilerState() : code_size(0) { }
 
     std::vector<PendingLabelReferenceResolve> pending_resolves;
+    std::vector<pog::TokenWithLineSpec<Value>> tmp_args;
     std::vector<std::variant<Instruction, Label>> ir;
     std::unordered_map<std::string, std::uint64_t> labels;
     std::uint64_t code_size;

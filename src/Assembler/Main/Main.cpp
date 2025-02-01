@@ -19,7 +19,7 @@ constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eterna
 });
 
 int main(int argc, char** argv) {
-  argparse::ArgumentParser program("hcasm", "0.0.0");
+  argparse::ArgumentParser program("hcasm");
   program.add_argument("source")
     .help("source file to be assembled")
     .required();

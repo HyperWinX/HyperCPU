@@ -194,11 +194,30 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       ir.code_size += InstructionSize(std::get<Instruction>(instr));
     } else if (std::holds_alternative<Label>(instr)) {
       auto& lbl = std::get<Label>(instr);
+      
       ir.labels[lbl.name] = ir.code_size;
     }
   }
 
-  // Compile code - pass 2
+  // Resolve references - pass 2
+
+  logger.Log(LogLevel::DEBUG, std::format("{} label references are waiting for resolve", ir.pending_resolves.size()));
+  if (!ir.pending_resolves.empty()) {
+    logger.Log(LogLevel::DEBUG, "Resolving label references");
+
+    for (auto& args : ir.pending_resolves) {
+      auto& operand = args.op;
+
+      if (ir.labels.contains(*operand.str)) {
+        args.op.type = OperandType::uint;
+        args.op.uint1 = ir.labels[*operand.str];
+      } else {
+        ThrowError(args.args[0], parser, std::format("failed to resolve undefined reference to \"{}\"", *operand.str));
+      }
+    }
+  }
+
+  // Compile code - pass 3
   BinaryResult binary = { new unsigned char[ir.code_size] };
   if (!binary.binary) {
     logger.Log(LogLevel::ERROR, "Failed to allocate memory for binary data!");

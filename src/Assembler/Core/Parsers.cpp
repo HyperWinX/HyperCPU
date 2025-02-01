@@ -182,17 +182,15 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
         .mode = ModeFromRegister(registers_assoc.at(reg.c_str()))
       }
     };
-  } else if (parser.get_compiler_state()->labels.contains(reg)) {
+  } else {
+    parser.get_compiler_state()->tmp_args = args;
     return {
       .val = Operand {
         .type = HCAsm::OperandType::label,
         .mode = Mode::b64,
+        .needs_resolve = !parser.get_compiler_state()->labels.contains(reg),
         .str = new std::string(reg)
       }
     };
-  } else {
-    //parser.get_compiler_state()->pending_resolves.push_back(PendingLabelReferenceResolve{ args });
   }
-  
-  return {};
 }
