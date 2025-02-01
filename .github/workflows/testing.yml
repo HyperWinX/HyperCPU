@@ -28,22 +28,31 @@ jobs:
         with:
           cmake: true
           cppcheck: true
+        
+      - name: Install GTest Parallelizer
+        run: |
+          git clone https://github.com/google/gtest-parallel ../gtest-parallel
       
       - name: Build and test with GCC on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release
-          cd build && make run-all-tests-github -j4
-          cd .. && rm -rf build
+          cmake --build build --target build-all-tests-github -j4
+          ../gtest-parallel/gtest-parallel build/modular_testing --repeat=32 --workers=4
+          ../gtest-parallel/gtest-parallel build/integration_testing --repeat=32 --workers=4
+          rm -rf build
       
       - name: Build and test with LLVM on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Release
-          cd build && make run-all-tests-github -j4
+          cmake --build build --target build-all-tests-github -j4
+          ../gtest-parallel/gtest-parallel build/modular_testing --repeat=32 --workers=4
+          ../gtest-parallel/gtest-parallel build/integration_testing --repeat=32 --workers=4
+          rm -rf build
           
       - name: Lint code
         run: |
           cp build/compile_commands.json .
-          cppcheck --project=compile_commands.json --check-level=exhaustive -idist
+          cppcheck --project=compile_commands.json --check-level=exhaustive -idist -j4
   
   versioning-patch-increment:
     runs-on: self-hosted
