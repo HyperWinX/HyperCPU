@@ -191,9 +191,8 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
       }
     };
   } else {
-    ThrowError(
-      args[0], 
-      parser, 
-      std::format("expected register or label, got unknown identifier \"{}\"", std::get<std::string>(args[0].value.val)));
+    //parser.get_compiler_state()->pending_resolves.push_back(PendingLabelReferenceResolve{ args });
   }
+  
+  return {};
 }

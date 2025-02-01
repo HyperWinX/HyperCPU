@@ -84,13 +84,21 @@ namespace HCAsm {
     }
   };
 
+  struct PendingLabelReferenceResolve {
+    std::uint64_t idx;
+    std::uint8_t operand;
+    std::vector<pog::TokenWithLineSpec<Value>> args;
+  };
+
   struct LineCounter {
     int a;
   };
 
+  // Needs improvements and optimizations
   struct CompilerState {
     CompilerState() : code_size(0) { }
 
+    std::vector<PendingLabelReferenceResolve> pending_resolves;
     std::vector<std::variant<Instruction, Label>> ir;
     std::unordered_map<std::string, std::uint64_t> labels;
     std::uint64_t code_size;
