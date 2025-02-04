@@ -109,31 +109,15 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
 
 }
 
-void HCAsm::HCAsmCompiler::Compile(std::string& source, std::string& destination) {
-  // Verify that files are available
-  std::ifstream src(source);
-  std::ofstream dst(destination, std::ios::binary | std::ios::ate);
-  if (!src.is_open()) {
-    logger.Log(LogLevel::ERROR, "Failed to open source file!");
-    std::exit(1);
-  } 
-
-  logger.Log(LogLevel::DEBUG, "Source and destination files handles acquired");
-  std::string contents(
-    (std::istreambuf_iterator<char>(src)),
-    std::istreambuf_iterator<char>()
-  );
+HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::uint32_t& code_size) { 
   files.push(std::move(contents));
 
   logger.Log(LogLevel::DEBUG, "Stage 1 compiling - transforming to IR");
   CompilerState ir = TransformToIR(files.back());
+  code_size = ir.code_size;
 
   logger.Log(LogLevel::DEBUG, "Stage 2 compiling - transforming to binary");
-  auto binary = TransformToBinary(ir);
-
-  dst.write(reinterpret_cast<char*>(binary.binary), ir.code_size);
-  dst.flush();
-  dst.close();
+  return TransformToBinary(ir);
 }
 
 HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {

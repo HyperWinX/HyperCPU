@@ -9,6 +9,7 @@
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
+#include <Emulator/Main/Main.hpp>
 #include <Logger/Logger.hpp>
 
 #include <pog/parser.h>
@@ -154,6 +155,7 @@ namespace HCAsm {
   }
 
   std::string_view FindLine(const pog::LineSpecialization&, const std::string_view&);
+  void WriteResultFile(HyperCPU::FileType type, HCAsm::BinaryResult& result, std::ofstream& output, std::uint32_t code_size);
 
   [[noreturn]] void ThrowError(pog::TokenWithLineSpec<Value>& err_token, pog::Parser<Value>& parser, std::string err_msg);
 
@@ -189,7 +191,7 @@ namespace HCAsm {
   public:
     HCAsmCompiler(HyperCPU::LogLevel lvl = HyperCPU::LogLevel::WARNING);
 
-    void Compile(std::string& source, std::string& destination);
+    BinaryResult Compile(std::string& contents, std::uint32_t& code_size);
     CompilerState TransformToIR(std::string& src);
     BinaryResult TransformToBinary(CompilerState& ir);
 
