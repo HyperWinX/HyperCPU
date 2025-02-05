@@ -21,3 +21,8 @@ add_executable(hcasm ${SOURCES_assembler-main})
 target_include_directories(hcasm PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/Assembler)
 target_link_libraries(hcasm assembler-core pog)
 set_target_properties(hcasm PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
+
+add_executable(hcemul ${SOURCES_emulator-main})
+target_include_directories(hcemul PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/Emulator)
+target_link_libraries(hcemul emulator-core assembler-core)
+set_target_properties(hcasm PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})

@@ -7,7 +7,6 @@
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_R_b8) {
   std::string data = "mov xlll0, xlll1;";
-
   auto state = compiler.TransformToIR(data);
 
   auto binary = compiler.TransformToBinary(state);
@@ -885,3 +884,29 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_REFERENCE_LABEL) {
   EXPECT_EQ(num, 5);
   EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
 }
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_COMPILE) {
+  std::string data = "\tmov x1, x0;\nlabel:\n\tmov x0, label;";
+  std::uint32_t code_size;
+
+  auto binary = compiler.Compile(data, code_size);
+
+  std::uint16_t opcode;
+  std::uint8_t flags;
+  std::uint64_t num;
+  std::uint8_t reg;
+  std::memcpy(&opcode, binary.binary + 5, sizeof(std::uint16_t));
+  std::memcpy(&flags, binary.binary + 7, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 8, sizeof(std::uint8_t));
+  std::memcpy(&num, binary.binary + 9, sizeof(std::uint64_t));
+
+  EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
+  EXPECT_EQ(code_size, 17);
+
+  EXPECT_EQ(flags & 0b11000000, 0);
+  EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
+  EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
+  EXPECT_EQ(num, 5);
+  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+}
+

@@ -114,10 +114,12 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::ui
 
   logger.Log(LogLevel::DEBUG, "Stage 1 compiling - transforming to IR");
   CompilerState ir = TransformToIR(files.back());
-  code_size = ir.code_size;
 
   logger.Log(LogLevel::DEBUG, "Stage 2 compiling - transforming to binary");
-  return TransformToBinary(ir);
+  auto binary = TransformToBinary(ir);
+  code_size = ir.code_size;
+
+  return binary;
 }
 
 HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
