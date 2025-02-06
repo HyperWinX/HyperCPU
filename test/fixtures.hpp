@@ -1,5 +1,7 @@
 #pragma once
 
+#include <filesystem>
+#include <unistd.h>
 #include <gtest/gtest.h>
 
 #define private public
@@ -18,6 +20,23 @@
 static constexpr std::size_t MEM_SIZE = 4096;
 static constexpr std::size_t MEM_FIXTURE_MEM_SIZE = 1024;
 static constexpr std::size_t MEM_PTR = 0x0102030405060708;
+
+class TempDir {
+public:
+  TempDir(std::string& test_name) {
+    dir_name = "test_";
+    dir_name += test_name;
+    std::filesystem::create_directory(dir_name);
+    chdir(dir_name.c_str());
+  }
+
+  ~TempDir() {
+    chdir("..");
+    std::filesystem::remove_all(dir_name);
+  }
+private:
+  std::string dir_name;
+};
 
 class MC_MT_TEST : public testing::Test {
   protected:
@@ -164,6 +183,18 @@ protected:
   HCAsm::HCAsmCompiler compiler;
 
   ASM_BINARY_TRANSFORMER() : compiler(HyperCPU::LogLevel::ERROR) { }
+
+  virtual void TearDown() {
+    HCAsm::current_index = 0;
+  }
+};
+
+class FULL_ASSEMBLER : public ::testing::Test {
+protected:
+  HCAsm::HCAsmCompiler compiler;
+  TempDir dir;
+
+  FULL_ASSEMBLER() : compiler(HyperCPU::LogLevel::ERROR), dir(::testing::UnitTest::GetInstance()->current_test_info()->test_case_name()) { }
 
   virtual void TearDown() {
     HCAsm::current_index = 0;

@@ -6,6 +6,7 @@
 #include <Logger/Colors.hpp>
 #include <Assembler/Utils/Extension.hpp>
 #include <Emulator/Main/Main.hpp>
+#include <NotImplemented.hpp>
 
 #include <argparse/argparse.hpp>
 
@@ -27,7 +28,9 @@ int main(int argc, char** argv) {
   program.add_argument("-o")
     .help("name of the binary file");
   program.add_argument("-c")
-    .help("compile to object file");
+    .help("compile to object file")
+    .default_value(false)
+    .implicit_value(true);
   program.add_argument("-v")
     .default_value(std::string{"warning"})
     .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
@@ -49,6 +52,10 @@ int main(int argc, char** argv) {
       result += ".o";
     }
   }
+  
+  if (program["-c"] == true) {
+    HyperCPU::PrintUnsupported("Compilation to object files is not implemented!");
+  }
 
   HCAsm::HCAsmCompiler compiler{ loglevel_assoc.at(program.get<std::string>("-v").c_str()) };
   
@@ -61,6 +68,11 @@ int main(int argc, char** argv) {
   }
 
   HCAsm::logger.Log(HyperCPU::LogLevel::DEBUG, "Source and destination files handles acquired");
+  HyperCPU::GenericHeader hdr;
+  src.read(reinterpret_cast<char*>(&hdr), sizeof(hdr));
+  if (hdr.magic == HyperCPU::magic) {
+    HyperCPU::PrintUnsupported("Linking object files is not implemented!");
+  }
   std::string contents(
     (std::istreambuf_iterator<char>(src)),
     std::istreambuf_iterator<char>()
@@ -70,7 +82,7 @@ int main(int argc, char** argv) {
 
   auto binary = compiler.Compile(contents, code_size);
 
-  HCAsm::WriteResultFile(program.present("-c") ? HyperCPU::FileType::Object : HyperCPU::FileType::Binary, binary, dst, code_size);
+  HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, dst, code_size);
 }
 
 std::string HCAsm::CreateObjectFilename(std::string str) {
