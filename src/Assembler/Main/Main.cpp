@@ -93,13 +93,3 @@ std::string HCAsm::CreateObjectFilename(std::string str) {
   return str;
 }
 
-void HCAsm::WriteResultFile(HyperCPU::FileType type, HCAsm::BinaryResult& result, std::ofstream& output, std::uint32_t code_size) {
-  HyperCPU::GenericHeader gen_header;
-  gen_header.type = type;
-  gen_header.magic = HyperCPU::magic;
-  gen_header.version = HyperCPU::current_version;
-  gen_header.code_size = code_size;
-  output.write(reinterpret_cast<char*>(&gen_header), sizeof(gen_header));
-
-  output.write(reinterpret_cast<char*>(result.binary), code_size);
-}

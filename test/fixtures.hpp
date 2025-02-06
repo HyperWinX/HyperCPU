@@ -23,7 +23,7 @@ static constexpr std::size_t MEM_PTR = 0x0102030405060708;
 
 class TempDir {
 public:
-  TempDir(std::string& test_name) {
+  TempDir(const char* test_name)  {
     dir_name = "test_";
     dir_name += test_name;
     std::filesystem::create_directory(dir_name);
