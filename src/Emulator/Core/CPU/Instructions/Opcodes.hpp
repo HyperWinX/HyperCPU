@@ -8,7 +8,7 @@
 
 namespace HyperCPU {
 
-  enum Opcode : std::uint_fast16_t {
+  enum Opcode : std::uint16_t {
     ADC   = 0x0001,
     ADD   = 0x0002,
     AND   = 0x0003,
