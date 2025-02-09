@@ -27,7 +27,7 @@ namespace HyperCPU {
   class Decoder final : public IDecoder {
   private:
     IMemoryController* mem_controller;
-    std::uint64_t* rip;
+    std::uint64_t* xip;
     class CPU* cpu;
     bool decoder_halted;
 
@@ -38,7 +38,7 @@ namespace HyperCPU {
     explicit Decoder() = default; // For testing purposes - causes UB if used incorrectly
     explicit Decoder(IMemoryController* mc, std::uint64_t* counter, class CPU* cpu) 
       : mem_controller(mc)
-      , rip(counter)
+      , xip(counter)
       , cpu(cpu)
       , decoder_halted(false) {}
 

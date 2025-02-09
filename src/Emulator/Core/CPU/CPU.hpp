@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/CPU/Decoders/IDecoder.hpp"
 #include <cstddef>
 
 #include <functional>
@@ -106,7 +105,7 @@ namespace HyperCPU {
     void write_console(std::uint8_t);
     
   public:
-    explicit CPU(std::size_t core_count, std::size_t mem_size);
+    explicit CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
     void Run();
     

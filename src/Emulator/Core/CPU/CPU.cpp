@@ -1,4 +1,5 @@
 #include <functional>
+#include <fstream>
 
 #include <Core/MemoryController/MemoryControllerMT.hpp>
 #include <Core/MemoryController/MemoryControllerST.hpp>
@@ -6,7 +7,7 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/CPU.hpp>
 
-HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size) :
+HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, std::uint64_t binary_size) :
   mem_controller(core_count == 1 ?
     dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this)) : 
     dynamic_cast<IMemoryController*>(new MemoryControllerMT(mem_size, this))),
@@ -60,6 +61,7 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size) :
     xbp = &data[8];
     xsp = &data[9];
     xip = &data[10];
+    *xip = 0;
     xgdp = &data[11];
     xivt = &data[12];
     
@@ -117,6 +119,9 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size) :
     write_io_handlers[0] = std::bind(&CPU::write_console, this, std::placeholders::_1);
     
     m_decoder = std::make_unique<Decoder>(mem_controller, xip, this);
+    if (!binary) {
+      std::memcpy(mem_controller->get_ptr(), binary, binary_size);
+    }
   }
 
 HyperCPU::CPU::~CPU() {
@@ -128,7 +133,10 @@ void HyperCPU::CPU::Run() {
     if (halted) return;
     
     HyperCPU::IInstruction instr = m_decoder->FetchAndDecode();
-    if (m_decoder->IsHalted()) continue;
+    if (m_decoder->IsHalted()) {
+      halted = true;
+      continue;
+    }
     std::pair<void*, void*> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
     opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
   }

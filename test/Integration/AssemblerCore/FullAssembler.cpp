@@ -7,10 +7,12 @@ TEST_F(FULL_ASSEMBLER, MULTUPLE_INSTRUCTIONS) {
   std::string data = "_start:\n\tmov x0, 1u;\n\tmov x1, 2u;\n\tadd x0, x1;";
   std::uint32_t code_size;
   auto binary = compiler.Compile(data, code_size);
-  std::ofstream file("test", std::ios::binary);
+  
+  {
+    std::ofstream file("test", std::ios::binary);
 
-  HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, file, code_size);
-  file.close();
+    HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, file, code_size);
+  }
 
   std::ifstream input("test");
 

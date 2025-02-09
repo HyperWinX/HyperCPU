@@ -105,6 +105,9 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     case HyperCPU::OperandTypes::M_R:
       md = instr.op2.mode;
       break;
+    case HyperCPU::OperandTypes::NONE:
+      md = HCAsm::Mode::b8; // Placeholder
+      break;
     default:
       std::unreachable();
   }

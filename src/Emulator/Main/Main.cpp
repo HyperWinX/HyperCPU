@@ -1,4 +1,3 @@
-#include "Emulator/Main/Main.hpp"
 #include <filesystem>
 #include <print>
 
@@ -6,7 +5,8 @@
 #include <Logger/Logger.hpp>
 #include <Logger/Colors.hpp>
 #include <Assembler/Utils/Extension.hpp>
-#include <Main/Main.hpp>
+#include <Emulator/Main/Main.hpp>
+#include <Emulator/Core/CPU/CPU.hpp>
 #include <Version.hpp>
 
 #include <argparse/argparse.hpp>
@@ -37,6 +37,8 @@ int main(int argc, char** argv) {
 
   std::ifstream file(source);
 
+  std::uint64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
+
   HyperCPU::GenericHeader header = ParseHeader(file);
   
   // Validate header contents
@@ -65,7 +67,11 @@ int main(int argc, char** argv) {
       std::exit(1);
   }
 
-  std::println("okay");
+  std::unique_ptr<char[]> buf(new char[binarysize]);
+  file.read(buf.get(), binarysize);
+
+  HyperCPU::CPU cpu{1, 8192, buf.get(), binarysize};
+  cpu.Run();
 }
 
 HyperCPU::GenericHeader ParseHeader(std::ifstream& file) {

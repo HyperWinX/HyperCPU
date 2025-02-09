@@ -73,6 +73,8 @@ int main(int argc, char** argv) {
   if (hdr.magic == HyperCPU::magic) {
     HyperCPU::PrintUnsupported("Linking object files is not implemented!");
   }
+  src.seekg(0);
+  
   std::string contents(
     (std::istreambuf_iterator<char>(src)),
     std::istreambuf_iterator<char>()
