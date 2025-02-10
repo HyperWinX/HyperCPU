@@ -61,7 +61,6 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
     xbp = &data[8];
     xsp = &data[9];
     xip = &data[10];
-    *xip = 0;
     xgdp = &data[11];
     xivt = &data[12];
     
@@ -119,7 +118,7 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
     write_io_handlers[0] = std::bind(&CPU::write_console, this, std::placeholders::_1);
     
     m_decoder = std::make_unique<Decoder>(mem_controller, xip, this);
-    if (!binary) {
+    if (binary) {
       std::memcpy(mem_controller->get_ptr(), binary, binary_size);
     }
   }
