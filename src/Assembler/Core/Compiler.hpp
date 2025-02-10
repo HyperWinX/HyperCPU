@@ -175,8 +175,8 @@ namespace HCAsm {
   Value ParseOperand7(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value ParseOperand8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value ParseOperand9(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
-  Value parse_operand10(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
-  Value parse_operand11(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand10(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value ParseOperand11(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
 
   Value CompileStatement1(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileStatement2(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);

@@ -1,3 +1,4 @@
+#include "Logger/Logger.hpp"
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Core/BinaryTransformer.hpp>
 #include <Core/Compiler.hpp>
@@ -58,7 +59,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
 
   if (HasAddressAddition(instr.op1.type) && HasAddressAddition(instr.op2.type)) {
     logger.Log(HyperCPU::LogLevel::ERROR, "You can't use memory address additions for two operands!");
-    std::abort();
+    std::exit(1);
   } else if (HasAddressAddition(instr.op1.type) || HasAddressAddition(instr.op2.type)) {
     encoded_operands |= 0b10000000;
     if (HasAddressAddition(instr.op2.type)) {
@@ -89,7 +90,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     case HyperCPU::OperandTypes::RM_IMM:
       if (instr.op1.mode == HCAsm::Mode::none) {
         logger.Log(HyperCPU::LogLevel::ERROR, "Ambiguous operand size!");
-        std::abort();
+        std::exit(1);
       }
     case HyperCPU::OperandTypes::R_R:
     case HyperCPU::OperandTypes::R_RM:
@@ -97,9 +98,12 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     case HyperCPU::OperandTypes::R_IMM:
     case HyperCPU::OperandTypes::R:
       md = instr.op1.mode;
-      break;
     case HyperCPU::OperandTypes::IMM:
-      md = HCAsm::Mode::b64;
+      if (instr.op1.mode == Mode::none) {
+        logger.Log(HyperCPU::LogLevel::ERROR, "Undefined operand size!");
+        std::exit(1);
+      }
+      md = instr.op1.mode;
       break;
     case HyperCPU::OperandTypes::RM_R:
     case HyperCPU::OperandTypes::M_R:

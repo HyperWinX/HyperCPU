@@ -194,3 +194,41 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     };
   }
 }
+
+Value HCAsm::ParseOperand10(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto mode = std::get<std::string>(args[0].value.val);
+
+  if (!mode_assoc.contains(mode.c_str())) {
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("unknown data size specified: \"{}\"", mode));
+  }
+
+  return {
+    .val = Operand {
+      .type = HCAsm::OperandType::uint,
+      .mode = mode_assoc.at(mode.c_str()),
+      .uint1 = std::get<std::uint64_t>(args[1].value.val),
+    }
+  };
+}
+
+Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto mode = std::get<std::string>(args[0].value.val);
+
+  if (!mode_assoc.contains(mode.c_str())) {
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("unknown data size specified: \"{}\"", mode));
+  }
+  
+  return {
+    .val = Operand {
+      .type = HCAsm::OperandType::sint,
+      .mode = mode_assoc.at(mode.c_str()),
+      .sint2 = std::get<std::int64_t>(args[1].value.val),
+    }
+  };
+}

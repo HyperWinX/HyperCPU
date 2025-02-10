@@ -1,6 +1,10 @@
 #include <functional>
 #include <fstream>
 
+#include <termios.h>
+#include <unistd.h>
+
+
 #include <Core/MemoryController/MemoryControllerMT.hpp>
 #include <Core/MemoryController/MemoryControllerST.hpp>
 #include <Core/CPU/Decoders/IDecoder.hpp>
@@ -142,7 +146,19 @@ void HyperCPU::CPU::Run() {
 }
 
 std::uint8_t HyperCPU::CPU::read_console() {
-  return std::getchar();
+  std::uint8_t ch;
+  struct termios oldt, newt;
+  tcgetattr(STDIN_FILENO, &oldt);
+  newt = oldt;
+  newt.c_lflag &= ~(ICANON | ECHO);
+  newt.c_cc[VMIN] = 1;
+  newt.c_cc[VTIME] = 0;
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+  read(STDIN_FILENO, &ch, 1);
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+  std::putchar(ch);
+  std::fflush(stdout);
+  return ch;
 }
 
 void HyperCPU::CPU::write_console(std::uint8_t ch) {

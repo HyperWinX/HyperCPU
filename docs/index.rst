@@ -23,3 +23,4 @@ Contents
    Internals <internals>
    Instruction reference <instruction_reference>
    Assembler syntax <assembler_syntax>
+   Extended features <extended_features>
