@@ -36,7 +36,7 @@ Project was created for fun, but took a lot of time, and i learned a lot in proc
 </table>
 
 >[!IMPORTANT]
-> Project is on early development stage, and cannot be used. Build system targets does not contain working executables. 
+> Project is almost ready to be used. Wait for 1.0 release to try it out, or build it locally, test and report found issues.
 
 Tools include:
 - **hCPU emulator**

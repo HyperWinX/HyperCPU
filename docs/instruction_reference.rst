@@ -380,6 +380,252 @@ CALL - Call procedure
 | **Flags affected**:
 | None.
 
+
+========================
+CCRF - Clear Carry Flag
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 070000
+    - ccrf
+    - NONE
+
+| **Description**:
+| Clears carry flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| CRF -> not set.
+
+
+========================
+COVF - Clear Overflow Flag
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 080000
+    - covf
+    - NONE
+
+| **Description**:
+| Clears overflow flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| OVF -> not set.
+
+
+========================
+CUDF - Clear Undeflow Flag
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 090000
+    - cudf
+    - NONE
+
+| **Description**:
+| Clears underflow flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| UDF -> not set.
+
+
+========================
+DEC - Decrement register value.
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0C0008<r>
+    - dec <r8>
+    - R
+  * - 0C0048<r>
+    - dec <r16>
+    - R
+  * - 0C0088<r>
+    - dec <r32>
+    - R
+  * - 0C00C8<r>
+    - dec <r64>
+    - R
+
+| **Description**:
+| Increments register value.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| UDF -> set, if value has been underflown.
+| UDF -> not set, if value has not been underflown.
+
+
+========================
+DIV - Divide integer value.
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0D0008<r>
+    - div <r8>
+    - R
+  * - 0D0048<r>
+    - div <r16>
+    - R
+  * - 0D0088<r>
+    - div <r32>
+    - R
+  * - 0D00C8<r>
+    - div <r64>
+    - R
+
+| **Description**:
+| Divide value, stored in specified register, by divider in x2, and save remainder in x1.
+
+| **Exceptions**:
+| ZRDIV -> is raised when division by zero happens.
+
+| **Flags affected**:
+| None.
+
+
+========================
+HALT - Halt
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 130000
+    - or
+    - NONE
+
+| **Description**:
+| Halts the CPU.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+
+========================
+HID - HyperCPU ID
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0A000A
+    - hid
+    - IMM
+
+| **Description**:
+| Fetches information about CPU. Acts as **nop** if unsupported argument is passed. Argument is passed in **x0** register.
+
+.. list-table:: Possible values
+  :widths: 4 50
+  :header-rows: 1
+
+  * - Hex value
+    - Returned value
+
+  * - 00
+    - Stores maximum value that **hid** can accept in register x0.
+  
+  * - 01
+    - Fetch CPU name and version. Result is stored as string in registers x0-x3.
+  
+  * - 02
+    - x0 becomes bit mask of supported instruction sets. Right now there is no additional instruction sets - does nothing.
+
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None
+
+========================
+INC - Increment register value.
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0B0008<r>
+    - inc <r8>
+    - R
+  * - 0B0048<r>
+    - inc <r16>
+    - R
+  * - 0B0088<r>
+    - inc <r32>
+    - R
+  * - 0B00C8<r>
+    - inc <r64>
+    - R
+
+| **Description**:
+| Increments register value.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| OVF -> set, if value has been overflown.
+| OVF -> not set, if value has not been overflown.
+
+
 ========================
 MOV - Move
 ========================
@@ -509,225 +755,6 @@ MOV - Move
 
 
 ========================
-CCRF - Clear Carry Flag
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 070000
-    - ccrf
-    - NONE
-
-| **Description**:
-| Clears carry flag. Accepts no operands
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| CRF -> not set.
-
-
-========================
-COVF - Clear Overflow Flag
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 080000
-    - covf
-    - NONE
-
-| **Description**:
-| Clears overflow flag. Accepts no operands
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| OVF -> not set.
-
-
-========================
-CUDF - Clear Undeflow Flag
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 090000
-    - cudf
-    - NONE
-
-| **Description**:
-| Clears underflow flag. Accepts no operands
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| UDF -> not set.
-
-========================
-HID - HyperCPU ID
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 0A000A
-    - hid
-    - IMM
-
-| **Description**:
-| Fetches information about CPU. Acts as **nop** if unsupported argument is passed. Argument is passed in **x0** register.
-
-.. list-table:: Possible values
-  :widths: 4 50
-  :header-rows: 1
-
-  * - Hex value
-    - Returned value
-
-  * - 00
-    - Stores maximum value that **hid** can accept in register x0.
-  
-  * - 01
-    - Fetch CPU name and version. Result is stored as string in registers x0-x3.
-  
-  * - 02
-    - x0 becomes bit mask of supported instruction sets. Right now there is no additional instruction sets - does nothing.
-
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| None
-
-========================
-INC - Increment register value.
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 0B0008<r>
-    - inc <r8>
-    - R
-  * - 0B0048<r>
-    - inc <r16>
-    - R
-  * - 0B0088<r>
-    - inc <r32>
-    - R
-  * - 0B00C8<r>
-    - inc <r64>
-    - R
-
-| **Description**:
-| Increments register value.
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| OVF -> set, if value has been overflown.
-| OVF -> not set, if value has not been overflown.
-
-
-========================
-DEC - Decrement register value.
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 0C0008<r>
-    - dec <r8>
-    - R
-  * - 0C0048<r>
-    - dec <r16>
-    - R
-  * - 0C0088<r>
-    - dec <r32>
-    - R
-  * - 0C00C8<r>
-    - dec <r64>
-    - R
-
-| **Description**:
-| Increments register value.
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| UDF -> set, if value has been underflown.
-| UDF -> not set, if value has not been underflown.
-
-
-========================
-DIV - Divide integer value.
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 0D0008<r>
-    - div <r8>
-    - R
-  * - 0D0048<r>
-    - div <r16>
-    - R
-  * - 0D0088<r>
-    - div <r32>
-    - R
-  * - 0D00C8<r>
-    - div <r64>
-    - R
-
-| **Description**:
-| Divide value, stored in specified register, by divider in x2, and save remainder in x1.
-
-| **Exceptions**:
-| ZRDIV -> is raised when division by zero happens.
-
-| **Flags affected**:
-| None.
-
-
-========================
 MUL - Multiply integer value.
 ========================
 
@@ -792,170 +819,6 @@ MUL - Multiply integer value.
 
 | **Exceptions**:
 | 
-
-| **Flags affected**:
-| None.
-
-
-========================
-SUB - Subtract values
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 0F0000<r><r>
-    - sub <r8>, <r8>
-    - R_R
-  * - 0F0040<r><r>
-    - sub <r16>, <r16>
-    - R_R
-  * - 0F0080<r><r>
-    - sub <r32>, <r32>
-    - R_R
-  * - 0F00C0<r><r>
-    - sub <r64>, <r64>
-    - R_R
-  * - 0F0001<r><r>
-    - sub <r8>, <rm>
-    - R_RM
-  * - 0F0041<r><r>
-    - sub <r16>, <rm>
-    - R_RM
-  * - 0F0081<r><r>
-    - sub <r32>, <rm>
-    - R_RM
-  * - 0F00C1<r><r>
-    - sub <r64>, <rm>
-    - R_RM
-  * - 0F0002<r><m>
-    - sub <r8>, <m8>
-    - R_M
-  * - 0F0042<r><m>
-    - sub <r16>, <m16>
-    - R_M
-  * - 0F0082<r><m>
-    - sub <r32>, <m32>
-    - R_M
-  * - 0F00C2<r><m>
-    - sub <r64>, <m64>
-    - R_M
-  * - 0F0003<r><imm>
-    - sub <r8>, <imm8>
-    - R_IMM
-  * - 0F0043<r><imm>
-    - sub <r16>, <imm16>
-    - R_IMM
-  * - 0F0083<r><imm>
-    - sub <r32>, <imm32>
-    - R_IMM
-  * - 0F00C3<r><imm>
-    - sub <r64>, <imm64>
-    - R_IMM
-
-| **Description**:
-| Subtracts the source operand (second operand) from the destination operand (first operand).
-| The source operand can be either register, memory address or immediate value.
-| The destination operand is a register.
-
-| **Exceptions**:
-| IA - access to invalid memory area.
-
-| **Flags affected**:
-| Overflow flag set if result is overflown.
-
-
-========================
-SHFR - Binary Shift Right
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 100008<r><r>
-    - shfr <r8> <r8>
-    - R_R
-  * - 100048<r><r>
-    - shfr <r16> <r16>
-    - R_R
-  * - 100088<r><r>
-    - shfr <r32> <r32>
-    - R_R
-  * - 1000C8<r><r>
-    - shfr <r64> <r64>
-    - R_R
-  * - 100008<r><imm>
-    - shfr <r8> <imm8>
-    - R_IMM
-  * - 100048<r><imm>
-    - shfr <r16> <imm16>
-    - R_IMM
-  * - 100088<r><imm>
-    - shfr <r32> <imm32>
-    - R_IMM
-  * - 1000C8<r><imm>
-    - shfr <r64> <imm64>
-    - R_IMM
-
-| **Description**:
-| Performs a binary shift right operation on specified register.
-
-| **Exceptions**:
-| None.
-
-| **Flags affected**:
-| None.
-
-
-========================
-SHFL - Binary Shift Left
-========================
-
-.. list-table:: Possible usage
-  :widths: 17 21 15
-  :header-rows: 1
-
-  * - Opcode
-    - Instruction
-    - Operands type
-  * - 110008<r><r>
-    - shfl <r8> <r8>
-    - R_R
-  * - 110048<r><r>
-    - shfl <r16> <r16>
-    - R_R
-  * - 110088<r><r>
-    - shfl <r32> <r32>
-    - R_R
-  * - 1100C8<r><r>
-    - shfl <r64> <r64>
-    - R_R
-  * - 110008<r><imm>
-    - shfl <r8> <imm8>
-    - R_IMM
-  * - 110048<r><imm>
-    - shfl <r16> <imm16>
-    - R_IMM
-  * - 110088<r><imm>
-    - shfl <r32> <imm32>
-    - R_IMM
-  * - 1100C8<r><imm>
-    - shfl <r64> <imm64>
-    - R_IMM
-
-| **Description**:
-| Performs a binary shift left operation on specified register.
-
-| **Exceptions**:
-| None.
 
 | **Flags affected**:
 | None.
@@ -1034,7 +897,7 @@ OR - Logical OR
 
 
 ========================
-HALT - Halt
+SHFL - Binary Shift Left
 ========================
 
 .. list-table:: Possible usage
@@ -1044,15 +907,153 @@ HALT - Halt
   * - Opcode
     - Instruction
     - Operands type
-  * - 130000
-    - or
-    - NONE
+  * - 110008<r><r>
+    - shfl <r8> <r8>
+    - R_R
+  * - 110048<r><r>
+    - shfl <r16> <r16>
+    - R_R
+  * - 110088<r><r>
+    - shfl <r32> <r32>
+    - R_R
+  * - 1100C8<r><r>
+    - shfl <r64> <r64>
+    - R_R
+  * - 110008<r><imm>
+    - shfl <r8> <imm8>
+    - R_IMM
+  * - 110048<r><imm>
+    - shfl <r16> <imm16>
+    - R_IMM
+  * - 110088<r><imm>
+    - shfl <r32> <imm32>
+    - R_IMM
+  * - 1100C8<r><imm>
+    - shfl <r64> <imm64>
+    - R_IMM
 
 | **Description**:
-| Halts the CPU.
+| Performs a binary shift left operation on specified register.
 
 | **Exceptions**:
 | None.
 
 | **Flags affected**:
 | None.
+
+========================
+SHFR - Binary Shift Right
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 100008<r><r>
+    - shfr <r8> <r8>
+    - R_R
+  * - 100048<r><r>
+    - shfr <r16> <r16>
+    - R_R
+  * - 100088<r><r>
+    - shfr <r32> <r32>
+    - R_R
+  * - 1000C8<r><r>
+    - shfr <r64> <r64>
+    - R_R
+  * - 100008<r><imm>
+    - shfr <r8> <imm8>
+    - R_IMM
+  * - 100048<r><imm>
+    - shfr <r16> <imm16>
+    - R_IMM
+  * - 100088<r><imm>
+    - shfr <r32> <imm32>
+    - R_IMM
+  * - 1000C8<r><imm>
+    - shfr <r64> <imm64>
+    - R_IMM
+
+| **Description**:
+| Performs a binary shift right operation on specified register.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+
+========================
+SUB - Subtract values
+========================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 0F0000<r><r>
+    - sub <r8>, <r8>
+    - R_R
+  * - 0F0040<r><r>
+    - sub <r16>, <r16>
+    - R_R
+  * - 0F0080<r><r>
+    - sub <r32>, <r32>
+    - R_R
+  * - 0F00C0<r><r>
+    - sub <r64>, <r64>
+    - R_R
+  * - 0F0001<r><r>
+    - sub <r8>, <rm>
+    - R_RM
+  * - 0F0041<r><r>
+    - sub <r16>, <rm>
+    - R_RM
+  * - 0F0081<r><r>
+    - sub <r32>, <rm>
+    - R_RM
+  * - 0F00C1<r><r>
+    - sub <r64>, <rm>
+    - R_RM
+  * - 0F0002<r><m>
+    - sub <r8>, <m8>
+    - R_M
+  * - 0F0042<r><m>
+    - sub <r16>, <m16>
+    - R_M
+  * - 0F0082<r><m>
+    - sub <r32>, <m32>
+    - R_M
+  * - 0F00C2<r><m>
+    - sub <r64>, <m64>
+    - R_M
+  * - 0F0003<r><imm>
+    - sub <r8>, <imm8>
+    - R_IMM
+  * - 0F0043<r><imm>
+    - sub <r16>, <imm16>
+    - R_IMM
+  * - 0F0083<r><imm>
+    - sub <r32>, <imm32>
+    - R_IMM
+  * - 0F00C3<r><imm>
+    - sub <r64>, <imm64>
+    - R_IMM
+
+| **Description**:
+| Subtracts the source operand (second operand) from the destination operand (first operand).
+| The source operand can be either register, memory address or immediate value.
+| The destination operand is a register.
+
+| **Exceptions**:
+| IA - access to invalid memory area.
+
+| **Flags affected**:
+| Overflow flag set if result is overflown.

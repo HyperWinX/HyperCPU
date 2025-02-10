@@ -22,3 +22,4 @@ Contents
    Home <self>
    Internals <internals>
    Instruction reference <instruction_reference>
+   Assembler syntax <assembler_syntax>
