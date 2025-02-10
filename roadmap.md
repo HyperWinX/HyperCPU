@@ -6,7 +6,7 @@
 - [ ] Improve test coverage
 - [x] Implement emulator entry point
 - [x] Implement low-latency console I/O mechanism for emulator (using ports)
-- [x] Solve not-yet-defined lavel references
+- [x] Solve not-yet-defined label references
 
 
 ### Release 1.1

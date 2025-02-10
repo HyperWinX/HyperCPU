@@ -200,3 +200,14 @@ protected:
     HCAsm::current_index = 0;
   }
 };
+
+class TWO_OPERANDS_SUCCESS : public ::testing::Test {
+protected:
+  HCAsm::HCAsmCompiler compiler;
+
+  TWO_OPERANDS_SUCCESS() : compiler(HyperCPU::LogLevel::ERROR) { }
+
+  virtual void TearDown() {
+    HCAsm::current_index = 0;
+  }
+};
