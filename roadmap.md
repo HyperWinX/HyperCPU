@@ -3,10 +3,19 @@
 **Current goal: release 1.0**.
 
 - [ ] Review whole documentation
-- [x] Improve test coverage
-- [ ] Implement emulator entry point
-- [ ] Implement low-latency console I/O mechanism for emulator (using ports)
+- [ ] Improve test coverage
+- [x] Implement emulator entry point
+- [x] Implement low-latency console I/O mechanism for emulator (using ports)
+- [x] Solve not-yet-defined lavel references
+
+
+### Release 1.1
+- [ ] Add comparison instruction, conditional call/jmp
 - [ ] Add build system functionality to the assembler, implement build configurations
-- [ ] Implement simple (read/write) and ncurses based UIs for emulator
-- [ ] Make assembler solve situations, when label is not yet defined
 - [ ] Write proper benchmarks
+
+### Release 1.2
+- [ ] Implement ncurses-based UI and standard to communicate with it
+
+### Release 2.0
+- [ ] Implement linking functionality

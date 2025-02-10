@@ -6,10 +6,9 @@ Components of vCPU
 
 | HyperCPU includes following components:
 
-* Fetcher + decoder (all in one)
-* Main execution block
-* Memory controller
-* Set of registers
+* Fetcher + decoder (all in one) - StdDecoder class
+* CPU itself - CPU class
+* Memory controller - IMemoryController, interface. MemoryControllerST and MemoryControllerMT implement it
 
 | These are the most important components. However, due to a project structure, they can be replaced by different implementations.
 
@@ -49,14 +48,14 @@ Registers
 .. code-block:: none
 
   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-  ┃ x0                                                             ┃
+  ┃ x0                                                                        ┃
   ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-  ┃ xh0                           ┃ xl0                            ┃
+  ┃ xh0                                ┃ xl0                                  ┃
   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┫
-                                                  ┃ xll0           ┃
-                                                  ┣━━━━━━━━┳━━━━━━━┫
-                                                  ┃ xllh0  ┃ xlll0 ┃
-                                                  ┗━━━━━━━━┻━━━━━━━┛
+                                                          ┃ xll0              ┃
+                                                          ┣━━━━━━━━┳━━━━━━━┫
+                                                          ┃ xllh0   ┃ xlll0   ┃
+                                                          ┗━━━━━━━━┻━━━━━━━┛
 
 Flags
 -----
