@@ -836,8 +836,8 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b64) {
   EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X1);
 }
 
-TEST_F(ASM_BINARY_TRANSFORMER, ASM_IMM) {
-  std::string data = "call 16h;";
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_IMM_b64) {
+  std::string data = "call b64 16h;";
 
   auto state = compiler.TransformToIR(data);
 

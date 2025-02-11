@@ -101,6 +101,8 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
     .production("ident", "ident", "[", "ident", "+", "uint", "]", ParseOperand6)
     .production("ident", "ident", "[", "ident", "+", "hex", "]", ParseOperand6)
     .production("ident", "ident", "[", "ident", "+", "binary", "]", ParseOperand6)
+    .production("ident", "hex", ParseOperand10)
+    .production("ident", "binary", ParseOperand10)
     .production("ident", "uint", ParseOperand10)
     .production("ident", "sint", ParseOperand11)
     .production("hex", ParseOperand8)

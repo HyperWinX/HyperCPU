@@ -13,10 +13,10 @@ TEST_F(CPU_TEST, INSTR_WRITE) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::WRITE);
   cpu.mem_controller->Load8(*cpu.xip + 2, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::R_IMM);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLLL0);
-  cpu.mem_controller->Load8(*cpu.xip + 4, 1);
+  cpu.mem_controller->Load8(*cpu.xip + 4, 0x55);
   cpu.mem_controller->Load16(*cpu.xip + 5, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 7, HyperCPU::OperandTypes::NONE);
-  *cpu.xlll0 = 0x55;
+  *cpu.xlll0 = 1;
 
   cpu.Run();
 
