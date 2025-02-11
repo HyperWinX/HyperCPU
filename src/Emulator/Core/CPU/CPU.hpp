@@ -9,6 +9,7 @@
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Core/CPU/IO/Simple.hpp>
 
 
 #define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, void* op1, void* op2)
@@ -99,10 +100,9 @@ namespace HyperCPU {
     DECLARE_INSTR(WRITE);
 
     // I/O
-    std::array<read_operation_handler, 16> read_io_handlers;
-    std::array<write_operation_handler, 16> write_io_handlers;
-    std::uint8_t read_console();
-    void write_console(std::uint8_t);
+    std::array<read_operation_handler, 256> read_io_handlers;
+    std::array<write_operation_handler, 256> write_io_handlers;
+    std::unique_ptr<SimpleIOImpl> io_ctl;
     
   public:
     explicit CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);

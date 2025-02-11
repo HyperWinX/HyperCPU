@@ -1,10 +1,6 @@
 #include <functional>
 #include <fstream>
 
-#include <termios.h>
-#include <unistd.h>
-
-
 #include <Core/MemoryController/MemoryControllerMT.hpp>
 #include <Core/MemoryController/MemoryControllerST.hpp>
 #include <Core/CPU/Decoders/IDecoder.hpp>
@@ -17,7 +13,8 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
     dynamic_cast<IMemoryController*>(new MemoryControllerMT(mem_size, this))),
   core_count(core_count),
   total_mem(mem_size),
-  halted(false) {
+  halted(false),
+  io_ctl(std::make_unique<SimpleIOImpl>()) {
     // Initializing all register pointers
     std::memset(&data, 0, sizeof(data));
     x0 = &data[0];
@@ -117,9 +114,9 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::WRITE)] = 
       [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecWRITE(instr, op1, op2); };
 
-    read_io_handlers[0] = std::bind(&CPU::read_console, this);
+    read_io_handlers[0] = io_ctl->GetGetchar();
 
-    write_io_handlers[0] = std::bind(&CPU::write_console, this, std::placeholders::_1);
+    write_io_handlers[0] = io_ctl->GetPutchar();
     
     m_decoder = std::make_unique<Decoder>(mem_controller, xip, this);
     if (binary) {
@@ -143,24 +140,4 @@ void HyperCPU::CPU::Run() {
     std::pair<void*, void*> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
     opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
   }
-}
-
-std::uint8_t HyperCPU::CPU::read_console() {
-  std::uint8_t ch;
-  struct termios oldt, newt;
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  newt.c_cc[VMIN] = 1;
-  newt.c_cc[VTIME] = 0;
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  read(STDIN_FILENO, &ch, 1);
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  std::putchar(ch);
-  std::fflush(stdout);
-  return ch;
-}
-
-void HyperCPU::CPU::write_console(std::uint8_t ch) {
-  std::putchar(ch);
 }
