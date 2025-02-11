@@ -165,6 +165,7 @@ namespace HCAsm {
   Value TokenizeHexadecimal(std::string_view str);
   Value TokenizeIdentifier(std::string_view str);
   Value TokenizeBinary(std::string_view str);
+  Value TokenizeChar(std::string_view str);
 
   Value ParseOperand1(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value ParseOperand2(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);

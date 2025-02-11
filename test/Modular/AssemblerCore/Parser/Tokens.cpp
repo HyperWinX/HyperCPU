@@ -91,3 +91,21 @@ TEST_F(ASM_PARSER_TEST, TOKEN_BINARY) {
     
     EXPECT_EQ(std::get<std::uint64_t>(parser.parse(data).value().val), static_cast<std::uint64_t>(0x15FA));
 }
+
+TEST_F(ASM_PARSER_TEST, TOKEN_CHAR) {
+  std::string data = "'c' \\";
+
+  // Token, created only for testing
+  parser.token("\\\\")
+      .symbol("\\");
+  
+  parser.set_start_symbol("char_test");
+  parser.rule("char_test")
+      .production("char", "\\", [](pog::Parser<HCAsm::Value>&, std::vector<pog::TokenWithLineSpec<HCAsm::Value>> args) -> HCAsm::Value {
+          return std::move(args[0].value);
+      });
+
+  parser.prepare();
+  
+  EXPECT_EQ(std::get<std::uint64_t>(parser.parse(data).value().val), static_cast<std::uint64_t>('c'));
+}

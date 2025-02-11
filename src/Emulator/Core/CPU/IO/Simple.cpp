@@ -1,8 +1,11 @@
-#include "Misc/bit_cast.hpp"
+#include <cstdint>
+#include <cstdio>
+
 #include <termios.h>
 #include <unistd.h>
 
 #include <Core/CPU/IO/Simple.hpp>
+#include <Misc/bit_cast.hpp>
 
 HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), printing(true) {
   tcgetattr(STDIN_FILENO, &oldt);

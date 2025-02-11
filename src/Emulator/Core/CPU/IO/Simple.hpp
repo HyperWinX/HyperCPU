@@ -22,8 +22,8 @@ namespace HyperCPU {
     enum class Command : std::uint8_t {
       EnablePrinting = 0x10,
       DisablePrinting = 0x11,
-      EnableBuffering = 0x21,
-      DisableBuffering = 0x22
+      EnableBuffering = 0x20,
+      DisableBuffering = 0x21
     };
   
     void Putchar(std::uint8_t);

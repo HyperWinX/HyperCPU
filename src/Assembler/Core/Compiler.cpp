@@ -73,6 +73,9 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
   parser.token(R"([01]+b)")
     .symbol("binary")
     .action(TokenizeBinary);
+  parser.token(R"('.')")
+    .symbol("char")
+    .action(TokenizeChar);
   parser.end_token().action([this](std::string_view) -> Value {
     parser.pop_input_stream();
     return {};
@@ -104,11 +107,13 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
     .production("ident", "hex", ParseOperand10)
     .production("ident", "binary", ParseOperand10)
     .production("ident", "uint", ParseOperand10)
+    .production("ident", "char", ParseOperand10)
     .production("ident", "sint", ParseOperand11)
     .production("hex", ParseOperand8)
     .production("binary", ParseOperand8)
     .production("sint", ParseOperand7)
     .production("uint", ParseOperand8)
+    .production("char", ParseOperand8)
     .production("ident", ParseOperand9);
 
 }

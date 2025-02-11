@@ -42,6 +42,10 @@ Value HCAsm::TokenizeIdentifier(std::string_view str) {
   return {std::string{str}};
 }
 
+Value HCAsm::TokenizeChar(std::string_view str) {
+  return {static_cast<std::uint64_t>(str[1])};
+}
+
 Value HCAsm::TokenizeHexadecimal(std::string_view str) {
   std::uint64_t x;
   std::stringstream ss;

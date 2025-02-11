@@ -183,6 +183,19 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_3) {
     EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
 }
 
+TEST_F(ASM_PARSER_TEST, OPERAND8_4) {
+  std::string data = "'c'";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::none);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+}
+
 TEST_F(ASM_PARSER_TEST, OPERAND9) {
     std::string data = "x0";
     parser.set_start_symbol("operand");
@@ -194,4 +207,225 @@ TEST_F(ASM_PARSER_TEST, OPERAND9) {
     EXPECT_EQ(operand.type, HCAsm::OperandType::reg);
     EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND10) {
+  std::string data = "15s";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::sint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::none);
+  EXPECT_EQ(operand.sint2, static_cast<std::int64_t>(15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_1_b8) {
+  std::string data = "b8 15u";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_1_b16) {
+  std::string data = "b16 15u";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_1_b32) {
+  std::string data = "b32 15u";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_1_b64) {
+  std::string data = "b64 15u";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_2_b8) {
+  std::string data = "b8 15h";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_2_b16) {
+  std::string data = "b16 15h";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_2_b32) {
+  std::string data = "b32 15h";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_2_b64) {
+  std::string data = "b64 15h";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_3_b8) {
+  std::string data = "b8 00110101b";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_3_b16) {
+  std::string data = "b16 00110101b";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_3_b32) {
+  std::string data = "b32 00110101b";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_3_b64) {
+  std::string data = "b64 00110101b";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_4_b8) {
+  std::string data = "b8 'c'";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_4_b16) {
+  std::string data = "b16 'c'";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_4_b32) {
+  std::string data = "b32 'c'";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+}
+
+TEST_F(ASM_PARSER_TEST, OPERAND11_4_b64) {
+  std::string data = "b64 'c'";
+  parser.set_start_symbol("operand");
+
+  parser.prepare();
+
+  auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
+
+  EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
+  EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
+  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
 }
