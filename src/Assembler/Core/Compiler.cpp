@@ -45,7 +45,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
   parser.token(">")
     .symbol(">");
   parser.token(R"(\n)")
-    .action([this](std::string_view tok) -> Value {
+    .action([this]([[maybe_unused]] std::string_view tok) -> Value {
       ++parser.get_line_counter();
       parser.reset_line_offset();
       return {};
