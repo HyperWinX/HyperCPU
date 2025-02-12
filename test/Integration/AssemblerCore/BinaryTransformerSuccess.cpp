@@ -213,7 +213,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_RM_b64) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b8) {
-  std::string data = "mov xlll0, [0h];";
+  std::string data = "mov xlll0, [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -239,7 +239,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b8) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b16) {
-  std::string data = "mov xll0, [0h];";
+  std::string data = "mov xll0, [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -265,7 +265,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b16) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b32) {
-  std::string data = "mov xl0, [0h];";
+  std::string data = "mov xl0, [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -291,7 +291,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b32) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b64) {
-  std::string data = "mov x0, [0h];";
+  std::string data = "mov x0, [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -317,7 +317,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_M_b64) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b8) {
-  std::string data = "mov xlll0, 16u;";
+  std::string data = "mov xlll0, 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -343,7 +343,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b8) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b16) {
-  std::string data = "mov xll0, 16u;";
+  std::string data = "mov xll0, 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -369,7 +369,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b16) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b32) {
-  std::string data = "mov xl0, 16u;";
+  std::string data = "mov xl0, 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -395,7 +395,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b32) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_R_IMM_b64) {
-  std::string data = "mov x0, 16u;";
+  std::string data = "mov x0, 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -525,7 +525,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_R_b64) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b8) {
-  std::string data = "mov b8 ptr [x0], [0h];";
+  std::string data = "mov b8 ptr [x0], [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -551,7 +551,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b8) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b16) {
-  std::string data = "mov b16 ptr [x0], [0h];";
+  std::string data = "mov b16 ptr [x0], [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -577,7 +577,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b16) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b32) {
-  std::string data = "mov b32 ptr [x0], [0h];";
+  std::string data = "mov b32 ptr [x0], [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -603,7 +603,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b32) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b64) {
-  std::string data = "mov b64 ptr [x0], [0h];";
+  std::string data = "mov b64 ptr [x0], [0x0];";
 
   auto state = compiler.TransformToIR(data);
 
@@ -629,7 +629,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_M_b64) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b8) {
-  std::string data = "mov b8 ptr [x0], 16u;";
+  std::string data = "mov b8 ptr [x0], 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -655,7 +655,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b8) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b16) {
-  std::string data = "mov b16 ptr [x0], 16u;";
+  std::string data = "mov b16 ptr [x0], 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -681,7 +681,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b16) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b32) {
-  std::string data = "mov b32 ptr [x0], 16u;";
+  std::string data = "mov b32 ptr [x0], 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -707,7 +707,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b32) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b64) {
-  std::string data = "mov b64 ptr [x0], 16u;";
+  std::string data = "mov b64 ptr [x0], 0u16;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -733,7 +733,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_RM_IMM_b64) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b8) {
-  std::string data = "mov [0h], xlll1;";
+  std::string data = "mov [0x0], xlll1;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -759,7 +759,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b8) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b16) {
-  std::string data = "mov [0h], xll1;";
+  std::string data = "mov [0x0], xll1;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -785,7 +785,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b16) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b32) {
-  std::string data = "mov [0h], xl1;";
+  std::string data = "mov [0x0], xl1;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -811,7 +811,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b32) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b64) {
-  std::string data = "mov [0h], x1;";
+  std::string data = "mov [0x0], x1;";
 
   auto state = compiler.TransformToIR(data);
 
@@ -837,7 +837,7 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_M_R_b64) {
 }
 
 TEST_F(ASM_BINARY_TRANSFORMER, ASM_IMM_b64) {
-  std::string data = "call b64 16h;";
+  std::string data = "call b64 0x16;";
 
   auto state = compiler.TransformToIR(data);
 

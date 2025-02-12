@@ -61,16 +61,16 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
   parser.token(R"("[^"]*")")
     .symbol("string")
     .action(TokenizeString);
-  parser.token("[0-9]+s")
+  parser.token(R"(0s[0-9]+)")
     .symbol("sint")
     .action(TokenizeSignedInt);
-  parser.token("[0-9]+u")
+  parser.token(R"(0u[0-9]+)")
     .symbol("uint")
     .action(TokenizeUnsignedInt);
-  parser.token(R"([0-9a-fA-F]+h)")
+  parser.token(R"(0x[0-9a-fA-F]+)")
     .symbol("hex")
     .action(TokenizeHexadecimal);
-  parser.token(R"([01]+b)")
+  parser.token(R"(0b[0-1]+)")
     .symbol("binary")
     .action(TokenizeBinary);
   parser.token(R"('.')")

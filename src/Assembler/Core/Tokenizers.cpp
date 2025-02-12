@@ -27,11 +27,11 @@ std::uint64_t BinaryStrToUint64(const std::string_view& binary_str) {
 }
 
 Value HCAsm::TokenizeSignedInt(std::string_view str) {
-  return { std::stol(str.begin()) };
+  return { std::stol(str.begin() + 2) };
 }
 
 Value HCAsm::TokenizeUnsignedInt(std::string_view str) {
-  return { std::stoul(str.begin()) };
+  return { std::stoul(str.begin() + 2) };
 }
 
 Value HCAsm::TokenizeString(std::string_view str) {
@@ -49,7 +49,7 @@ Value HCAsm::TokenizeChar(std::string_view str) {
 Value HCAsm::TokenizeHexadecimal(std::string_view str) {
   std::uint64_t x;
   std::stringstream ss;
-  ss << std::hex << str.begin();
+  ss << std::hex << str.begin() + 2;
   ss >> x;
   return {x};
 }
