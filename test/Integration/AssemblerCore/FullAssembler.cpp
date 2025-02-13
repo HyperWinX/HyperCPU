@@ -22,6 +22,7 @@ TEST_F(FULL_ASSEMBLER, MULTUPLE_INSTRUCTIONS) {
   ASSERT_EQ(hdr.code_size, code_size);
   ASSERT_EQ(hdr.type, HyperCPU::FileType::Binary);
   ASSERT_EQ(hdr.version, HyperCPU::Version::PreRelease);
+  ASSERT_EQ(std::filesystem::file_size("test"), code_size + sizeof(HyperCPU::GenericHeader));
 
   auto buf = new char[code_size];
   input.read(buf, code_size);

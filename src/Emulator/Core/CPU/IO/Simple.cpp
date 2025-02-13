@@ -36,8 +36,9 @@ void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {
         printing = false;
         break;
       default:
-        state = CurrentState::Default;
+        break;
     }
+    state = CurrentState::Default;
   }
 
   switch (c) {
