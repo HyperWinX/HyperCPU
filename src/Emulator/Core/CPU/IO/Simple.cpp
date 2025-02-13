@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <cstdio>
+#include <iostream>
 
 #include <termios.h>
 #include <unistd.h>
@@ -7,7 +8,7 @@
 #include <Core/CPU/IO/Simple.hpp>
 #include <Misc/bit_cast.hpp>
 
-HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), printing(true) {
+HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), was_printing(true), printing(true), buffering(true) {
   tcgetattr(STDIN_FILENO, &oldt);
   newt = oldt;
   newt.c_lflag &= ~(ICANON | ECHO);
@@ -25,20 +26,27 @@ void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {
     switch(HyperCPU::bit_cast<Command>(c)) {
       case Command::DisableBuffering:
         DisableBuffering();
+        printing = was_printing;
+        buffering = false;
         break;
       case Command::EnableBuffering:
         EnableBuffering();
+        printing = false;
+        buffering = true;
         break;
       case Command::EnablePrinting:
         printing = true;
+        was_printing = true;
         break;
       case Command::DisablePrinting:
         printing = false;
+        was_printing = false;
         break;
       default:
         break;
     }
     state = CurrentState::Default;
+    return;
   }
 
   switch (c) {
@@ -69,9 +77,13 @@ std::function<std::uint8_t()> HyperCPU::SimpleIOImpl::GetGetchar() {
 }
 
 void HyperCPU::SimpleIOImpl::EnableBuffering() {
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+  if (tcsetattr(STDIN_FILENO, TCSANOW, &oldt) == -1) {
+    std::cerr << "Failed to enable buffering\n";
+  }
 }
 
 void HyperCPU::SimpleIOImpl::DisableBuffering() {
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+  if (tcsetattr(STDIN_FILENO, TCSANOW, &newt)) {
+    std::cerr << "Failed to disable buffering\n";
+  }
 }

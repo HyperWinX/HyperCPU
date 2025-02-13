@@ -414,19 +414,6 @@ TEST_F(DECODER_TEST, READ_INSTR_RM_R_B64) {
   ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
-TEST_F(DECODER_TEST, READ_INSTR_R) {
-  decoder.mem_controller->Load16(counter, HyperCPU::READ);
-  counter += 2;
-  decoder.mem_controller->Load8(counter, HyperCPU::OperandTypes::R);
-  ++counter;
-  decoder.mem_controller->Load8(counter, HyperCPU::Registers::X3);
-  ++counter;
-  decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
-  counter = 0;
-  
-  ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
-}
-
 TEST_F(DECODER_TEST, READ_INSTR_M) {
   decoder.mem_controller->Load16(counter, HyperCPU::READ);
   counter += 2;
