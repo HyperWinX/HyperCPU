@@ -21,7 +21,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_SINT) {
-    std::string data = "1234s \\";
+    std::string data = "0s1234 \\";
 
     // Token, created only for testing
     parser.token("\\\\")
@@ -39,7 +39,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_SINT) {
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_UINT) {
-    std::string data = "1234u \\";
+    std::string data = "0u1234 \\";
 
     // Token, created only for testing
     parser.token("\\\\")
@@ -57,7 +57,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_UINT) {
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_HEX) {
-    std::string data = "15FAh \\";
+    std::string data = "0x15FA \\";
 
     // Token, created only for testing
     parser.token("\\\\")
@@ -75,7 +75,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_HEX) {
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_BINARY) {
-    std::string data = "0001010111111010b \\";
+    std::string data = "0b0001010111111010 \\";
 
     // Token, created only for testing
     parser.token("\\\\")
@@ -89,7 +89,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_BINARY) {
 
     parser.prepare();
     
-    EXPECT_EQ(std::get<std::uint64_t>(parser.parse(data).value().val), static_cast<std::uint64_t>(0x15FA));
+    EXPECT_EQ(std::get<std::uint64_t>(parser.parse(data).value().val), static_cast<std::uint64_t>(0b0001010111111010));
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_CHAR) {

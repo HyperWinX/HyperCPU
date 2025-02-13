@@ -8,7 +8,8 @@
 using HCAsm::Value;
 
 [[gnu::visibility("hidden")]]
-std::uint64_t BinaryStrToUint64(const std::string_view& binary_str) {
+std::uint64_t BinaryStrToUint64(std::string_view& binary_str) { 
+  binary_str.remove_prefix(2);
   if (binary_str.length() > 64) {
     throw std::invalid_argument("Binary string is too long to fit in a uint64_t");
   }

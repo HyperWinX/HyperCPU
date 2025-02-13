@@ -1,7 +1,7 @@
 #include <fixtures.hpp>
 
 TEST_F(ASM_PARSER_TEST, OPERAND1) {
-    std::string data = "[15FAh]";
+    std::string data = "[0x15FA]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -25,7 +25,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND2) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND3_1) {
-    std::string data = "[x0 + 15u]";
+    std::string data = "[x0 + 0u15]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -38,7 +38,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND3_1) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND3_2) {
-    std::string data = "[x0 + 15h]";
+    std::string data = "[x0 + 0x15]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -51,7 +51,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND3_2) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND3_3) {
-    std::string data = "[x0 + 00110101b]";
+    std::string data = "[x0 + 0b00110101]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -64,7 +64,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND3_3) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND4) {
-    std::string data = "b8 ptr [15FAh]";
+    std::string data = "b8 ptr [0x15FA]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -90,7 +90,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND5) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND6_1) {
-    std::string data = "b32 ptr [x0 + 15u]";
+    std::string data = "b32 ptr [x0 + 0u15]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -104,7 +104,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND6_1) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND6_2) {
-    std::string data = "b8 ptr [x0 + 15h]";
+    std::string data = "b8 ptr [x0 + 0x15]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -118,7 +118,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND6_2) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND6_3) {
-    std::string data = "b32 ptr [x0 + 00110101b]";
+    std::string data = "b32 ptr [x0 + 0b00110101]";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -132,7 +132,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND6_3) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND7) {
-    std::string data = "15s";
+    std::string data = "0s15";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -145,7 +145,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND7) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_1) {
-    std::string data = "15u";
+    std::string data = "0u15";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -158,7 +158,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_1) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_2) {
-    std::string data = "15h";
+    std::string data = "0x15";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -171,7 +171,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_2) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_3) {
-    std::string data = "00110101b";
+    std::string data = "0b00110101";
     parser.set_start_symbol("operand");
 
     parser.prepare();
@@ -210,7 +210,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND9) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND10) {
-  std::string data = "15s";
+  std::string data = "0s15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -223,7 +223,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND10) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b8) {
-  std::string data = "b8 15u";
+  std::string data = "b8 0u15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -236,7 +236,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b8) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b16) {
-  std::string data = "b16 15u";
+  std::string data = "b16 0u15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -249,7 +249,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b16) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b32) {
-  std::string data = "b32 15u";
+  std::string data = "b32 0u15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -262,7 +262,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b32) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b64) {
-  std::string data = "b64 15u";
+  std::string data = "b64 0u15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -275,7 +275,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b64) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b8) {
-  std::string data = "b8 15h";
+  std::string data = "b8 0x15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -288,7 +288,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b8) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b16) {
-  std::string data = "b16 15h";
+  std::string data = "b16 0x15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -301,7 +301,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b16) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b32) {
-  std::string data = "b32 15h";
+  std::string data = "b32 0x15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -314,7 +314,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b32) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b64) {
-  std::string data = "b64 15h";
+  std::string data = "b64 0x15";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -327,7 +327,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b64) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b8) {
-  std::string data = "b8 00110101b";
+  std::string data = "b8 0b00110101";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -340,7 +340,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b8) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b16) {
-  std::string data = "b16 00110101b";
+  std::string data = "b16 0b00110101";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -353,7 +353,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b16) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b32) {
-  std::string data = "b32 00110101b";
+  std::string data = "b32 0b00110101";
   parser.set_start_symbol("operand");
 
   parser.prepare();
@@ -366,7 +366,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b32) {
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b64) {
-  std::string data = "b64 00110101b";
+  std::string data = "b64 0b00110101";
   parser.set_start_symbol("operand");
 
   parser.prepare();
