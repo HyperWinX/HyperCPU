@@ -28,9 +28,9 @@ Main terms
 * <imm> - immediate value. Size - (8 - 64) bit
 
 
-========================
+====================
 ADC - Add With Carry
-========================
+====================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -101,9 +101,9 @@ ADC - Add With Carry
 | Overflow flag set if result is overflown.
 
 
-========================
+=========
 ADD - Add
-========================
+=========
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -173,9 +173,9 @@ ADD - Add
 | Overflow flag set if result is overflown.
 
 
-========================
+=================
 AND - Logical AND
-========================
+=================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -245,9 +245,9 @@ AND - Logical AND
 | None.
 
 
-========================
+======================
 ANDN - Logical AND NOT
-========================
+======================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -317,9 +317,9 @@ ANDN - Logical AND NOT
 | None.
 
 
-========================
+=================
 BSWAP - Byte Swap
-========================
+=================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -352,9 +352,9 @@ BSWAP - Byte Swap
 | **Flags affected**:
 | None.
 
-========================
+=====================
 CALL - Call procedure
-========================
+=====================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -381,9 +381,9 @@ CALL - Call procedure
 | None.
 
 
-========================
+=======================
 CCRF - Clear Carry Flag
-========================
+=======================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -406,9 +406,9 @@ CCRF - Clear Carry Flag
 | CRF -> not set.
 
 
-========================
+==========================
 COVF - Clear Overflow Flag
-========================
+==========================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -431,9 +431,9 @@ COVF - Clear Overflow Flag
 | OVF -> not set.
 
 
-========================
+==========================
 CUDF - Clear Undeflow Flag
-========================
+==========================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -456,9 +456,9 @@ CUDF - Clear Undeflow Flag
 | UDF -> not set.
 
 
-========================
+===============================
 DEC - Decrement register value.
-========================
+===============================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -491,9 +491,9 @@ DEC - Decrement register value.
 | UDF -> not set, if value has not been underflown.
 
 
-========================
+===========================
 DIV - Divide integer value.
-========================
+===========================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -525,9 +525,9 @@ DIV - Divide integer value.
 | None.
 
 
-========================
+===========
 HALT - Halt
-========================
+===========
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -550,9 +550,9 @@ HALT - Halt
 | None.
 
 
-========================
+=================
 HID - HyperCPU ID
-========================
+=================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -591,9 +591,9 @@ HID - HyperCPU ID
 | **Flags affected**:
 | None
 
-========================
+===============================
 INC - Increment register value.
-========================
+===============================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -626,9 +626,9 @@ INC - Increment register value.
 | OVF -> not set, if value has not been overflown.
 
 
-========================
+==========
 MOV - Move
-========================
+==========
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -754,9 +754,9 @@ MOV - Move
 | None.
 
 
-========================
+=============================
 MUL - Multiply integer value.
-========================
+=============================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -824,9 +824,9 @@ MUL - Multiply integer value.
 | None.
 
 
-========================
+===============
 OR - Logical OR
-========================
+===============
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -969,9 +969,9 @@ SHFL - Binary Shift Left
 | **Flags affected**:
 | None.
 
-========================
+=========================
 SHFR - Binary Shift Right
-========================
+=========================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -1015,9 +1015,9 @@ SHFR - Binary Shift Right
 | None.
 
 
-========================
+=====================
 SUB - Subtract values
-========================
+=====================
 
 .. list-table:: Possible usage
   :widths: 17 21 15
@@ -1086,9 +1086,9 @@ SUB - Subtract values
 | **Flags affected**:
 | Overflow flag set if result is overflown.
 
-=====================
+=======================
 WRITE - Write From Port
-=====================
+=======================
 .. list-table:: Possible usage
    :widths: 17 21 1
    :header-rows: 1                                         
