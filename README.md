@@ -12,7 +12,7 @@
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
      <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
           alt="GitHub opened issues">
-     <img src="https://img.shields.io/badge/version-0.1.19-red"
+     <img src="https://img.shields.io/badge/version-0.2.0-red"
           alt="Version">
      <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
           alt="CI status">
@@ -42,6 +42,9 @@ Tools include:
 - **hCPU emulator**
 - **hASM assembler**
 - **hASM disassembler**
+
+### Roadmap
+You can find roadmap [here](roadmap.md).
 
 ## Building guide
 >[!WARNING]

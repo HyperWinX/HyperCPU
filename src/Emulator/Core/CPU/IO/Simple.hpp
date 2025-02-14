@@ -34,7 +34,7 @@ namespace HyperCPU {
 
     CurrentState state;
 
-    bool printing;
+    bool was_printing, printing, buffering;
     struct termios oldt, newt;
   };
 }

@@ -896,6 +896,34 @@ OR - Logical OR
 | None.
 
 
+=====================
+READ - Read From Port
+=====================
+
+.. list-table:: Possible usage
+   :widths: 17 21 1
+   :header-rows: 1
+
+   * - Opcode
+     - Instruction
+     - Operands type
+   * - 180008<r>
+     - read <r8>
+     - R
+   * - 18000F<imm>
+     - read <imm8>
+     - IMM
+
+| **Description**:
+| Read from port, specified by operand, and save value in xlll0 register;
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+
 ========================
 SHFL - Binary Shift Left
 ========================
@@ -1057,3 +1085,28 @@ SUB - Subtract values
 
 | **Flags affected**:
 | Overflow flag set if result is overflown.
+
+=====================
+WRITE - Write From Port
+=====================
+.. list-table:: Possible usage
+   :widths: 17 21 1
+   :header-rows: 1                                         
+   * - Opcode
+     - Instruction
+     - Operands type
+   * - 190000<r><r>
+     - write <r8>, <r8>
+     - R_R
+   * - 190003<r><imm>
+     - write <r8>, <imm8>
+     - R_IMM
+
+| **Description**:
+| Write data, specified by second operand, to port, specified by first operand.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
