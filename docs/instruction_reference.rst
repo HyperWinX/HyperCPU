@@ -5,27 +5,27 @@ Instruction reference
 Main terms
 ----------
 
-* r8 - 8 bit register
-* r16 - 16 bit register
-* r32 - 32 bit register
-* r64 - 64 bit register
-* rm - interpret register value as address
-* m - immediate memory address
-* m8 - 8 bits from immediate memory address
-* m16 - 16 bits from immediate memory address
-* m32 - 32 bits from immediate memory address
-* m64 - 64 bits from immediate memory address
-* imm8 - immediate 8 bit value
-* imm16 - immediate 16 bit value
-* imm32 - immediate 32 bit value
-* imm64 - immediate 64 bit value
+* ``r8`` - 8 bit register
+* ``r16`` - 16 bit register
+* ``r32`` - 32 bit register
+* ``r64`` - 64 bit register
+* ``rm`` - interpret register value as address
+* ``m`` - immediate memory address
+* ``m8`` - 8 bits from immediate memory address
+* ``m16`` - 16 bits from immediate memory address
+* ``m32`` - 32 bits from immediate memory address
+* ``m64`` - 64 bits from immediate memory address
+* ``imm8`` - immediate 8 bit value
+* ``imm16`` - immediate 16 bit value
+* ``imm32`` - immediate 32 bit value
+* ``imm64`` - immediate 64 bit value
 
 ----------------------
 'Opcode' field meaning
 ----------------------
-* <m> - memory address. Size - 64 bit
-* <r> - encoded register. Size - 8 bit
-* <imm> - immediate value. Size - (8 - 64) bit
+* ``<m>`` - memory address. Size - 64 bit
+* ``<r>`` - encoded register. Size - 8 bit
+* ``<imm>`` - immediate value. Size - (8 - 64) bit
 
 
 ====================
@@ -1086,12 +1086,13 @@ SUB - Subtract values
 | **Flags affected**:
 | Overflow flag set if result is overflown.
 
-=======================
-WRITE - Write From Port
-=======================
+=====================
+WRITE - Write To Port
+=====================
 .. list-table:: Possible usage
    :widths: 17 21 1
-   :header-rows: 1                                         
+   :header-rows: 1                
+                            
    * - Opcode
      - Instruction
      - Operands type
