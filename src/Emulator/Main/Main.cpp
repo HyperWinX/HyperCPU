@@ -33,10 +33,13 @@ int main(int argc, char** argv) {
   if (!std::filesystem::exists(source)) {
     HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, std::format("Binary \"{}\" does not exist!", source));
     std::exit(1);
+  } else if (!std::filesystem::is_regular_file(source)) {
+    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, std::format("Source path \"{}\" is not a regular file!", source));
+    std::exit(1);
   }
 
   std::ifstream file(source);
-
+  
   std::uint64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
 
   HyperCPU::GenericHeader header = ParseHeader(file);

@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <print>
+#include <fstream>
 
 #include <Assembler/Core/Compiler.hpp>
 #include <Logger/Logger.hpp>
@@ -60,6 +61,11 @@ int main(int argc, char** argv) {
   HCAsm::HCAsmCompiler compiler{ loglevel_assoc.at(program.get<std::string>("-v").c_str()) };
   
   // Verify that files are available
+  if (!std::filesystem::is_regular_file(source)) {
+    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Source file \"{}\" is not a regular file!", source);
+    std::exit(1);
+  }
+  
   std::ifstream src(source);
   std::ofstream dst(result, std::ios::binary | std::ios::ate);
   if (!src.is_open()) {
@@ -73,7 +79,8 @@ int main(int argc, char** argv) {
   if (hdr.magic == HyperCPU::magic) {
     HyperCPU::PrintUnsupported("Linking object files is not implemented!");
   }
-  src.seekg(0);
+  src.close();
+  src.open(source);
   
   std::string contents(
     (std::istreambuf_iterator<char>(src)),

@@ -24,7 +24,7 @@ Operands
     - [0h]
     - Any hex(!) value. Only hex values are supported
   * - IMM
-    - 0s | 0u | 0h | 0110101b
+    - 0s15 | 0u15 | 0x15 | 0b01001001010
     - One of the following formats are supported. Signed integer, unsigned, hex, and binary
 
 | Operands are separated by comma.
