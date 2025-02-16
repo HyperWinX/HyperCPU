@@ -117,6 +117,8 @@ namespace HCAsm {
       case Registers::X5:
       case Registers::X6:
       case Registers::X7:
+      case Registers::XBP:
+      case Registers::XSP:
         return Mode::b64;
       case Registers::XH0:
       case Registers::XH1:
