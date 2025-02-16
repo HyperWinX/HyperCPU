@@ -4,11 +4,11 @@
 
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
-  std::uint64_t code_ptr = mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception)));
-
-  if (!code_ptr) {
+  if (*xivt == 0) {
     return;
   }
+  
+  std::uint64_t code_ptr = mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception)));
 
   StackPush64(*xip);
   *xip = code_ptr;
