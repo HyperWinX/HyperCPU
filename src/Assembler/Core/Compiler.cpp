@@ -164,8 +164,29 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::Operand o
 
 std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& instr) {
   std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
-
-  if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none) {
+  switch (instr.op1.type) {
+    case OperandType::reg: // R_*
+      switch (instr.op2.type) {
+        case OperandType::memaddr_reg: // R_RM
+        case OperandType::reg: // R_R
+          result += 2;
+          break;
+        case OperandType::sint:
+        case OperandType::uint:
+          break;
+      }
+  }
+  if ((instr.op1.type == HCAsm::OperandType::reg || instr.op2.type == HCAsm::OperandType::reg) && (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none)) {
+    result += 1;
+    if (instr.op2.type == HCAsm::OperandType::reg){
+      // M_R case
+      result += 8;
+    } else {
+      case OperandType::sint:
+      case OperandType::uint:
+        result += Regi
+    }
+  } else if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none) {
     if (instr.op1.type == HCAsm::OperandType::mem_reg_add_int || instr.op2.type == HCAsm::OperandType::mem_reg_add_int) {
       ++result; // Prefix byte
     }
@@ -173,10 +194,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& ins
     result += OperandSize(instr.op2);
   } else if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type == HCAsm::OperandType::none) {
     result += OperandSize(instr.op1);
-  } else if (instr.op1.type == HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none) {
-    result += OperandSize(instr.op2);
-  }
-
+  } 
   return result;
 }
 

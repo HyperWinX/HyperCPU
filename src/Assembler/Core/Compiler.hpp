@@ -42,12 +42,16 @@ namespace HCAsm {
     b64 = 0b11,
     none
   };
-
+  
+  struct Value {
+    std::variant<std::int64_t, std::uint64_t, std::string, Operand, Instruction> val;
+  };
   struct Operand {
     OperandType type;
     HyperCPU::Registers reg;
     enum Mode mode;
     bool needs_resolve;
+    pog::TokenWithLineSpec<Value> token;
     union {
       std::uint64_t uint1;
       std::int64_t sint2;
@@ -63,10 +67,6 @@ namespace HCAsm {
   struct Label {
     std::string name;
     std::uint64_t index;
-  };
-
-  struct Value {
-    std::variant<std::int64_t, std::uint64_t, std::string, Operand, Instruction> val;
   };
 
   struct BinaryResult {
