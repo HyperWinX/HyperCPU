@@ -205,6 +205,7 @@ namespace HCAsm {
 
     constexpr inline std::uint8_t OperandSize(const Operand op);
     std::uint8_t InstructionSize(const Instruction& instr);
+    std::uint8_t ModeToSize(Mode md);
   };
   
 }

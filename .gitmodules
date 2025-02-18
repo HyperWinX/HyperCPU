@@ -13,3 +13,6 @@
 [submodule "dist/eternal"]
 	path = dist/eternal
 	url = https://github.com/mapbox/eternal
+[submodule "diat"]
+	path = diat
+	url = dist/HPool

@@ -1,5 +1,4 @@
 #include <functional>
-#include <fstream>
 
 #include <Core/MemoryController/MemoryControllerMT.hpp>
 #include <Core/MemoryController/MemoryControllerST.hpp>

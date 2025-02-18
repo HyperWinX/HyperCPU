@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <utility>
 #include <variant>
 
 #include <Core/BinaryTransformer.hpp>
@@ -162,6 +163,21 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::Operand o
   }
 }
 
+std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
+  switch (md) {
+    case Mode::b8:
+      return 1;
+    case Mode::b16:
+      return 2;
+    case Mode::b32:
+      return 4;
+    case Mode::b64:
+      return 8;
+    default:
+      std::unreachable();
+  }
+}
+
 std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& instr) {
   std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
   switch (instr.op1.type) {
@@ -172,8 +188,27 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& ins
           result += 2;
           break;
         case OperandType::sint:
-        case OperandType::uint:
+        case OperandType::uint: // R_IMM
+          result += 1 + ModeToSize(instr.op1.mode);
           break;
+        case OperandType::label:
+        case OperandType::memaddr_int: // R_M
+          result += 9;
+          break;
+        case OperandType::mem_reg_add_int:
+          result += 10;
+          break;
+        case OperandType::none: // R
+          break;
+        default:
+          std::unreachable();
+      }
+      break;
+    case OperandType::sint:
+    case OperandType::uint: // IMM
+      switch (instr.op1.mode) {
+        case Mode::none:
+          ThrowError();
       }
   }
   if ((instr.op1.type == HCAsm::OperandType::reg || instr.op2.type == HCAsm::OperandType::reg) && (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none)) {
@@ -184,7 +219,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& ins
     } else {
       case OperandType::sint:
       case OperandType::uint:
-        result += Regi
+        result += 1;
     }
   } else if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none) {
     if (instr.op1.type == HCAsm::OperandType::mem_reg_add_int || instr.op2.type == HCAsm::OperandType::mem_reg_add_int) {
