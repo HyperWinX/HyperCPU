@@ -23,7 +23,7 @@ namespace HCAsm {
   std::uint64_t current_index = 0;
 }
 
-HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) {
+HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   logger = HyperCPU::Logger{lvl};
   // Setup tokens
   parser.token("[^\\S\n]+");
@@ -133,7 +133,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::ui
 }
 
 HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
-  CompilerState state;
+  CompilerState state(pool);
   current_state = &state;
   this->state = &state;
   parser.set_compiler_state(&state);
@@ -178,7 +178,7 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
   }
 }
 
-std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& instr) {
+std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
   std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
   switch (instr.op1.type) {
     case OperandType::reg: // R_*
@@ -208,28 +208,26 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(const HCAsm::Instruction& ins
     case OperandType::uint: // IMM
       switch (instr.op1.mode) {
         case Mode::none:
-          ThrowError();
+          ThrowError(*(instr.op1.tokens[0]), parser, "unknown operand size");
+          break;
+        default:
+          result += ModeToSize(instr.op1.mode);
+          break;
       }
-  }
-  if ((instr.op1.type == HCAsm::OperandType::reg || instr.op2.type == HCAsm::OperandType::reg) && (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none)) {
-    result += 1;
-    if (instr.op2.type == HCAsm::OperandType::reg){
-      // M_R case
+      break;
+    case OperandType::mem_reg_add_int:
+      ++result;
+    case OperandType::memaddr_int:
+    case OperandType::label:
       result += 8;
-    } else {
-      case OperandType::sint:
-      case OperandType::uint:
-        result += 1;
-    }
-  } else if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type != HCAsm::OperandType::none) {
-    if (instr.op1.type == HCAsm::OperandType::mem_reg_add_int || instr.op2.type == HCAsm::OperandType::mem_reg_add_int) {
-      ++result; // Prefix byte
-    }
-    result += OperandSize(instr.op1);
-    result += OperandSize(instr.op2);
-  } else if (instr.op1.type != HCAsm::OperandType::none && instr.op2.type == HCAsm::OperandType::none) {
-    result += OperandSize(instr.op1);
-  } 
+      break;
+    case OperandType::none:
+      break;
+    default:
+      std::unreachable();
+
+  }
+ 
   return result;
 }
 

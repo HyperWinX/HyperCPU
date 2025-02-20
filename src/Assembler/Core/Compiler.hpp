@@ -15,6 +15,8 @@
 #include <pog/parser.h>
 #include <pog/line_spec.h>
 
+#include <hpool.hpp>
+
 
 namespace HCAsm {
   enum class ValueType {
@@ -42,16 +44,15 @@ namespace HCAsm {
     b64 = 0b11,
     none
   };
-  
-  struct Value {
-    std::variant<std::int64_t, std::uint64_t, std::string, Operand, Instruction> val;
-  };
+
+  struct Value;
+
   struct Operand {
     OperandType type;
     HyperCPU::Registers reg;
     enum Mode mode;
     bool needs_resolve;
-    pog::TokenWithLineSpec<Value> token;
+    std::array<hpool::Ptr<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>, 2> tokens;
     union {
       std::uint64_t uint1;
       std::int64_t sint2;
@@ -64,6 +65,10 @@ namespace HCAsm {
     Operand op1, op2;
   };
 
+  struct Value {
+    std::variant<std::int64_t, std::uint64_t, std::string, Operand, Instruction> val;
+  };
+ 
   struct Label {
     std::string name;
     std::uint64_t index;
@@ -97,12 +102,13 @@ namespace HCAsm {
 
   // Needs improvements and optimizations
   struct CompilerState {
-    CompilerState() : code_size(0) { }
+    CompilerState(hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>& pool) : pool(pool), code_size(0) { }
 
     std::vector<PendingLabelReferenceResolve> pending_resolves;
     std::vector<pog::TokenWithLineSpec<Value>> tmp_args;
     std::vector<std::variant<Instruction, Label>> ir;
     std::unordered_map<std::string, std::uint64_t> labels;
+    hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>& pool;
     std::uint64_t code_size;
   };
 
@@ -202,9 +208,10 @@ namespace HCAsm {
     pog::Parser<Value> parser;
     CompilerState* state;
     std::queue<std::string> files;
+    hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc> pool;
 
     constexpr inline std::uint8_t OperandSize(const Operand op);
-    std::uint8_t InstructionSize(const Instruction& instr);
+    std::uint8_t InstructionSize(Instruction& instr);
     std::uint8_t ModeToSize(Mode md);
   };
   
