@@ -162,9 +162,12 @@ protected:
 class ASM_PARSER_TEST : public ::testing::Test {
 protected:
   HCAsm::HCAsmCompiler compiler;
+  HCAsm::CompilerState _state;
   pog::Parser<HCAsm::Value>& parser;
 
-  ASM_PARSER_TEST() : compiler(HyperCPU::LogLevel::ERROR), parser(compiler.parser) { }
+  ASM_PARSER_TEST() : compiler(HyperCPU::LogLevel::ERROR), _state(compiler.pool), parser(compiler.parser) {
+    parser.set_compiler_state(&_state);
+  }
 };
 
 class ASM_PARSER_STMT_TEST : public ::testing::Test {
