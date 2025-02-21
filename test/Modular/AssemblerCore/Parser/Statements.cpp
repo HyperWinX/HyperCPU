@@ -4,9 +4,7 @@
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
   std::string data = "adc x0, x1;";
-  HCAsm::CompilerState state;
-
-  state = compiler.TransformToIR(data);
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
 
   EXPECT_EQ(state.ir.size(), 1);
   EXPECT_EQ(state.labels.size(), 0);
@@ -23,9 +21,7 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT2) {
   std::string data = "adc x0;";
-  HCAsm::CompilerState state;
-
-  state = compiler.TransformToIR(data);
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
 
   EXPECT_EQ(state.ir.size(), 1);
   EXPECT_EQ(state.labels.size(), 0);
@@ -41,9 +37,7 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT2) {
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT3) {
   std::string data = "adc;";
-  HCAsm::CompilerState state;
-
-  state = compiler.TransformToIR(data);
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
 
   EXPECT_EQ(state.ir.size(), 1);
   EXPECT_EQ(state.labels.size(), 0);
@@ -58,9 +52,7 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT3) {
 
 TEST_F(ASM_PARSER_STMT_TEST, LABEL) {
   std::string data = "test:";
-  HCAsm::CompilerState state;
-
-  state = compiler.TransformToIR(data);
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
 
   EXPECT_EQ(state.ir.size(), 1);
   EXPECT_EQ(state.labels.size(), 1);
@@ -70,9 +62,7 @@ TEST_F(ASM_PARSER_STMT_TEST, LABEL) {
 
 TEST_F(ASM_PARSER_STMT_TEST, LABEL_REFERENCE_RESOLVE) {
   std::string data = "_start:\n\tcall main;\nmain:\n\tintr x0;";
-  HCAsm::CompilerState state;
-
-  state = compiler.TransformToIR(data);
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
 
   auto binary =compiler.TransformToBinary(state);
 
