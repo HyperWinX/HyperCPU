@@ -98,6 +98,7 @@ namespace HyperCPU {
     DECLARE_INSTR(INTR);
     DECLARE_INSTR(READ);
     DECLARE_INSTR(WRITE);
+    DECLARE_INSTR(JMP);
 
     // I/O
     std::array<read_operation_handler, 256> read_io_handlers;

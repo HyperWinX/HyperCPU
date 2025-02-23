@@ -626,6 +626,33 @@ INC - Increment register value.
 | OVF -> not set, if value has not been overflown.
 
 
+=====================
+JMP - Jump to Address
+=====================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 1A00C8<r>
+    - jmp <r64>
+    - R
+  * - 1A00C9<m>
+    - jmp <m>
+    - M
+
+| **Description**:
+| Jumps to the address, specified by the first operand.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
 ==========
 MOV - Move
 ==========
