@@ -43,7 +43,7 @@ jobs:
       
       - name: Build and test with LLVM on Release profile
         run: |
-          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++) -DCMAKE_BUILD_TYPE=Release
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang-19) -DCMAKE_CXX_COMPILER=$(which clang++-19) -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target build-all-tests-github -j4
           ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
           ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
