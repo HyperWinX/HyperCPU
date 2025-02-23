@@ -1,6 +1,15 @@
 #pragma once
 
+#include <cctype>
+#include <charconv>
 #include <cstdint>
+
+#include <limits>
+#include <string>
+#include <expected>
+#include <system_error>
+
+
 namespace HyperCPU {
   enum Version : std::uint8_t {
     PreRelease = 0x01,
@@ -29,4 +38,10 @@ namespace HyperCPU {
     std::uint32_t code_size;
   };
 
+  enum class ParseError {
+    Empty,
+    Invalid
+  };
+
+  std::expected<std::uint64_t, ParseError> ParseMemoryString(const std::string& str);
 }

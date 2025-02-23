@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
     .default_value(std::string{"warning"})
     .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
 
+
   try {
     program.parse_args(argc, argv);
   } catch (const std::exception& err) {
