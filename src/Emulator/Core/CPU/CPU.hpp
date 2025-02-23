@@ -108,6 +108,8 @@ namespace HyperCPU {
     explicit CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
     void Run();
+
+    bool CanExecuteInterrupts();
     
     ~CPU();
   };

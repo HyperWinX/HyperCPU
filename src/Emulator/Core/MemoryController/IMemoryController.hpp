@@ -6,10 +6,10 @@
 
 #define mem_ctlr_assert(expr)                       \
   do {                                              \
-    if (!(expr) && !cpu) [[unlikely]] {             \
+    if (!(expr) && (!cpu || !cpu->CanExecuteInterrupts())) [[unlikely]] { \
       std::println("Assertion failed: {}", #expr);  \
       std::abort();                                 \
-    } else if (!(expr) && cpu) {       \
+    } else if (!(expr) && cpu && cpu->CanExecuteInterrupts()) { \
       cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::SEGF); \
     } else [[likely]] {  }                          \
   } while (false)

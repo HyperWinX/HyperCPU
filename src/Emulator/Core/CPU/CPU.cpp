@@ -140,3 +140,7 @@ void HyperCPU::CPU::Run() {
     opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
   }
 }
+
+bool HyperCPU::CPU::CanExecuteInterrupts() {
+  return *xivt != 0;
+}

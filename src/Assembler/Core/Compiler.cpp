@@ -245,7 +245,14 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
       }
       break;
     case OperandType::memaddr_int:
-      [[fallthrough]];
+      result += 8;
+      switch (instr.op2.type) {
+        case OperandType::reg: // M_R
+          ++result;
+          break;
+        default:
+          std::abort();
+      }
     case OperandType::label:
       result += 8;
       break;
@@ -255,7 +262,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
       std::abort();
 
   }
- 
+
   return result;
 }
 
