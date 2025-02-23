@@ -87,17 +87,20 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
         md = instr.op2.mode;
         break;
       }
+      [[fallthrough]];
     case HyperCPU::OperandTypes::RM_IMM:
       if (instr.op1.mode == HCAsm::Mode::none) {
         logger.Log(HyperCPU::LogLevel::ERROR, "Ambiguous operand size!");
         std::exit(1);
       }
+      [[fallthrough]];
     case HyperCPU::OperandTypes::R_R:
     case HyperCPU::OperandTypes::R_RM:
     case HyperCPU::OperandTypes::R_M:
     case HyperCPU::OperandTypes::R_IMM:
     case HyperCPU::OperandTypes::R:
       md = instr.op1.mode;
+      [[fallthrough]];
     case HyperCPU::OperandTypes::IMM:
       if (instr.op1.mode == Mode::none) {
         logger.Log(HyperCPU::LogLevel::ERROR, "Undefined operand size!");

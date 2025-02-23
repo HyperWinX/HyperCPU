@@ -253,6 +253,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
         default:
           std::abort();
       }
+      break;
     case OperandType::label:
       result += 8;
       break;
