@@ -184,14 +184,17 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     case OperandType::reg: // R_*
       switch (instr.op2.type) {
         case OperandType::memaddr_reg: // R_RM
+          [[fallthrough]];
         case OperandType::reg: // R_R
           result += 2;
           break;
         case OperandType::sint:
+          [[fallthrough]];
         case OperandType::uint: // R_IMM
           result += 1 + ModeToSize(instr.op1.mode);
           break;
         case OperandType::label:
+          [[fallthrough]];
         case OperandType::memaddr_int: // R_M
           result += 9;
           break;
@@ -201,10 +204,36 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
         case OperandType::none: // R
           break;
         default:
-          std::unreachable();
+          std::abort();
+      }
+      break;
+    case OperandType::mem_reg_add_int:
+      ++result;
+      [[fallthrough]];
+    case OperandType::memaddr_reg:
+      switch (instr.op2.type) {
+        case OperandType::reg: // RM_R
+          result += 2;
+          break;
+        case OperandType::sint:
+          [[fallthrough]];
+        case OperandType::uint: // RM_IMM
+          result += 1 + ModeToSize(instr.op1.mode);
+          break;
+        case OperandType::label:
+          [[fallthrough]];
+        case OperandType::memaddr_int: // RM_M
+          result += 9;
+          break;
+        case OperandType::mem_reg_add_int:
+          result += 10;
+          break;
+        default:
+          std::abort();
       }
       break;
     case OperandType::sint:
+      [[fallthrough]];
     case OperandType::uint: // IMM
       switch (instr.op1.mode) {
         case Mode::none:
@@ -215,16 +244,15 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
           break;
       }
       break;
-    case OperandType::mem_reg_add_int:
-      ++result;
     case OperandType::memaddr_int:
+      [[fallthrough]];
     case OperandType::label:
       result += 8;
       break;
     case OperandType::none:
       break;
     default:
-      std::unreachable();
+      std::abort();
 
   }
  
@@ -264,6 +292,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   }
 
   // Compile code - pass 3
+  std::println("Code size: {}", ir.code_size);
   BinaryResult binary = { new unsigned char[ir.code_size] };
   if (!binary.binary) {
     logger.Log(LogLevel::ERROR, "Failed to allocate memory for binary data!");

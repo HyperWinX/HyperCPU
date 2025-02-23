@@ -12,7 +12,7 @@ target_link_libraries(emulator-core ${LD_FLAGS})
 
 add_library(assembler-core STATIC ${SOURCES_assembler-core})
 target_include_directories(assembler-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/Assembler)
-set_target_properties(emulator-core PROPERTIES COMPILE_FLAGS ${HCPU_COMPILE_FLAGS})
+set_target_properties(emulator-core PROPERTIES COMPILE_FLAGS "${HCPU_COMPILE_FLAGS}")
 target_link_libraries(assembler-core pog)
 
 add_executable(hcasm ${SOURCES_assembler-main})
