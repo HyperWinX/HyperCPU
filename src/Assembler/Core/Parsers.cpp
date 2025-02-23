@@ -210,6 +210,7 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     };
   } else {
     parser.get_compiler_state()->tmp_args = args;
+    auto str = new std::string(reg);
     return {
       .val = Operand {
         .type = HCAsm::OperandType::label,
@@ -218,7 +219,7 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
         .tokens = {
           parser.get_compiler_state()->pool.allocate(std::move(args[0]))
         },
-        .str = new std::string(reg)
+        .str = str
       }
     };
   }

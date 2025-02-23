@@ -64,7 +64,7 @@ TEST_F(ASM_PARSER_STMT_TEST, LABEL_REFERENCE_RESOLVE) {
   std::string data = "_start:\n\tcall main;\nmain:\n\tintr x0;";
   HCAsm::CompilerState state(compiler.TransformToIR(data));
 
-  auto binary =compiler.TransformToBinary(state);
+  auto binary = compiler.TransformToBinary(state);
 
   EXPECT_EQ(binary.binary[0x03], 0x0B);
 }
