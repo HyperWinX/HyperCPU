@@ -1,6 +1,7 @@
 #include <cstdint>
 
 #include <Core/CPU/CPU.hpp>
+#include <Core/CPU/ALU.hpp>
 
 #include <Misc/deref.hpp>
 #include <Misc/bit_cast.hpp>
@@ -13,7 +14,7 @@ void HyperCPU::CPU::ExecADC(const IInstruction& instr, void* op1, void* op2) {
       switch (instr.m_opcode_mode) {
         case b8:
           ovf = AdditionWillOverflow(deref<std::uint8_t>(op1), deref<std::uint8_t>(op2));
-          deref<std::uint8_t>(op1) += HyperCPU::bit_cast_from<std::uint8_t>(op2);
+          deref<std::uint8_t>(op1) = HyperALU::__hcpu_add(deref<std::uint8_t>(op1), HyperCPU::bit_cast_from<std::uint8_t>(op2));
           if (crf) ++deref<std::uint8_t>(op1);
           break;
 
