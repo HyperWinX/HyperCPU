@@ -27,8 +27,8 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   logger = HyperCPU::Logger{lvl};
   // Setup tokens
   parser.token("[^\\S\n]+");
-  parser.token("\/\/[^\\S\n]+"); // Single line comment
-  parser.token("\/\*.*\*\/"); /* Multi-line comment */
+  parser.token("\\/\\/.*"); // Single line comment
+  parser.token("\\/\\*[\\S\\s]+\\*\\/"); /* Multi-line comment */
   parser.token(R"(\+)")
     .symbol("+");
   parser.token(R"(-)")
