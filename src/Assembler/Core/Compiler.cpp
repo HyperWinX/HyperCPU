@@ -57,16 +57,16 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   parser.token("#use")
     .fullword()
     .symbol("use");
-  parser.token(".b8")
+  parser.token("\\.b8")
     .fullword()
     .symbol(".b8");
-  parser.token(".b16")
+  parser.token("\\.b16")
     .fullword()
     .symbol(".b16");
-  parser.token(".b32")
+  parser.token("\\.b32")
     .fullword()
     .symbol(".b32");
-  parser.token(".b64")
+  parser.token("\\.b64")
     .fullword()
     .symbol(".b64");
   
@@ -306,6 +306,8 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       auto& lbl = std::get<Label>(instr);
       
       ir.labels[lbl.name] = ir.code_size;
+    } else if (std::holds_alternative<RawValue>(instr)) {
+      ir.code_size += ModeToSize(std::get<RawValue>(instr).mode);
     }
   }
 
@@ -335,7 +337,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
     std::abort();
   }
 
-  logger.Log(LogLevel::DEBUG, "Running pass 2 - compiling");
+  logger.Log(LogLevel::DEBUG, "Running pass 3 - compiling");
 
   BinaryTransformer transformer(binary, &ir);
 
@@ -344,6 +346,15 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       auto& ins = std::get<Instruction>(instr);
 
       transformer.EncodeInstruction(ins);
+    } else if (std::holds_alternative<RawValue>(instr)) {
+      auto& val = std::get<RawValue>(instr);
+      switch (val.mode) {
+        case Mode::b8:  binary.push(static_cast<std::uint8_t>(val.value));
+        case Mode::b16: binary.push(static_cast<std::uint16_t>(val.value));
+        case Mode::b32: binary.push(static_cast<std::uint32_t>(val.value));
+        case Mode::b64: binary.push(static_cast<std::uint64_t>(val.value));
+        default: std::unreachable();
+      }
     }
   }
 
