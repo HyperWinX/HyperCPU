@@ -1,3 +1,4 @@
+#include "pog/line_spec.h"
 #include "pog/parser.h"
 #include <Core/Compiler.hpp>
 #include <Core/OpcodeNameAssoc.hpp>
@@ -107,4 +108,24 @@ Value HCAsm::CompileLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpe
     current_state->ir.push_back(HCAsm::Label{ name, current_index++ });
     current_state->labels[name] = current_index - 1;
     return { std::get<std::string>(args[0].value.val) }; // Technically, placeholder
+}
+
+Value HCAsm::CompileRawValueb8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, std::get<std::uint64_t>(args[1].value.val) });
+  return {};
+}
+
+Value HCAsm::CompileRawValueb16(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b16, std::get<std::uint64_t>(args[1].value.val) });
+  return {};
+}
+
+Value HCAsm::CompileRawValueb32(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b32, std::get<std::uint64_t>(args[1].value.val) });
+  return {};
+}
+
+Value HCAsm::CompileRawValueb64(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, std::get<std::uint64_t>(args[1].value.val) });
+  return {};
 }

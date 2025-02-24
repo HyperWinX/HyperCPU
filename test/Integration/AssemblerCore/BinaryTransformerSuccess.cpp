@@ -910,3 +910,38 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_COMPILE) {
   EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
 }
 
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_b8_DIRECTIVE) {
+  std::string data = ".b8 0x12;";
+  std::uint32_t code_size;
+
+  auto binary = compiler.Compile(data, code_size);
+
+  EXPECT_EQ(HyperCPU::bit_cast_from<std::uint8_t>(binary.binary), 0x12);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_b16_DIRECTIVE) {
+  std::string data = ".b16 0x1234;";
+  std::uint32_t code_size;
+
+  auto binary = compiler.Compile(data, code_size);
+
+  EXPECT_EQ(HyperCPU::bit_cast_from<std::uint16_t>(binary.binary), 0x1234);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_b32_DIRECTIVE) {
+  std::string data = ".b32 0x12345678;";
+  std::uint32_t code_size;
+
+  auto binary = compiler.Compile(data, code_size);
+
+  EXPECT_EQ(HyperCPU::bit_cast_from<std::uint32_t>(binary.binary), 0x12345678);
+}
+
+TEST_F(ASM_BINARY_TRANSFORMER, ASM_b64_DIRECTIVE) {
+  std::string data = ".b64 0x1234567812345678;";
+  std::uint32_t code_size;
+
+  auto binary = compiler.Compile(data, code_size);
+
+  EXPECT_EQ(HyperCPU::bit_cast_from<std::uint64_t>(binary.binary), 0x1234567812345678);
+}

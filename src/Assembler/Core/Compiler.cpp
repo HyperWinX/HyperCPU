@@ -57,6 +57,18 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   parser.token("#use")
     .fullword()
     .symbol("use");
+  parser.token(".b8")
+    .fullword()
+    .symbol(".b8");
+  parser.token(".b16")
+    .fullword()
+    .symbol(".b16");
+  parser.token(".b32")
+    .fullword()
+    .symbol(".b32");
+  parser.token(".b64")
+    .fullword()
+    .symbol(".b64");
   
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
     .symbol("ident")
@@ -91,6 +103,20 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
     .production("statements", "statement")
     .production("statement");
   parser.rule("statement")
+    /* Reserved statements */
+    .production(".b8", "uint", ";", CompileRawValueb8)
+    .production(".b8", "binary", ";", CompileRawValueb8)
+    .production(".b8", "hex", ";", CompileRawValueb8)
+    .production(".b8", "char", ";", CompileRawValueb8)
+    .production(".b16", "uint", ";", CompileRawValueb16)
+    .production(".b16", "binary", ";", CompileRawValueb16)
+    .production(".b16", "hex", ";", CompileRawValueb16)
+    .production(".b32", "uint", ";", CompileRawValueb32)
+    .production(".b32", "binary", ";", CompileRawValueb32)
+    .production(".b32", "hex", ";", CompileRawValueb32)
+    .production(".b64", "uint", ";", CompileRawValueb64)
+    .production(".b64", "binary", ";", CompileRawValueb64)
+    .production(".b64", "hex", ";", CompileRawValueb64)
     .production("ident", "operand", ",", "operand", ";", CompileStatement1)
     .production("ident", "operand", ";", CompileStatement2)
     .production("ident", ";", CompileStatement3)

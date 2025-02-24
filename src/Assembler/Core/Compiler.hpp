@@ -65,6 +65,11 @@ namespace HCAsm {
     Operand op1, op2;
   };
 
+  struct RawValue {
+    enum Mode mode;
+    std::uint64_t value;
+  };
+
   struct Value {
     std::variant<std::int64_t, std::uint64_t, std::string, Operand, Instruction> val;
   };
@@ -75,8 +80,7 @@ namespace HCAsm {
   };
 
   template<typename T>
-  concept UnsignedIntegral = std::is_integral_v<T> && std
-::is_unsigned_v<T>;
+  concept UnsignedIntegral = std::is_integral_v<T> && std::is_unsigned_v<T>;
 
   struct BinaryResult {
     unsigned char* binary;
@@ -108,7 +112,7 @@ namespace HCAsm {
 
     std::vector<PendingLabelReferenceResolve> pending_resolves;
     std::vector<pog::TokenWithLineSpec<Value>> tmp_args;
-    std::vector<std::variant<Instruction, Label>> ir;
+    std::vector<std::variant<Instruction, Label, RawValue>> ir;
     std::unordered_map<std::string, std::uint64_t> labels;
     hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>& pool;
     std::uint64_t code_size;
@@ -193,6 +197,10 @@ namespace HCAsm {
   Value CompileStatement2(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileStatement3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileRawValueb8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileRawValueb16(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileRawValueb32(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileRawValueb64(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
 
   extern HyperCPU::Logger logger;
   extern CompilerState* current_state;
