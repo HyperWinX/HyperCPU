@@ -68,3 +68,21 @@ TEST_F(ASM_PARSER_STMT_TEST, LABEL_REFERENCE_RESOLVE) {
 
   EXPECT_EQ(binary.binary[0x03], 0x0B);
 }
+
+TEST_F(ASM_PARSER_STMT_TEST, SINGLELINE_COMMENT) {
+  std::string data = "_start:\n\tcall main; //comment\nmain:\n\tintr x0;";
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
+
+  auto binary = compiler.TransformToBinary(state);
+
+  EXPECT_EQ(binary.binary[0x03], 0x0B);
+}
+
+TEST_F(ASM_PARSER_STMT_TEST, MULTILINE_COMMENT) {
+  std::string data = "_start:\n\tcall main;/*line 1\nline2*/\nmain:\n\tintr x0;";
+  HCAsm::CompilerState state(compiler.TransformToIR(data));
+
+  auto binary = compiler.TransformToBinary(state);
+
+  EXPECT_EQ(binary.binary[0x03], 0x0B);
+}
