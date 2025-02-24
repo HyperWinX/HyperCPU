@@ -74,13 +74,15 @@ namespace HCAsm {
     std::uint64_t index;
   };
 
+  template<typename T>
+  concept UnsignedIntegral = std::is_integral_v<T> && std
+::is_unsigned_v<T>;
+
   struct BinaryResult {
     unsigned char* binary;
     std::uint64_t ptr;
 
-    template<typename T, std::enable_if_t<
-      std::is_integral_v<T> && 
-      std::is_unsigned_v<T>, bool> = true>
+    template<UnsignedIntegral T>
     constexpr inline void push(T data) {
       std::memcpy(binary + ptr, &data, sizeof(data));
       ptr += sizeof(data);
