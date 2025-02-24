@@ -28,7 +28,7 @@
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
      <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
           alt="GitHub opened issues"></a>
-     <img src="https://img.shields.io/badge/version-0.2.7-red"
+     <img src="https://img.shields.io/badge/version-0.3.0-red"
           alt="Version">
      <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
           alt="CI status">
@@ -63,14 +63,13 @@ You can find the project roadmap [here](ROADMAP.md).
 
 ## Installation
 
-At the moment of writing this text, HyperCPU installation is done by building the whole project from source codes. Maybe one day HyperCPU will start distributing release tarballs for much easier installation, but who knows.
+At the moment of writing this text, HyperCPU installation is done by building the whole project from source code. Maybe one day HyperCPU will start distributing release tarballs for much easier installation, but who knows.
 
 ### Building from source codes
 
 HyperCPU requires these tools and libraries:
 
-* C++ compiler with C++23 standard support (i. e. `gcc` >= `14`);
-* `clang` >= `19`;
+* C++ compiler with C++23 standard support (i. e. `gcc` >= `14` or `clang` >= 19);
 * `cmake`, `ninja` - build systems;
 * `re2` - regular expressions parser;
 * `libfmt` - formatting library;
