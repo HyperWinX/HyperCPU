@@ -349,10 +349,10 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
     } else if (std::holds_alternative<RawValue>(instr)) {
       auto& val = std::get<RawValue>(instr);
       switch (val.mode) {
-        case Mode::b8:  binary.push(static_cast<std::uint8_t>(val.value));
-        case Mode::b16: binary.push(static_cast<std::uint16_t>(val.value));
-        case Mode::b32: binary.push(static_cast<std::uint32_t>(val.value));
-        case Mode::b64: binary.push(static_cast<std::uint64_t>(val.value));
+        case Mode::b8:  binary.push(static_cast<std::uint8_t>(val.value)); break;
+        case Mode::b16: binary.push(static_cast<std::uint16_t>(val.value)); break;
+        case Mode::b32: binary.push(static_cast<std::uint32_t>(val.value)); break;
+        case Mode::b64: binary.push(static_cast<std::uint64_t>(val.value)); break;
         default: std::unreachable();
       }
     }
