@@ -72,6 +72,12 @@ namespace HyperCPU {
     // Interrupts
     void TriggerInterrupt(HyperCPU::cpu_exceptions exception);
     void RunInterruptSubroutine();
+
+    // Pipeline implementation
+    std::atomic<bool> buffer_used;
+    IInstruction buffer, _buffer;
+    void DecodingThread();
+    void ExecutingThread();
     
     // All instructions
     DECLARE_INSTR(ADD);
