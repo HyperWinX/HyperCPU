@@ -21,7 +21,7 @@ Operands
     - [x0]
     - Any 64bit register, square brackets mean "use value as an address"
   * - M
-    - [0h]
+    - [0x0]
     - Any hex(!) value. Only hex values are supported
   * - IMM
     - 0s15 | 0u15 | 0x15 | 0b01001001010
@@ -67,3 +67,51 @@ Labels
     - Call code after label _start;
   * - mov x0, _start;
     - Move address of label (first instruction after it) to the x0 register
+
+----------
+Directives
+----------
+| Assembler supports directives for inserting raw data. Syntax:
+
+.. code-block::
+
+  .b<size> <imm>;
+
+| Examples:
+
+.. code-block::
+
+  .b8 0b01010101;
+  .b16 0u65535;
+  .b32 0xAF5508AC;
+  .b64 0xFFAAFFAAFFAAFFAA;
+
+| You also can substitute b64 values with labels! Just like this:
+
+.. code-block::
+
+  .b64 handler;
+  handler:
+    // Some code
+    halt;
+
+| But you can do that only with b64 values, not less.
+
+-------------
+Code examples
+-------------
+| So, let me show you some examples, so you can understand how to actually use assembler.
+
+.. code-block::
+
+  print: // Define label "print"
+    write xlll2, 'H'; // Write 'H' to stdout
+    write xlll2, '!'; // Write '!' to stdout
+    halt; // Shutdown emulator
+  _start:
+    mov x1, 0xFFF; // Move immediate value 0xFFF into x1 register
+    mov x0, [x1]; // Load value from address 0xFFF, stored in register x1, into register x0
+    /* These two instructions have no relation to the printing function! I just showed you syntax. */
+    jmp print; // Jump to the function "print"
+
+

@@ -10,13 +10,13 @@ That operation places read character in xlll0 register.
 
 .. code-block::
 
-  read 0u;
+  read 0u0;
 
 To write one character, write it to the port 0.
 
 .. code-block::
 
-  write 55h, 0u;
+  write 0x55, 0u0;
 
 
 -----------------------------
@@ -29,8 +29,8 @@ Advanced console I/O features
 
 .. code-block::
 
-  write FFh, 0u;
-  write 11h, 0u;
+  write 0xFF, 0u0;
+  write 0x11, 0u0;
 
 | In that example we disabled I/O controller from printing characters, pressed by user.
 
@@ -42,14 +42,35 @@ Advanced console I/O features
     - Hex code
     - Description
   * - ENABLE_PRINTING
-    - 10h
+    - 0x10
     - Enable printing character, pressed by user
   * - DISABLE_PRINTING
-    - 11h
+    - 0x11
     - Disable printing character, pressed by user
   * - ENABLE_BUFFERING
-    - 20h
+    - 0x20
     - Enable waiting for "Enter" keypress
   * - DISABLE_BUFFERING
-    - 21h
+    - 0x21
     - Disable waiting for "Enter" keypress
+
+-------------------------
+Custom interrupts handler
+-------------------------
+| You also can set custom handlers for already existing interrupts. See example below:
+
+.. code-block::
+
+  .b64 io;
+
+  io: // IO means Invalid Opcode, not I/O.
+    mov xlll0, 0x0;
+    write xlll0, 'I';
+    write xlll0, 'O';
+    write xlll0, '!';
+    halt;
+
+  main:
+    .b8 0x88; // Invalid opcode!
+
+| In this example

@@ -14,11 +14,11 @@ HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), was_print
   newt.c_lflag &= ~(ICANON | ECHO);
   newt.c_cc[VMIN] = 1;
   newt.c_cc[VTIME] = 0;
-  DisableBuffering();
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 }
 
 HyperCPU::SimpleIOImpl::~SimpleIOImpl() {
-  EnableBuffering();
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
 void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {

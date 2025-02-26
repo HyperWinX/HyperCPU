@@ -117,6 +117,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
     .production(".b64", "uint", ";", CompileRawValueb64)
     .production(".b64", "binary", ";", CompileRawValueb64)
     .production(".b64", "hex", ";", CompileRawValueb64)
+    .production(".b64", "ident", ";", CompileRawValueb64)
     .production("ident", "operand", ",", "operand", ";", CompileStatement1)
     .production("ident", "operand", ";", CompileStatement2)
     .production("ident", ";", CompileStatement3)
