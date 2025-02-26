@@ -1,4 +1,5 @@
 #include <atomic>
+#include <thread>
 #include <functional>
 
 #include <Core/MemoryController/MemoryControllerMT.hpp>
@@ -131,14 +132,38 @@ HyperCPU::CPU::~CPU() {
 }
 
 void HyperCPU::CPU::DecodingThread() {
-  while (!cpu.halted) {
+  bool skip_decoding_cycle = false;
+  while (!halted) {
+    if (skip_decoding_cycle) {
+      skip_decoding_cycle = false;
+      
+      // Wait for executor thread to execute instruction
+      bool current = buffer_used.load(std::memory_order_acquire);
+      while (current) {
+        buffer_used.wait(current, std::memory_order_acquire);
+        current = buffer_used.load(std::memory_order_acquire);
+      }
+      continue;
+    }
+
+    _buffer = m_decoder->FetchAndDecode();
+    
+    switch (_buffer.m_opcode) {
+      case CALL:
+      case JMP:
+        skip_decoding_cycle = true;
+        break;
+      default:
+        break;
+    }
+
     bool current = buffer_used.load(std::memory_order_acquire);
     while (current) {
       buffer_used.wait(current, std::memory_order_acquire);
       current = buffer_used.load(std::memory_order_acquire);
     }
 
-    buffer = m_decoder->FetchAndDecode();
+    std::swap(buffer, _buffer);
 
     buffer_used.store(true, std::memory_order_release);
     buffer_used.notify_one();
@@ -146,16 +171,15 @@ void HyperCPU::CPU::DecodingThread() {
 }
 
 void HyperCPU::CPU::ExecutingThread() {
-  while (!cpu.halted) {
+  while (!halted) {
     bool current = buffer_used.load(std::memory_order_acquire);
-    while (current) {
+    while (!current) {
       buffer_used.wait(current, std::memory_order_acquire);
       current = buffer_used.load(std::memory_order_acquire);
     }
 
-    std::pair<void*, void*> operands = GetOperands(instr.m_op_type
-s, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
-    opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
+    std::pair<void*, void*> operands = GetOperands(buffer.m_op_types, buffer.m_opcode_mode, buffer.m_op1, buffer.m_op2);
+    opcode_handler_assoc[static_cast<std::uint16_t>(buffer.m_opcode)](buffer, operands.first, operands.second);
 
     buffer_used.store(false, std::memory_order_release);
     buffer_used.notify_one();
@@ -163,17 +187,11 @@ s, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
 }
 
 void HyperCPU::CPU::Run() {
-  while (1) {
-    if (halted) return;
-    
-    HyperCPU::IInstruction instr = m_decoder->FetchAndDecode();
-    if (m_decoder->IsHalted()) {
-      halted = true;
-      continue;
-    }
-    std::pair<void*, void*> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
-    opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
-  }
+  std::thread decoder_thread(std::bind(&CPU::DecodingThread, this));
+  std::thread executor_thread(std::bind(&CPU::ExecutingThread, this));
+
+  decoder_thread.join();
+  executor_thread.join();
 }
 
 bool HyperCPU::CPU::CanExecuteInterrupts() {
