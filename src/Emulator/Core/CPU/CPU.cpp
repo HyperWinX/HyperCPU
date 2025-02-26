@@ -1,3 +1,4 @@
+#include <atomic>
 #include <functional>
 
 #include <Core/MemoryController/MemoryControllerMT.hpp>
@@ -127,6 +128,38 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
 
 HyperCPU::CPU::~CPU() {
   delete mem_controller;
+}
+
+void HyperCPU::CPU::DecodingThread() {
+  while (!cpu.halted) {
+    bool current = buffer_used.load(std::memory_order_acquire);
+    while (current) {
+      buffer_used.wait(current, std::memory_order_acquire);
+      current = buffer_used.load(std::memory_order_acquire);
+    }
+
+    buffer = m_decoder->FetchAndDecode();
+
+    buffer_used.store(true, std::memory_order_release);
+    buffer_used.notify_one();
+  } 
+}
+
+void HyperCPU::CPU::ExecutingThread() {
+  while (!cpu.halted) {
+    bool current = buffer_used.load(std::memory_order_acquire);
+    while (current) {
+      buffer_used.wait(current, std::memory_order_acquire);
+      current = buffer_used.load(std::memory_order_acquire);
+    }
+
+    std::pair<void*, void*> operands = GetOperands(instr.m_op_type
+s, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
+    opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
+
+    buffer_used.store(false, std::memory_order_release);
+    buffer_used.notify_one();
+  }
 }
 
 void HyperCPU::CPU::Run() {
