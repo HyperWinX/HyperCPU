@@ -8,7 +8,7 @@
 #include <Core/CPU/IO/Simple.hpp>
 #include <Misc/bit_cast.hpp>
 
-HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), was_printing(true), printing(true), buffering(true) {
+HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), was_printing(true), printing(true) {
   tcgetattr(STDIN_FILENO, &oldt);
   newt = oldt;
   newt.c_lflag &= ~(ICANON | ECHO);
@@ -24,21 +24,13 @@ HyperCPU::SimpleIOImpl::~SimpleIOImpl() {
 void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {
   if (state == CurrentState::WaitingForCommand) {
     switch(HyperCPU::bit_cast<Command>(c)) {
-      case Command::DisableBuffering:
-        DisableBuffering();
-        printing = was_printing;
-        buffering = false;
-        break;
-      case Command::EnableBuffering:
-        EnableBuffering();
-        printing = false;
-        buffering = true;
-        break;
       case Command::EnablePrinting:
+        EnablePrinting();
         printing = true;
         was_printing = true;
         break;
       case Command::DisablePrinting:
+        DisablePrinting();
         printing = false;
         was_printing = false;
         break;
@@ -62,9 +54,6 @@ void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {
 std::uint8_t HyperCPU::SimpleIOImpl::Getchar() {
   char c;
   read(STDIN_FILENO, &c, 1);
-  if (printing) {
-    std::putchar(c);
-  }
   return c;
 }
 
@@ -76,14 +65,14 @@ std::function<std::uint8_t()> HyperCPU::SimpleIOImpl::GetGetchar() {
   return std::bind(&SimpleIOImpl::Getchar, this);
 }
 
-void HyperCPU::SimpleIOImpl::EnableBuffering() {
-  if (tcsetattr(STDIN_FILENO, TCSANOW, &oldt) == -1) {
-    std::cerr << "Failed to enable buffering\n";
-  }
+void HyperCPU::SimpleIOImpl::DisablePrinting() {
+  newt.c_lflag &= ~ECHO;
+  newt.c_lflag |= ECHONL;
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 }
 
-void HyperCPU::SimpleIOImpl::DisableBuffering() {
-  if (tcsetattr(STDIN_FILENO, TCSANOW, &newt)) {
-    std::cerr << "Failed to disable buffering\n";
-  }
+void HyperCPU::SimpleIOImpl::EnablePrinting() {
+  newt.c_lflag |= ECHO;
+  newt.c_lflag |= ECHONL; 
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 }

@@ -1,4 +1,5 @@
 #include <functional>
+#include <cstdint>
 
 #include <termios.h>
 #include <unistd.h>
@@ -22,19 +23,17 @@ namespace HyperCPU {
     enum class Command : std::uint8_t {
       EnablePrinting = 0x10,
       DisablePrinting = 0x11,
-      EnableBuffering = 0x20,
-      DisableBuffering = 0x21
     };
   
     void Putchar(std::uint8_t);
     std::uint8_t Getchar();
 
-    void DisableBuffering();
-    void EnableBuffering();
+    void DisablePrinting();
+    void EnablePrinting();
 
     CurrentState state;
 
-    bool was_printing, printing, buffering;
+    bool was_printing, printing;
     struct termios oldt, newt;
   };
 }

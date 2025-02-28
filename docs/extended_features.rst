@@ -47,12 +47,6 @@ Advanced console I/O features
   * - DISABLE_PRINTING
     - 0x11
     - Disable printing character, pressed by user
-  * - ENABLE_BUFFERING
-    - 0x20
-    - Enable waiting for "Enter" keypress
-  * - DISABLE_BUFFERING
-    - 0x21
-    - Disable waiting for "Enter" keypress
 
 -------------------------
 Custom interrupts handler
