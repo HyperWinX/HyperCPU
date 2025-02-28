@@ -77,7 +77,7 @@ namespace HyperCPU {
     // Pipeline implementation
     std::atomic<bool> buffer_used, interrupt_active;
     IInstruction buffer, _buffer;
-    std::optional<std::uint64_t> pending_exception;
+    std::optional<std::uint64_t> pending_interrupt;
     void DecodingThread();
     void ExecutingThread();
     

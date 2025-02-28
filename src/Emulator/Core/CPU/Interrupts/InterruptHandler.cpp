@@ -5,11 +5,11 @@
 
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
-  if (*xivt == 0 || pending_exception.has_value()) {
+  if (*xivt == 0 || pending_interrupt.has_value()) {
     return;
   }
   
-  pending_exception = std::make_optional(mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception))));
+  pending_interrupt = std::make_optional(mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception))));
 
   /*
   StackPush64(*xip);

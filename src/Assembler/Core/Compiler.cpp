@@ -331,7 +331,6 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   }
 
   // Compile code - pass 3
-  std::println("Code size: {}", ir.code_size);
   BinaryResult binary = { new unsigned char[ir.code_size] };
   if (!binary.binary) {
     logger.Log(LogLevel::ERROR, "Failed to allocate memory for binary data!");

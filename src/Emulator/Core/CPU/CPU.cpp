@@ -1,3 +1,4 @@
+#include <print>
 #include <atomic>
 #include <thread>
 #include <functional>
@@ -133,12 +134,13 @@ HyperCPU::CPU::~CPU() {
 
 void HyperCPU::CPU::DecodingThread() {
   bool skip_decoding_cycle = false;
+  bool current = false;
   while (!halted) {
     if (skip_decoding_cycle) {
       skip_decoding_cycle = false;
       
       // Wait for executor thread to execute instruction
-      bool current = buffer_used.load(std::memory_order_acquire);
+      current = buffer_used.load(std::memory_order_acquire);
       while (current) {
         buffer_used.wait(current, std::memory_order_acquire);
         current = buffer_used.load(std::memory_order_acquire);
@@ -146,21 +148,27 @@ void HyperCPU::CPU::DecodingThread() {
       continue;
     }
 
-    if (pending_exception.has_value()) {
-      while (buffer_used.load(std::memory_order_acquire)) {
-        buffer_used.wait(std::memory_order_acquire);
+    if (pending_interrupt.has_value()) {
+      while (current) {
+        buffer_used.wait(current, std::memory_order_acquire);
+        current = buffer_used.load(std::memory_order_acquire);
       }
       StackPush64(*xip);
-      *xip = pending_exception.value();
+      *xip = pending_interrupt.value();
+      pending_interrupt.reset();
       continue;
     }
 
     _buffer = m_decoder->FetchAndDecode();
 
-    switch (_buffer.m_opcode) {                                         case CALL:                                                        case JMP:
+    switch (_buffer.m_opcode) {
+      case CALL:
+      case JMP:
       case HALT:
         skip_decoding_cycle = true;
         break;
+      case _CONT:
+        continue;
       default:
         break;
     }
@@ -169,7 +177,7 @@ void HyperCPU::CPU::DecodingThread() {
       skip_decoding_cycle = false;
       continue;
     } else if (buffer_used.load(std::memory_order_acquire)) {
-      bool current = buffer_used.load(std::memory_order_acquire);
+      current = buffer_used.load(std::memory_order_acquire);
       while (current) {
         buffer_used.wait(current, std::memory_order_acquire);
         current = buffer_used.load(std::memory_order_acquire);
