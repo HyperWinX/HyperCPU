@@ -1,21 +1,24 @@
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/CPU/CPU.hpp>
+#include <optional>
 
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
-  if (*xivt == 0) {
+  if (*xivt == 0 || pending_exception.has_value()) {
     return;
   }
   
-  std::uint64_t code_ptr = mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception)));
+  pending_exception = std::make_optional(mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception))));
 
+  /*
   StackPush64(*xip);
   *xip = code_ptr;
   RunInterruptSubroutine();
   if (!halted) {
     *xip = StackPop64();
   }
+  */
 }
 
 void HyperCPU::CPU::RunInterruptSubroutine() {

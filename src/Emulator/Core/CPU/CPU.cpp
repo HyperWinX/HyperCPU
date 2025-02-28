@@ -146,6 +146,15 @@ void HyperCPU::CPU::DecodingThread() {
       continue;
     }
 
+    if (pending_exception.has_value()) {
+      while (buffer_used.load(std::memory_order_acquire)) {
+        buffer_used.wait(std::memory_order_acquire);
+      }
+      StackPush64(*xip);
+      *xip = pending_exception.value();
+      continue;
+    }
+
     _buffer = m_decoder->FetchAndDecode();
 
     switch (_buffer.m_opcode) {                                         case CALL:                                                        case JMP:

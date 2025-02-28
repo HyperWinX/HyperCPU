@@ -35,7 +35,8 @@ namespace HyperCPU {
     READ  = 0x0018,
     WRITE = 0x0019,
     JMP   = 0x001A,
-    MOV   = 0x007F
+    MOV   = 0x007F,
+    _CONT = 0x6934
   };
 
   namespace Validator {
