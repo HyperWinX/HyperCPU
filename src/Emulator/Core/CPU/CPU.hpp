@@ -75,7 +75,7 @@ namespace HyperCPU {
     void RunInterruptSubroutine();
 
     // Pipeline implementation
-    std::atomic<bool> buffer_used;
+    std::atomic<bool> buffer_used, interrupt_active;
     IInstruction buffer, _buffer;
     void DecodingThread();
     void ExecutingThread();

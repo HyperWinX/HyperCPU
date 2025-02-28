@@ -147,18 +147,19 @@ void HyperCPU::CPU::DecodingThread() {
     }
 
     _buffer = m_decoder->FetchAndDecode();
-    
-    if (!buffer_used.load(std::memory_order_acquire)) {
-      switch (_buffer.m_opcode) {
-        case CALL:
-        case JMP:
-        case HALT:
-          skip_decoding_cycle = true;
-          break;
-        default:
-          break;
-      }
 
+    switch (_buffer.m_opcode) {                                         case CALL:                                                        case JMP:
+      case HALT:
+        skip_decoding_cycle = true;
+        break;
+      default:
+        break;
+    }
+    
+    if (interrupt_active.load(std::memory_order_acquire)) {
+      skip_decoding_cycle = false;
+      continue;
+    } else if (buffer_used.load(std::memory_order_acquire)) {
       bool current = buffer_used.load(std::memory_order_acquire);
       while (current) {
         buffer_used.wait(current, std::memory_order_acquire);
