@@ -3,6 +3,7 @@
 #include <Core/Compiler.hpp>
 #include <Core/OpcodeNameAssoc.hpp>
 #include <Core/RegNameAssoc.hpp>
+#include <variant>
 
 using HCAsm::Value;
 using HyperCPU::LogLevel;
@@ -105,27 +106,66 @@ Value HCAsm::CompileLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpe
         std::abort();
     }
 
-    current_state->ir.push_back(HCAsm::Label{ name, current_index++ });
+    current_state->ir.push_back(HCAsm::Label{ name, current_index++, false });
     current_state->labels[name] = current_index - 1;
-    return { std::get<std::string>(args[0].value.val) }; // Technically, placeholder
+    return {};
+}
+
+Value HCAsm::CompileEntryLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  // Label cant be register or instruction name
+  auto& name = std::get<std::string>(args[1].value.val);
+
+  if (opcode_assoc.contains(name.c_str()) || registers_assoc.contains(name.c_str())) {
+      logger.Log(LogLevel::ERROR, "Label name uses reserved identifier: {}", name);
+      std::abort();
+  }
+
+  if (current_state->labels.contains(name)) {
+      logger.Log(LogLevel::ERROR, "Redefitinion of label \"{}\"", name);
+      std::abort();
+  }
+
+  current_state->ir.push_back(HCAsm::Label{ name, current_index++, true });
+  current_state->labels[name] = current_index - 1;
+  return {};
 }
 
 Value HCAsm::CompileRawValueb8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, std::get<std::uint64_t>(args[1].value.val) });
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, Operand {
+    .uint1 = std::get<std::uint64_t>(args[1].value.val)
+  } });
   return {};
 }
 
 Value HCAsm::CompileRawValueb16(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b16, std::get<std::uint64_t>(args[1].value.val) });
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, Operand {
+    .uint1 = std::get<std::uint64_t>(args[1].value.val)
+  } });
   return {};
 }
 
 Value HCAsm::CompileRawValueb32(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b32, std::get<std::uint64_t>(args[1].value.val) });
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, Operand {
+    .uint1 = std::get<std::uint64_t>(args[1].value.val)
+  } });
   return {};
 }
 
-Value HCAsm::CompileRawValueb64(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, std::get<std::uint64_t>(args[1].value.val) });
+Value HCAsm::CompileRawValueb64(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto& val = args[1].value.val;
+  if (std::holds_alternative<std::uint64_t>(val)) {
+    current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, Operand {
+      .uint1 = std::get<std::uint64_t>(args[1].value.val)
+    } });
+  } else if (std::holds_alternative<std::string>(val)) {
+    current_state->ir.push_back(HCAsm::RawValue{ Mode::b64_label, Operand {
+      .str = new std::string(std::get<std::string>(args[1].value.val))
+    } });
+
+    current_state->pending_resolves.push_back(PendingLabelReferenceResolve{
+      .op = std::get<RawValue>(current_state->ir.back()).value,
+      .args = parser.get_compiler_state()->tmp_args,
+    });
+  }
   return {};
 }

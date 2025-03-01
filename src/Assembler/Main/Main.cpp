@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 
   auto binary = compiler.Compile(contents, code_size);
 
-  HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, dst, code_size);
+  HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, dst, code_size, binary.entry_point);
 }
 
 std::string HCAsm::CreateObjectFilename(std::string str) {

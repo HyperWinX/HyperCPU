@@ -119,6 +119,7 @@ namespace HyperCPU {
     void Run();
 
     bool CanExecuteInterrupts();
+    void SetEntryPoint(std::uint32_t entry_point);
     
     ~CPU();
   };

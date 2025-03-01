@@ -81,7 +81,10 @@ int main(int argc, char** argv) {
     HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Failed to parse memory amount argument.");
     std::exit(1);
   }
+
   HyperCPU::CPU cpu{1, *memory, buf.get(), binarysize};
+
+  cpu.SetEntryPoint(header.entry_point);
   cpu.Run();
 }
 

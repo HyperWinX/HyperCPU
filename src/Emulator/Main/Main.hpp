@@ -1,13 +1,10 @@
 #pragma once
 
 #include <cctype>
-#include <charconv>
 #include <cstdint>
 
-#include <limits>
 #include <string>
 #include <expected>
-#include <system_error>
 
 
 namespace HyperCPU {
@@ -36,6 +33,7 @@ namespace HyperCPU {
     Version version;
     FileType type;
     std::uint32_t code_size;
+    std::uint32_t entry_point;
   };
 
   enum class ParseError {

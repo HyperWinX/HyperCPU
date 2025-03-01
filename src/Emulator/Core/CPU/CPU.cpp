@@ -218,3 +218,7 @@ void HyperCPU::CPU::Run() {
 bool HyperCPU::CPU::CanExecuteInterrupts() {
   return *xivt != 0;
 }
+
+void HyperCPU::CPU::SetEntryPoint(std::uint32_t entry_point) {
+  *xip = entry_point;
+}
