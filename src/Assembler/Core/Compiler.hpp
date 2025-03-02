@@ -117,8 +117,8 @@ namespace HCAsm {
   template<typename Variant, typename... Alternatives>
   constexpr inline decltype(auto) VisitVariant(Variant&& variant, Alternatives&&... alternatives) {
     return std::visit(
-      MakeOverload{std::forward<Alternatives>(alternatives)...},
-      std::forward<Variant>(variant)
+      MakeOverload{std::forward<Alternatives>(alternatives)..., [](auto const&){}},
+      variant
     );
   }
 

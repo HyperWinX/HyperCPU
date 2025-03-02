@@ -16,6 +16,7 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
   core_count(core_count),
   total_mem(mem_size),
   halted(false),
+  ivt_initialized(false),
   io_ctl(std::make_unique<SimpleIOImpl>()) {
     // Initializing all register pointers
     std::memset(&data, 0, sizeof(data));

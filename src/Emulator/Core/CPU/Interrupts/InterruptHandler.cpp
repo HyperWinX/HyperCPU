@@ -5,7 +5,7 @@
 
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
-  if (*xivt == 0 || pending_interrupt.has_value()) {
+  if (!ivt_initialized || pending_interrupt.has_value()) {
     return;
   }
   

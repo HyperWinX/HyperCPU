@@ -46,9 +46,8 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
       return {};
     });
 
-  parser.token(R"(<<entry>>)")
-    .fullword()
-    .symbol("entry_point_attribute");
+  parser.token(R"(\.attr\(entry\))")
+    .symbol("entry");
 
   parser.token("#use")
     .fullword()
@@ -100,24 +99,14 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
     .production("statement");
   parser.rule("statement")
     /* Reserved statements */
-    .production(".b8", "uint", ";", CompileRawValueb8)
-    .production(".b8", "binary", ";", CompileRawValueb8)
-    .production(".b8", "hex", ";", CompileRawValueb8)
-    .production(".b8", "char", ";", CompileRawValueb8)
-    .production(".b16", "uint", ";", CompileRawValueb16)
-    .production(".b16", "binary", ";", CompileRawValueb16)
-    .production(".b16", "hex", ";", CompileRawValueb16)
-    .production(".b32", "uint", ";", CompileRawValueb32)
-    .production(".b32", "binary", ";", CompileRawValueb32)
-    .production(".b32", "hex", ";", CompileRawValueb32)
-    .production(".b64", "uint", ";", CompileRawValueb64)
-    .production(".b64", "binary", ";", CompileRawValueb64)
-    .production(".b64", "hex", ";", CompileRawValueb64)
-    .production(".b64", "ident", ";", CompileRawValueb64)
+    .production(".b8", "operand", ";", CompileRawValueb8)
+    .production(".b16", "operand", ";", CompileRawValueb16)
+    .production(".b32", "operand", ";", CompileRawValueb32)
+    .production(".b64", "operand", ";", CompileRawValueb64)
     .production("ident", "operand", ",", "operand", ";", CompileStatement1)
     .production("ident", "operand", ";", CompileStatement2)
     .production("ident", ";", CompileStatement3)
-    .production("entry_point_attribute", "ident", ":", CompileEntryLabel)
+    .production("entry", "ident", ":", CompileEntryLabel)
     .production("ident", ":", CompileLabel);
 
   parser.rule("operand")
@@ -299,16 +288,16 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   
   for (auto& instr : ir.ir) {
     VisitVariant(instr,
-      [this, &ir](Instruction instruction) mutable -> void {
+      [this, &ir](Instruction& instruction) mutable -> void {
         ir.code_size += InstructionSize(instruction);
       },
-      [&ir](Label label) mutable -> void {
+      [&ir](Label& label) mutable -> void {
         ir.labels[label.name] = ir.code_size;
         if (label.is_entry_point) {
           ir.entry_point = ir.code_size;
         }
       },
-      [this, &ir](RawValue raw) mutable -> void {
+      [this, &ir](RawValue& raw) mutable -> void {
         ir.code_size += ModeToSize(raw.mode);
       });
   }

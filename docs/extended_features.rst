@@ -54,7 +54,8 @@ Custom interrupts handler
 | You also can set custom handlers for already existing interrupts. See example below:
 
 .. code-block::
-
+  ivt:
+  .b64 0x0;
   .b64 io;
 
   io: // IO means Invalid Opcode, not I/O.
@@ -64,7 +65,9 @@ Custom interrupts handler
     write xlll0, '!';
     halt;
 
-  main:
+  .attr(entry) main:
+    loivt ivt;
     .b8 0x88; // Invalid opcode!
 
-| In this example
+| In this example we created handler for the IO interrupt, loaded it, and then triggered the interrupt.
+| 

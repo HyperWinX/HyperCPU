@@ -50,6 +50,7 @@ namespace HyperCPU {
 
     // Specific registers
     std::uint64_t *xbp, *xsp, *xip, *xgdp, *xivt;
+    bool ivt_initialized;
 
     // Flags
     bool crf, ovf, udf;

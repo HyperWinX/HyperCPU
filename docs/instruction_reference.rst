@@ -653,6 +653,35 @@ JMP - Jump to Address
 | **Flags affected**:
 | None.
 
+
+===================================
+LOIVT - Load Interrupt Vector Table
+===================================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+
+  * - 1400C8<r>
+    - loivt <r64>
+    - R
+  * - 14000A<imm>
+    - loivt <imm64>
+    - IMM
+
+| **Description**:
+| Loads IVT pointer from specified operand.
+
+| **Exceptions**:
+| None;
+
+| **Flags affected**:
+| None.
+
 ==========
 MOV - Move
 ==========

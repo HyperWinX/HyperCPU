@@ -58,9 +58,15 @@ Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::Toke
 
     ++current_index;
 
+    auto& tmp_op = std::get<Operand>(args[1].value.val);
+    auto* tmp_str = tmp_op.str;
+    tmp_op.uint1 = parser.get_compiler_state()->labels[*tmp_str];
+    tmp_op.mode = Mode::b64;
+    delete tmp_str;
+
     current_state->ir.push_back(Instruction {
         opcode_assoc.at(instr_name.c_str()),
-        std::get<Operand>(args[1].value.val),
+        tmp_op,
         { HCAsm::OperandType::none }
     });
 
@@ -157,9 +163,16 @@ Value HCAsm::CompileRawValueb64(pog::Parser<Value>& parser, std::vector<pog::Tok
     current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, Operand {
       .uint1 = std::get<std::uint64_t>(args[1].value.val)
     } });
-  } else if (std::holds_alternative<std::string>(val)) {
+  } else if (std::holds_alternative<Operand>(val)) {
+    auto& op = std::get<Operand>(args[1].value.val);
+    if (op.type != OperandType::label) {
+      ThrowError(
+        args[1], parser, "invalid token, expected int literal or label");
+    }
+
+
     current_state->ir.push_back(HCAsm::RawValue{ Mode::b64_label, Operand {
-      .str = new std::string(std::get<std::string>(args[1].value.val))
+      .str = op.str
     } });
 
     current_state->pending_resolves.push_back(PendingLabelReferenceResolve{
