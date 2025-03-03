@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <utility>
+#include <iostream>
 
 #include <Core/BinaryTransformer.hpp>
 #include <Core/Compiler.hpp>
@@ -309,13 +310,13 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
     logger.Log(LogLevel::DEBUG, "Resolving label references");
 
     for (auto& args : ir.pending_resolves) {
-      auto& operand = args.op;
+      auto operand = args.op;
 
-      if (ir.labels.contains(*operand.str)) {
-        args.op.type = OperandType::uint;
-        args.op.uint1 = ir.labels[*operand.str];
+      if (ir.labels.contains(*operand->str)) {
+        args.op->type = OperandType::uint;
+        args.op->uint1 = ir.labels[*operand->str];
       } else {
-        ThrowError(args.args[0], parser, std::format("failed to resolve undefined reference to \"{}\"", *operand.str));
+        ThrowError(args.args[0], parser, std::format("failed to resolve undefined reference to \"{}\"", *operand->str));
       }
     }
   }
@@ -336,12 +337,16 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       [&transformer](Instruction& instruction) mutable -> void {
         transformer.EncodeInstruction(instruction);
       },
-      [&binary](RawValue& raw) mutable -> void {
+      [&binary, &ir, this](RawValue& raw) mutable -> void {
         switch (raw.mode) {
           case Mode::b8:  binary.push(static_cast<std::uint8_t>(raw.value.uint1)); break;
           case Mode::b16: binary.push(static_cast<std::uint16_t>(raw.value.uint1)); break;
           case Mode::b32: binary.push(static_cast<std::uint32_t>(raw.value.uint1)); break;
           case Mode::b64_label:
+            if (!ir.labels.contains(*raw.value.str)) {
+              ThrowError(*raw.value.tokens[1], parser, std::format("failed to resolve undefined reference to \"{}\"", *raw.value.str));
+            }
+            binary.push(static_cast<std::uint64_t>(ir.labels.at(*raw.value.str)));
           case Mode::b64: binary.push(static_cast<std::uint64_t>(raw.value.uint1)); break;
           default: std::abort();
         }

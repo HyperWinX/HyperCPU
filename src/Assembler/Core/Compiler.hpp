@@ -101,7 +101,7 @@ namespace HCAsm {
   };
 
   struct PendingLabelReferenceResolve {
-    Operand& op;
+    Operand* op;
     std::vector<pog::TokenWithLineSpec<Value>> args;
   };
 
