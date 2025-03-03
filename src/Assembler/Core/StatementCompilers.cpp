@@ -62,6 +62,7 @@ Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::Toke
     auto* tmp_str = tmp_op.str;
     tmp_op.uint1 = parser.get_compiler_state()->labels[*tmp_str];
     tmp_op.mode = Mode::b64;
+    tmp_op.type = OperandType::uint;
     delete tmp_str;
 
     current_state->ir.push_back(Instruction {
@@ -137,9 +138,7 @@ Value HCAsm::CompileEntryLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLi
 }
 
 Value HCAsm::CompileRawValueb8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, Operand {
-    .uint1 = std::get<std::uint64_t>(args[1].value.val)
-  } });
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, std::get<Operand>(args[1].value.val)});
   return {};
 }
 
@@ -158,27 +157,28 @@ Value HCAsm::CompileRawValueb32(pog::Parser<Value>&, std::vector<pog::TokenWithL
 }
 
 Value HCAsm::CompileRawValueb64(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  auto& val = args[1].value.val;
-  if (std::holds_alternative<std::uint64_t>(val)) {
-    current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, Operand {
-      .uint1 = std::get<std::uint64_t>(args[1].value.val)
-    } });
-  } else if (std::holds_alternative<Operand>(val)) {
-    auto& op = std::get<Operand>(args[1].value.val);
-    if (op.type != OperandType::label) {
-      ThrowError(
-        args[1], parser, "invalid token, expected int literal or label");
-    }
+  auto& op = std::get<Operand>(args[1].value.val);
 
+  switch (op.type) {
+    case HCAsm::OperandType::uint:
+      current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, op });
+      break;
+    case HCAsm::OperandType::label:
+      if (parser.get_compiler_state()->labels.contains(*op.str)) {
+        current_state->ir.push_back(HCAsm::RawValue{ Mode::b64, Operand{ .type = OperandType::uint, .uint1 = parser.get_compiler_state()->labels[*op.str] } });
+        break;
+      }
 
-    current_state->ir.push_back(HCAsm::RawValue{ Mode::b64_label, Operand {
-      .str = op.str
-    } });
-
-    current_state->pending_resolves.push_back(PendingLabelReferenceResolve{
-      .op = std::get<RawValue>(current_state->ir.back()).value,
-      .args = parser.get_compiler_state()->tmp_args,
-    });
+      current_state->ir.push_back(HCAsm::RawValue{ Mode::b64_label, Operand {
+        .str = op.str
+      } });
+      current_state->pending_resolves.push_back(PendingLabelReferenceResolve{
+        .op = std::get<RawValue>(current_state->ir.back()).value,
+        .args = parser.get_compiler_state()->tmp_args,
+      });
+      break;
+    default:
+      ThrowError(args[1], parser, "invalid token, expected int literal or label");
   }
   return {};
 }
