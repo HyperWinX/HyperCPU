@@ -347,6 +347,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
               ThrowError(*raw.value.tokens[1], parser, std::format("failed to resolve undefined reference to \"{}\"", *raw.value.str));
             }
             binary.push(static_cast<std::uint64_t>(ir.labels.at(*raw.value.str)));
+            break;
           case Mode::b64: binary.push(static_cast<std::uint64_t>(raw.value.uint1)); break;
           default: std::abort();
         }

@@ -11,7 +11,7 @@ TEST_F(FULL_ASSEMBLER, MULTUPLE_INSTRUCTIONS) {
   {
     std::ofstream file("test", std::ios::binary);
 
-    HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, file, code_size);
+    HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, file, code_size, 0);
   }
 
   std::ifstream input("test");
