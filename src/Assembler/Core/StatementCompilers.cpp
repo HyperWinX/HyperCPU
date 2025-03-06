@@ -40,7 +40,7 @@ Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::Toke
 
     auto& tmp_op = std::get<Operand>(args[1].value.val);
     auto* tmp_str = tmp_op.str;
-    if (parser.get_compiler_state()->labels.contains(*tmp_str)) {
+    if (tmp_op.type == OperandType::label && parser.get_compiler_state()->labels.contains(*tmp_str)) {
       tmp_op.uint1 = parser.get_compiler_state()->labels[*tmp_str];
       tmp_op.mode = Mode::b64;
       tmp_op.type = OperandType::uint;
@@ -118,16 +118,12 @@ Value HCAsm::CompileRawValueb8(pog::Parser<Value>&, std::vector<pog::TokenWithLi
 }
 
 Value HCAsm::CompileRawValueb16(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, Operand {
-    .uint1 = std::get<std::uint64_t>(args[1].value.val)
-  } });
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b16, std::get<Operand>(args[1].value.val)});
   return {};
 }
 
 Value HCAsm::CompileRawValueb32(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, Operand {
-    .uint1 = std::get<std::uint64_t>(args[1].value.val)
-  } });
+  current_state->ir.push_back(HCAsm::RawValue{ Mode::b32, std::get<Operand>(args[1].value.val)});
   return {};
 }
 

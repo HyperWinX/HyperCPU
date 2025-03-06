@@ -156,6 +156,7 @@ protected:
     cpu.mem_controller->Load64(2064, 1536);
     cpu.mem_controller->Load64(1536, HyperCPU::Opcode::HALT);
     cpu.mem_controller->Load64(1538, HyperCPU::OperandTypes::NONE);
+    cpu.ivt_initialized = true;
   }
 };
 
