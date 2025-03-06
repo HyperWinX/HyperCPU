@@ -133,6 +133,7 @@ HyperCPU::CPU::~CPU() {
   delete mem_controller;
 }
 
+/*
 void HyperCPU::CPU::DecodingThread() {
   bool skip_decoding_cycle = false;
   bool current = false;
@@ -207,13 +208,43 @@ void HyperCPU::CPU::ExecutingThread() {
     buffer_used.notify_one();
   }
 }
+*/
 
 void HyperCPU::CPU::Run() {
+  /*
   std::thread decoder_thread(std::bind(&CPU::DecodingThread, this));
   std::thread executor_thread(std::bind(&CPU::ExecutingThread, this));
 
   decoder_thread.join();
   executor_thread.join();
+  */
+
+  bool skip_decoding_cycle = false;
+  while (!halted) {
+    if (skip_decoding_cycle) {
+      skip_decoding_cycle = false;
+      continue;
+    }
+
+    if (pending_interrupt.has_value()) {
+      StackPush64(*xip);
+      *xip = pending_interrupt.value();
+      pending_interrupt.reset();
+      continue;
+    }
+
+    buffer = m_decoder->FetchAndDecode();
+
+    switch (buffer.m_opcode) { 
+      case _CONT:
+        continue;
+      default:
+        break;
+    }
+
+    std::pair<void*, void*> operands = GetOperands(buffer.m_op_types, buffer.m_opcode_mode, buffer.m_op1, buffer.m_op2);
+    opcode_handler_assoc[static_cast<std::uint16_t>(buffer.m_opcode)](buffer, operands.first, operands.second);
+  } 
 }
 
 bool HyperCPU::CPU::CanExecuteInterrupts() {
