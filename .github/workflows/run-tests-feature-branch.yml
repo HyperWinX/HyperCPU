@@ -2,13 +2,11 @@ name: HyperCPU CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - '!master'
-      - '!dev'
 
 jobs:
   testing:
     runs-on: self-hosted
+    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/dev'
 
     steps:
       - name: Checkout code
