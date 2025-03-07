@@ -1,4 +1,4 @@
-name: HyperCPU CI/CD Pipeline
+name: HyperCPU CI/CD Pipeline (feature branch)
 
 on:
   push:
@@ -46,4 +46,4 @@ jobs:
       - name: Lint code
         run: |
           cp build/compile_commands.json .
-          cppcheck --project=compile_commands.json --check-level=exhaustive -idist -j4s
+          cppcheck --project=compile_commands.json --check-level=exhaustive -idist -j4
