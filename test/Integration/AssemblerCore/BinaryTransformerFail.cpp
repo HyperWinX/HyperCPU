@@ -7,6 +7,6 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_INVALID_INSTRUCTION) {
   EXPECT_EXIT({
     auto state(compiler.TransformToIR(data));
     auto binary = compiler.TransformToBinary(state);
-  }, ::testing::KilledBySignal(SIGABRT), "");
+  }, ::testing::ExitedWithCode(1), "");
 }
 
