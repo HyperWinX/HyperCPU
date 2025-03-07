@@ -182,11 +182,11 @@ protected:
   }
 };
 
-class ASM_BINARY_TRANSFORMER : public ::testing::Test {
+class ASSEMBLER : public ::testing::Test {
 protected:
   HCAsm::HCAsmCompiler compiler;
 
-  ASM_BINARY_TRANSFORMER() : compiler(HyperCPU::LogLevel::ERROR) { }
+  ASSEMBLER() : compiler(HyperCPU::LogLevel::ERROR) { }
 
   virtual void TearDown() {
     HCAsm::current_index = 0;

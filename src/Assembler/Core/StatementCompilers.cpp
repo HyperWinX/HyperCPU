@@ -3,11 +3,8 @@
 #include <Core/Compiler.hpp>
 #include <Core/OpcodeNameAssoc.hpp>
 #include <Core/RegNameAssoc.hpp>
-#include <variant>
-#include <iostream>
 
 using HCAsm::Value;
-using HyperCPU::LogLevel;
 
 Value HCAsm::CompileStatement1([[maybe_unused]] pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
     auto& instr_name = std::get<std::string>(args[0].value.val);

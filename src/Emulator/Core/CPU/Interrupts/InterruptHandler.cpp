@@ -1,3 +1,5 @@
+#include "Logger/Logger.hpp"
+#include <Assembler/Core/Compiler.hpp>
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/CPU/CPU.hpp>
@@ -6,7 +8,8 @@
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
   if (!ivt_initialized || pending_interrupt.has_value()) {
-    return;
+    HCAsm::logger.Log(LogLevel::ERROR, "Interrupt was triggered, but failed to execute handler! XIP: {}", *xip);
+    std::abort();
   }
   
   pending_interrupt = std::make_optional(mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception))));

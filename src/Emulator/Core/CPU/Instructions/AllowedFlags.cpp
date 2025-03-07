@@ -25,7 +25,7 @@ namespace HyperCPU {
     {SUPPORT_ALL, 0, 0, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // SHFL
     {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // OR
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // HALT
-    {0, 0, 0, 0, 0, 0, 0, 0, 0b00000011, 0, 0, 0}, // LOIDT
+    {0, 0, 0, 0, 0, 0, 0, 0, 0b00000011, 0, 0b00000011, 0}, // LOIVT
     {0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL, 0, 0, 0}, // INTR
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // IRET
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SUPPORT_ALL}, // RET
