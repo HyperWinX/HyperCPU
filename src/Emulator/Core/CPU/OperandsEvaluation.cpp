@@ -4,6 +4,7 @@
 
 #include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/CPU.hpp>
+#include <Misc/bit_cast.hpp>
 
 
 void* HyperCPU::CPU::GetRegister(std::size_t& op1) {
@@ -81,24 +82,24 @@ std::pair<void*, void*> HyperCPU::CPU::GetOperands(OperandTypes op_types, Mode m
     case R_IMM:{
       switch (md) {
         case b8:{
-          void* imm8;
+          std::uint8_t imm8;
           std::memcpy(&imm8, &op2, sizeof(std::uint8_t));
-          return std::make_pair(GetRegister(op1), imm8);
+          return std::make_pair(GetRegister(op1), HyperCPU::bit_cast<void*>(imm8));
         }
         case b16:{
-          void* imm16;
+          std::uint16_t imm16;
           std::memcpy(&imm16, &op2, sizeof(std::uint16_t));
-          return std::make_pair(GetRegister(op1), imm16);
+          return std::make_pair(GetRegister(op1), HyperCPU::bit_cast<void*>(imm16));
         }
         case b32:{
-          void* imm32;
+          std::uint32_t imm32;
           std::memcpy(&imm32, &op2, sizeof(std::uint32_t));
-          return std::make_pair(GetRegister(op1), imm32);
+          return std::make_pair(GetRegister(op1), HyperCPU::bit_cast<void*>(imm32));
         }
         case b64:{
-          void* imm64;
+          std::uint64_t imm64;
           std::memcpy(&imm64, &op2, sizeof(std::uint64_t));
-          return std::make_pair(GetRegister(op1), imm64);
+          return std::make_pair(GetRegister(op1), HyperCPU::bit_cast<void*>(imm64));
         }
       }
       break;

@@ -16,7 +16,7 @@ void HyperCPU::CPU::ExecHID(const IInstruction& instr, void* op1, void* op2) {
       *x0 = 2;
       break;
     case 1:
-      std::strcpy(std::bit_cast<char*>(&data), HID_CPU_NAME);
+      std::strncpy(std::bit_cast<char*>(&data), HID_CPU_NAME, sizeof(HID_CPU_NAME));
       break;
     case 2:
       *x0 = 0;

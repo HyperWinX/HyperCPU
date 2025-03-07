@@ -59,6 +59,12 @@ namespace HCAsm {
       std::int64_t sint2;
       std::string* str;
     };
+
+    ~Operand() {
+      if (type == OperandType::label || type == OperandType::reg) {
+        delete str;
+      }
+    }
   };
 
   struct Instruction {

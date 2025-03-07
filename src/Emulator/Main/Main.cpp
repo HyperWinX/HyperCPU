@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 
   std::ifstream file(source);
   
-  std::uint64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
+  std::int64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
 
   HyperCPU::GenericHeader header = ParseHeader(file);
   
@@ -125,10 +125,10 @@ std::expected<std::uint64_t, HyperCPU::ParseError> HyperCPU::ParseMemoryString(c
   std::uint64_t multiplier;
   switch (suffix) {
     case 'K':
-      multiplier = 1024;
+      multiplier = 1024ULL;
       break;
     case 'M':
-      multiplier = 1024 * 1024;
+      multiplier = 1024ULL * 1024;
       break;
     case 'G':
       multiplier = 1024ULL * 1024 * 1024;
