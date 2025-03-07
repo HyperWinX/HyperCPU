@@ -9,4 +9,3 @@ TEST_F(ASM_BINARY_TRANSFORMER, ASM_INVALID_INSTRUCTION) {
     auto binary = compiler.TransformToBinary(state);
   }, ::testing::ExitedWithCode(1), "");
 }
-

@@ -67,6 +67,10 @@ jobs:
         run: |
           cp build/compile_commands.json .
           cppcheck --project=compile_commands.json --check-level=exhaustive -idist -j4
+
+      - name: Lint code with Clang-tidy
+        run: |
+          clang-tidy-19 --checks='*' -p build/compile_commands.json $(find src -name "*.cpp")
   
   versioning-patch-increment:
     runs-on: self-hosted
