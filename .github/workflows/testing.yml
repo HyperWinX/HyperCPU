@@ -33,6 +33,14 @@ jobs:
         run: |
           git -C "../gtest-parallel" pull || git clone https://github.com/google/gtest-parallel.git "../gtest-parallel"
       
+      - name: Build and test with GCC on Debug profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build --target build-all-tests-github -j4
+          ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
+          ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
+          rm -rf build
+
       - name: Build and test with GCC on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release
@@ -40,7 +48,14 @@ jobs:
           ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
           ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
           rm -rf build
-      
+
+      - name: Build and test with LLVM on Debug profile
+        run: |
+          cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang-19) -DCMAKE_CXX_COMPILER=$(which clang++-19) -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --target build-all-tests-github -j4
+          ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
+          ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
+
       - name: Build and test with LLVM on Release profile
         run: |
           cmake -S. -Bbuild -DCMAKE_C_COMPILER=$(which clang-19) -DCMAKE_CXX_COMPILER=$(which clang++-19) -DCMAKE_BUILD_TYPE=Release

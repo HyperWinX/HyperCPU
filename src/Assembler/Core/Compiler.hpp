@@ -85,6 +85,9 @@ namespace HCAsm {
   concept UnsignedIntegral = std::is_integral_v<T> && std::is_unsigned_v<T>;
 
   struct BinaryResult {
+    BinaryResult() : binary(nullptr), ptr(0), entry_point(0) { }
+    BinaryResult(unsigned char* ptr) : binary(ptr), ptr(0), entry_point(0) { }
+
     unsigned char* binary;
     std::uint64_t ptr;
     std::uint32_t entry_point;
@@ -124,7 +127,7 @@ namespace HCAsm {
 
   // Needs improvements and optimizations
   struct CompilerState {
-    CompilerState(hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>& pool) : pool(pool), code_size(0) { }
+    CompilerState(hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>& pool) : pool(pool), code_size(0), entry_point(0) { }
 
     std::vector<PendingLabelReferenceResolve> pending_resolves;
     std::vector<pog::TokenWithLineSpec<Value>> tmp_args;
