@@ -9,7 +9,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND1) {
     auto operand = std::get<HCAsm::Operand>(parser.parse(data)->val);
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::memaddr_int);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15FA));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15FA));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND2) {
@@ -34,7 +34,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND3_1) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::mem_reg_add_int);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND3_2) {
@@ -47,7 +47,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND3_2) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::mem_reg_add_int);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND3_3) {
@@ -60,7 +60,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND3_3) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::mem_reg_add_int);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND4) {
@@ -73,7 +73,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND4) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::memaddr_int);
     EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15FA));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15FA));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND5) {
@@ -100,7 +100,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND6_1) {
     EXPECT_EQ(operand.type, HCAsm::OperandType::mem_reg_add_int);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
     EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND6_2) {
@@ -114,7 +114,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND6_2) {
     EXPECT_EQ(operand.type, HCAsm::OperandType::mem_reg_add_int);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
     EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND6_3) {
@@ -128,7 +128,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND6_3) {
     EXPECT_EQ(operand.type, HCAsm::OperandType::mem_reg_add_int);
     EXPECT_EQ(operand.reg, HyperCPU::Registers::X0);
     EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND7) {
@@ -141,7 +141,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND7) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::sint);
     EXPECT_EQ(operand.mode, HCAsm::Mode::none);
-    EXPECT_EQ(operand.sint2, static_cast<std::int64_t>(15));
+    EXPECT_EQ(std::get<std::int64_t>(operand.variant), static_cast<std::int64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_1) {
@@ -154,7 +154,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_1) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
     EXPECT_EQ(operand.mode, HCAsm::Mode::none);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_2) {
@@ -167,7 +167,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_2) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
     EXPECT_EQ(operand.mode, HCAsm::Mode::none);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_3) {
@@ -180,7 +180,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_3) {
 
     EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
     EXPECT_EQ(operand.mode, HCAsm::Mode::none);
-    EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+    EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND8_4) {
@@ -193,7 +193,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND8_4) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::none);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>('c'));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND9) {
@@ -219,7 +219,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND10) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::sint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::none);
-  EXPECT_EQ(operand.sint2, static_cast<std::int64_t>(15));
+  EXPECT_EQ(std::get<std::int64_t>(operand.variant), static_cast<std::int64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b8) {
@@ -232,7 +232,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b8) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b16) {
@@ -245,7 +245,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b16) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b32) {
@@ -258,7 +258,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b32) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_1_b64) {
@@ -271,7 +271,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_1_b64) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b8) {
@@ -284,7 +284,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b8) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b16) {
@@ -297,7 +297,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b16) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b32) {
@@ -310,7 +310,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b32) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_2_b64) {
@@ -323,7 +323,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_2_b64) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0x15));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0x15));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b8) {
@@ -336,7 +336,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b8) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b16) {
@@ -349,7 +349,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b16) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b32) {
@@ -362,7 +362,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b32) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_3_b64) {
@@ -375,7 +375,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_3_b64) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>(0b00110101));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>(0b00110101));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_4_b8) {
@@ -388,7 +388,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_4_b8) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b8);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>('c'));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_4_b16) {
@@ -401,7 +401,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_4_b16) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b16);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>('c'));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_4_b32) {
@@ -414,7 +414,7 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_4_b32) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b32);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>('c'));
 }
 
 TEST_F(ASM_PARSER_TEST, OPERAND11_4_b64) {
@@ -427,5 +427,5 @@ TEST_F(ASM_PARSER_TEST, OPERAND11_4_b64) {
 
   EXPECT_EQ(operand.type, HCAsm::OperandType::uint);
   EXPECT_EQ(operand.mode, HCAsm::Mode::b64);
-  EXPECT_EQ(operand.uint1, static_cast<std::uint64_t>('c'));
+  EXPECT_EQ(std::get<std::uint64_t>(operand.variant), static_cast<std::uint64_t>('c'));
 }
