@@ -54,17 +54,8 @@ namespace HCAsm {
     enum Mode mode;
     bool needs_resolve;
     std::array<hpool::Ptr<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>, 2> tokens;
-    union {
-      std::uint64_t uint1;
-      std::int64_t sint2;
-      std::string* str;
-    };
+    std::variant<std::uint64_t, std::int64_t, std::shared_ptr<std::string>> variant;
 
-    ~Operand() {
-      if (type == OperandType::label || type == OperandType::reg) {
-        delete str;
-      }
-    }
   };
 
   struct Instruction {

@@ -71,13 +71,11 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
   
   // Handle case when one of operands is a label - we should mock the immediate 64 bit value
   if (instr.op1.type == OperandType::label) {
-    std::uint64_t num = this->state->labels.at(*instr.op1.str);
-    delete instr.op1.str;
-    instr.op1.uint1 = num;
+    std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op1.variant));
+    instr.op1.variant = num;
   } else if (instr.op2.type == OperandType::label) {
-    std::uint64_t num = this->state->labels.at(*instr.op2.str);
-    delete instr.op2.str;
-    instr.op2.uint1 = num;
+    std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op1.variant));
+    instr.op2.variant = num;
   }
 
   HCAsm::Mode md;
@@ -133,16 +131,16 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     case HyperCPU::OperandTypes::RM_M:
     case HyperCPU::OperandTypes::R_M:
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
-      res.push(instr.op2.uint1);
+      res.push(std::get<std::uint64_t>(instr.op2.variant));
       break;
     case HyperCPU::OperandTypes::RM_IMM:
     case HyperCPU::OperandTypes::R_IMM:
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
       switch (md) {
-        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(instr.op2.uint1));  break;
-        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(instr.op2.uint1)); break;
-        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(instr.op2.uint1)); break;
-        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(instr.op2.uint1)); break;
+        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op2.variant)));  break;
+        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
         default:
           std::unreachable();
       }
@@ -151,20 +149,20 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
       break;
     case HyperCPU::OperandTypes::M:
-      res.push(instr.op1.uint1);
+      res.push(std::get<std::uint64_t>(instr.op2.variant));
       break;
     case HyperCPU::OperandTypes::IMM:
       switch (md) {
-        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(instr.op1.uint1));  break;
-        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(instr.op1.uint1)); break;
-        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(instr.op1.uint1)); break;
-        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(instr.op1.uint1)); break;
+        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op2.variant)));  break;
+        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
         default:
           std::unreachable();
       }
       break;
     case HyperCPU::OperandTypes::M_R:
-      res.push(instr.op2.uint1);
+      res.push(std::get<std::uint64_t>(instr.op2.variant));
       res.push(static_cast<std::uint8_t>(instr.op2.reg));
       break;
     case HyperCPU::OperandTypes::NONE:

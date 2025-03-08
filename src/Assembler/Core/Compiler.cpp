@@ -312,11 +312,11 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
     for (auto& args : ir.pending_resolves) {
       auto operand = args.op;
 
-      if (ir.labels.contains(*operand->str)) {
+      if (ir.labels.contains(*std::get<std::shared_ptr<std::string>>(operand->variant))) {
         args.op->type = OperandType::uint;
-        args.op->uint1 = ir.labels[*operand->str];
+        args.op->variant = { ir.labels[*std::get<std::shared_ptr<std::string>>(operand->variant)] };
       } else {
-        ThrowError(args.args[0], parser, std::format("failed to resolve undefined reference to \"{}\"", *operand->str));
+        ThrowError(args.args[0], parser, std::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(operand->variant)));
       }
     }
   }
@@ -339,16 +339,16 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       },
       [&binary, &ir, this](RawValue& raw) mutable -> void {
         switch (raw.mode) {
-          case Mode::b8:  binary.push(static_cast<std::uint8_t>(raw.value.uint1)); break;
-          case Mode::b16: binary.push(static_cast<std::uint16_t>(raw.value.uint1)); break;
-          case Mode::b32: binary.push(static_cast<std::uint32_t>(raw.value.uint1)); break;
+          case Mode::b8:  binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant))); break;
+          case Mode::b16: binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant))); break;
+          case Mode::b32: binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant))); break;
           case Mode::b64_label:
-            if (!ir.labels.contains(*raw.value.str)) {
-              ThrowError(*raw.value.tokens[1], parser, std::format("failed to resolve undefined reference to \"{}\"", *raw.value.str));
+            if (!ir.labels.contains(*std::get<std::shared_ptr<std::string>>(raw.value.variant))) {
+              ThrowError(*raw.value.tokens[1], parser, std::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(raw.value.variant)));
             }
-            binary.push(static_cast<std::uint64_t>(ir.labels.at(*raw.value.str)));
+            binary.push(static_cast<std::uint64_t>(ir.labels.at(*std::get<std::shared_ptr<std::string>>(raw.value.variant))));
             break;
-          case Mode::b64: binary.push(static_cast<std::uint64_t>(raw.value.uint1)); break;
+          case Mode::b64: binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant))); break;
           default: std::abort();
         }
       },

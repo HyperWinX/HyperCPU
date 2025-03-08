@@ -34,12 +34,11 @@ Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::Toke
     ++current_index;
 
     auto& tmp_op = std::get<Operand>(args[1].value.val);
-    auto* tmp_str = tmp_op.str;
+    auto tmp_str = std::get<std::shared_ptr<std::string>>(tmp_op.variant);
     if (tmp_op.type == OperandType::label && parser.get_compiler_state()->labels.contains(*tmp_str)) {
-      tmp_op.uint1 = parser.get_compiler_state()->labels[*tmp_str];
+      tmp_op.variant = parser.get_compiler_state()->labels[*tmp_str];
       tmp_op.mode = Mode::b64;
       tmp_op.type = OperandType::uint;
-      delete tmp_str;
     }
 
     current_state->ir.push_back(Instruction {
