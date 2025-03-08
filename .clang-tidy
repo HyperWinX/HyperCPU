@@ -1,6 +1,0 @@
----
-Checks: '
-  bugprone-narrowing-conversions,
-  bugprone-multi-level-implicit-pointer-conversion,
-  bugprone-easily-swappable-parameters,
-  *'

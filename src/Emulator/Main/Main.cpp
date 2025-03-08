@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
     std::exit(1);
   }
 
-  HyperCPU::CPU cpu{1, *memory, buf.get(), binarysize};
+  HyperCPU::CPU cpu{1, *memory, buf.get(), static_cast<std::uint64_t>(binarysize )};
 
   cpu.SetEntryPoint(header.entry_point);
   cpu.Run();

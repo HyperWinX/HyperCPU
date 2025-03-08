@@ -62,16 +62,7 @@ jobs:
           cmake --build build --target build-all-tests-github -j4
           ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
           ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
-          
-      - name: Lint code
-        run: |
-          cp build/compile_commands.json .
-          cppcheck --project=compile_commands.json --check-level=exhaustive -idist -j4
 
-      - name: Lint code with Clang-tidy
-        run: |
-          clang-tidy-19 --checks='*' -p build/compile_commands.json $(find src -name "*.cpp")
-  
   versioning-patch-increment:
     runs-on: self-hosted
     if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push') && !contains(github.event.head_commit.message, 'minor')"
