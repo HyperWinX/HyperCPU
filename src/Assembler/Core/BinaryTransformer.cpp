@@ -74,7 +74,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op1.variant));
     instr.op1.variant = num;
   } else if (instr.op2.type == OperandType::label) {
-    std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op1.variant));
+    std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op2.variant));
     instr.op2.variant = num;
   }
 
@@ -153,10 +153,10 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       break;
     case HyperCPU::OperandTypes::IMM:
       switch (md) {
-        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op2.variant)));  break;
-        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
-        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
-        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op1.variant)));  break;
+        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
+        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
+        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
         default:
           std::unreachable();
       }

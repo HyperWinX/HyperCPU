@@ -176,7 +176,7 @@ Value HCAsm::ParseOperand7(pog::Parser<Value>& parser, std::vector<pog::TokenWit
       .tokens = {
         parser.get_compiler_state()->pool.allocate(std::move(args[0]))
       },
-      .variant = { std::get<std::uint64_t>(args[0].value.val) }
+      .variant = { std::get<std::int64_t>(args[0].value.val) }
     }
   };
 }
@@ -195,7 +195,7 @@ Value HCAsm::ParseOperand8(pog::Parser<Value>& parser, std::vector<pog::TokenWit
 }
 
 Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  auto& reg = std::get<std::string>(args[0].value.val);
+  auto reg = std::get<std::string>(args[0].value.val);
 
   if (registers_assoc.contains(reg.c_str())) {
     return {
@@ -218,7 +218,7 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
         .tokens = {
           parser.get_compiler_state()->pool.allocate(std::move(args[0]))
         },
-        .variant = { std::make_shared<std::string>(std::string(reg)) }
+        .variant = { std::make_shared<std::string>(reg) }
       }
     };
   }
@@ -241,7 +241,7 @@ Value HCAsm::ParseOperand10(pog::Parser<Value>& parser, std::vector<pog::TokenWi
       .tokens = {
         parser.get_compiler_state()->pool.allocate(std::move(args[1]))
       },
-      .variant = { std::get<std::uint64_t>(args[0].value.val) }
+      .variant = { std::get<std::uint64_t>(args[1].value.val) }
     }
   };
 }
@@ -263,7 +263,7 @@ Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWi
       .tokens = {
         parser.get_compiler_state()->pool.allocate(std::move(args[1]))
       },
-      .variant = { std::get<std::uint64_t>(args[1].value.val) }
+      .variant = { std::get<std::int64_t>(args[1].value.val) }
     }
   };
 }
