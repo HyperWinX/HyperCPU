@@ -238,6 +238,9 @@ void HyperCPU::CPU::Run() {
     switch (buffer.m_opcode) { 
       case _CONT:
         continue;
+      case IRET:
+        *xip = StackPop64();
+        continue;
       default:
         break;
     }

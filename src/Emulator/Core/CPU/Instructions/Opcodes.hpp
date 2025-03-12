@@ -35,6 +35,8 @@ namespace HyperCPU {
     READ  = 0x0018,
     WRITE = 0x0019,
     JMP   = 0x001A,
+    PUSH  = 0x001B,
+    POP   = 0x001C,
     MOV   = 0x007F,
     _CONT = 0x6934
   };
@@ -67,6 +69,9 @@ namespace HyperCPU {
         OPCODE_CASE(READ)
         OPCODE_CASE(WRITE)
         OPCODE_CASE(JMP)
+        OPCODE_CASE(IRET)
+        OPCODE_CASE(PUSH)
+        OPCODE_CASE(POP)
           return true;
         OPCODE_DEFAULT_CASE()
       }
