@@ -1,3 +1,4 @@
+#include "Emulator/Core/CPU/Instructions/Opcodes.hpp"
 #include "Logger/Logger.hpp"
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Core/BinaryTransformer.hpp>
@@ -54,6 +55,13 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
   HyperCPU::OperandTypes types = DetermineOperandTypes(instr.op1, instr.op2);
 
   res.push(static_cast<std::uint16_t>(instr.opcode));
+
+  switch (instr.opcode) {
+    case HyperCPU::IRET:
+      return;
+    default:
+      break;
+  }
 
   std::uint8_t encoded_operands = 0;
 

@@ -57,6 +57,13 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
   // Convert opcode
   instruction.m_opcode = static_cast<enum Opcode>(opcode);
 
+  switch (instruction.m_opcode) {
+    case IRET:
+      return instruction;
+    default:
+      break;
+  }
+
   // Fetch flags, set opcode Mode and verify operand types
   flags = mem_controller->Fetch8(*xip);
   instruction.m_opcode_mode = static_cast<enum Mode>((flags & 0b00110000) >> 4);
