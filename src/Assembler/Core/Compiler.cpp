@@ -1,3 +1,4 @@
+#include "Emulator/Core/CPU/Instructions/Opcodes.hpp"
 #include "pog/line_spec.h"
 #include <print>
 #include <string>
@@ -197,6 +198,13 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
 }
 
 std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
+  switch (instr.opcode) {
+    case HyperCPU::Opcode::IRET:
+      return 2;
+    default:
+      break;
+  }
+  
   std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
   switch (instr.op1.type) {
     case OperandType::reg: // R_*
