@@ -81,7 +81,7 @@ TEST_F(FULL_ASSEMBLER, IRET) {
 
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Opcode>(buf + 17), HyperCPU::Opcode::PUSH);
   ASSERT_EQ(HyperCPU::bit_cast_from<std::uint8_t>(buf + 19), (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::IMM);
-  ASSERT_EQ(HyperCPU::bit_cast_from<std::uint64_t>(buf + 20), 29);
+  ASSERT_EQ(HyperCPU::bit_cast_from<std::uint64_t>(buf + 20), 30);
 
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Opcode>(buf + 28), HyperCPU::Opcode::IRET);
 
