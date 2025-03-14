@@ -71,15 +71,6 @@ TEST_F(FULL_ASSEMBLER, IRET) {
 
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Opcode>(buf), HyperCPU::Opcode::MOV);
   ASSERT_EQ(HyperCPU::bit_cast_from<std::uint8_t>(buf + 2), (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_IMM);
-<<<<<<< HEAD
-  ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Registers>(buf + 3), HyperCPU::Registers::X0);
-  ASSERT_EQ(HyperCPU::bit_cast_from<std::uint64_t>(buf + 4), 1);
-
-  ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Opcode>(buf + 12), HyperCPU::Opcode::MOV);
-  ASSERT_EQ(HyperCPU::bit_cast_from<std::uint8_t>(buf + 14), (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_R);
-  ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Registers>(buf + 15), HyperCPU::Registers::X1);
-  ASSERT_EQ(HyperCPU::bit_cast_from<std::uint64_t>(buf + 16), 2);
-=======
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Registers>(buf + 3), HyperCPU::Registers::XBP);
   ASSERT_EQ(HyperCPU::bit_cast_from<std::uint64_t>(buf + 4), 512);
 
@@ -87,7 +78,6 @@ TEST_F(FULL_ASSEMBLER, IRET) {
   ASSERT_EQ(HyperCPU::bit_cast_from<std::uint8_t>(buf + 14), (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::R_R);
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Registers>(buf + 15), HyperCPU::Registers::XSP);
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Registers>(buf + 16), HyperCPU::Registers::XBP);
->>>>>>> implement-push-pop
 
   ASSERT_EQ(HyperCPU::bit_cast_from<HyperCPU::Opcode>(buf + 17), HyperCPU::Opcode::PUSH);
   ASSERT_EQ(HyperCPU::bit_cast_from<std::uint8_t>(buf + 19), (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::IMM);
