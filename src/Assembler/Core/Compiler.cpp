@@ -126,6 +126,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
     .production("ident", "uint", ParseOperand10)
     .production("ident", "char", ParseOperand10)
     .production("ident", "sint", ParseOperand11)
+    .production("ident", "ident", ParseOperand12)
     .production("hex", ParseOperand8)
     .production("binary", ParseOperand8)
     .production("sint", ParseOperand7)

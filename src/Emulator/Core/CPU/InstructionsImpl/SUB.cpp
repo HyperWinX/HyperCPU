@@ -30,7 +30,7 @@ void HyperCPU::CPU::ExecSUB(const IInstruction& instr, void* op1, void* op2) {
           udf = SubtractionWillUnderflow(deref<std::uint64_t>(op1), deref<std::uint64_t>(op2));
           deref<std::uint64_t>(op1) = __hcpu_sub(deref<std::uint64_t>(op1), HyperCPU::bit_cast_from<std::uint64_t>(op2));
           break;
-      }
+      } // TODO: mark defaults as std::unreachable()
       break;
     }
 
