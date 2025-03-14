@@ -218,7 +218,7 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
         .tokens = {
           parser.get_compiler_state()->pool.allocate(std::move(args[0]))
         },
-        .variant = { std::make_shared<std::string>(reg) }
+        .variant = { std::make_shared<std::string>(reg) } // TODO: use std::move on reg
       }
     };
   }
@@ -227,7 +227,7 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
 Value HCAsm::ParseOperand10(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto mode = std::get<std::string>(args[0].value.val);
 
-  if (!mode_assoc.contains(mode.c_str())) {
+  if (!mode_assoc.contains(mode.c_str())) { // TODO: add [[unlikely]] attribute for error handling branches
     ThrowError(
       args[0], 
       parser, 
@@ -264,6 +264,41 @@ Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWi
         parser.get_compiler_state()->pool.allocate(std::move(args[1]))
       },
       .variant = { std::get<std::int64_t>(args[1].value.val) }
+    }
+  };
+}
+
+Value HCAsm::ParseOperand12(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  auto mode = std::get<std::string>(args[0].value.val);
+  auto reg = std::get<std::string>(args[1].value.val);
+
+  if (!mode_assoc.contains(mode.c_str())) {
+    ThrowError(
+      args[0], 
+      parser, 
+      std::format("unknown data size specified: \"{}\"", mode));
+  } else if (!registers_assoc.contains(reg.c_str())) {
+    return {
+      .val = Operand {
+        .type = HCAsm::OperandType::label,
+        .mode = mode_assoc.at(mode.c_str()),
+        .needs_resolve = !parser.get_compiler_state()->labels.contains(reg),
+        .tokens = {
+          parser.get_compiler_state()->pool.allocate(std::move(args[1]))
+        },
+        .variant = { std::make_shared<std::string>(reg) } // TODO: use std::move on reg
+      }
+    };
+  }
+  
+  return {
+    .val = Operand {
+      .type = HCAsm::OperandType::reg,
+      .mode = mode_assoc.at(mode.c_str()),
+      .tokens = {
+        parser.get_compiler_state()->pool.allocate(std::move(args[1]))
+      },
+      .variant = { std::make_unique<std::string>(reg) }
     }
   };
 }
