@@ -1,6 +1,4 @@
 #include <print>
-#include <atomic>
-#include <thread>
 #include <functional>
 
 #include <Core/MemoryController/MemoryControllerMT.hpp>
@@ -67,6 +65,11 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
     xip = &data[10];
     xgdp = &data[11];
     xivt = &data[12];
+
+    crf = false;
+    ovf = false;
+    udf = false;
+    zrf = false;
     
     // TODO: Use std::bind instead of lambdas
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::HALT)] =
