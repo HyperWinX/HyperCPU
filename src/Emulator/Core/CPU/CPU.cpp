@@ -123,6 +123,12 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
       [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecPUSH(instr, op1, op2); };
     opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::POP)] = 
       [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecPOP(instr, op1, op2); };
+    opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CALLE)] =
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCALLE(instr, op1, op2); };
+    opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CALLGR)] =
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCALLGR(instr, op1, op2); };
+    opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CALLL)] = 
+      [this](const IInstruction& instr, void* op1, void* op2) -> void { this->ExecCALLL(instr, op1, op2); };
 
     read_io_handlers[0] = io_ctl->GetGetchar();
 

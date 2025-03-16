@@ -37,6 +37,9 @@ namespace HyperCPU {
     JMP   = 0x001A,
     PUSH  = 0x001B,
     POP   = 0x001C,
+    CALLE = 0x001D,
+    CALLGR= 0x001E,
+    CALLL = 0x001F,
     MOV   = 0x007F,
     _CONT = 0x6934
   };
@@ -72,6 +75,9 @@ namespace HyperCPU {
         OPCODE_CASE(IRET)
         OPCODE_CASE(PUSH)
         OPCODE_CASE(POP)
+        OPCODE_CASE(CALLE)
+        OPCODE_CASE(CALLGR)
+        OPCODE_CASE(CALLL)
           return true;
         OPCODE_DEFAULT_CASE()
       }

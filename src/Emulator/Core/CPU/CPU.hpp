@@ -53,7 +53,7 @@ namespace HyperCPU {
     bool ivt_initialized;
 
     // Flags
-    bool crf, ovf, udf;
+    bool crf, ovf, udf, zrf;
 
     std::array<opcode_handler, 128> opcode_handler_assoc;
 
@@ -89,6 +89,9 @@ namespace HyperCPU {
     DECLARE_INSTR(ANDN);
     DECLARE_INSTR(BSWAP);
     DECLARE_INSTR(CALL);
+    DECLARE_INSTR(CALLE);
+    DECLARE_INSTR(CALLGR);
+    DECLARE_INSTR(CALLL);
     DECLARE_INSTR(CCRF);
     DECLARE_INSTR(COVF);
     DECLARE_INSTR(CUDF);

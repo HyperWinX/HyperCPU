@@ -380,6 +380,92 @@ CALL - Call procedure
 | **Flags affected**:
 | None.
 
+===============================
+CALLE - Call procedure if equal
+===============================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 1D00C8<r>
+    - calle <r64>
+    - R
+  * - 1D00C9<m>
+    - calle <m>
+    - M
+
+| **Description**:
+| Performs a call procedure to address, specified by destination operand, if result of CMP operation was "equal", 
+| i. e. if ZF = 1 and CF = 0.
+| The destination operand is a register or a memory address.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+==================================
+CALLGR - Call procedure if greater
+==================================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 1E00C8<r>
+    - callgr <r64>
+    - R
+  * - 1E00C9<m>
+    - callgr <m>
+    - M
+
+| **Description**:
+| Performs a call procedure to address, specified by destination operand, if result of CMP operation was "greater", 
+| i. e. if ZF = 0 and CF = 0.
+| The destination operand is a register or a memory address.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+==============================
+CALLL - Call procedure if less
+==============================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 1F00C8<r>
+    - calll <r64>
+    - R
+  * - 1F00C9<m>
+    - calll <m>
+    - M
+
+| **Description**:
+| Performs a call procedure to address, specified by destination operand, if result of CMP operation was "less", 
+| i. e. if ZF = 0 and CF = 1.
+| The destination operand is a register or a memory address.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
 
 =======================
 CCRF - Clear Carry Flag

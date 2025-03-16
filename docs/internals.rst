@@ -78,6 +78,9 @@ List of flags with descriptions:
   
   * - UDF
     - Underflow flag, shows if number has been underflown during math operation.
+  
+  * - ZRF
+    - Zero flag... yes. No one knows why it's here.
 
 IVT
 ---
