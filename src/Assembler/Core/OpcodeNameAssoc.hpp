@@ -33,5 +33,8 @@ constexpr inline const auto opcode_assoc = mapbox::eternal::hash_map<mapbox::ete
     {"write", HyperCPU::Opcode::WRITE},
     {"jmp",   HyperCPU::Opcode::JMP},
     {"push",  HyperCPU::Opcode::PUSH},
-    {"pop",   HyperCPU::Opcode::POP}
+    {"pop",   HyperCPU::Opcode::POP},
+    {"calle", HyperCPU::Opcode::CALLE},
+    {"callgr",HyperCPU::Opcode::CALLGR},
+    {"calll", HyperCPU::Opcode::CALLL}
 });

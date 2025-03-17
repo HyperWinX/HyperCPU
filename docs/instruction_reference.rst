@@ -739,6 +739,89 @@ JMP - Jump to Address
 | **Flags affected**:
 | None.
 
+==============================
+JME - Jump to Address If Equal
+==============================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 2000C8<r>
+    - jme <r64>
+    - R
+  * - 2000C9<m>
+    - jme <m>
+    - M
+
+| **Description**:
+| Jumps to the address, specified by the first operand, if result of CMP operation was "equal", 
+| i. e. if ZF = 1 and CF = 0.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+=================================
+JMGR - Jump to Address If Greater
+=================================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 2100C8<r>
+    - jmgr <r64>
+    - R
+  * - 2100C9<m>
+    - jmgr <m>
+    - M
+
+| **Description**:
+| Jumps to the address, specified by the first operand, if result of CMP operation was "greater", 
+| i. e. if ZF = 0 and CF = 0.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+=============================
+JML - Jump to Address If Less
+=============================
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 2200C8<r>
+    - jml <r64>
+    - R
+  * - 2200C9<m>
+    - jml <m>
+    - M
+
+| **Description**:
+| Jumps to the address, specified by the first operand, if result of CMP operation was "less", 
+| i. e. if ZF = 0 and CF = 1.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
 
 ===================================
 LOIVT - Load Interrupt Vector Table
