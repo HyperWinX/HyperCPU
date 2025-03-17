@@ -122,13 +122,13 @@ To do things with a different verbosity level (`debug`, `info`, `warning`, `erro
 $ ./hcemul -v <verbosity_level> ...
 ```
 
-To display a help message and exit:
+To display help message and exit:
 
 ```bash
 $ ./hcemul -h # = ./hcemul --help
 ```
 
-To display a version and exit:
+To display program version and exit:
 
 ```bash
 $ ./hcemul --version
