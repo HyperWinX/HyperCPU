@@ -41,7 +41,7 @@ The project roadmap can be found [here](ROADMAP.md).
 ### Installation
 
 >[!WARNING]
-> HyperCPU supports 64-bit GNU/Linux systems only. It is known to be successfully built and running on `amd64` and `aarm64` architectures.
+> HyperCPU supports 64-bit GNU/Linux systems only. It is known to be successfully built and running on `amd64` and `aarch64` architectures.
 
 #### Dependencies
 
