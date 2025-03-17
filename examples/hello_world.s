@@ -1,3 +1,12 @@
+/*
+
+This is a simple "Hello World" program written in HyperCPU assembly (hASM).
+It writes a string to console char by char, then writes an newline byte (0x10) and halts CPU.
+
+Copyrignt (c) 2025 Ivan Movchan <ivan.movchan.07@gmail.com>
+
+*/
+
 main:
 	write xlll0, 'H';
 	write xlll0, 'e';
