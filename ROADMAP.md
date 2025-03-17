@@ -2,7 +2,7 @@
 
 This document describes the roadmap of the project (some kind of TODO-list).
 
-### <u>Release 1.0</u>
+### *Release 1.0*
 
 - [ ] Review the whole documentation.
 - [ ] Improve test coverage.
