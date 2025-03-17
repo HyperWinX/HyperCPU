@@ -40,6 +40,9 @@ namespace HyperCPU {
     CALLE = 0x001D,
     CALLGR= 0x001E,
     CALLL = 0x001F,
+    JME   = 0x0020,
+    JMGR  = 0x0021,
+    JML   = 0x0022,
     MOV   = 0x007F,
     _CONT = 0x6934
   };
@@ -78,6 +81,9 @@ namespace HyperCPU {
         OPCODE_CASE(CALLE)
         OPCODE_CASE(CALLGR)
         OPCODE_CASE(CALLL)
+        OPCODE_CASE(JME)
+        OPCODE_CASE(JMGR)
+        OPCODE_CASE(JML)
           return true;
         OPCODE_DEFAULT_CASE()
       }
