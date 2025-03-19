@@ -491,6 +491,29 @@ CCRF - Clear Carry Flag
 | **Flags affected**:
 | CRF -> not set.
 
+=============
+CMP - Compare
+=============
+
+.. list-table:: Possible usage
+  :widths: 17 21 15
+  :header-rows: 1
+
+  * - Opcode
+    - Instruction
+    - Operands type
+  * - 070000
+    - ccrf
+    - NONE
+
+| **Description**:
+| Clears carry flag. Accepts no operands
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| CRF -> not set.
 
 ==========================
 COVF - Clear Overflow Flag

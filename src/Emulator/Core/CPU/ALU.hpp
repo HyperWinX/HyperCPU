@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstring>
 #include <type_traits>
 
 #define _MICROOP [[gnu::always_inline]] static constexpr inline
@@ -48,6 +49,11 @@ namespace HyperCPU{
     template<UInt T>
     _MICROOP T __hcpu_or(const T& a, const T& b) {
       return a | b;
+    }
+
+    template<UInt T>
+    _MICROOP bool __hcpu_cmp(const T* a, const T* b) {
+      return *a == *b;
     }
   }
 }

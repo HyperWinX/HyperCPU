@@ -19,8 +19,9 @@ Value HCAsm::ParseOperand1(pog::Parser<Value>& parser, std::vector<pog::TokenWit
 }
 
 Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
-  auto& reg = std::get<std::string>(args[1].value.val);
+  auto reg = std::get<std::string>(args[1].value.val);
 
+<<<<<<< HEAD
   if (!registers_assoc.contains(reg.c_str())) [[unlikely]] {
     ThrowError(
       args[1], 
@@ -35,9 +36,32 @@ Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWit
       .mode = HCAsm::Mode::none,
       .tokens = { 
         parser.get_compiler_state()->pool.allocate(std::move(args[1]))
+=======
+  if (registers_assoc.contains(reg.c_str())) {
+    return {
+      .val = Operand {
+        .type = HCAsm::OperandType::memaddr_reg,
+        .reg = registers_assoc.at(reg.c_str()),
+        .mode = HCAsm::Mode::none,
+        .tokens = { 
+          parser.get_compiler_state()->pool.allocate(std::move(args[1]))
+        }
+>>>>>>> 862deea (Start implementing CMP instruction)
       }
-    }
-  };
+    };
+  } else {
+    return {
+      .val = Operand {
+        .type = HCAsm::OperandType::memaddr_lbl,
+        .mode = HCAsm::Mode::b64,
+        .needs_resolve = !parser.get_compiler_state()->labels.contains(reg),
+        .tokens = { 
+          parser.get_compiler_state()->pool.allocate(std::move(args[1]))
+        },
+        .variant = { std::make_shared<std::string>(reg) }
+      }
+    };
+  }
 }
 
 Value HCAsm::ParseOperand3(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {

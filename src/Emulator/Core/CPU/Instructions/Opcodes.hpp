@@ -43,6 +43,7 @@ namespace HyperCPU {
     JME   = 0x0020,
     JMGR  = 0x0021,
     JML   = 0x0022,
+    CMP   = 0x0023,
     MOV   = 0x007F,
     _CONT = 0x6934
   };
@@ -84,6 +85,7 @@ namespace HyperCPU {
         OPCODE_CASE(JME)
         OPCODE_CASE(JMGR)
         OPCODE_CASE(JML)
+        OPCODE_CASE(CMP)
           return true;
         OPCODE_DEFAULT_CASE()
       }

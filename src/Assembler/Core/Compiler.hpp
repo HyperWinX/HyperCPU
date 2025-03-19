@@ -34,6 +34,7 @@ namespace HCAsm {
     uint,
     memaddr_reg,
     memaddr_int,
+    memaddr_lbl,
     label,
     none
   };
