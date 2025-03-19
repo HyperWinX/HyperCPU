@@ -21,6 +21,7 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
     case HCAsm::OperandType::label:
       tp1 = Op1T::IMM; break;
     case HCAsm::OperandType::memaddr_int:
+    case HCAsm::OperandType::memaddr_lbl:
       tp1 = Op1T::M; break;
     case HCAsm::OperandType::none:
       tp1 = Op1T::NONE; break;
@@ -39,6 +40,7 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
     case HCAsm::OperandType::label:
       tp2 = Op2T::IMM; break;
     case HCAsm::OperandType::memaddr_int:
+    case HCAsm::OperandType::memaddr_lbl:
       tp2 = Op2T::M; break;
     case HCAsm::OperandType::none:
       tp2 = Op2T::NONE; break;
@@ -78,12 +80,20 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
   }
   
   // Handle case when one of operands is a label - we should mock the immediate 64 bit value
-  if (instr.op1.type == OperandType::label) {
-    std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op1.variant));
-    instr.op1.variant = num;
-  } else if (instr.op2.type == OperandType::label) {
-    std::uint64_t num = this->state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op2.variant));
-    instr.op2.variant = num;
+  switch (instr.op1.type) {
+    case HCAsm::OperandType::label:
+    case HCAsm::OperandType::memaddr_lbl:
+      instr.op1.variant = state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op1.variant));
+      break;
+    default: break;
+  }
+
+  switch (instr.op2.type) {
+    case HCAsm::OperandType::label:
+    case HCAsm::OperandType::memaddr_lbl:
+      instr.op2.variant = state->labels.at(*std::get<std::shared_ptr<std::string>>(instr.op2.variant));
+      break;
+    default: break;
   }
 
   HCAsm::Mode md;
