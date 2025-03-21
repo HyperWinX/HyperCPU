@@ -32,7 +32,9 @@ public:
 
   ~TempDir() {
     chdir("..");
-    std::filesystem::remove_all(dir_name);
+    try {
+      std::filesystem::remove_all(dir_name);
+    } catch (std::filesystem::filesystem_error&) { }
   }
 private:
   std::string dir_name;
