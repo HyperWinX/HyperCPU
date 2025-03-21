@@ -9,6 +9,7 @@
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
+#include <Emulator/Misc/unreachable.hpp>
 #include <Emulator/Main/Main.hpp>
 #include <Logger/Logger.hpp>
 
@@ -181,7 +182,7 @@ namespace HCAsm {
       case Registers::XLLL3:
         return Mode::b8;
       default:
-        std::unreachable();
+        unreachable();
     }
   }
 
@@ -239,7 +240,7 @@ namespace HCAsm {
     std::queue<std::string> files;
     hpool::HPool<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc> pool;
 
-    constexpr inline std::uint8_t OperandSize(const Operand op);
+    constexpr inline std::uint8_t OperandSize(const OperandType op);
     std::uint8_t InstructionSize(Instruction& instr);
     std::uint8_t ModeToSize(Mode md);
   };

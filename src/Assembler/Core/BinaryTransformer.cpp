@@ -25,7 +25,7 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
     case HCAsm::OperandType::none:
       tp1 = Op1T::NONE; break;
     default:
-      std::unreachable();
+      HyperCPU::unreachable();
   }
 
   switch (op2.type) {
@@ -43,7 +43,7 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
     case HCAsm::OperandType::none:
       tp2 = Op2T::NONE; break;
     default:
-      std::unreachable();
+      HyperCPU::unreachable();
   }
 
   return QuickCast(QuickOR(tp1, tp2));
@@ -122,7 +122,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       md = HCAsm::Mode::b8; // Placeholder
       break;
     default:
-      std::unreachable();
+      HyperCPU::unreachable();
   }
   encoded_operands |= (static_cast<std::uint8_t>(md) << 4);
   encoded_operands |= static_cast<std::uint8_t>(types);
@@ -150,7 +150,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
         case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
         case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
         default:
-          std::unreachable();
+          HyperCPU::unreachable();
       }
       break;
     case HyperCPU::OperandTypes::R:
@@ -166,7 +166,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
         case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
         case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
         default:
-          std::unreachable();
+          HyperCPU::unreachable();
       }
       break;
     case HyperCPU::OperandTypes::M_R:
@@ -176,6 +176,6 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     case HyperCPU::OperandTypes::NONE:
       break;
     default:
-      std::unreachable();
+      HyperCPU::unreachable();
   }
 }

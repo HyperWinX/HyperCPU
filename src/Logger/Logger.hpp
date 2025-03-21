@@ -8,6 +8,8 @@
 #include <utility>
 
 #include <Logger/Colors.hpp>
+#include <Emulator/Misc/print.hpp>
+#include <Emulator/Misc/unreachable.hpp>
 
 
 namespace HyperCPU {
@@ -29,7 +31,7 @@ namespace HyperCPU {
         case HyperCPU::LogLevel::WARNING: return '=';
         case HyperCPU::LogLevel::ERROR:   return '!';
         default:
-          std::unreachable();
+          HyperCPU::unreachable();
       }
     }
 
@@ -40,7 +42,7 @@ namespace HyperCPU {
         case HyperCPU::LogLevel::WARNING: return B_YELLOW;
         case HyperCPU::LogLevel::ERROR:   return B_RED;
         default:
-          std::unreachable();
+          HyperCPU::unreachable();
       }
     }
 
@@ -51,7 +53,7 @@ namespace HyperCPU {
         case HyperCPU::LogLevel::WARNING: return YELLOW;
         case HyperCPU::LogLevel::ERROR:   return RED;
         default:
-          std::unreachable();
+          HyperCPU::unreachable();
       }
     }
 
@@ -68,8 +70,8 @@ namespace HyperCPU {
       auto bold_col = DefineBoldColor(lvl);
       auto col = DefineColor(lvl);
 
-      std::print("{}[{}]{} {}", bold_col, ch, RESET, col);
-      std::printf("%s%s\n", std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)).c_str(), RESET);
+      print("{}[{}]{} {}", bold_col, ch, RESET, col);
+      print("{}{}\n", std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)), RESET);
     }
   };
 }

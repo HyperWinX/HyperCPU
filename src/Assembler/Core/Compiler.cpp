@@ -9,6 +9,7 @@
 #include <Core/BinaryTransformer.hpp>
 #include <Core/Compiler.hpp>
 #include <Logger/Logger.hpp>
+#include <Emulator/Misc/print.hpp>
 
 #include <pog/pog.h>
 
@@ -165,8 +166,8 @@ HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
   return state;
 }
 
-constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::Operand op) {
-  switch (op.type) {
+constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::OperandType op) {
+  switch (op) {
     case HCAsm::OperandType::mem_reg_add_int:
     case HCAsm::OperandType::memaddr_reg:
     case HCAsm::OperandType::reg:
@@ -395,8 +396,8 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
 [[noreturn]] void HCAsm::ThrowError(pog::TokenWithLineSpec<Value>& err_token, pog::Parser<Value>& parser, std::string err_msg) {
   logger.Log(HyperCPU::LogLevel::ERROR, "error: {}", err_msg);
   auto line = FindLine(err_token.line_spec, parser.get_top_file());
-  std::println("{} | {}", err_token.line_spec.line, line);
-  std::println("{:<{}} | {:<{}}{}",
+  HyperCPU::println("{} | {}", err_token.line_spec.line, line);
+  HyperCPU::println("{:<{}} | {:<{}}{}",
     "", std::to_string(err_token.line_spec.line).length(),
     "", err_token.line_spec.offset,
     std::string(err_token.line_spec.length, '^'));

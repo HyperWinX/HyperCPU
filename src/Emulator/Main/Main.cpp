@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <limits>
 #include <print>
 
 #include <Assembler/Core/Compiler.hpp>
@@ -77,12 +78,12 @@ int main(int argc, char** argv) {
   file.read(buf.get(), binarysize);
 
   auto memory = HyperCPU::ParseMemoryString(program.get<std::string>("-m"));
-  if (!memory.has_value()) {
+  if (memory == std::numeric_limits<decltype(memory)>::max()) {
     HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Failed to parse memory amount argument.");
     std::exit(1);
   }
 
-  HyperCPU::CPU cpu{1, *memory, buf.get(), static_cast<std::uint64_t>(binarysize )};
+  HyperCPU::CPU cpu{1, memory, buf.get(), static_cast<std::uint64_t>(binarysize )};
 
   cpu.SetEntryPoint(header.entry_point);
   cpu.Run();
@@ -95,9 +96,9 @@ HyperCPU::GenericHeader ParseHeader(std::ifstream& file) {
   return header;
 }
 
-std::expected<std::uint64_t, HyperCPU::ParseError> HyperCPU::ParseMemoryString(const std::string& str) {
+std::uint64_t HyperCPU::ParseMemoryString(const std::string& str) {
   if (str.empty()) {
-    return std::unexpected(ParseError::Empty);
+    return std::numeric_limits<std::uint64_t>::max();
   }
 
   std::size_t idx = 0;
@@ -110,7 +111,7 @@ std::expected<std::uint64_t, HyperCPU::ParseError> HyperCPU::ParseMemoryString(c
   }
 
   if (idx == 0) {
-    return std::unexpected(ParseError::Invalid);
+    return std::numeric_limits<std::uint64_t>::max();
   }
 
   std::string_view numeric_part = std::string_view(str).substr(0, idx);
@@ -119,7 +120,7 @@ std::expected<std::uint64_t, HyperCPU::ParseError> HyperCPU::ParseMemoryString(c
   ++idx;
 
   if (idx != str.size()) {
-    return std::unexpected(ParseError::Invalid);
+    return std::numeric_limits<std::uint64_t>::max();
   }
 
   std::uint64_t multiplier;
@@ -137,17 +138,17 @@ std::expected<std::uint64_t, HyperCPU::ParseError> HyperCPU::ParseMemoryString(c
       multiplier = 1024ULL * 1024 * 1024 * 1024;
       break;
     default:
-      return std::unexpected(ParseError::Invalid);
+      return std::numeric_limits<std::uint64_t>::max();
   }
 
   std::uint64_t result;
   auto [ptr, ec] = std::from_chars(numeric_part.data(), numeric_part.end(), result);
   if (ec != std::errc() || ptr != numeric_part.end()) {
-    return std::unexpected(ParseError::Invalid);
+    return std::numeric_limits<std::uint64_t>::max();
   }
 
   if (multiplier != 0 && result > std::numeric_limits<std::uint64_t>::max() / multiplier) {
-    return std::unexpected(ParseError::Invalid);
+    return std::numeric_limits<std::uint64_t>::max();
   }
 
   return result * multiplier;

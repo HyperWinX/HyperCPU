@@ -4,10 +4,12 @@
 #include <cstdint>
 #include <cstdlib>
 
+#include <Misc/print.hpp>
+
 #define mem_ctlr_assert(expr)                       \
   do {                                              \
     if (!(expr) && (!cpu || !cpu->CanExecuteInterrupts())) [[unlikely]] { \
-      std::println("Assertion failed: {}", #expr);  \
+      HyperCPU::println("Assertion failed: {}", #expr);  \
       std::abort();                                 \
     } else if (!(expr) && cpu && cpu->CanExecuteInterrupts()) { \
       cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::SEGF); \

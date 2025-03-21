@@ -10,6 +10,7 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/Assert.hpp>
 #include <Core/CPU/CPU.hpp>
+#include <Misc/unreachable.hpp>
 #include <utility>
 
 
@@ -37,7 +38,7 @@ bool HyperCPU::Decoder::CheckSupportedOperandSize(std::uint8_t byte, Mode mode) 
     case b64:
       return byte & 0b00000011;
     default:
-      std::unreachable();
+      HyperCPU::unreachable();
   }
 }
 

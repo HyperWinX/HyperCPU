@@ -41,5 +41,5 @@ namespace HyperCPU {
     Invalid
   };
 
-  std::expected<std::uint64_t, ParseError> ParseMemoryString(const std::string& str);
+  std::uint64_t ParseMemoryString(const std::string& str);
 }

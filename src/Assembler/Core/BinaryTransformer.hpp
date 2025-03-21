@@ -79,7 +79,7 @@ namespace HCAsm {
       case HCAsm::Mode::b32:  return HyperCPU::Mode::b32;
       case HCAsm::Mode::b64:  return HyperCPU::Mode::b64;
       default:
-        std::unreachable();
+        HyperCPU::unreachable();
     }
   }
 
