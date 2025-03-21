@@ -18,19 +18,19 @@ void HyperCPU::CPU::ExecBSWAP(const IInstruction& instr, void* op1, void* op2) {
 
     case b16: {
       auto& dst = deref<std::uint16_t>(op1);
-      dst = byteswap(dst);
+      dst = HyperCPU::byteswap(dst);
       break;
     }
 
     case b32: {
       auto& dst = deref<std::uint32_t>(op1);
-      dst = byteswap(dst);
+      dst = HyperCPU::byteswap(dst);
       break;
     }
 
     case b64: {
       auto& dst = deref<std::uint64_t>(op1);
-      dst = byteswap(dst);
+      dst = HyperCPU::byteswap(dst);
       break;
     }
   }

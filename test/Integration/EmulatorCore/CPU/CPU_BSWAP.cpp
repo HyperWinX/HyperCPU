@@ -2,18 +2,19 @@
 
 #include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Misc/byteswap.hpp>
 
 #include <fixtures.hpp>
 
 
-static constexpr std::uint8_t BYTE_DATA1 = 0x55;
+static constexpr std::uint8_t BYTE_DATA1 = 0x12;
 static constexpr std::uint8_t BYTE_RESULT = BYTE_DATA1;
-static constexpr std::uint16_t WORD_DATA1 = 0x5555;
-static constexpr std::uint16_t WORD_RESULT = std::byteswap(WORD_DATA1);
-static constexpr std::uint32_t DWORD_DATA1 = 0x55555555;
-static constexpr std::uint32_t DWORD_RESULT = std::byteswap(DWORD_DATA1);
-static constexpr std::uint64_t QWORD_DATA1 = 0x555555555555555;
-static constexpr std::uint64_t QWORD_RESULT = std::byteswap(QWORD_DATA1);
+static constexpr std::uint16_t WORD_DATA1 = 0x1234;
+static std::uint16_t WORD_RESULT = HyperCPU::byteswap(WORD_DATA1);
+static constexpr std::uint32_t DWORD_DATA1 = 0x12345678;
+static std::uint32_t DWORD_RESULT = HyperCPU::byteswap(DWORD_DATA1);
+static constexpr std::uint64_t QWORD_DATA1 = 0x1234567812345678;
+static std::uint64_t QWORD_RESULT = HyperCPU::byteswap(QWORD_DATA1);
 
 TEST_F(CPU_TEST, INSTR_BSWAP_R_b8) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::BSWAP);
