@@ -5,7 +5,6 @@
 
 #include <stdexcept>
 #include <mutex>
-#include <print>
 
 #include <Core/CPU/CPU.hpp>
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>

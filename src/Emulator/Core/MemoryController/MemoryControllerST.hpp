@@ -6,7 +6,6 @@
 #include <cstring>
 
 #include <stdexcept>
-#include <print>
 
 #include <Core/CPU/CPU.hpp>
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
