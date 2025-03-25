@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.28)
+
+include(cmake/Configuration.cmake)
+detect_compilers()
+
 project(HyperCPU CXX C)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
@@ -7,8 +11,6 @@ set(EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(ROOT_DIR ${HyperCPU_SOURCE_DIR})
-
-include(cmake/Configuration.cmake)
 
 set(HCPU_SANITIZERS_ENABLED ON)
 
