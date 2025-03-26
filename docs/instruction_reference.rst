@@ -507,13 +507,15 @@ CMP - Compare
     - NONE
 
 | **Description**:
-| Clears carry flag. Accepts no operands
+| Compares two operands, and sets CRF and ZRF flags.
 
 | **Exceptions**:
 | None.
 
 | **Flags affected**:
-| CRF -> not set.
+| If operand A less than operand B -> ZRF = 0 and CRF = 1.
+| If operand A greater than operand B -> ZRF = 0 and CRF = 0.
+| If operand A is equal to operand B -> ZRF = 1 and CRF = 1.
 
 ==========================
 COVF - Clear Overflow Flag
