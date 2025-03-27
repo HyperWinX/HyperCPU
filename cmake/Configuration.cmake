@@ -9,14 +9,7 @@ function(set_compile_flags debug_enabled)
     add_compile_options(${FAST_COMPILE_FLAGS} -ggdb3)
   else()
     message(FATAL_ERROR "Unknown CMAKE_BUILD_TYPE specified")
-  endif()
-
-  if (debug_enabled)
-    add_compile_options(${DEBUG_COMPILE_FLAGS})
-  else()
-    add_compile_options(${FAST_COMPILE_FLAGS})
-  endif()
-
+  endif() 
 
   get_property(CAN_USE_LLVM_LTO GLOBAL PROPERTY CAN_USE_LLVM_LTO)
 
