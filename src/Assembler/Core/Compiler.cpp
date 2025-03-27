@@ -313,8 +313,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   }
 
   // Resolve references - pass 2
-
-  logger.Log(LogLevel::DEBUG, std::format("{} label references are waiting for resolve", ir.pending_resolves.size()));
+  logger.Log(LogLevel::DEBUG, fmt::format("{} label references are waiting for resolve", ir.pending_resolves.size()));
   if (!ir.pending_resolves.empty()) {
     logger.Log(LogLevel::DEBUG, "Resolving label references");
 
@@ -325,7 +324,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
         args.op->type = OperandType::uint;
         args.op->variant = { ir.labels[*std::get<std::shared_ptr<std::string>>(operand->variant)] };
       } else {
-        ThrowError(args.args[0], parser, std::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(operand->variant)));
+        ThrowError(args.args[0], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(operand->variant)));
       }
     }
   }
@@ -353,7 +352,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
           case Mode::b32: binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant))); break;
           case Mode::b64_label:
             if (!ir.labels.contains(*std::get<std::shared_ptr<std::string>>(raw.value.variant))) {
-              ThrowError(*raw.value.tokens[1], parser, std::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(raw.value.variant)));
+              ThrowError(*raw.value.tokens[1], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(raw.value.variant)));
             }
             binary.push(static_cast<std::uint64_t>(ir.labels.at(*std::get<std::shared_ptr<std::string>>(raw.value.variant))));
             break;

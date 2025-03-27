@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #include <string>
-#include <format>
+#include <fmt/format.h>
 #include <utility>
 
 #include <Logger/Colors.hpp>
@@ -70,7 +70,7 @@ namespace HyperCPU {
       auto col = DefineColor(lvl);
 
       print("{}[{}]{} {}", bold_col, ch, RESET, col);
-      print("{}{}\n", std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)), RESET);
+      print("{}{}\n", fmt::vformat(fmt, fmt::make_format_args(std::forward<Args>(args)...)), RESET);
     }
   };
 }

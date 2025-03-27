@@ -34,10 +34,10 @@ int main(int argc, char** argv) {
 
   auto source = program.get<std::string>("binary");
   if (!std::filesystem::exists(source)) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, std::format("Binary \"{}\" does not exist!", source));
+    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Binary \"{}\" does not exist!", source));
     std::exit(1);
   } else if (!std::filesystem::is_regular_file(source)) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, std::format("Source path \"{}\" is not a regular file!", source));
+    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Source path \"{}\" is not a regular file!", source));
     std::exit(1);
   }
 

@@ -25,7 +25,7 @@ Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     ThrowError(
       args[1], 
       parser, 
-      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
+      fmt::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
   }
 
   return {
@@ -47,12 +47,12 @@ Value HCAsm::ParseOperand3(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     ThrowError(
       args[1], 
       parser, 
-      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
+      fmt::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
   } else if (std::get<std::uint64_t>(args[3].value.val) > 255) [[unlikely]] {
     ThrowError(
       args[3], 
       parser, 
-      std::format("out of bounds integer provided: {} > 255", std::get<std::uint64_t>(args[3].value.val)));
+      fmt::format("out of bounds integer provided: {} > 255", std::get<std::uint64_t>(args[3].value.val)));
   }
 
   return {
@@ -76,12 +76,12 @@ Value HCAsm::ParseOperand4(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     ThrowError(
       args[0], 
       parser, 
-      std::format("unknown data size specified: \"{}\"", Mode));
+      fmt::format("unknown data size specified: \"{}\"", Mode));
   } else if (std::get<std::string>(args[1].value.val) != "ptr") {
     ThrowError(
       args[1], 
       parser, 
-      std::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
+      fmt::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
   }
 
   return {
@@ -104,17 +104,17 @@ Value HCAsm::ParseOperand5(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     ThrowError(
       args[3], 
       parser, 
-      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[3].value.val)));
+      fmt::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[3].value.val)));
   } else if (!mode_assoc.contains(Mode.c_str())) [[unlikely]] {
     ThrowError(
       args[0], 
       parser, 
-      std::format("unknown data size specified: \"{}\"", Mode));
+      fmt::format("unknown data size specified: \"{}\"", Mode));
   } else if (std::get<std::string>(args[1].value.val) != "ptr") [[unlikely]] {
     ThrowError(
       args[1], 
       parser, 
-      std::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
+      fmt::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
   }
 
   return {
@@ -137,22 +137,22 @@ Value HCAsm::ParseOperand6(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     ThrowError(
       args[3], 
       parser, 
-      std::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[3].value.val)));
+      fmt::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[3].value.val)));
   } else if (!mode_assoc.contains(Mode.c_str())) {
     ThrowError(
       args[0], 
       parser, 
-      std::format("unknown data size specified: \"{}\"", Mode));
+      fmt::format("unknown data size specified: \"{}\"", Mode));
   } else if (std::get<std::string>(args[1].value.val) != "ptr") {
     ThrowError(
       args[1], 
       parser, 
-      std::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
+      fmt::format("unknown keyword \"{}\" specified, \"ptr\" expected", std::get<std::string>(args[1].value.val)));
   } else if (std::get<std::uint64_t>(args[5].value.val) > 255) [[unlikely]] {
     ThrowError(
       args[5], 
       parser, 
-      std::format("out of bounds integer provided: {} > 255", std::get<std::uint64_t>(args[5].value.val)));
+      fmt::format("out of bounds integer provided: {} > 255", std::get<std::uint64_t>(args[5].value.val)));
   }
 
   return {
@@ -231,7 +231,7 @@ Value HCAsm::ParseOperand10(pog::Parser<Value>& parser, std::vector<pog::TokenWi
     ThrowError(
       args[0], 
       parser, 
-      std::format("unknown data size specified: \"{}\"", mode));
+      fmt::format("unknown data size specified: \"{}\"", mode));
   }
 
   return {
@@ -253,7 +253,7 @@ Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWi
     ThrowError(
       args[0], 
       parser, 
-      std::format("unknown data size specified: \"{}\"", mode));
+      fmt::format("unknown data size specified: \"{}\"", mode));
   }
   
   return {
@@ -276,7 +276,7 @@ Value HCAsm::ParseOperand12(pog::Parser<Value>& parser, std::vector<pog::TokenWi
     ThrowError(
       args[0], 
       parser, 
-      std::format("unknown data size specified: \"{}\"", mode));
+      fmt::format("unknown data size specified: \"{}\"", mode));
   } else if (!registers_assoc.contains(reg.c_str())) {
     return {
       .val = Operand {

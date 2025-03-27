@@ -3,6 +3,7 @@
 #include <cstddef>
 
 #include <functional>
+#include <optional>
 #include <memory>
 #include <atomic>
 

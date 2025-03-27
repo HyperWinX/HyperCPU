@@ -3,7 +3,7 @@
 
 TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
     std::string str = "this is a string to test parser";
-    std::string data = std::format("\"{}\" \\", str);
+    std::string data = fmt::format("\"{}\" \\", str);
 
     // Token, created only for testing
     parser.token("\\\\")

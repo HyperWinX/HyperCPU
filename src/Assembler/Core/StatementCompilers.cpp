@@ -78,7 +78,7 @@ Value HCAsm::CompileLabel(pog::Parser<Value>& parser, std::vector<pog::TokenWith
     }
 
     if (current_state->labels.contains(name)) {
-      ThrowError(args[0], parser, std::format("redefinition of label", name));
+      ThrowError(args[0], parser, fmt::format("redefinition of label", name));
     }
 
     current_state->ir.push_back(HCAsm::Label{ name, current_index++, false });
@@ -95,7 +95,7 @@ Value HCAsm::CompileEntryLabel(pog::Parser<Value>& parser, std::vector<pog::Toke
   }
 
   if (current_state->labels.contains(name)) {
-    ThrowError(args[0], parser, std::format("redefinition of label", name));
+    ThrowError(args[0], parser, fmt::format("redefinition of label", name));
   }
 
   current_state->ir.push_back(HCAsm::Label{ name, current_index++, true });
