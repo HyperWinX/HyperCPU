@@ -322,7 +322,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
 
       if (ir.labels.contains(*std::get<std::shared_ptr<std::string>>(operand->variant))) {
         args.op->type = OperandType::uint;
-        args.op->variant = { ir.labels[*std::get<std::shared_ptr<std::string>>(operand->variant)] };
+        args.op->variant.emplace<0>(ir.labels[*std::get<std::shared_ptr<std::string>>(operand->variant)]);
       } else {
         ThrowError(args.args[0], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(operand->variant)));
       }
