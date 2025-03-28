@@ -1,4 +1,4 @@
-include_directories(${HyperCPU_SOURCE_DIR}/src ${HyperCPU_SOURCE_DIR}/dist/HBench/src)
+include_directories(${HyperCPU_SOURCE_DIR}/src ${HyperCPU_SOURCE_DIR}/dist/benchmark/include)
 
 set(EXECUTABLE_OUTPUT_PATH .)
 
