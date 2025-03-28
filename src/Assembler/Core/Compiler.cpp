@@ -228,6 +228,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
           result += 10;
           break;
         case OperandType::none: // R
+          result += 1;
           break;
         default:
           std::abort();
