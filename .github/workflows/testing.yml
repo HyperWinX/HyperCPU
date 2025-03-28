@@ -55,6 +55,7 @@ jobs:
           cmake --build build --target build-all-tests-github -j4
           ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
           ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
+          rm -rf build
 
       - name: Build and test with LLVM on Release profile
         run: |
@@ -62,6 +63,7 @@ jobs:
           cmake --build build --target build-all-tests-github -j4
           ../gtest-parallel/gtest-parallel build/modular_testing --workers=4
           ../gtest-parallel/gtest-parallel build/integration_testing --workers=4
+          rm -rf build
 
   versioning-patch-increment:
     runs-on: self-hosted
