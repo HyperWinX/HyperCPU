@@ -12,7 +12,7 @@
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
      <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
           alt="GitHub opened issues"></a>
-     <img src="https://img.shields.io/badge/version-0.3.14-red"
+     <img src="https://img.shields.io/badge/version-0.3.15-red"
           alt="Version">
      <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
           alt="CI status">
@@ -59,20 +59,28 @@ The project roadmap can be found [here](ROADMAP.md).
 ```bash
 $ git clone https://github.com/HyperWinX/HyperCPU --recursive
 $ cd HyperCPU
-$ cmake -S . -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release
-$ ninja -C build default -j$(nproc)
-$ cd docs
-$ make html
+$ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+$ make -C build default -j$(nproc)
 ```
 
 `cmake` build options (use `-D` flag to define them):
 
-* `CMAKE_BUILD_TYPE:STRING` - project build profile (`Release` or `Debug`), mandatory to be specified;
-* `HCPU_SANITIZERS_ENABLED:BOOL` - HyperCPU sanitizers, enabled by default (use `-DHCPU_SANITIZERS_ENABLED:BOOL=OFF` to disable).
+* `CMAKE_BUILD_TYPE:STRING` - project build profile (`Release`, `RelWithDebInfo` or `Debug`), mandatory to be specified;
 
 The compiled binaries should be located in `build` directory. The generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
 
 Do not forget to check out [examples](examples) folder for interesting code examples that will help you better understand the syntax of hASM and the power of HyperCPU.
+
+#### Advanced building
+HyperCPU build system supports multiple flags to customize the building process. For example:
+
+* `HCPU_COMPILER:STRING` - allows to select compiler. Possible modes:
+    * `auto` - don't do anything. Use CMake autodetection or passed compiler paths.
+    * `clang` - searches for `clang` and `clang++` binaries. Supports hinting, so, for example, if `clang` binary is called `clang-19`, you can pass: `-DHCPU_COMPILER=clang -DCMAKE_C_COMPILER=clang-19`.
+    * `gcc` - searches for gcc and g++ binaries. Be careful, in some environments Clang can do gcc -> clang symlinks. You can hint the binary name the same was as with clang mode: `-DHCPU_COMPILER=gcc -DCMAKE_C_COMPILER=gcc-14`.
+* `HCPU_LTO:BOOL` - enable building with LTO. If Clang is used, searches for LLD. If LLD is found, LTO will be enabled, otherwise LTO will be unavailable. In case of GCC there are no dependencies.
+* `HCPU_MARCH_NATIVE:BOOL` - use -march=native flag.
+* `HCPU_SANITIZERS:BOOL` - set to OFF if you want to disable ASan and LSan, otherwise it will be enabled.
 
 ### Usage
 
