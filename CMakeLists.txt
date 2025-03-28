@@ -11,6 +11,7 @@ set(EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(ROOT_DIR ${HyperCPU_SOURCE_DIR})
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF) # Disable gtest requirement for google/benchmark
 
 set_compile_flags()
 

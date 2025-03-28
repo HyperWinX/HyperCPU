@@ -7,7 +7,7 @@ set(GENERIC_INCLUDE_DIR
 
 add_library(emulator-core STATIC ${SOURCES_emulator-core})
 target_include_directories(emulator-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/Emulator)
-target_link_libraries(emulator-core ${LD_FLAGS})
+target_link_libraries(emulator-core ${LD_FLAGS} fmt)
 
 add_library(assembler-core STATIC ${SOURCES_assembler-core})
 target_include_directories(assembler-core PUBLIC ${GENERIC_INCLUDE_DIR} ${HyperCPU_SOURCE_DIR}/src/Assembler)
