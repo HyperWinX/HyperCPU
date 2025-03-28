@@ -1,6 +1,6 @@
 include(cmake/Variables.cmake)
 
-function(set_compile_flags debug_enabled)
+function(set_compile_flags)
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     add_compile_options(${FAST_COMPILE_FLAGS})
   elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -13,7 +13,6 @@ function(set_compile_flags debug_enabled)
 
   get_property(CAN_USE_LLVM_LTO GLOBAL PROPERTY CAN_USE_LLVM_LTO)
 
-  message(STATUS "${CMAKE_CXX_COMPILER_ID}")
   if ("${HCPU_LTO}" STREQUAL "ON" AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(-flto)
     add_link_options(-flto)

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.25)
 include(cmake/Configuration.cmake)
 detect_compilers()
 
-project(HyperCPU CXX C)
+project(HyperCPU CXX)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -12,25 +12,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(ROOT_DIR ${HyperCPU_SOURCE_DIR})
 
-set(HCPU_SANITIZERS_ENABLED ON)
+set_compile_flags()
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
-  message(STATUS "Configuring build with debug info")
-  set_compile_flags(ON)
-else()
-  message(STATUS "Configuring release build")
-  set_compile_flags(OFF)
-endif()
-
-if (${HCPU_SANITIZERS_ENABLED})
-  message(STATUS "Enabling sanitizers")
-  set(LD_FLAGS "${LD_FLAGS} -fsanitize=undefined,address,leak")
-else()
-  message(STATUS "Not enabling sanitizers")
-endif()
-
-string(STRIP ${LD_FLAGS} LD_FLAGS)
 
 message(STATUS "Generating source files list")
 include(cmake/SourceListGenerator.cmake)
