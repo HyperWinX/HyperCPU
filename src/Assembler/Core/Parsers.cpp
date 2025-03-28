@@ -21,22 +21,6 @@ Value HCAsm::ParseOperand1(pog::Parser<Value>& parser, std::vector<pog::TokenWit
 Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto reg = std::get<std::string>(args[1].value.val);
 
-<<<<<<< HEAD
-  if (!registers_assoc.contains(reg.c_str())) [[unlikely]] {
-    ThrowError(
-      args[1], 
-      parser, 
-      fmt::format("expected register, got unknown identifier \"{}\"", std::get<std::string>(args[1].value.val)));
-  }
-
-  return {
-    .val = Operand {
-      .type = HCAsm::OperandType::memaddr_reg,
-      .reg = registers_assoc.at(reg.c_str()),
-      .mode = HCAsm::Mode::none,
-      .tokens = { 
-        parser.get_compiler_state()->pool.allocate(std::move(args[1]))
-=======
   if (registers_assoc.contains(reg.c_str())) {
     return {
       .val = Operand {
@@ -46,7 +30,6 @@ Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWit
         .tokens = { 
           parser.get_compiler_state()->pool.allocate(std::move(args[1]))
         }
->>>>>>> 862deea (Start implementing CMP instruction)
       }
     };
   } else {

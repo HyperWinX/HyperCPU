@@ -5,7 +5,7 @@
 
 
 void HyperCPU::CPU::ExecCMP(const IInstruction& instr, void* op1, void* op2) {
-  std::int8_t res;
+  std::int8_t res = 0;
   switch (instr.m_op_types) {
     case R_R: {
       switch (instr.m_opcode_mode) {
