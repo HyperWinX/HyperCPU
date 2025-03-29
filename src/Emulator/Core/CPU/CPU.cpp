@@ -1,3 +1,4 @@
+#include "Logger/Logger.hpp"
 #include <functional>
 
 #include <Core/MemoryController/MemoryControllerMT.hpp>
@@ -10,6 +11,7 @@ HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, s
   mem_controller(core_count == 1 ?
     dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this)) : 
     dynamic_cast<IMemoryController*>(new MemoryControllerMT(mem_size, this))),
+  logger(LogLevel::ERROR),
   core_count(core_count),
   total_mem(mem_size),
   halted(false),

@@ -184,9 +184,38 @@ void _bench_mc_mtfetch64() {
     mc_mt.Fetch32(counter);
 }
 
-BENCHMARK_F(MC_ST, LOAD8)([[maybe_unused]] benchmark::State& state) {
+void mc_st_load8([[maybe_unused]] benchmark::State& state) {
   std::size_t counter = 0;
   HyperCPU::MemoryControllerST mc_st{ITERATIONS};
-  for (std::size_t i = 0; i < ITERATIONS; ++i, ++counter)
+  while (state.KeepRunning()) {
     mc_st.Load8(counter, 0x55);
+  }
 }
+
+void mc_st_load16([[maybe_unused]] benchmark::State& state) {
+  std::size_t counter = 0;
+  HyperCPU::MemoryControllerST mc_st{ITERATIONS};
+  while (state.KeepRunning()) {
+    mc_st.Load16(counter, 0x55);
+  }
+}
+
+void mc_st_load32([[maybe_unused]] benchmark::State& state) {
+  std::size_t counter = 0;
+  HyperCPU::MemoryControllerST mc_st{ITERATIONS};
+  while (state.KeepRunning()) {
+    mc_st.Load32(counter, 0x55);
+  }
+}
+
+void mc_st_load64([[maybe_unused]] benchmark::State& state) {
+  std::size_t counter = 0;                                          HyperCPU::MemoryControllerST mc_st{ITERATIONS};
+  while (state.KeepRunning()) {
+    mc_st.Load64(counter, 0x55);
+  }
+}
+
+BENCHMARK(mc_st_load8)->Iterations(ITERATIONS);
+BENCHMARK(mc_st_load16)->Iterations(ITERATIONS / 2);
+BENCHMARK(mc_st_load32)->Iterations(ITERATIONS / 4);
+BENCHMARK(mc_st_load64)->Iterations(ITERATIONS / 8);
