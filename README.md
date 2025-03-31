@@ -142,6 +142,14 @@ To display program version and exit:
 $ ./hcemul --version
 ```
 
+### Build status
+## Supported Distributions
+
+| Distribution    | Build Status | Details |
+|-----------------|--------------|---------|
+| Fedora          | [![Fedora Build Status](https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/distro-ci.yml?label=Fedora&jobName=Fedora-Build)](https://github.com/HyperWinX/HyperCPU/actions/workflows/distro-ci.yml) | [View Logs](https://github.com/HyperWinX/HyperCPU/actions/workflows/distro-ci.yml?query=job%3A%22Fedora-Build) |
+| Debian Stable   | [![Debian Stable Build Status](https://img.shields.io/github/actions/workflow/status/<your-username>/<your-repo>/ci.yml?label=Debian%20Stable&jobName=Debian%20Stable%20Build)](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml) | [View Logs](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml?query=job%3A%22Debian+Stable+Build%22) |
+
 ### Contributing
 
 HyperCPU is in active development and we will be happy to hear any feedback from you. Do not hesitate to report bugs or suggest any ideas using "Issues" page.

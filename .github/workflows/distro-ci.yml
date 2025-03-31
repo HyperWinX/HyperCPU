@@ -5,6 +5,8 @@ on: [push]
 jobs:
   fedora:
     runs-on: self-hosted
+    continue-on-error: true
+    name: Fedora-Build
 
     steps:
       - uses: addnab/docker-run-action@v3
@@ -18,5 +20,27 @@ jobs:
             cmake --build build --target default -j4
             rm -rf build
             cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --target run-all-tests-github -j4
+            cmake --build build --target default -j4
+
+  debian-stable:
+    runs-on: self-hosted
+    continue-on-error: true
+    name: Debian-Stable-Build
+
+    steps:
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: hcpu-ci:debian-stable
+          shell: bash
+          run: |
+            git clone https://github.com/HyperWinX/HyperCPU.git --recursive --depth=1 && cd HyperCPU
+            cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON
+-DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --target run-all-tests-github -j4
+            cmake --build build --target default -j4
+            rm -rf build
+            cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -D
+HCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
             cmake --build build --target run-all-tests-github -j4
             cmake --build build --target default -j4
