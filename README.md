@@ -12,7 +12,7 @@
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
      <img src="https://img.shields.io/github/issues/HyperWinX/HyperCPU"
           alt="GitHub opened issues"></a>
-     <img src="https://img.shields.io/badge/version-0.4.1-red"
+     <img src="https://img.shields.io/badge/version-0.4.2-red"
           alt="Version">
      <img src="https://img.shields.io/github/actions/workflow/status/HyperWinX/HyperCPU/testing.yml?branch=dev"
           alt="CI status">
@@ -45,8 +45,8 @@ The project roadmap can be found [here](ROADMAP.md).
 
 #### Dependencies
 
-* `gcc >= 14` or `clang >= 19`;
-* `cmake >= 3.28`;
+* `gcc >= 12` or `clang >= 14`;
+* `cmake >= 3.25`;
 * `make`;
 * `ninja`;
 * `re2`;
