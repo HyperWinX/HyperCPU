@@ -6,7 +6,6 @@ jobs:
   fedora:
     runs-on: self-hosted
     continue-on-error: true
-    name: Fedora-Build
 
     steps:
       - uses: addnab/docker-run-action@v3
@@ -22,11 +21,11 @@ jobs:
             cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
             cmake --build build --target run-all-tests-github -j4
             cmake --build build --target default -j4
+    name: Fedora-Build
 
   debian-stable:
     runs-on: self-hosted
     continue-on-error: true
-    name: Debian-Stable-Build
 
     steps:
       - uses: addnab/docker-run-action@v3
@@ -44,3 +43,4 @@ jobs:
 HCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
             cmake --build build --target run-all-tests-github -j4
             cmake --build build --target default -j4
+    name: Debian-Stable-Build
