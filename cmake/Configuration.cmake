@@ -40,9 +40,16 @@ function(set_compile_flags)
 endfunction()
 
 function(detect_compilers)
+  find_program(WHICH_AVAILABLE "which")
+  if ("${WHICH_AVAILABLE}" STREQUAL WHICH_AVAILABLE-NOT_FOUND)
+    message(WARNING "which binary is not found - using CMake compiler autodetection")
+    set(HCPU_COMPILER auto)
+  endif()
+
   string(TOLOWER "${HCPU_COMPILER}" HCPU_COMPILER)
   string(TOLOWER "${HCPU_LTO}" HCPU_LTO)
   string(SUBSTRING "${CMAKE_C_COMPILER}" 0 1 IS_ABS)
+
   if ("${HCPU_COMPILER}" STREQUAL "auto" OR "${HCPU_COMPILER}" STREQUAL "")
     message(STATUS "Using CMake compiler autodetection")
   elseif ("${HCPU_COMPILER}" STREQUAL "clang")
