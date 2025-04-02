@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Logger/Logger.hpp"
 #include <cstddef>
 
 #include <functional>
@@ -34,6 +35,7 @@ namespace HyperCPU {
     std::unique_ptr<Decoder> m_decoder;
 
     // Data
+    HyperCPU::Logger logger;
     std::size_t core_count;
     std::size_t total_mem;
     bool halted;

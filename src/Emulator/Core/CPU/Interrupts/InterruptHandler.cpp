@@ -8,7 +8,7 @@
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
   if (!ivt_initialized || pending_interrupt.has_value()) {
-    HCAsm::logger.Log(LogLevel::ERROR, "Interrupt was triggered, but failed to execute handler! XIP: {}", *xip);
+    logger.Log(LogLevel::ERROR, "Interrupt was triggered, but failed to execute handler! XIP: {}", *xip);
     std::abort();
   }
   

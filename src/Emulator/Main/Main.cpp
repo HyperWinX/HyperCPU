@@ -14,6 +14,7 @@
 HyperCPU::GenericHeader ParseHeader(std::ifstream& binary);
 
 int main(int argc, char** argv) {
+  HyperCPU::Logger logger{HyperCPU::LogLevel::ERROR};
   argparse::ArgumentParser program("hcemul", HCPU_VERSION);
   program.add_argument("binary")
     .help("binary file to execute")
@@ -34,10 +35,10 @@ int main(int argc, char** argv) {
 
   auto source = program.get<std::string>("binary");
   if (!std::filesystem::exists(source)) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Binary \"{}\" does not exist!", source));
+    logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Binary \"{}\" does not exist!", source));
     std::exit(1);
   } else if (!std::filesystem::is_regular_file(source)) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Source path \"{}\" is not a regular file!", source));
+    logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Source path \"{}\" is not a regular file!", source));
     std::exit(1);
   }
 
@@ -49,7 +50,7 @@ int main(int argc, char** argv) {
   
   // Validate header contents
   if (header.magic != HyperCPU::magic) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Invalid magic!");
+    logger.Log(HyperCPU::LogLevel::ERROR, "Invalid magic!");
     std::exit(1);
   }
 
@@ -58,7 +59,7 @@ int main(int argc, char** argv) {
     case HyperCPU::Version::Release1_0:
       break;
     default:
-      HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Invalid release field!");
+      logger.Log(HyperCPU::LogLevel::ERROR, "Invalid release field!");
       std::exit(1);
   }
 
@@ -66,10 +67,10 @@ int main(int argc, char** argv) {
     case HyperCPU::FileType::Binary:
       break;
     case HyperCPU::FileType::Object:
-      HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Executing object files is not supported, please link it first!");
+      logger.Log(HyperCPU::LogLevel::ERROR, "Executing object files is not supported, please link it first!");
       std::exit(1);
     default:
-      HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Invalid type field!");
+      logger.Log(HyperCPU::LogLevel::ERROR, "Invalid type field!");
       std::exit(1);
   }
 
@@ -78,7 +79,7 @@ int main(int argc, char** argv) {
 
   auto memory = HyperCPU::ParseMemoryString(program.get<std::string>("-m"));
   if (memory == std::numeric_limits<decltype(memory)>::max()) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Failed to parse memory amount argument.");
+    logger.Log(HyperCPU::LogLevel::ERROR, "Failed to parse memory amount argument.");
     std::exit(1);
   }
 

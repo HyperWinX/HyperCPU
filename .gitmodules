@@ -16,3 +16,6 @@
 [submodule "dist/HPool"]
 	path = dist/HPool
 	url = https://github.com/randommfs/HPool
+[submodule "dist/benchmark"]
+	path = dist/benchmark
+	url = https://github.com/google/benchmark
