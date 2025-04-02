@@ -106,6 +106,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   parser.rule("statement")
     /* Reserved statements */
     .production(".b8", "operand", ";", CompileRawValueb8)
+    .production(".b8", "string", ";", CompileRawValueb8_str)
     .production(".b16", "operand", ";", CompileRawValueb16)
     .production(".b32", "operand", ";", CompileRawValueb32)
     .production(".b64", "operand", ";", CompileRawValueb64)
@@ -185,6 +186,24 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::OperandTy
   }
 }
 
+std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(const Operand& op) {
+  switch (op.mode) {
+    case Mode::b8_str:
+      return std::get<std::shared_ptr<std::string>>(op.variant)->size();
+    case Mode::b8:
+      return 1;
+    case Mode::b16:
+      return 2;
+    case Mode::b32:
+      return 4;
+    case Mode::b64_label:
+    case Mode::b64:
+      return 8;
+    default:
+      std::abort();
+  }
+}
+
 std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
   switch (md) {
     case Mode::b8:
@@ -221,7 +240,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
         case OperandType::sint:
           [[fallthrough]];
         case OperandType::uint: // R_IMM
-          result += 1 + ModeToSize(instr.op1.mode);
+          result += 1 + ModeToSize(instr.op1);
           break;
         case OperandType::label:
           [[fallthrough]];
@@ -249,7 +268,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
         case OperandType::sint:
           [[fallthrough]];
         case OperandType::uint: // RM_IMM
-          result += 1 + ModeToSize(instr.op1.mode);
+          result += 1 + ModeToSize(instr.op1);
           break;
         case OperandType::label:
           [[fallthrough]];
@@ -271,7 +290,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
           ThrowError(*(instr.op1.tokens[0]), parser, "unknown operand size");
           break;
         default:
-          result += ModeToSize(instr.op1.mode);
+          result += ModeToSize(instr.op1);
           break;
       }
       break;
@@ -312,8 +331,24 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
           ir.entry_point = ir.code_size;
         }
       },
-      [this, &ir](RawValue& raw) mutable -> void {
-        ir.code_size += ModeToSize(raw.mode);
+      [&ir](RawValue& raw) mutable -> void {
+        ir.code_size += [&raw]() -> std::uint8_t {
+          switch (raw.mode) {
+            case Mode::b8_str:
+              return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
+            case Mode::b8:
+              return 1;
+            case Mode::b16:
+              return 2;
+            case Mode::b32:
+              return 4;
+            case Mode::b64_label:
+            case Mode::b64:
+              return 8;
+            default:
+              std::abort();
+          }
+        }();
       });
   }
 
@@ -323,13 +358,14 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
     logger.Log(LogLevel::DEBUG, "Resolving label references");
 
     for (auto& args : ir.pending_resolves) {
-      auto operand = args.op;
+      auto& instr = ir.ir[args.idx];
+      auto* op = args.op ? &std::get<Instruction>(instr).op2 : &std::get<Instruction>(instr).op1; 
 
-      if (ir.labels.contains(*std::get<std::shared_ptr<std::string>>(operand->variant))) {
-        args.op->type = OperandType::uint;
-        args.op->variant.emplace<0>(ir.labels[*std::get<std::shared_ptr<std::string>>(operand->variant)]);
+      if (ir.labels.contains(*std::get<std::shared_ptr<std::string>>(op->variant))) {
+        op->type = OperandType::uint;
+        op->variant.emplace<0>(ir.labels[*std::get<std::shared_ptr<std::string>>(op->variant)]);
       } else {
-        ThrowError(args.args[0], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(operand->variant)));
+        ThrowError(*op->tokens[0], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(op->variant)));
       }
     }
   }
@@ -352,16 +388,27 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
       },
       [&binary, &ir, this](RawValue& raw) mutable -> void {
         switch (raw.mode) {
-          case Mode::b8:  binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant))); break;
-          case Mode::b16: binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant))); break;
-          case Mode::b32: binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant))); break;
+          case Mode::b8_str:
+            binary.push(*std::get<std::shared_ptr<std::string>>(raw.value.variant)); 
+            break;
+          case Mode::b8:  
+            binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant))); 
+            break;
+          case Mode::b16: 
+            binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant))); 
+            break;
+          case Mode::b32: 
+            binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant))); 
+            break;
           case Mode::b64_label:
             if (!ir.labels.contains(*std::get<std::shared_ptr<std::string>>(raw.value.variant))) {
               ThrowError(*raw.value.tokens[1], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(raw.value.variant)));
             }
             binary.push(static_cast<std::uint64_t>(ir.labels.at(*std::get<std::shared_ptr<std::string>>(raw.value.variant))));
             break;
-          case Mode::b64: binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant))); break;
+          case Mode::b64: 
+            binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant)));
+            break;
           default: std::abort();
         }
       },

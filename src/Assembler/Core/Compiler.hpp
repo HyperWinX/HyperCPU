@@ -36,6 +36,7 @@ namespace HCAsm {
     memaddr_int,
     memaddr_lbl,
     label,
+    str_lit,
     none
   };
 
@@ -45,6 +46,7 @@ namespace HCAsm {
     b32 = 0b10,
     b64 = 0b11,
     b64_label,
+    b8_str,
     none
   };
 
@@ -57,7 +59,6 @@ namespace HCAsm {
     bool needs_resolve;
     std::array<hpool::Ptr<pog::TokenWithLineSpec<Value>, hpool::ReallocationPolicy::OffsetRealloc>, 2> tokens;
     std::variant<std::uint64_t, std::int64_t, std::shared_ptr<std::string>> variant;
-
   };
 
   struct Instruction {
@@ -96,6 +97,11 @@ namespace HCAsm {
       std::memcpy(binary + ptr, &data, sizeof(data));
       ptr += sizeof(data);
     }
+    
+    inline void push(const std::string& data) {
+      std::memcpy(binary + ptr, data.data(), data.length());
+      ptr += data.length();
+    }
 
     ~BinaryResult() {
       delete[] binary;
@@ -103,8 +109,8 @@ namespace HCAsm {
   };
 
   struct PendingLabelReferenceResolve {
-    Operand* op;
-    std::vector<pog::TokenWithLineSpec<Value>> args;
+    std::uint32_t idx;
+    std::uint8_t op;
   };
 
   // Some magic for std::visit
@@ -218,6 +224,7 @@ namespace HCAsm {
   Value CompileStatement3(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileEntryLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileLabel(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
+  Value CompileRawValueb8_str(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileRawValueb8(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileRawValueb16(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
   Value CompileRawValueb32(pog::Parser<Value>&, std::vector<pog::TokenWithLineSpec<Value>>&& args);
@@ -243,6 +250,7 @@ namespace HCAsm {
 
     constexpr inline std::uint8_t OperandSize(const OperandType op);
     std::uint8_t InstructionSize(Instruction& instr);
+    std::uint8_t ModeToSize(const Operand& op);
     std::uint8_t ModeToSize(Mode md);
   };
   

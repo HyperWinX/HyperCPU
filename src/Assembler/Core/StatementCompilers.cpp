@@ -21,6 +21,18 @@ Value HCAsm::CompileStatement1([[maybe_unused]] pog::Parser<Value>& parser, std:
         std::get<Operand>(args[3].value.val)
     });
 
+    if (std::get<Operand>(args[1].value.val).type == OperandType::label) {
+      parser.get_compiler_state()->pending_resolves.push_back(PendingLabelReferenceResolve {
+        .idx = static_cast<uint32_t>(current_state->ir.size() - 1),
+        .op = 0
+      });
+    } else if (std::get<Operand>(args[1].value.val).type == OperandType::label) {
+      parser.get_compiler_state()->pending_resolves.push_back(PendingLabelReferenceResolve {
+        .idx = static_cast<uint32_t>(current_state->ir.size() - 1),
+        .op = 1
+      });
+    }
+
     return {};
 }
 
@@ -34,20 +46,19 @@ Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::Toke
     ++current_index;
 
     auto& tmp_op = std::get<Operand>(args[1].value.val);
-    if (tmp_op.type == OperandType::label) {
-      auto& tmp_str = std::get<std::shared_ptr<std::string>>(tmp_op.variant);
-      if (parser.get_compiler_state()->labels.contains(*tmp_str)) {
-        tmp_op.variant = parser.get_compiler_state()->labels[*tmp_str];
-        tmp_op.mode = Mode::b64;
-        tmp_op.type = OperandType::uint;
-      }
-    }
 
     current_state->ir.push_back(Instruction {
         opcode_assoc.at(instr_name.c_str()),
         tmp_op,
         { HCAsm::OperandType::none }
     });
+
+    if (tmp_op.type == OperandType::label) {
+      parser.get_compiler_state()->pending_resolves.push_back(PendingLabelReferenceResolve {
+        .idx = static_cast<uint32_t>(current_state->ir.size() - 1),
+        .op = 0
+      });
+    }
 
     return {};
 }
@@ -108,6 +119,21 @@ Value HCAsm::CompileRawValueb8(pog::Parser<Value>& parser, std::vector<pog::Toke
     ThrowError(*std::get<Operand>(args[1].value.val).tokens[0], parser, "invalid operand type for directive '.b8', expected uint");
   }
   current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, std::get<Operand>(args[1].value.val)});
+  return {};
+}
+
+Value HCAsm::CompileRawValueb8_str([[maybe_unused]] pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
+  if (!std::holds_alternative<std::string>(args[1].value.val)) {
+    ThrowError(*std::get<Operand>(args[1].value.val).tokens[0], parser, "invalid operand type for directive '.b8' expected uint or string");
+  }
+
+  current_state->ir.push_back(HCAsm::RawValue {
+    Mode::b8_str,
+    Operand {
+      .variant = std::make_shared<std::string>(std::move(std::get<std::string>(args[1].value.val)))
+    }
+  });
+  
   return {};
 }
 
