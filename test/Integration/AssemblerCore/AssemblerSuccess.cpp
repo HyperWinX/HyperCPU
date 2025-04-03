@@ -937,8 +937,8 @@ TEST_F(ASSEMBLER, ASM_COMPILE) {
 }
 
 TEST_F(ASSEMBLER, ASM_b8_str_DIRECTIVE) {
-  std::string data = ".b8 \"test!\\n\\r\\\\\";";
-  auto str = "test!\n\r\\";
+  std::string data = ".b8 \"test!\\\"\\n\\r\\\\\";";
+  auto str = "test!\"\n\r\\";
   std::uint32_t code_size;
 
   auto binary = compiler.Compile(data, code_size);

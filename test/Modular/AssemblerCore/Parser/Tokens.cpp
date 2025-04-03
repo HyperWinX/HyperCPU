@@ -2,7 +2,7 @@
 #include <fixtures.hpp>
 
 TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
-    std::string str = "this is a string to test parser\\n\\r\\\\";
+    std::string str = "this is a string to test parser\\n\\r\\\"\\\'\\a\\\\";
     std::string data = fmt::format("\"{}\" \\", str);
 
     // Token, created only for testing
@@ -17,7 +17,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
     
     parser.prepare();
     
-    EXPECT_EQ(std::get<std::string>(parser.parse(data).value().val), "this is a string to test parser\n\r\\");
+    EXPECT_EQ(std::get<std::string>(parser.parse(data).value().val), "this is a string to test parser\n\r\"\'a\\");
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_SINT) {
