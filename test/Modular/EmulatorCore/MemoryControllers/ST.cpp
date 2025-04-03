@@ -11,6 +11,12 @@ static constexpr std::uint16_t WORD = 0x5555;
 static constexpr std::uint32_t DWORD = 0x55555555;
 static constexpr std::uint64_t QWORD = 0x5555555555555555;
 
+#ifdef __HCPU_DEBUG
+# define HCPU_ASSERT_EXIT(statement, x, regex) HCPU_HCPU_ASSERT_EXIT(statement, x, regex)
+#else
+# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
+#endif
+
 TEST_F(MC_ST_TEST, LOAD8) {
   for (std::size_t i = 0; i < MEM_FIXTURE_MEM_SIZE; ++i, ++counter)
     mcmt.Load8(counter, BYTE);
@@ -94,133 +100,133 @@ TEST_F(MC_ST_TEST, READ64) {
 }
 
 TEST_F(MC_ST_FAILTEST, LOAD8) {
-  ASSERT_EXIT(mcmt.Load8(counter, BYTE), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Load8(counter, BYTE), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, LOAD16) {
-  ASSERT_EXIT(mcmt.Load16(counter, WORD), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Load16(counter, WORD), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, LOAD32) {
-  ASSERT_EXIT(mcmt.Load32(counter, DWORD), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Load32(counter, DWORD), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, LOAD64) {
-  ASSERT_EXIT(mcmt.Load64(counter, QWORD), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Load64(counter, QWORD), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, FETCH8) {
-  ASSERT_EXIT(mcmt.Fetch8(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Fetch8(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, FETCH16) {
-  ASSERT_EXIT(mcmt.Fetch16(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Fetch16(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, FETCH32) {
-  ASSERT_EXIT(mcmt.Fetch32(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Fetch32(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, FETCH64) {
-  ASSERT_EXIT(mcmt.Fetch64(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Fetch64(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, READ8) {
-  ASSERT_EXIT(mcmt.Read8(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Read8(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, READ16) {
-  ASSERT_EXIT(mcmt.Read16(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Read16(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, READ32) {
-  ASSERT_EXIT(mcmt.Read32(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Read32(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_FAILTEST, READ64) {
-  ASSERT_EXIT(mcmt.Read64(counter), ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT(mcmt.Read64(counter), ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, LOAD8) {
   counter = 1023;
-  ASSERT_EXIT({mcmt.Load8(counter, BYTE); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Load8(counter, BYTE); exit(0); }, ::testing::ExitedWithCode(0), "");
   ++counter;
-  ASSERT_EXIT({mcmt.Load8(counter, BYTE); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Load8(counter, BYTE); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, LOAD16) {
   counter = 1022;
-  ASSERT_EXIT({mcmt.Load16(counter, WORD); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Load16(counter, WORD); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1023;
-  ASSERT_EXIT({mcmt.Load16(counter, WORD); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Load16(counter, WORD); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, LOAD32) {
   counter = 1020;
-  ASSERT_EXIT({mcmt.Load32(counter, DWORD); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Load32(counter, DWORD); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1021;
-  ASSERT_EXIT({mcmt.Load32(counter, DWORD); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Load32(counter, DWORD); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, LOAD64) {
   counter = 1016;
-  ASSERT_EXIT({mcmt.Load64(counter, QWORD); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Load64(counter, QWORD); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1017;
-  ASSERT_EXIT({mcmt.Load64(counter, QWORD); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Load64(counter, QWORD); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, FETCH8) {
   counter = 1023;
-  ASSERT_EXIT({mcmt.Fetch8(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch8(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1024;
-  ASSERT_EXIT({mcmt.Fetch8(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch8(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, FETCH16) {
   counter = 1022;
-  ASSERT_EXIT({mcmt.Fetch16(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch16(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1023;
-  ASSERT_EXIT({mcmt.Fetch16(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch16(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, FETCH32) {
   counter = 1020;
-  ASSERT_EXIT({mcmt.Fetch32(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch32(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1021;
-  ASSERT_EXIT({mcmt.Fetch32(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch32(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, FETCH64) {
   counter = 1016;
-  ASSERT_EXIT({mcmt.Fetch64(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch64(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1017;
-  ASSERT_EXIT({mcmt.Fetch64(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Fetch64(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, READ8) {
   counter = 1023;
-  ASSERT_EXIT({mcmt.Read8(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Read8(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1024;
-  ASSERT_EXIT({mcmt.Read8(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Read8(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, READ16) {
   counter = 1022;
-  ASSERT_EXIT({mcmt.Read16(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Read16(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1023;
-  ASSERT_EXIT({mcmt.Read16(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Read16(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, READ32) {
   counter = 1020;
-  ASSERT_EXIT({mcmt.Read32(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Read32(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1021;
-  ASSERT_EXIT({mcmt.Read32(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Read32(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }
 
 TEST_F(MC_ST_NEARFAILTEST, READ64) {
   counter = 1016;
-  ASSERT_EXIT({mcmt.Read64(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
+  HCPU_ASSERT_EXIT({mcmt.Read64(counter); exit(0); }, ::testing::ExitedWithCode(0), "");
   counter = 1017;
-  ASSERT_EXIT({mcmt.Read64(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
+  HCPU_ASSERT_EXIT({mcmt.Read64(counter); exit(0); }, ::testing::KilledBySignal(SIGABRT), "");
 }

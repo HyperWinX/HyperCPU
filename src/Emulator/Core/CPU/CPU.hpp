@@ -14,7 +14,6 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/IO/Simple.hpp>
 
-
 #define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, void* op1, void* op2)
 
 namespace HyperCPU {
@@ -34,7 +33,7 @@ namespace HyperCPU {
     std::unique_ptr<Decoder> m_decoder;
 
     // Data
-    HyperCPU::Logger logger;
+    const HyperCPU::Logger& logger;
     std::size_t core_count;
     std::size_t total_mem;
     bool halted;
@@ -126,12 +125,13 @@ namespace HyperCPU {
     std::unique_ptr<SimpleIOImpl> io_ctl;
     
   public:
-    explicit CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
+    CPU(std::size_t core_count, std::size_t mem_size, const HyperCPU::Logger& logger, char* binary = nullptr, std::uint64_t binary_size = 0);
 
     void Run();
 
     bool CanExecuteInterrupts();
     void SetEntryPoint(std::uint32_t entry_point);
+    const HyperCPU::Logger& GetLogger() const noexcept;
     
     ~CPU();
   };
