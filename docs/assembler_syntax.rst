@@ -96,6 +96,34 @@ Directives
     halt;
 
 | But you can do that only with b64 values, not less.
+| Also, .b8 directive supports strings. Assembler does not zero-terminate strings by default!
+
+.. code-block::
+  
+  .b8 "test string!\0";
+
+| Here we declared zero-terminated string. Assembler supports most escape sequences, like:
+
+.. list-table:: Escape sequnces
+  :widths: 30 5
+  :header-rows: 1
+
+  * - Name
+    - Sequence
+  * - Zero terminator
+    - ``\0``
+  * - Newline character
+    - ``\n``
+  * - Carriage return
+    - ``\r``
+  * - Horizontal tab
+    - ``\t``
+  * - Backslash
+    - ``\\``
+  * - Single quotation mark
+    - ``\'``
+  * - Double quotation mark
+    - ``\"``
 
 -------------
 Code examples
@@ -108,7 +136,7 @@ Code examples
     write xlll2, 'H'; // Write 'H' to stdout
     write xlll2, '!'; // Write '!' to stdout
     halt; // Shutdown emulator
-  _start:
+  .attr(entry) _start: // .attr(entry) means that this symbol is an entry point
     mov x1, 0xFFF; // Move immediate value 0xFFF into x1 register
     mov x0, [x1]; // Load value from address 0xFFF, stored in register x1, into register x0
     /* These two instructions have no relation to the printing function! I just showed you syntax. */

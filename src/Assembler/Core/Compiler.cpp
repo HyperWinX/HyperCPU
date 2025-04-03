@@ -74,7 +74,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
     .symbol("ident")
     .action(TokenizeIdentifier);
-  parser.token(R"("[^"]*")")
+  parser.token("\"((?:\\\\[\\s\\S]|[^\"\\\\])*)\"")
     .symbol("string")
     .action(TokenizeString);
   parser.token(R"(0s[0-9]+)")
