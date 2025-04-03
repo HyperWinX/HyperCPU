@@ -36,7 +36,38 @@ Value HCAsm::TokenizeUnsignedInt(std::string_view str) {
 }
 
 Value HCAsm::TokenizeString(std::string_view str) {
-  return { std::string{str.begin() + 1, str.end() - 1} };
+  std::string res;
+  res.reserve(str.length());
+
+  bool escape = false;
+  for (char c : str.substr(1, str.length() - 2)) {
+    if (!escape) {
+      if (c == '\\') {
+        escape = true;
+      } else {
+        res.push_back(c);
+      }
+    } else {
+      switch (c) {
+        case 'n':
+          res.push_back('\n');
+          break;
+        case 'r':
+          res.push_back('\r');
+          break;
+        case '\\':
+          res.push_back('\\');
+          break;
+        case '\n':
+          break;
+        default:
+          res.push_back(c);
+          break;
+      }
+      escape = false;
+    }
+  }
+  return { res };
 }
 
 Value HCAsm::TokenizeIdentifier(std::string_view str) {

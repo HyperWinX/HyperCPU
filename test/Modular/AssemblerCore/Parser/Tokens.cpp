@@ -2,7 +2,7 @@
 #include <fixtures.hpp>
 
 TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
-    std::string str = "this is a string to test parser";
+    std::string str = "this is a string to test parser\n\r\\\\";
     std::string data = fmt::format("\"{}\" \\", str);
 
     // Token, created only for testing

@@ -936,6 +936,16 @@ TEST_F(ASSEMBLER, ASM_COMPILE) {
   EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
 }
 
+TEST_F(ASSEMBLER, ASM_b8_str_DIRECTIVE) {
+  std::string data = ".b8 \"test!\n\r\\\\\";";
+  auto str = "test!\n\r\\";
+  std::uint32_t code_size;
+
+  auto binary = compiler.Compile(data, code_size);
+
+  EXPECT_FALSE(std::memcmp(binary.binary, str, std::strlen(str)));
+}
+
 TEST_F(ASSEMBLER, ASM_b8_DIRECTIVE) {
   std::string data = ".b8 0x12;";
   std::uint32_t code_size;
