@@ -17,7 +17,7 @@ TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
     
     parser.prepare();
     
-    EXPECT_EQ(std::get<std::string>(parser.parse(data).value().val), str);
+    EXPECT_EQ(std::get<std::string>(parser.parse(data).value().val), "this is a string to test parser\n\r\\");
 }
 
 TEST_F(ASM_PARSER_TEST, TOKEN_SINT) {

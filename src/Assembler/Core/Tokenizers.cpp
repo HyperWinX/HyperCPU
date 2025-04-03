@@ -58,6 +58,12 @@ Value HCAsm::TokenizeString(std::string_view str) {
         case '\\':
           res.push_back('\\');
           break;
+        case '0':
+          res.push_back('\0');
+          break;
+        case 'e':
+          res.push_back(0x1B);
+          break;
         case '\n':
           break;
         default:
