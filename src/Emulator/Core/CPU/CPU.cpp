@@ -7,11 +7,11 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/CPU.hpp>
 
-HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, std::uint64_t binary_size) :
+HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, const HyperCPU::Logger& logger, char* binary, std::uint64_t binary_size) :
   mem_controller(core_count == 1 ?
     dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this)) : 
     dynamic_cast<IMemoryController*>(new MemoryControllerMT(mem_size, this))),
-  logger(LogLevel::ERROR),
+  logger(logger),
   core_count(core_count),
   total_mem(mem_size),
   halted(false),
@@ -280,4 +280,8 @@ bool HyperCPU::CPU::CanExecuteInterrupts() {
 
 void HyperCPU::CPU::SetEntryPoint(std::uint32_t entry_point) {
   *xip = entry_point;
+}
+
+const HyperCPU::Logger& HyperCPU::CPU::GetLogger() const noexcept {
+  return logger;
 }
