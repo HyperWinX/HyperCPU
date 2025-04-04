@@ -1,17 +1,14 @@
 name: HyperCPU CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - dev
   pull_request:
     branches:
-      - dev
+      - master
 
 jobs:
   testing:
     runs-on: self-hosted
-    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push')"
+    name: Run full test suite
 
     steps:
       - name: Checkout code
@@ -22,12 +19,6 @@ jobs:
       - name: Pull submodules
         run: |
           git submodule update --init --remote --recursive
-      
-      - name: Install all tools
-        uses: aminya/setup-cpp@v1
-        with:
-          cmake: true
-          cppcheck: true
         
       - name: Install GTest Parallelizer
         run: |
@@ -67,8 +58,7 @@ jobs:
 
   versioning-patch-increment:
     runs-on: self-hosted
-    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push') && !contains(github.event.head_commit.message, 'minor')"
-    needs: [testing]
+    if: "contains(github.event.head_commit.message, '[ci patch inc]')"
     permissions:
       contents: write
     
@@ -78,7 +68,6 @@ jobs:
         with:
           fetch-depth: '0'
 
-      
       - name: Setup git user
         uses: fregante/setup-git-user@v1
 
@@ -88,21 +77,13 @@ jobs:
         
       - name: Push changes to master branch
         run: |
-          git checkout dev
-          git switch dev
-          MSG=$(git log -1 --pretty=%B | more)
-          git reset --soft HEAD~1
           git add .
-          git commit -m "$MSG"
-          git push origin dev -f
-          git merge -s ours origin/master
-          git checkout master
-          git reset --hard dev
-          git push origin master -f
+          git commit -m "[auto]: Increment patch version"
+          git push origin master
 
   versioning-minor-increment:
     runs-on: self-hosted
-    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'ci force push') && contains(github.event.head_commit.message, 'minor')"
+    if: "!contains(github.event.head_commit.message, '[ci minor inc]')"
     needs: [testing]
     permissions:
       contents: write
@@ -113,7 +94,6 @@ jobs:
         with:
           fetch-depth: '0'
 
-      
       - name: Setup git user
         uses: fregante/setup-git-user@v1
 
@@ -123,36 +103,7 @@ jobs:
         
       - name: Push changes to master branch
         run: |
-          git checkout dev
-          git switch dev
-          MSG=$(git log -1 --pretty=%B | more)
-          git reset --soft HEAD~1
           git add .
-          git commit -m "$MSG"
-          git push origin dev -f
-          git merge -s ours origin/master
-          git checkout master
-          git reset --hard dev
-          git push origin master -f
+          git commit -m "[auto]: Increment patch version"
+          git push origin master
   
-  sync-no-update:
-    runs-on: self-hosted
-    if: "contains(github.event.head_commit.message, 'ci force push')"
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
-
-      
-      - name: Setup git user
-        uses: fregante/setup-git-user@v1
-
-      - name: Push changes to master branch
-        run: |
-          git checkout master
-          git reset --hard dev
-          git push origin master -f
