@@ -53,6 +53,6 @@ jobs:
       - name: Push changes to master branch
         run: |
           git add .
-          git commit -m "[auto]: Increment patch version"
+          git commit -m "[auto]: Increment minor version"
           git push origin master
   
