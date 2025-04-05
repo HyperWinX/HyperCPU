@@ -27,11 +27,11 @@ public:
     dir_name = "test_";
     dir_name += test_name;
     std::filesystem::create_directory(dir_name);
-    chdir(dir_name.c_str());
+    [[maybe_unused]] auto t = chdir(dir_name.c_str());
   }
 
   ~TempDir() {
-    chdir("..");
+    [[maybe_unused]] auto t = chdir("..");
     try {
       std::filesystem::remove_all(dir_name);
     } catch (std::filesystem::filesystem_error&) { }
