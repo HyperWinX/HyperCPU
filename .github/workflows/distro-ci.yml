@@ -1,6 +1,9 @@
 name: HyperCPU CI/CD Pipeline (build HyperCPU on different platforms)
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - master
 
 jobs:
   fedora:
