@@ -53,7 +53,7 @@ void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {
 
 std::uint8_t HyperCPU::SimpleIOImpl::Getchar() {
   char c;
-  read(STDIN_FILENO, &c, 1);
+  [[maybe_unused]] auto t = read(STDIN_FILENO, &c, 1);
   return c;
 }
 

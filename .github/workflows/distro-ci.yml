@@ -137,7 +137,6 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: hcpu-ci:alpine
-          shell: bash
           run: |
             git clone https://github.com/HyperWinX/HyperCPU.git --recursive --depth=1 && cd HyperCPU
             cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
