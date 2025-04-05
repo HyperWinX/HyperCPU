@@ -14,6 +14,7 @@ jobs:
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -33,6 +34,7 @@ jobs:
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -52,6 +54,7 @@ jobs:
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -70,6 +73,7 @@ jobs:
       - run: |
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -89,6 +93,7 @@ jobs:
           source /etc/profile
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -108,6 +113,7 @@ jobs:
           source /etc/profile
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -126,6 +132,7 @@ jobs:
       - run: |
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
@@ -145,6 +152,7 @@ jobs:
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch ${{ github.ref_name }}
+          cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
           cmake --build build --target default -j8
