@@ -7,14 +7,15 @@
 #include <queue>
 
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
-#include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
+#include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Emulator/Misc/unreachable.hpp>
 #include <Emulator/Main/Main.hpp>
 #include <Logger/Logger.hpp>
+#include <Exit.hpp>
 
-#include <pog/parser.h>
 #include <pog/line_spec.h>
+#include <pog/parser.h>
 
 #include <hpool.hpp>
 
@@ -189,7 +190,7 @@ namespace HCAsm {
       case Registers::XLLL3:
         return Mode::b8;
       default:
-        unreachable();
+        UNREACHABLE();
     }
   }
 

@@ -1,13 +1,14 @@
 #include <filesystem>
 #include <limits>
 
+#include <Assembler/Utils/Extension.hpp>
 #include <Assembler/Core/Compiler.hpp>
+#include <Emulator/Core/CPU/CPU.hpp>
+#include <Emulator/Main/Main.hpp>
 #include <Logger/Logger.hpp>
 #include <Logger/Colors.hpp>
-#include <Assembler/Utils/Extension.hpp>
-#include <Emulator/Main/Main.hpp>
-#include <Emulator/Core/CPU/CPU.hpp>
 #include <Version.hpp>
+#include <Exit.hpp>
 
 #include <argparse/argparse.hpp>
 
@@ -30,16 +31,16 @@ int main(int argc, char** argv) {
     program.parse_args(argc, argv);
   } catch (const std::exception& err) {
     std::cerr << err.what() << '\n';
-    std::exit(1);
+    EXIT(1);
   }
 
   auto source = program.get<std::string>("binary");
   if (!std::filesystem::exists(source)) {
     logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Binary \"{}\" does not exist!", source));
-    std::exit(1);
+    EXIT(1);
   } else if (!std::filesystem::is_regular_file(source)) {
     logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Source path \"{}\" is not a regular file!", source));
-    std::exit(1);
+    EXIT(1);
   }
 
   std::ifstream file(source);
@@ -51,7 +52,7 @@ int main(int argc, char** argv) {
   // Validate header contents
   if (header.magic != HyperCPU::magic) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Invalid magic!");
-    std::exit(1);
+    EXIT(1);
   }
 
   switch (header.version) {
@@ -60,7 +61,7 @@ int main(int argc, char** argv) {
       break;
     default:
       logger.Log(HyperCPU::LogLevel::ERROR, "Invalid release field!");
-      std::exit(1);
+      EXIT(1);
   }
 
   switch (header.type) {
@@ -68,10 +69,10 @@ int main(int argc, char** argv) {
       break;
     case HyperCPU::FileType::Object:
       logger.Log(HyperCPU::LogLevel::ERROR, "Executing object files is not supported, please link it first!");
-      std::exit(1);
+      EXIT(1);
     default:
       logger.Log(HyperCPU::LogLevel::ERROR, "Invalid type field!");
-      std::exit(1);
+      EXIT(1);
   }
 
   std::unique_ptr<char[]> buf(new char[binarysize]);
@@ -80,7 +81,7 @@ int main(int argc, char** argv) {
   auto memory = HyperCPU::ParseMemoryString(program.get<std::string>("-m"));
   if (memory == std::numeric_limits<decltype(memory)>::max()) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Failed to parse memory amount argument.");
-    std::exit(1);
+    EXIT(1);
   }
 
   HyperCPU::CPU cpu{1, memory, logger, buf.get(), static_cast<std::uint64_t>(binarysize )};

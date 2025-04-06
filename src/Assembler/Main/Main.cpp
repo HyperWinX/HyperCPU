@@ -1,12 +1,13 @@
 #include <filesystem>
 #include <fstream>
 
-#include <Assembler/Core/Compiler.hpp>
-#include <Logger/Logger.hpp>
-#include <Logger/Colors.hpp>
 #include <Assembler/Utils/Extension.hpp>
+#include <Assembler/Core/Compiler.hpp>
 #include <Emulator/Main/Main.hpp>
 #include <NotImplemented.hpp>
+#include <Logger/Logger.hpp>
+#include <Logger/Colors.hpp>
+#include <Exit.hpp>
 
 #include <argparse/argparse.hpp>
 
@@ -40,7 +41,7 @@ int main(int argc, char** argv) {
     program.parse_args(argc, argv);
   } catch (const std::exception& err) {
     std::cerr << err.what() << '\n';
-    std::exit(1);
+    EXIT(1);
   }
 
   auto source = program.get<std::string>("source");
@@ -63,14 +64,14 @@ int main(int argc, char** argv) {
   // Verify that files are available
   if (!std::filesystem::is_regular_file(source)) {
     HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Source file \"{}\" is not a regular file!", source);
-    std::exit(1);
+    EXIT(1);
   }
   
   std::ifstream src(source);
   std::ofstream dst(result, std::ios::binary | std::ios::ate);
   if (!src.is_open()) {
     HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Failed to open source file!");
-    std::exit(1);
+    EXIT(1);
   }
 
   HCAsm::logger.Log(HyperCPU::LogLevel::DEBUG, "Source and destination files handles acquired");

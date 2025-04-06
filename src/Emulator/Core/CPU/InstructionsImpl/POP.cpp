@@ -1,10 +1,8 @@
-#include <utility>
-
-#include "Core/CPU/Instructions/Flags.hpp"
-#include <Core/CPU/CPU.hpp>
-
-#include <Misc/deref.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
 #include <Misc/unreachable.hpp>
+#include <Core/CPU/CPU.hpp>
+#include <Misc/deref.hpp>
+#include <Exit.hpp>
 
 
 #pragma GCC diagnostic push
@@ -18,11 +16,11 @@ void HyperCPU::CPU::ExecPOP(const IInstruction& instr, void* op1, void* op2) {
         case HyperCPU::Mode::b16: deref<std::uint16_t>(op1) = StackPop16(); break;
         case HyperCPU::Mode::b32: deref<std::uint32_t>(op1) = StackPop32(); break;
         case HyperCPU::Mode::b64: deref<std::uint64_t>(op1) = StackPop64(); break;
-        default: HyperCPU::unreachable();
+        default: UNREACHABLE();
       }
       break;
     default:
-      HyperCPU::unreachable();
+      UNREACHABLE();
   }
 }
 

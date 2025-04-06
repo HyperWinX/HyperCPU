@@ -12,7 +12,7 @@ static constexpr std::uint32_t DWORD = 0x55555555;
 static constexpr std::uint64_t QWORD = 0x5555555555555555;
 
 #ifdef __HCPU_DEBUG
-# define HCPU_ASSERT_EXIT(statement, x, regex) HCPU_HCPU_ASSERT_EXIT(statement, x, regex)
+# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
 #else
 # define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
 #endif

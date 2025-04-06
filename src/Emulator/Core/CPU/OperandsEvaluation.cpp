@@ -1,10 +1,9 @@
-#include <iostream>
-
 #include <cstring>
 
 #include <Core/CPU/Instructions/Registers.hpp>
-#include <Core/CPU/CPU.hpp>
 #include <Misc/bit_cast.hpp>
+#include <Core/CPU/CPU.hpp>
+#include <Exit.hpp>
 
 
 void* HyperCPU::CPU::GetRegister(std::size_t& op1) {
@@ -118,7 +117,7 @@ std::pair<void*, void*> HyperCPU::CPU::GetOperands(OperandTypes op_types, Mode m
     case NONE:
       return std::make_pair(nullptr, nullptr);
     default:
-      std::abort();
+      ABORT();
   }
   return {};
 }

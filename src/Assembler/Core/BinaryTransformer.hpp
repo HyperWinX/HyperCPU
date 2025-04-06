@@ -1,9 +1,8 @@
 #pragma once
 
-#include <utility>
-
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Core/Compiler.hpp>
+#include <Exit.hpp>
 
 #include <mapbox/eternal.hpp>
 
@@ -68,7 +67,7 @@ namespace HCAsm {
       case OperandTypes::NONE:    return HyperCPU::OperandTypes::NONE;
       default:
         logger.Log(HyperCPU::LogLevel::ERROR, "Invalid operand types!");
-        std::abort();
+        EXIT(1);
     }
   }
 
@@ -79,7 +78,7 @@ namespace HCAsm {
       case HCAsm::Mode::b32:  return HyperCPU::Mode::b32;
       case HCAsm::Mode::b64:  return HyperCPU::Mode::b64;
       default:
-        HyperCPU::unreachable();
+        UNREACHABLE();
     }
   }
 
