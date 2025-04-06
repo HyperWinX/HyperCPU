@@ -5,13 +5,13 @@
 #include <Core/CPU/Instructions/AllowedFlags.hpp>
 #include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/IDecoder.hpp>
-#include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Misc/unreachable.hpp>
 #include <Core/CPU/Assert.hpp>
 #include <Core/CPU/CPU.hpp>
-#include <Misc/unreachable.hpp>
-#include <utility>
+#include <Exit.hpp>
 
 
 #define dcdr_assert(expr) RaiseException((expr)); if (cpu && cpu->pending_interrupt.has_value()) return {.m_opcode = _CONT, .m_opcode_mode = b64, .m_op_types = NONE, .m_op1 = 0, .m_op2 = 0, .addr_extension_status = HyperCPU::AddrExtensionStatus::Disabled, .extension = 0}
@@ -20,7 +20,7 @@ void HyperCPU::Decoder::RaiseException(bool expr) noexcept {
   if (!(expr)) {
     if (cpu == nullptr) {
       std::cerr << "Invalid opcode!\n";
-      std::exit(1);
+      EXIT(1);
     } else {
       cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::IO);
     }
@@ -38,7 +38,7 @@ bool HyperCPU::Decoder::CheckSupportedOperandSize(std::uint8_t byte, Mode mode) 
     case b64:
       return byte & 0b00000011;
     default:
-      HyperCPU::unreachable();
+      UNREACHABLE();
   }
 }
 

@@ -2,14 +2,13 @@
 
 #include <cstdint>
 
-#include <string>
 #include <fmt/format.h>
 #include <utility>
 
-#include <Logger/Colors.hpp>
-#include <Emulator/Misc/print.hpp>
 #include <Emulator/Misc/unreachable.hpp>
-
+#include <Emulator/Misc/print.hpp>
+#include <Logger/Colors.hpp>
+#include <Exit.hpp>
 
 namespace HyperCPU {
   enum class LogLevel : std::uint_fast8_t {
@@ -30,7 +29,7 @@ namespace HyperCPU {
         case HyperCPU::LogLevel::WARNING: return '=';
         case HyperCPU::LogLevel::ERROR:   return '!';
         default:
-          HyperCPU::unreachable();
+          UNREACHABLE();
       }
     }
 
@@ -41,7 +40,7 @@ namespace HyperCPU {
         case HyperCPU::LogLevel::WARNING: return B_YELLOW;
         case HyperCPU::LogLevel::ERROR:   return B_RED;
         default:
-          HyperCPU::unreachable();
+          UNREACHABLE();
       }
     }
 
@@ -52,7 +51,7 @@ namespace HyperCPU {
         case HyperCPU::LogLevel::WARNING: return YELLOW;
         case HyperCPU::LogLevel::ERROR:   return RED;
         default:
-          HyperCPU::unreachable();
+          UNREACHABLE();
       }
     }
 

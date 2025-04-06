@@ -1,3 +1,4 @@
+#include "Exit.hpp"
 #include <Core/CPU/CPU.hpp>
 
 #include <Misc/deref.hpp>
@@ -16,7 +17,7 @@ void HyperCPU::CPU::ExecLOIVT(const IInstruction& instr, void* op1, void* op2) {
     case R:
       *xivt = HyperCPU::bit_cast_from<std::uint64_t>(op1);
       break;
-    default: std::abort();
+    default: ABORT();
   }
   ivt_initialized = true;
 }

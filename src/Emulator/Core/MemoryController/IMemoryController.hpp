@@ -10,7 +10,7 @@
   do {                                              \
     if (!(expr) && (!cpu || !cpu->CanExecuteInterrupts())) [[unlikely]] { \
       HyperCPU::println("Assertion failed: {}", #expr);  \
-      std::abort();                                 \
+      ABORT();                                 \
     } else if (!(expr) && cpu && cpu->CanExecuteInterrupts()) { \
       cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::SEGF); \
     } else [[likely]] {  }                          \
