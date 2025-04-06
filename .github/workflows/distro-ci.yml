@@ -9,14 +9,13 @@ jobs:
   fedora:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:fedora
-    continue-on-error: true
     name: Build-Fedora
 
     steps:
       - run: |
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -29,14 +28,13 @@ jobs:
   debian-stable:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:debian-stable
-    continue-on-error: true
     name: Build-Debian-Stable
 
     steps:
       - run: |
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -49,14 +47,13 @@ jobs:
   debian-unstable:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:debian-unstable
-    continue-on-error: true
     name: Build-Debian-Unstable
 
     steps:
       - run: |
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -69,13 +66,13 @@ jobs:
   archlinux:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:archlinux
-    continue-on-error: true
     name: Build-Arch-Linux
 
     steps:
       - run: |
+          set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -88,14 +85,14 @@ jobs:
   gentoo-glibc:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:gentoo-glibc
-    continue-on-error: true
     name: Build-Gentoo-Glibc
 
     steps:
       - run: |
+          set -e
           source /etc/profile
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -108,14 +105,14 @@ jobs:
   gentoo-musl:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:gentoo-musl
-    continue-on-error: true
     name: Build-Gentoo-Musl
 
     steps:
       - run: |
+          set -e
           source /etc/profile
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -128,13 +125,13 @@ jobs:
   alpine:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:alpine
-    continue-on-error: true
     name: Build-Alpine
 
     steps:
       - run: |
+          set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
@@ -147,14 +144,13 @@ jobs:
   ubuntu:
     runs-on: ubuntu-latest
     container: hyperwin/hcpu-ci:ubuntu
-    continue-on-error: true
     name: Build-Ubuntu
 
     steps:
       - run: |
           set -e
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch ${{ github.head_ref }}
+          git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
