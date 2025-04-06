@@ -143,6 +143,16 @@ namespace HCAsm {
     std::uint32_t entry_point;
   };
 
+  /*
+    * Finds the appropriate mode from register
+
+    * Determines the size of the register, and returns the mode
+
+    * Accepts: HyperCPU::Registers - register to determine the size of
+
+    * Returns: Mode - mode, needed to work with this register
+  */
+  
   constexpr inline Mode ModeFromRegister(HyperCPU::Registers reg) {
     using namespace HyperCPU;
     switch (reg) {
@@ -238,8 +248,8 @@ namespace HCAsm {
   public:
     HCAsmCompiler(HyperCPU::LogLevel lvl = HyperCPU::LogLevel::WARNING);
 
-    BinaryResult Compile(std::string& contents, std::uint32_t& code_size);
-    CompilerState TransformToIR(std::string& src);
+    BinaryResult Compile(const std::string& contents, std::uint32_t& code_size);
+    CompilerState TransformToIR(const std::string& src);
     BinaryResult TransformToBinary(CompilerState& ir);
 
   private:

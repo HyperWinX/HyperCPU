@@ -29,10 +29,12 @@ namespace HCAsm {
     NONE  = 0x05
   };
 
+  /* Quick, inlinable way to OR two operand types */
   constexpr inline std::uint8_t QuickOR(Op1T a, Op2T b) {
     return static_cast<std::uint8_t>(a) | static_cast<std::uint8_t>(b);
   }
 
+  /* Helper function, to check if operand has address addition */
   constexpr inline bool HasAddressAddition(HCAsm::OperandType tp) {
     return tp == OperandType::mem_reg_add_int;
   }
@@ -52,6 +54,8 @@ namespace HCAsm {
     NONE    = QuickOR(Op1T::NONE, Op2T::NONE),
   };
 
+
+  /* Convert HyperCPU::OperandTypes into HCAsm::OperandTypes */
   constexpr HyperCPU::OperandTypes QuickCast(std::uint8_t x) {
     switch (static_cast<OperandTypes>(x)) {
       case OperandTypes::R_R:     return HyperCPU::OperandTypes::R_R;
@@ -72,6 +76,7 @@ namespace HCAsm {
     }
   }
 
+  /* Convert HCAsm::Mode into HyperCPU::Mode */
   constexpr HyperCPU::Mode cast_mode(HCAsm::Mode md) {
     switch (md) {
       case HCAsm::Mode::b8:   return HyperCPU::Mode::b8;
@@ -83,14 +88,15 @@ namespace HCAsm {
     }
   }
 
-
-
+  /*
+    * BinaryTransformer class compiles internal IR into binary
+  */
   class BinaryTransformer {
   public:
     BinaryTransformer(BinaryResult& result, CompilerState* state = nullptr) : res(result), state(state) { }
 
     void EncodeInstruction(Instruction& instr);
-    HyperCPU::OperandTypes DetermineOperandTypes(Operand& op1, Operand& op2);
+    HyperCPU::OperandTypes DetermineOperandTypes(const Operand& op1, const Operand& op2);
   private:
     BinaryResult& res;
     CompilerState* state;

@@ -1,12 +1,20 @@
-#include "Emulator/Core/CPU/Instructions/Opcodes.hpp"
-#include "Logger/Logger.hpp"
+#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
 #include <Emulator/Core/CPU/Instructions/Flags.hpp>
 #include <Core/BinaryTransformer.hpp>
 #include <Core/Compiler.hpp>
+#include <Logger/Logger.hpp>
 
-#include <utility>
+/*
+  * Convert separate assembler-compatible operand types into emulator-compatible pair
 
-HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& op1, Operand& op2) {
+  * Takes two references to HCAsm::Operand, extracts types, and converts them into HyperCPU::OperandTypes enum, which can be used by EncodeInstruction.
+
+  * Accepts: two const references to HCAsm::Operand (const HCAsm::Operand&, const HCAsm::Operand&)
+
+  * Returns: HyperCPU::OperandTypes
+*/
+
+HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(const Operand& op1, const Operand& op2) {
   Op1T tp1;
   Op2T tp2;
 
@@ -52,7 +60,16 @@ HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& 
 }
 
 
+/*
+  * Encode instruction
 
+  * Encodes HCAsm::Instruction object into the raw buffer, which is owned by HCAsm::BinaryTransformer class
+
+  * Accepts: const reference to HCAsm::Instruction (const HCAsm::Instruction&)
+
+  * Returns: void
+
+*/
 void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
   HyperCPU::OperandTypes types = DetermineOperandTypes(instr.op1, instr.op2);
 

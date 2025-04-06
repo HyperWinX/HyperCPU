@@ -7,6 +7,10 @@
 
 using HCAsm::Value;
 
+/*
+  * Parser for operand: [ hex ]
+*/
+
 Value HCAsm::ParseOperand1(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   return {
     .val = Operand {
@@ -17,6 +21,10 @@ Value HCAsm::ParseOperand1(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     }
   };
 }
+
+/*
+  * Parser for operand: [ ident ]
+*/
 
 Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto reg = std::get<std::string>(args[1].value.val);
@@ -47,6 +55,10 @@ Value HCAsm::ParseOperand2(pog::Parser<Value>& parser, std::vector<pog::TokenWit
   }
 }
 
+/*
+  * Parser for operand: [ ident + uint ] | [ ident + hex ] | [ ident + binary ]
+*/
+
 Value HCAsm::ParseOperand3(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[1].value.val);
 
@@ -76,6 +88,10 @@ Value HCAsm::ParseOperand3(pog::Parser<Value>& parser, std::vector<pog::TokenWit
   };
 }
 
+/*
+  * Parser for operand: b* ptr [ hex ]
+*/
+
 Value HCAsm::ParseOperand4(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& Mode = std::get<std::string>(args[0].value.val);
 
@@ -102,6 +118,10 @@ Value HCAsm::ParseOperand4(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     }
   };
 }
+
+/* 
+  * Parser for operand: b* ptr [ ident ]
+*/
 
 Value HCAsm::ParseOperand5(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[3].value.val);
@@ -135,6 +155,10 @@ Value HCAsm::ParseOperand5(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     }
   };
 }
+
+/*
+  * Parser for operand: b* ptr [ ident + uint ] | b* ptr [ ident + hex ] | b* ptr [ ident + binary ]
+*/
 
 Value HCAsm::ParseOperand6(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& reg = std::get<std::string>(args[3].value.val);
@@ -175,6 +199,10 @@ Value HCAsm::ParseOperand6(pog::Parser<Value>& parser, std::vector<pog::TokenWit
   };
 }
 
+/* 
+  * Parser for operand: sint
+*/
+
 Value HCAsm::ParseOperand7(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   return {
     .val = Operand {
@@ -188,6 +216,10 @@ Value HCAsm::ParseOperand7(pog::Parser<Value>& parser, std::vector<pog::TokenWit
   };
 }
 
+/*
+  * Parser for operand: hex | binary | uint | char
+*/
+
 Value HCAsm::ParseOperand8(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   return {
     .val = Operand {
@@ -200,6 +232,10 @@ Value HCAsm::ParseOperand8(pog::Parser<Value>& parser, std::vector<pog::TokenWit
     }
   };
 }
+
+/*
+  * Parser for operand: ident
+*/
 
 Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto reg = std::get<std::string>(args[0].value.val);
@@ -231,6 +267,10 @@ Value HCAsm::ParseOperand9(pog::Parser<Value>& parser, std::vector<pog::TokenWit
   }
 }
 
+/*
+  * Parser for operand: b* hex | b* binary | b* uint | b* char
+*/
+
 Value HCAsm::ParseOperand10(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto mode = std::get<std::string>(args[0].value.val);
 
@@ -253,6 +293,10 @@ Value HCAsm::ParseOperand10(pog::Parser<Value>& parser, std::vector<pog::TokenWi
   };
 }
 
+/*
+  * Parser for operand: b* sint
+*/
+
 Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto mode = std::get<std::string>(args[0].value.val);
 
@@ -274,6 +318,10 @@ Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWi
     }
   };
 }
+
+/*
+  * Parser for operand: b* <label>
+*/
 
 Value HCAsm::ParseOperand12(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto mode = std::get<std::string>(args[0].value.val);

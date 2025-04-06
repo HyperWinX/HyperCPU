@@ -3,7 +3,6 @@
 #include <string>
 #include <fstream>
 #include <utility>
-#include <iostream>
 
 #include <Core/BinaryTransformer.hpp>
 #include <Core/Compiler.hpp>
@@ -21,6 +20,13 @@ namespace HCAsm {
   std::uint64_t current_index = 0;
 }
 
+/*
+  * HCAsm::HCAsmCompiler ctor
+
+  * Initializes pool, logger, configures all tokens and rules
+
+  * Accepts: LogLevel object
+*/
 HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   logger = HyperCPU::Logger{lvl};
   // Setup tokens
@@ -142,7 +148,17 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
 
 }
 
-HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::uint32_t& code_size) { 
+/*
+  * Main assembler function
+
+  * Calls TransformToIR and TransformToBinary - transforms text into binary code
+
+  * Accepts: const std::string& with contents, std::uint32_t& for counted code size
+
+  * Returns: HCAsm::BinaryResult, containing complete compiled program
+*/
+
+HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(const std::string& contents, std::uint32_t& code_size) { 
   files.push(std::move(contents));
 
   logger.Log(LogLevel::DEBUG, "Stage 1 compiling - transforming to IR");
@@ -155,7 +171,17 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::ui
   return binary;
 }
 
-HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
+/*
+  * Transforms text to IR
+
+  * Invokes the parser entry point, and turns the text into IR, ready to be compiled
+
+  * Accepts: const std::string& with source code
+
+  * Returns: HCAsm::CompilerState, containing IR, labels, etc.
+*/
+
+HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(const std::string& src) {
   CompilerState state(pool);
   current_state = &state;
   this->state = &state;
@@ -165,10 +191,20 @@ HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
   logger.Log(LogLevel::DEBUG, "Parser prepared.");
   logger.Log(LogLevel::DEBUG, "Compiling...");
   
-  parser.parse(src);
+  parser.parse(const_cast<std::string&>(src)); // Parser does not change the source code!
   current_state = nullptr;
   return state;
 }
+
+/*
+  * Calculates operand size
+
+  * Calculates operand size, using operand type. Runs with a switch-case
+
+  * Accepts: HCAsm::OperandType - type of operand
+
+  * Returns: std::uint8_t - size of the operand
+*/
 
 constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::OperandType op) {
   switch (op) {
@@ -185,6 +221,16 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::OperandTy
     //default: std::unreachable();
   }
 }
+
+/*
+  * First ModeToSize overload - calculates operand size.
+
+  * This overload supports b8_str mode, which is used by .b8 <str> directive.
+
+  * Accepts: const Operand&, because it needs access to the value of the operand
+
+  * Returns: std::uint8_t - size of the operand
+*/
 
 std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(const Operand& op) {
   switch (op.mode) {
@@ -204,6 +250,16 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(const Operand& op) {
   }
 }
 
+/*
+  * Second ModeToSize overload - calculates operand size.
+
+  * Default overload - converts HCAsm::Mode into number
+
+  * Accepts: Mode
+
+  * Returns: std::uint8_t - size of the operand
+*/
+
 std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
   switch (md) {
     case Mode::b8:
@@ -219,6 +275,16 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
       std::abort();
   }
 }
+
+/*
+  * Calculates instruction size
+
+  * Takes the object of instruction, and calculates its size with opcode, flags, and operands
+
+  * Accepts: HCAsm::Instruction& - instruction to measure the size
+
+  * Returns: std::uint8_t - size of the instruction
+*/
 
 std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
   switch (instr.opcode) {
@@ -315,6 +381,16 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
 
   return result;
 }
+
+/*
+  * Transforms IR to binary
+
+  * Takes the CompilerState, created by TransformToIR, and compiles it into binary using BinaryTransformer
+
+  * Accepts: HCAsm::CompilerState& - IR
+
+  * Returns: HCAsm::BinaryResult - compiled program
+*/
 
 HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState& ir) {
   // Count code size - pass 1
@@ -420,6 +496,16 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   return binary;
 }
 
+/* 
+  * Finds contents of the line
+
+  * Takes pog::LineSpecialization and finds the whole line in the source code
+
+  * Accepts: const pog::LineSpecialization& - information about the line, and const std::string_view& - whole source code
+
+  * Returns: whole line from source code
+*/
+
 std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const std::string_view& str) {
   std::size_t start = 0;
   std::size_t end = 0;
@@ -443,6 +529,16 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
   throw std::out_of_range("Line number out of range");
 }
 
+/*
+  * [[noreturn]] function, that prints the error message and exits
+
+  * Function uses FindLine to find the line in the source code, highlight the error token, and exit gracefully
+
+  * Accepts: pog::TokenWithLineSpec<Value>& - error token, that needs to be highlighted; pog::Parser<Value>& - parser object, needed for some metadata; std::string - error message to print
+
+  * Returns: does not return at all, marked [[noreturn]]
+*/
+
 [[noreturn]] void HCAsm::ThrowError(pog::TokenWithLineSpec<Value>& err_token, pog::Parser<Value>& parser, std::string err_msg) {
   logger.Log(HyperCPU::LogLevel::ERROR, "error: {}", err_msg);
   auto line = FindLine(err_token.line_spec, parser.get_top_file());
@@ -453,6 +549,16 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
     std::string(err_token.line_spec.length, '^'));
   std::exit(1);
 }
+
+/*
+  * Writes the resulting binary into the file
+
+  * Writes complete program into the file; encodes header, based on the metadata, and then writes binary
+
+  * Accepts: HyperCPU::FileType - type of file, complete binary of object file, HCAsm::BinaryResult& - result program, std::ofstream& - output file, std::uint32_t - size of the code, std::uint32_t - address of the entry point (non-zero if one of the labels is marked as .attr(entry))
+
+  * Returns: nothing
+*/
 
 void HCAsm::WriteResultFile(HyperCPU::FileType type, HCAsm::BinaryResult& result, std::ofstream& output, std::uint32_t code_size, std::uint32_t entry_point) {
   HyperCPU::GenericHeader gen_header;

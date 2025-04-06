@@ -6,6 +6,10 @@
 
 using HCAsm::Value;
 
+/*
+  * Compiler for statement: <instr> op, op;
+*/
+
 Value HCAsm::CompileStatement1([[maybe_unused]] pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
     auto& instr_name = std::get<std::string>(args[0].value.val);
 
@@ -36,6 +40,10 @@ Value HCAsm::CompileStatement1([[maybe_unused]] pog::Parser<Value>& parser, std:
     return {};
 }
 
+/*
+  * Compiler for statement: <instr> op;
+*/
+
 Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
     auto& instr_name = std::get<std::string>(args[0].value.val);
 
@@ -63,6 +71,10 @@ Value HCAsm::CompileStatement2(pog::Parser<Value>& parser, std::vector<pog::Toke
     return {};
 }
 
+/*
+  * Compiler for statement: <instr>;
+*/
+
 Value HCAsm::CompileStatement3(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
     auto& instr_name = std::get<std::string>(args[0].value.val);
 
@@ -79,6 +91,10 @@ Value HCAsm::CompileStatement3(pog::Parser<Value>& parser, std::vector<pog::Toke
     });
     return {};
 }
+
+/*
+  * Compiler for statement: <label>:
+*/
 
 Value HCAsm::CompileLabel(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
     // Label cant be register or instruction name
@@ -97,6 +113,10 @@ Value HCAsm::CompileLabel(pog::Parser<Value>& parser, std::vector<pog::TokenWith
     return {};
 }
 
+/*
+  * Compiler for statement: .attr(entry) <label>:
+*/
+
 Value HCAsm::CompileEntryLabel(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   // Label cant be register or instruction name
   auto& name = std::get<std::string>(args[1].value.val);
@@ -114,6 +134,10 @@ Value HCAsm::CompileEntryLabel(pog::Parser<Value>& parser, std::vector<pog::Toke
   return {};
 }
 
+/*
+  Compiler for statement: .b8 op;
+*/
+
 Value HCAsm::CompileRawValueb8(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   if (std::get<Operand>(args[1].value.val).type != OperandType::uint) {
     ThrowError(*std::get<Operand>(args[1].value.val).tokens[0], parser, "invalid operand type for directive '.b8', expected uint");
@@ -121,6 +145,10 @@ Value HCAsm::CompileRawValueb8(pog::Parser<Value>& parser, std::vector<pog::Toke
   current_state->ir.push_back(HCAsm::RawValue{ Mode::b8, std::get<Operand>(args[1].value.val)});
   return {};
 }
+
+/*
+  Compiler for statement: .b8 str;
+*/
 
 Value HCAsm::CompileRawValueb8_str([[maybe_unused]] pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   if (!std::holds_alternative<std::string>(args[1].value.val)) {
@@ -137,6 +165,10 @@ Value HCAsm::CompileRawValueb8_str([[maybe_unused]] pog::Parser<Value>& parser, 
   return {};
 }
 
+/*
+  Compiler for statement: .b16 op;
+*/
+
 Value HCAsm::CompileRawValueb16(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   if (std::get<Operand>(args[1].value.val).type != OperandType::uint) {
     ThrowError(*std::get<Operand>(args[1].value.val).tokens[0], parser, "invalid operand type for directive '.b16' expected uint");
@@ -145,6 +177,10 @@ Value HCAsm::CompileRawValueb16(pog::Parser<Value>& parser, std::vector<pog::Tok
   return {};
 }
 
+/*
+  Compiler for statement: .b32 op;
+*/
+
 Value HCAsm::CompileRawValueb32(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   if (std::get<Operand>(args[1].value.val).type != OperandType::uint) {
     ThrowError(*std::get<Operand>(args[1].value.val).tokens[0], parser, "invalid operand type for directive '.b32', expected uint");
@@ -152,6 +188,10 @@ Value HCAsm::CompileRawValueb32(pog::Parser<Value>& parser, std::vector<pog::Tok
   current_state->ir.push_back(HCAsm::RawValue{ Mode::b32, std::get<Operand>(args[1].value.val)});
   return {};
 }
+
+/*
+  Compiler for statement: .b64 op; | .b64 <label>;
+*/
 
 Value HCAsm::CompileRawValueb64(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   auto& op = std::get<Operand>(args[1].value.val);
