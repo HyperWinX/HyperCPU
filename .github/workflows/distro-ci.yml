@@ -9,146 +9,30 @@ permissions:
   contents: read
 
 jobs:
-  fedora:
+  build:
     runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:fedora
-    name: Build-Fedora
-
-    steps:
-      - run: |
-          set -e
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  debian-stable:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:debian-stable
-    name: Build-Debian-Stable
-
-    steps:
-      - run: |
-          set -e
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  debian-unstable:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:debian-unstable
-    name: Build-Debian-Unstable
-
-    steps:
-      - run: |
-          set -e
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  archlinux:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:archlinux
-    name: Build-Arch-Linux
-
-    steps:
-      - run: |
-          set -e
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  gentoo-glibc:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:gentoo-glibc
-    name: Build-Gentoo-Glibc
-
-    steps:
-      - run: |
-          set -e
-          source /etc/profile
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  gentoo-musl:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:gentoo-musl
-    name: Build-Gentoo-Musl
-
-    steps:
-      - run: |
-          set -e
-          source /etc/profile
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  alpine:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:alpine
-    name: Build-Alpine
-
-    steps:
-      - run: |
-          set -e
-          git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-
-  ubuntu:
-    runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:ubuntu
-    name: Build-Ubuntu
-
+    container: hyperwin/hcpu-ci:${{ matrix.config.tag }}
+    name: "Build on ${{matrix.config.name}}"
+    strategy:
+      matrix:
+        config:
+          - tag: fedora
+            name: Fedora
+          - tag: debian-stable
+            name: Debian Stable
+          - tag: debian-unstable
+            name: Debian Unstable
+          - tag: archlinux
+            name: Arch Linux
+          - tag: gentoo-glibc
+            name: Gentoo GLibc
+          - tag: gentoo-musl
+            name: Gentoo Musl
+          - tag: alpine
+            name: Alpine
+          - tag: ubuntu
+            name: Ubuntu
+    
     steps:
       - run: |
           set -e
