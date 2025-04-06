@@ -1,6 +1,6 @@
 # How to contribute to HyperCPU project
 
-## For collabolators:
+## For collaborators:
 1. Clone repository locally
 2. Create new branch from the branch `master`. Think about the name - what feature are you going to add? Or are you going to fix something?
 3. Work on that branch, DO NOT touching others. Every push in a non-master branch runs a CI workflow with minimal tests.
