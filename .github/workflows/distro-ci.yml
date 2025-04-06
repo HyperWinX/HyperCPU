@@ -36,6 +36,7 @@ jobs:
     steps:
       - run: |
           set -e
+          source /etc/profile
           git clone https://github.com/HyperWinX/HyperCPU.git --recursive  && cd HyperCPU
           git switch "${{ github.head_ref }}"
           cd dist/pog && git pull origin master && cd ../..
