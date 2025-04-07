@@ -15,10 +15,6 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Pull submodules
-        run: |
-          git submodule update --init --remote --recursive
-      
       - name: Install all tools
         uses: aminya/setup-cpp@v1
         with:
