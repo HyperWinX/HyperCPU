@@ -7,7 +7,8 @@ on:
 
 jobs:
   versioning-patch-increment:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    container: hyperwin/hcpu-ci:debian-unstable
     if: "contains(github.event.head_commit.message, '[ci patch inc]')"
     permissions:
       contents: write

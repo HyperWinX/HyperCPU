@@ -7,7 +7,8 @@ on:
 
 jobs:
   testing:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    container: hyperwin/hcpu-ci:debian-unstable
     name: Run full test suite
 
     steps:
