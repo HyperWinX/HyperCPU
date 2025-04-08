@@ -23,7 +23,6 @@ namespace HyperCPU {
   using write_operation_handler = std::function<void(std::uint8_t)>;
 
   class MemoryControllerST;
-  class MemoryControllerMT;
 
   class CPU {
   private:

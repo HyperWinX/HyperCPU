@@ -1,16 +1,13 @@
 #include "Logger/Logger.hpp"
 #include <functional>
 
-#include <Core/MemoryController/MemoryControllerMT.hpp>
 #include <Core/MemoryController/MemoryControllerST.hpp>
 #include <Core/CPU/Decoders/IDecoder.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/CPU.hpp>
 
 HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, std::uint64_t binary_size) :
-  mem_controller(core_count == 1 ?
-    dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this)) : 
-    dynamic_cast<IMemoryController*>(new MemoryControllerMT(mem_size, this))),
+  mem_controller(dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this))),
   logger(LogLevel::ERROR),
   core_count(core_count),
   total_mem(mem_size),
