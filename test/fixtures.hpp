@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 
 #define private public
-#include <Core/MemoryController/MemoryControllerMT.hpp>
 #include <Core/MemoryController/MemoryControllerST.hpp>
 #include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
@@ -38,30 +37,6 @@ public:
   }
 private:
   std::string dir_name;
-};
-
-class MC_MT_TEST : public testing::Test {
-  protected:
-    HyperCPU::MemoryControllerMT mcmt;
-    char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
-    std::size_t counter;
-    MC_MT_TEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
-      std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
-    }
-};
-
-class MC_MT_FAILTEST : public testing::Test {
-  protected:
-    HyperCPU::MemoryControllerMT mcmt;
-    std::size_t counter;
-    MC_MT_FAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {}
-};
-
-class MC_MT_NEARFAILTEST : public testing::Test {
-  protected:
-    HyperCPU::MemoryControllerMT mcmt;
-    std::size_t counter;
-    MC_MT_NEARFAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
 };
 
 class MC_ST_TEST : public testing::Test {
