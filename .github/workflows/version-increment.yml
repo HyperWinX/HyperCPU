@@ -28,6 +28,7 @@ jobs:
         
       - name: Push changes to master branch
         run: |
+          git config --global --add safe.directory '*'
           git add .
           git commit -m "[auto]: Increment patch version"
           git push origin master
@@ -54,6 +55,7 @@ jobs:
         
       - name: Push changes to master branch
         run: |
+          git config --global --add safe.directory '*'
           git add .
           git commit -m "[auto]: Increment minor version"
           git push origin master
