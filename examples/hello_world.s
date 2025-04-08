@@ -1,25 +1,26 @@
 /*
+ * This is a simple "Hello World" program written in HyperCPU assembly (hASM).
+ * It writes a [null-terminated] string to console using string literals and a little loop, then halts CPU.
+ *
+ * Before 0.4.5 version you could have to write a string char by char — see hello_world_classic.s for example.
+ *
+ * Contributed by Ivan Movchan <ivan.movchan.07@gmail.com>, 2025.
+ */
 
-This is a simple "Hello World" program written in HyperCPU assembly (hASM).
-It writes a string to the console char by char, then writes a newline byte (0x10) and does CPU halt.
+data:
+	.b8 "Hello, world!\n";
+	.b8 0u0;
 
-Copyrignt (c) 2025 Ivan Movchan <ivan.movchan.07@gmail.com>
+.attr(entry) main:          // Set program start point.
+	mov x1, data;
 
-*/
+loop:
+	mov xlll2, [x1];
+	cmp xlll2, 0u0;     // Is NULL (0u0)?
+	jme end;            // Yes — go to finish.
+	write xlll0, xlll2; // No — write data to console.
+	inc x1;
+	jmp loop;
 
-main:
-	write xlll0, 'H';
-	write xlll0, 'e';
-	write xlll0, 'l';
-	write xlll0, 'l';
-	write xlll0, 'o';
-	write xlll0, ',';
-	write xlll0, ' ';
-	write xlll0, 'w';
-	write xlll0, 'o';
-	write xlll0, 'r';
-	write xlll0, 'l';
-	write xlll0, 'd';
-	write xlll0, '!';
-	write xlll0, 0u10;
+end:
 	halt;
