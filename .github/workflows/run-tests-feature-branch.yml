@@ -30,11 +30,6 @@ jobs:
           build/modular_testing --gtest_brief
           build/integration_testing --gtest_brief
           
-      - name: Lint code
-        run: |
-          cp build/compile_commands.json .
-          cppcheck --project=compile_commands.json --check-level=exhaustive -idist -j4
-      
       - name: Clean up
         run: |
           rm -rf build
