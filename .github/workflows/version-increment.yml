@@ -7,7 +7,8 @@ on:
 
 jobs:
   versioning-patch-increment:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    container: hyperwin/hcpu-ci:debian-unstable
     if: "contains(github.event.head_commit.message, '[ci patch inc]')"
     permissions:
       contents: write
@@ -32,7 +33,8 @@ jobs:
           git push origin master
 
   versioning-minor-increment:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    container: hyperwin/hcpu-ci:debian-unstable
     if: "contains(github.event.head_commit.message, '[ci minor inc]')"
     permissions:
       contents: write
