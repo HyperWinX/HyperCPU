@@ -13,6 +13,10 @@
 
 #include <mapbox/eternal.hpp>
 
+#ifdef HCPU_ENABLE_LIBUNWIND
+#define UNW_LOCAL_ONLY
+#include <unwind.h>
+#endif
 
 constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eternal::string, HyperCPU::LogLevel>({
   {"debug", HyperCPU::LogLevel::DEBUG},
@@ -20,6 +24,31 @@ constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eterna
   {"warning", HyperCPU::LogLevel::WARNING},
   {"error", HyperCPU::LogLevel::ERROR},
 });
+
+#ifdef HCPU_ENABLE_LIBUNWIND
+void get_backtrace() {
+  unw_cursor_t cursor;
+  unw_context_t context;
+
+  if (unw_getcontext(&context) < 0) {
+    std::puts("Unwinding stack failed: couldn't initialize context");
+    std::exit(1);
+  }
+
+  if (unw_init_local(&cursor, &context) < 0) {
+    std::puts("Unwinding stack failed: couldn't initialize context");
+  }
+
+  while (unw_step(&cursor) > 0) {
+    unw_word_t offset, pc;
+    char sym[4096];
+
+    if (unw_get_reg(&cursor, UNW_REG_IP, &pc)) {
+      std::puts("Unwinding stack failed: couldn't get PC");
+    }
+  }
+}
+#endif
 
 int main(int argc, char** argv) {
   argparse::ArgumentParser program("hcasm");

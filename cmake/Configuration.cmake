@@ -37,6 +37,13 @@ function(set_compile_flags)
     add_link_options(-fsanitize=address,leak)
     message(STATUS "Enabling sanitizers")
   endif()
+
+  find_library(LIBUNWIND unwind)
+  if (LIBUNWIND)
+    message(STATUS "Found libunwind")
+    add_compile_options(-DHCPU_ENABLE_LIBUNWIND)
+    add_link_options(-lunwind)
+  endif()
 endfunction()
 
 function(detect_compilers)
