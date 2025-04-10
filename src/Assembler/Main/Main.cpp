@@ -14,8 +14,7 @@
 #include <mapbox/eternal.hpp>
 
 #ifdef HCPU_ENABLE_LIBUNWIND
-#define UNW_LOCAL_ONLY
-#include <unwind.h>
+#include <Main/BacktraceProvider.hpp>
 #endif
 
 constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eternal::string, HyperCPU::LogLevel>({
@@ -25,32 +24,10 @@ constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eterna
   {"error", HyperCPU::LogLevel::ERROR},
 });
 
-#ifdef HCPU_ENABLE_LIBUNWIND
-void get_backtrace() {
-  unw_cursor_t cursor;
-  unw_context_t context;
-
-  if (unw_getcontext(&context) < 0) {
-    std::puts("Unwinding stack failed: couldn't initialize context");
-    std::exit(1);
-  }
-
-  if (unw_init_local(&cursor, &context) < 0) {
-    std::puts("Unwinding stack failed: couldn't initialize context");
-  }
-
-  while (unw_step(&cursor) > 0) {
-    unw_word_t offset, pc;
-    char sym[4096];
-
-    if (unw_get_reg(&cursor, UNW_REG_IP, &pc)) {
-      std::puts("Unwinding stack failed: couldn't get PC");
-    }
-  }
-}
-#endif
-
 int main(int argc, char** argv) {
+  global_bt_controller = BacktraceController(argv[0]);
+  RunBacktraceController();
+  std::exit(0);
   argparse::ArgumentParser program("hcasm");
   program.add_argument("source")
     .help("source file to be assembled")
