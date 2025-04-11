@@ -19,11 +19,11 @@ public:
   bool HasFinished();
 
   int iteration; // to slice entries that are not needed
-private:
-  // libunwind
-  [[maybe_unused]] unw_cursor_t cursor;
-  [[maybe_unused]] unw_context_t context;
 
+  // libunwind
+  unw_cursor_t cursor;
+  unw_context_t context;
+private:
   // libbacktrace
   void* bt_state;
 
