@@ -11,6 +11,7 @@
 #include <fmt/printf.h>
 
 #include <Main/BacktraceProvider.hpp>
+#include <Logger/Colors.hpp>
 
 extern "C" {
   void bt_create_error_callback(void*, const char* msg, int err) {
@@ -22,6 +23,10 @@ extern "C" {
   }
 
   int bt_callback(void*, uintptr_t, const char* filename, int lineno, const char* function) {
+    if (global_bt_controller.HasFinished() || global_bt_controller.iteration++ != 2) {
+      return 0;
+    }
+
     const char* func_name = function;
     int status;
     char* demangled = abi::__cxa_demangle(function, nullptr, nullptr, &status);
@@ -29,17 +34,32 @@ extern "C" {
       func_name = demangled;
     }
 
+    if (!func_name) {
+      func_name = "<unknown>";
+    } else if (!std::strcmp(func_name, "main")) {
+      global_bt_controller.SetFinished();
+    }
+
+    if (!filename) {
+      filename = "<unknown>";
+    }
+
     fmt::println("{}:{} in function {}", filename, lineno, func_name);
 
+    std::free(demangled);
+
     return 0;
+  }
+
+  void RunBacktraceController() {
+    global_bt_controller.Run();
   }
 }
 
 BacktraceController global_bt_controller;
 
 void BacktraceController::Run() {
-  backtrace_full((backtrace_state*)bt_state, 0, bt_callback, bt_error_callback, nullptr);
-  /*
+  fmt::println("\n{}[!] HyperCPU encountered a segmentation fault!{}", B_RED, RESET);
   if (unw_getcontext(&context) < 0) {
     std::puts("Unwinding stack failed: couldn't initialize context");
     std::exit(1);
@@ -49,7 +69,13 @@ void BacktraceController::Run() {
     std::puts("Unwinding stack failed: couldn't initialize context");
     std::exit(1);
   }
+  fmt::println("{}[>] Libunwind context initialized successfully, generating stack trace...{}\n", B_GREEN, RESET);
 
+  unw_step(&cursor);
+
+  backtrace_full((backtrace_state*)bt_state, 0, bt_callback, bt_error_callback, nullptr);
+  
+  /*
   unw_step(&cursor); // We should skip one more frame - RunBacktraceController
 
   while (unw_step(&cursor) > 0) {
@@ -73,8 +99,18 @@ void BacktraceController::Run() {
         name = sym;
       }
     }
+
+    fmt::println("{}", sym);
   }
   */
+}
+
+void BacktraceController::SetFinished() {
+  finished = true;
+}
+
+bool BacktraceController::HasFinished() {
+  return finished;
 }
 
 #endif
