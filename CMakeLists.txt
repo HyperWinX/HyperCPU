@@ -20,7 +20,6 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 message(STATUS "Generating source files list")
 include(cmake/SourceListGenerator.cmake)
-
 add_subdirectory(dist/argparse)
 add_subdirectory(dist/pog)
 add_subdirectory(bench)

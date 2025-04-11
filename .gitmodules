@@ -19,3 +19,9 @@
 [submodule "dist/benchmark"]
 	path = dist/benchmark
 	url = https://github.com/google/benchmark
+[submodule "dist/libbacktrace"]
+	path = dist/libbacktrace
+	url = https://github.com/ianlancetaylor/libbacktrace
+[submodule "dist/libunwind"]
+	path = dist/libunwind
+	url = https://github.com/libunwind/libunwind
