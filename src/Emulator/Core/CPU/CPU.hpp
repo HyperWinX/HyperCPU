@@ -33,7 +33,7 @@ namespace HyperCPU {
     std::unique_ptr<Decoder> m_decoder;
 
     // Data
-    const HyperCPU::Logger& logger;
+    const HyperCPU::Logger logger;
     std::size_t core_count;
     std::size_t total_mem;
     bool halted;
@@ -125,7 +125,7 @@ namespace HyperCPU {
     std::unique_ptr<SimpleIOImpl> io_ctl;
     
   public:
-    CPU(std::size_t core_count, std::size_t mem_size, const HyperCPU::Logger& logger, char* binary = nullptr, std::uint64_t binary_size = 0);
+    CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
     void Run();
 

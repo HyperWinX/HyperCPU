@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
     EXIT(1);
   }
 
-  HyperCPU::CPU cpu{1, memory, logger, buf.get(), static_cast<std::uint64_t>(binarysize )};
+  HyperCPU::CPU cpu{1, memory, buf.get(), static_cast<std::uint64_t>(binarysize)};
 
   cpu.SetEntryPoint(header.entry_point);
   cpu.Run();

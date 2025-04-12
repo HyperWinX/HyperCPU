@@ -89,7 +89,7 @@ protected:
   HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
-  CPU_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096, logger) { }
+  CPU_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) { }
 };
 
 class OPERAND_EVAL_TEST : public ::testing::Test {
@@ -98,7 +98,7 @@ protected:
   HyperCPU::CPU cpu;
   std::pair<void*, void*> result;
 
-  OPERAND_EVAL_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096, logger) { }
+  OPERAND_EVAL_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) { }
 };
 
 class STACK_TEST : public ::testing::Test {
@@ -106,7 +106,7 @@ protected:
   HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
-  STACK_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096, logger) {
+  STACK_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
     *cpu.xbp = 1024;
     *cpu.xsp = 1024;
   }
@@ -117,7 +117,7 @@ protected:
   HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
-  IVT_INIT_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096, logger) {
+  IVT_INIT_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
 
   }
 };
@@ -127,7 +127,7 @@ protected:
   HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
-  EXCEPTION_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096, logger) { }
+  EXCEPTION_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) { }
 
   virtual void SetUp() {
     *cpu.xsp = 512;
