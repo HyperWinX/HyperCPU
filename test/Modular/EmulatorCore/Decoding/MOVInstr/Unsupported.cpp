@@ -4,6 +4,12 @@
 
 #include <fixtures.hpp>
 
+#ifdef __HCPU_DEBUG
+# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
+#else
+# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
+#endif
+
 TEST_F(DECODER_TEST, MOV_INSTR_R) {
   decoder.mem_controller->Load16(counter, HyperCPU::MOV);
   counter += 2;
@@ -14,7 +20,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_R) {
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
+  HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
 TEST_F(DECODER_TEST, MOV_INSTR_M) {
@@ -27,7 +33,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_M) {
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
+  HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
 TEST_F(DECODER_TEST, MOV_INSTR_IMM) {
@@ -40,7 +46,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_IMM) {
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
+  HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
 TEST_F(DECODER_TEST, MOV_INSTR_NONE) {
@@ -53,5 +59,5 @@ TEST_F(DECODER_TEST, MOV_INSTR_NONE) {
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
   
-  ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
+  HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
