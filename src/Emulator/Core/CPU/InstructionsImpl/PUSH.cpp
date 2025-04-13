@@ -1,10 +1,10 @@
 #include <utility>
 
-#include "Core/CPU/Instructions/Flags.hpp"
-#include <Core/CPU/CPU.hpp>
-
-#include <Misc/bit_cast.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
 #include <Misc/unreachable.hpp>
+#include <Misc/bit_cast.hpp>
+#include <Core/CPU/CPU.hpp>
+#include <Exit.hpp>
 
 
 #pragma GCC diagnostic push
@@ -18,7 +18,7 @@ void HyperCPU::CPU::ExecPUSH(const IInstruction& instr, void* op1, void* op2) {
         case HyperCPU::Mode::b16: StackPush16(HyperCPU::bit_cast_from<std::uint16_t>(op1)); break;
         case HyperCPU::Mode::b32: StackPush32(HyperCPU::bit_cast_from<std::uint32_t>(op1)); break;
         case HyperCPU::Mode::b64: StackPush64(HyperCPU::bit_cast_from<std::uint64_t>(op1)); break;
-        default: HyperCPU::unreachable();
+        default: UNREACHABLE();
       }
       break;
     case IMM:
@@ -27,11 +27,11 @@ void HyperCPU::CPU::ExecPUSH(const IInstruction& instr, void* op1, void* op2) {
         case HyperCPU::Mode::b16: StackPush16(HyperCPU::bit_cast<std::uint16_t>(op1)); break;
         case HyperCPU::Mode::b32: StackPush32(HyperCPU::bit_cast<std::uint32_t>(op1)); break;
         case HyperCPU::Mode::b64: StackPush64(HyperCPU::bit_cast<std::uint64_t>(op1)); break;
-        default: HyperCPU::unreachable();
+        default: UNREACHABLE();
       }
       break;
     default:
-      HyperCPU::unreachable();
+      UNREACHABLE();
   }
 }
 

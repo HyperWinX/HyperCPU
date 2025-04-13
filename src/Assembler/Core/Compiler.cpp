@@ -1,15 +1,15 @@
-#include "Emulator/Core/CPU/Instructions/Opcodes.hpp"
-#include "pog/line_spec.h"
 #include <string>
 #include <fstream>
 #include <utility>
-#include <iostream>
 
+#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/BinaryTransformer.hpp>
+#include <Emulator/Misc/print.hpp>
 #include <Core/Compiler.hpp>
 #include <Logger/Logger.hpp>
-#include <Emulator/Misc/print.hpp>
+#include <Exit.hpp>
 
+#include <pog/line_spec.h>
 #include <pog/pog.h>
 
 
@@ -181,8 +181,7 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::OperandTy
     case HCAsm::OperandType::uint:
     case HCAsm::OperandType::label:
       return 8;
-    default: std::abort();
-    //default: std::unreachable();
+    default: UNREACHABLE();
   }
 }
 
@@ -200,7 +199,7 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(const Operand& op) {
     case Mode::b64:
       return 8;
     default:
-      std::abort();
+      ABORT();
   }
 }
 
@@ -216,7 +215,7 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
     case Mode::b64:
       return 8;
     default:
-      std::abort();
+      ABORT();
   }
 }
 
@@ -254,7 +253,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
           result += 1;
           break;
         default:
-          std::abort();
+          ABORT();
       }
       break;
     case OperandType::mem_reg_add_int:
@@ -279,7 +278,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
           result += 10;
           break;
         default:
-          std::abort();
+          ABORT();
       }
       break;
     case OperandType::sint:
@@ -301,7 +300,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
           ++result;
           break;
         default:
-          std::abort();
+          ABORT();
       }
       break;
     case OperandType::label:
@@ -310,7 +309,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     case OperandType::none:
       break;
     default:
-      std::abort();
+      ABORT();
   }
 
   return result;
@@ -346,7 +345,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
             case Mode::b64:
               return 8;
             default:
-              std::abort();
+              ABORT();
           }
         }();
       });
@@ -374,7 +373,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   BinaryResult binary = { new unsigned char[ir.code_size] };
   if (!binary.binary) {
     logger.Log(LogLevel::ERROR, "Failed to allocate memory for binary data!");
-    std::abort();
+    ABORT();
   }
 
   logger.Log(LogLevel::DEBUG, "Running pass 3 - compiling");
@@ -409,7 +408,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
           case Mode::b64: 
             binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant)));
             break;
-          default: std::abort();
+          default: ABORT();
         }
       },
       [](Label&){});
@@ -451,7 +450,7 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
     "", std::to_string(err_token.line_spec.line).length(),
     "", err_token.line_spec.offset,
     std::string(err_token.line_spec.length, '^'));
-  std::exit(1);
+  EXIT(1);
 }
 
 void HCAsm::WriteResultFile(HyperCPU::FileType type, HCAsm::BinaryResult& result, std::ofstream& output, std::uint32_t code_size, std::uint32_t entry_point) {

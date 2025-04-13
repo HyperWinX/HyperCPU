@@ -278,3 +278,7 @@ bool HyperCPU::CPU::CanExecuteInterrupts() {
 void HyperCPU::CPU::SetEntryPoint(std::uint32_t entry_point) {
   *xip = entry_point;
 }
+
+const HyperCPU::Logger& HyperCPU::CPU::GetLogger() const noexcept {
+  return logger;
+}
