@@ -31,6 +31,12 @@ function(set_compile_flags)
     message(STATUS "Enabled -march=native flag")
   endif()
 
+  string(TOLOWER "${HCPU_X86_32}" HCPU_X86_32)
+  if ("${HCPU_X86_32}" STREQUAL "on")
+    add_compile_options(-m32)
+    message(STATUS "Enabled x86_32 building mode")
+  endif()
+
   string(TOLOWER "${HCPU_SANITIZERS}" HCPU_SANITIZERS)
   if (NOT "${HCPU_SANITIZERS}" STREQUAL "off")
     add_compile_options(-fsanitize=address,leak)
