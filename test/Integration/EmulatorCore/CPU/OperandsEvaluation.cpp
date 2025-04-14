@@ -212,7 +212,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_M_EVALUATION) {
     HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first, cpu.x0);
-  ASSERT_EQ(result.second, reinterpret_cast<void*>(arg2));
+  ASSERT_EQ(result.second, reinterpret_cast<std::uint64_t>(arg2));
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_M_EVALUATION) {
@@ -224,7 +224,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_M_EVALUATION) {
     HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first, cpu.x0);
-  ASSERT_EQ(result.second, reinterpret_cast<void*>(arg2));
+  ASSERT_EQ(result.second, reinterpret_cast<std::uint64_t>(arg2));
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B8_EVALUATION) {
@@ -355,7 +355,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_M_R_EVALUATION) {
   result = cpu.GetOperands(HyperCPU::OperandTypes::M_R, 
     HyperCPU::Mode::b8, arg1, arg2);
 
-  ASSERT_EQ(result.first, reinterpret_cast<void*>(arg1));
+  ASSERT_EQ(result.first, reinterpret_cast<std::uint64_t>(arg1));
   ASSERT_EQ(result.second, cpu.x0);
 }
 
@@ -377,7 +377,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_M_EVALUATION) {
   result = cpu.GetOperands(HyperCPU::OperandTypes::M, 
     HyperCPU::Mode::b8, arg1, arg2);
 
-  ASSERT_EQ(result.first, reinterpret_cast<void*>(arg1));
+  ASSERT_EQ(result.first, reinterpret_cast<std::uint64_t>(arg1));
   ASSERT_EQ(result.second, nullptr);
 }
 

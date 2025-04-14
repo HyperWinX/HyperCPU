@@ -8,21 +8,55 @@
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/IO/Simple.hpp>
+#include <Misc/bit_cast.hpp>
 
-#define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, void* op1, void* op2)
+#define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, OperandContainer op1, OperandContainer op2)
 
 namespace HyperCPU {
-  using opcode_handler = std::function<void(const IInstruction& instr, void* op1, void* op2)>;
-  using read_operation_handler = std::function<std::uint8_t()>;
-  using write_operation_handler = std::function<void(std::uint8_t)>;
-
   class MemoryControllerST;
 
   class CPU {
   private:
     friend class Decoder;
     friend class MemoryControllerST;
-    friend class MemoryControllerMT;
+
+    // Internal data type, used to represent operands
+    struct OperandContainer {
+    public:
+      explicit OperandContainer(std::uint64_t value) : value(value) { }
+      explicit OperandContainer(void* ptr) : value(HyperCPU::bit_cast<std::uint64_t>(ptr)) { } // Supposed to be executed from GetOperands()
+      
+      operator std::uint8_t() const noexcept { return HyperCPU::bit_cast<std::uint8_t>(value); }
+      operator std::uint16_t() const noexcept { return HyperCPU::bit_cast<std::uint16_t>(value); }
+      operator std::uint32_t() const noexcept { return HyperCPU::bit_cast<std::uint32_t>(value); }
+      operator std::uint64_t() const noexcept { return value; }
+
+      std::uint64_t& ref() noexcept {
+        return value;
+      }
+      
+      template<typename T>
+      operator T*() const noexcept {
+        return HyperCPU::bit_cast<T*>(value);
+      }
+
+      template<typename T>
+      T& deref() const noexcept {
+        return *static_cast<T*>(*this);
+      }
+
+      template<typename T>
+      T* ptr() const noexcept {
+        return static_cast<T*>(*this);
+      }
+    private:
+      std::uint64_t value;
+    };
+
+    using opcode_handler = std::function<void(const IInstruction& instr, OperandContainer op1, OperandContainer op2)>;
+    using read_operation_handler = std::function<std::uint8_t()>;
+    using write_operation_handler = std::function<void(std::uint8_t)>;
+
     // Components
     IMemoryController* mem_controller;
     std::unique_ptr<Decoder> m_decoder;
@@ -53,8 +87,8 @@ namespace HyperCPU {
 
     std::array<opcode_handler, 128> opcode_handler_assoc;
 
-    std::pair<void*, void*> GetOperands(OperandTypes op_types, Mode md, std::size_t& op1, std::size_t& op2);
-    void* GetRegister(std::size_t& op1);
+    std::pair<OperandContainer, OperandContainer> GetOperands(OperandTypes op_types, Mode md, std::size_t& op1, std::size_t& op2);
+    OperandContainer GetRegister(std::size_t& op1);
 
     // Stack
     void StackPush8(std::uint8_t) noexcept;

@@ -95,7 +95,7 @@ class OPERAND_EVAL_TEST : public ::testing::Test {
 protected:
   HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
-  std::pair<void*, void*> result;
+  std::pair<std::uint64_t, std::uint64_t> result;
 
   OPERAND_EVAL_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) { }
 };
