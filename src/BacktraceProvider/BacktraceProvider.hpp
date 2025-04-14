@@ -1,4 +1,5 @@
 #ifdef HCPU_ENABLE_LIBUNWIND
+#include <string_view>
 
 #include <backtrace.h>
 #include <libunwind.h>
@@ -32,7 +33,8 @@ private:
 };
 
 extern BacktraceController global_bt_controller;
+extern std::string_view catched_signal_type;
 
-extern "C" void RunBacktraceController();
+extern "C" void SignalHandler(int);
 
 #endif

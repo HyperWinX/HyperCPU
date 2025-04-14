@@ -1,6 +1,8 @@
-#include <fmt/base.h>
 #ifdef HCPU_ENABLE_LIBUNWIND
 
+#include <memory>
+
+#include <csignal>
 #include <cstdlib>
 #include <cstdio>
 #include <cxxabi.h>
@@ -10,13 +12,26 @@
 #include <backtrace.h>
 
 #include <fmt/printf.h>
+#include <fmt/base.h>
 
-#include <Main/BacktraceProvider.hpp>
+#include <BacktraceProvider/BacktraceProvider.hpp>
 #include <Logger/Colors.hpp>
 
 extern "C" {
+  void SignalHandler(int signal) {
+    switch(signal) {
+      case SIGSEGV:
+        catched_signal_type = "SIGSEGV";
+        break;
+      case SIGFPE:
+        catched_signal_type = "SIGFPE";
+        break;
+    }
+    global_bt_controller.Run();
+  }
+
   void bt_create_error_callback(void*, const char* msg, int err) {
-    printf("Error %d occurred when initializing the stack trace: %s", err, msg);
+    fmt::println("Error {} occurred when generating the stack trace: {}", err, msg);
   }
 
   void bt_error_callback(void*, [[maybe_unused]] const char* msg, [[maybe_unused]] int err) {
@@ -24,7 +39,7 @@ extern "C" {
   }
 
   int bt_callback(void*, uintptr_t, const char* filename, int lineno, const char* function) {
-    if (global_bt_controller.HasFinished() || global_bt_controller.iteration < 2) {
+    if (global_bt_controller.HasFinished() || global_bt_controller.iteration < 3) {
       ++global_bt_controller.iteration;
       return 0;
     }
@@ -33,9 +48,9 @@ extern "C" {
     const char* func_name = function;
     int status;
     unw_word_t pc, sp;
-    char* demangled = abi::__cxa_demangle(function, nullptr, nullptr, &status);
+    std::unique_ptr<char, decltype(&std::free)> demangled{abi::__cxa_demangle(function, nullptr, nullptr, &status), &std::free};
     if (!status) {
-      func_name = demangled;
+      func_name = demangled.get();
     }
 
     // Null pointer protection
@@ -62,21 +77,18 @@ extern "C" {
     fmt::println("{}frame #{} (PC: {:#x}, SP: {:#x}){}", B_YELLOW, global_bt_controller.iteration, pc, sp, RESET);
     fmt::println("{}{}:{}, function: {}{}", B_YELLOW, filename, lineno, func_name, RESET);
 
-    std::free(demangled);
+    unw_step(&global_bt_controller.cursor);
     
     ++global_bt_controller.iteration;
     return 0;
   }
-
-  void RunBacktraceController() {
-    global_bt_controller.Run();
-  }
 }
 
 BacktraceController global_bt_controller;
+std::string_view catched_signal_type;
 
 void BacktraceController::Run() {
-  fmt::println("\n{}[!] HyperCPU encountered a segmentation fault!{}", B_RED, RESET);
+  fmt::println("\n{}[!] HyperCPU encountered a {}!{}", B_RED, catched_signal_type, RESET);
   if (unw_getcontext(&context) < 0) {
     fmt::println("{}[!] Unwinding stack failed: couldn't initialize the context!{}", B_RED, RESET);
     std::exit(1);
@@ -91,6 +103,8 @@ void BacktraceController::Run() {
   unw_step(&cursor);
 
   backtrace_full((backtrace_state*)bt_state, 0, bt_callback, bt_error_callback, nullptr);
+
+  std::abort();
 }
 
 void BacktraceController::SetFinished() {

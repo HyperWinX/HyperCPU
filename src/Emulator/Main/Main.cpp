@@ -1,7 +1,8 @@
 #include <filesystem>
 #include <limits>
 
-#include <Assembler/Utils/Extension.hpp>
+#include <csignal>
+
 #include <Assembler/Core/Compiler.hpp>
 #include <Emulator/Core/CPU/CPU.hpp>
 #include <Emulator/Main/Main.hpp>
@@ -12,9 +13,19 @@
 
 #include <argparse/argparse.hpp>
 
+#ifdef HCPU_ENABLE_LIBUNWIND
+#include <BacktraceProvider/BacktraceProvider.hpp>
+#endif
+
 HyperCPU::GenericHeader ParseHeader(std::ifstream& binary);
 
 int main(int argc, char** argv) {
+#ifdef HCPU_ENABLE_LIBUNWIND
+  global_bt_controller = BacktraceController(argv[0]);
+
+  std::signal(SIGSEGV, SignalHandler);
+  std::signal(SIGFPE, SignalHandler);
+#endif
   HyperCPU::Logger logger{HyperCPU::LogLevel::ERROR};
   argparse::ArgumentParser program("hcemul", HCPU_VERSION);
   program.add_argument("binary")
