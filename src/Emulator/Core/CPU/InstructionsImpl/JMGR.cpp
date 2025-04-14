@@ -11,14 +11,14 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecJMGR(const IInstruction& instr, void* op1, void* op2) {
+void HyperCPU::CPU::ExecJMGR(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
   if (!(!zrf && !crf)) {
     return;
   }
 
   switch (instr.m_op_types) { // Placeholders
     case R:
-      *xip = deref<std::uint64_t>(op1);
+      *xip = op1.deref<std::uint64_t>();
       break;
     case IMM:
       *xip = HyperCPU::bit_cast<std::uint64_t>(op1);
