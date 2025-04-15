@@ -1,3 +1,7 @@
+/*
+ * Precompiled headers
+ * *Only add headers that will not be modified!*
+ */
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -29,5 +33,6 @@
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 #include <variant>
 #include <vector>
