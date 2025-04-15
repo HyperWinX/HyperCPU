@@ -1,6 +1,6 @@
 /*
  * Precompiled headers
- * *Only add headers that will not be modified!*
+ * ! Only add headers that will not be modified !
  */
 #pragma once
 #include <algorithm>
