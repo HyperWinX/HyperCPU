@@ -1,7 +1,7 @@
 #include <fixtures.hpp>
 #include "Main/Main.hpp"
 #include "Misc/bit_cast.hpp"
-#include <gtest/gtest.h>
+#include <pch.hpp>
 
 TEST_F(FULL_ASSEMBLER, MULTUPLE_INSTRUCTIONS) {
   std::string data = "_start:\n\tmov x0, 0u1;\n\tmov x1, 0u2;\n\tadd x0, x1;";

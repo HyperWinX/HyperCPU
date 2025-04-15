@@ -2,7 +2,7 @@
 
 #include <filesystem>
 #include <unistd.h>
-#include <gtest/gtest.h>
+#include <pch.hpp>
 
 #define private public
 #include <Core/MemoryController/MemoryControllerST.hpp>
