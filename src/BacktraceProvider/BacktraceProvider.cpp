@@ -1,17 +1,9 @@
 #ifdef HCPU_ENABLE_LIBUNWIND
 
-#include <memory>
-
-#include <csignal>
-#include <cstdlib>
-#include <cstdio>
-#include <cxxabi.h>
-
 #define UNW_LOCAL_ONLY
 #include <libunwind.h>
 #include <backtrace.h>
 
-#include <fmt/printf.h>
 #include <fmt/base.h>
 
 #include <BacktraceProvider/BacktraceProvider.hpp>

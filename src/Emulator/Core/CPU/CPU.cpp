@@ -1,5 +1,5 @@
 #include "Logger/Logger.hpp"
-#include <functional>
+#include <pch.hpp>
 
 #include <Core/MemoryController/MemoryControllerST.hpp>
 #include <Core/CPU/Decoders/IDecoder.hpp>

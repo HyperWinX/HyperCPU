@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstdlib>
-#include <cstring>
-
-#include <algorithm>
+#include <pch.hpp>
 
 
 namespace HyperCPU {

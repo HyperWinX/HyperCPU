@@ -1,10 +1,6 @@
 #pragma once
 
-#include <cctype>
-#include <cstdint>
-
-#include <string>
-#include <expected>
+#include <pch.hpp>
 
 
 namespace HyperCPU {

@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstdint>
-
-#include <fmt/format.h>
-#include <utility>
+#include <pch.hpp>
 
 #include <Emulator/Misc/unreachable.hpp>
 #include <Emulator/Misc/print.hpp>

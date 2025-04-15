@@ -1,5 +1,3 @@
-#include <cstring>
-
 #include <Core/CPU/Instructions/Registers.hpp>
 #include <Misc/bit_cast.hpp>
 #include <Core/CPU/CPU.hpp>

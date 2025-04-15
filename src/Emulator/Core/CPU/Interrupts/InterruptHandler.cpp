@@ -1,5 +1,3 @@
-#include <optional>
-
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
 #include <Assembler/Core/Compiler.hpp>

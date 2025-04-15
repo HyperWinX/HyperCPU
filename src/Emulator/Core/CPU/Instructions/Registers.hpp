@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <pch.hpp>
 
 
 #define REGISTER_CASE(reg) case static_cast<std::uint8_t>(reg):

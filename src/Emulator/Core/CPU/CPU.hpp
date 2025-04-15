@@ -1,12 +1,7 @@
 #pragma once
 
 #include "Logger/Logger.hpp"
-#include <cstddef>
-
-#include <functional>
-#include <optional>
-#include <memory>
-#include <atomic>
+#include <pch.hpp>
 
 #include <Core/MemoryController/IMemoryController.hpp>
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>

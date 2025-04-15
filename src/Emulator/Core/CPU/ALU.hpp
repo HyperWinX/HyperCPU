@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstring>
-#include <cstdint>
-
-#include <type_traits>
+#include <pch.hpp>
 
 #define _MICROOP [[gnu::always_inline]] static constexpr inline
 

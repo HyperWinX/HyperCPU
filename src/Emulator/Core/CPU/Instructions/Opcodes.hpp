@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <pch.hpp>
 
 
 #define OPCODE_CASE(opcode) case static_cast<std::uint16_t>(opcode):
