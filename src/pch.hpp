@@ -2,6 +2,7 @@
  * Precompiled headers
  * *Only add headers that will not be modified!*
  */
+#pragma once
 #include <algorithm>
 #include <array>
 #include <atomic>
