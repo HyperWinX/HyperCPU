@@ -34,13 +34,15 @@ jobs:
             name: Ubuntu
     
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
       - run: |
           set -e
           DISTRO=$( cat /etc/*-release | tr [:upper:] [:lower:] | grep -Poi '(debian|ubuntu|fedora|gentoo|alpine)' | uniq )
           if [ "$DISTRO" == "gentoo" ]; then source /etc/profile; fi
-          git clone https://github.com/HyperWinX/HyperCPU.git  && cd HyperCPU
-          git switch "${{ github.head_ref }}"
-          git submodule update --init --recursive
           cd dist/pog && git pull origin master && cd ../..
           cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
           cmake --build build --target run-all-tests-github -j8
