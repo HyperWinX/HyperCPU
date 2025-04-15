@@ -17,6 +17,7 @@
 #include <expected>
 #include <filesystem>
 #include <fmt/format.h>
+#include <fmt/base.h>
 #include <fmt/printf.h>
 #include <fstream>
 #include <functional>
