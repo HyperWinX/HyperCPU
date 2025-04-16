@@ -6,7 +6,7 @@
      </picture>
 </div>
 
-<h4 align="center">The <i>hyper</i> toolkit for custom <i>hyper</i> ISA.</h4>
+<h4 align="center">HyperCPU — the <i>hyper</i> toolkit for custom <i>hyper</i> ISA</h4>
 
 <p align="center">
      <a href="https://github.com/HyperWinX/HyperCPU/issues">
@@ -29,134 +29,104 @@
 
 <img alt="HyperCPU screenshot" src="images/screenshot.png">
 
-HyperCPU is a set of programs created to work with my own simple ISA (instruction set architecture). The project was created for fun, but it took a lot of time (and nerves) and I learned a lot while working on it.
+### What is this
+
+HyperCPU is a set of programs created to work with my own simple ISA (instruction set architecture). The project was created for fun, but it took a lot of time (and nerves), and I learned a lot while working on it.
 
 HyperCPU project includes:
-* **hCPU emulator**;
-* **hASM assembler**;
+* **hCPU emulator** (aka `hcemul`);
+* **hASM assembler** (aka `hcasm`);
 * ~~**hASM disassembler**~~ (planned).
 
-The project roadmap can be found [here](ROADMAP.md).
+See [ROADMAP.md](ROADMAP.md) for project ideas and tasks.
 
 ### Installation
 
 >[!WARNING]
 > HyperCPU supports 64-bit GNU/Linux systems only. It is known to be successfully built and running on `amd64` and `aarch64` architectures.
+>
+> HyperCPU fails to build and/or work properly under \*BSD systems ­— please do not ask us for support of these systems. Windows porting and support are also not planned.
 
-#### Dependencies
+#### Binaries
 
-* `gcc >= 12` or `clang >= 14`;
-* `cmake >= 3.25`;
-* `make`;
-* `ninja`;
-* `re2`;
-* `fmt`;
-* `googletest` (required for building tests in Release profile);
-* `python3`, `python3-pip`, `python3-sphinx`, `python3-sphinx-rtd-theme` (required for building a documentation).
+Pre-compiled binaries are currently not available. Sorry.
 
-#### Build instructions
+#### Building from sources
+
+Building HyperCPU requires these dependencies to be installed:
+
+* **Compilers:** GCC 12+, Clang 14+.
+* **Build systems:** CMake 3.25 or newer, Ninja, GNU make.
+* **Libraries:** re2, fmt (development files of course).
+
+Building the tests requires googletest (gtest) to be installed. Generating the documentation in HTML format requires Python 3 and a few modules (`python3-pip`, `python3-sphinx`, `python3-sphinx-rtd-theme`) to be installed.
+
+After installing dependencies run these commands in the terminal:
 
 ```bash
-$ git clone https://github.com/HyperWinX/HyperCPU --recursive
+$ git clone --recursive https://github.com/HyperWinX/HyperCPU
 $ cd HyperCPU
 $ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 $ make -C build default -j$(nproc)
 ```
 
-`cmake` build options (use `-D` flag to define them):
+Build process can be tweaked by defining various build options (`cmake ... -DBUILD_OPTION=VALUE ...`):
 
-* `CMAKE_BUILD_TYPE:STRING` - project build profile (`Release`, `RelWithDebInfo` or `Debug`), mandatory to be specified;
+* `CMAKE_BUILD_TYPE:STRING` — project build profile (`Release`, `RelWithDebInfo` or `Debug`). Mandatory to be specified.
+* `HCPU_COMPILER:STRING` allows to select a compiler that will be used to build the project. Supported values:
+    * `auto` — let CMake automatically detect a needed compiler or use compiler paths defined by user.
+    * `clang` — use Clang, search for `clang` and `clang++` binaries. Hinting is supported, so if your `clang` binary is called `clang-19`, you can pass: `-DHCPU_COMPILER=clang -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19`.
+    * `gcc` — use GCC, search for `gcc` and `g++` binaries. Be careful: in some environments Clang can do `gcc --> clang` symlinks. You can hint the binary name the same way as with `clang` mode: `-DHCPU_COMPILER=gcc -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14`.
+* `HCPU_LTO:BOOL` — enable building with LTO. If Clang is used, CMake will search for LLD. If LLD is found, LTO will be enabled, otherwise not. If using GCC, there are no dependencies.
+* `HCPU_MARCH_NATIVE:BOOL` — use native architecture (`-march=native`).
+* `HCPU_SANITIZERS:BOOL` — use ASan and LSan sanitizers. Enabled by default — set to `OFF` to disable.
 
 The compiled binaries should be located in `build` directory. The generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
 
 Do not forget to check out [examples](examples) folder for interesting code examples that will help you better understand the syntax of hASM and the power of HyperCPU.
 
-#### Advanced building
-HyperCPU build system supports multiple flags to customize the building process. For example:
-
-* `HCPU_COMPILER:STRING` - allows to select compiler. Possible modes:
-    * `auto` - don't do anything. Use CMake autodetection or passed compiler paths.
-    * `clang` - searches for `clang` and `clang++` binaries. Supports hinting, so, for example, if `clang` binary is called `clang-19`, you can pass: `-DHCPU_COMPILER=clang -DCMAKE_C_COMPILER=clang-19`.
-    * `gcc` - searches for gcc and g++ binaries. Be careful, in some environments Clang can do gcc -> clang symlinks. You can hint the binary name the same was as with clang mode: `-DHCPU_COMPILER=gcc -DCMAKE_C_COMPILER=gcc-14`.
-* `HCPU_LTO:BOOL` - enable building with LTO. If Clang is used, searches for LLD. If LLD is found, LTO will be enabled, otherwise LTO will be unavailable. In case of GCC there are no dependencies.
-* `HCPU_MARCH_NATIVE:BOOL` - use -march=native flag.
-* `HCPU_SANITIZERS:BOOL` - set to OFF if you want to disable ASan and LSan, otherwise it will be enabled.
-
 ### Usage
 
 #### `hcasm` (hASM assembler)
 
-To compile a program to a binary file:
-
 ```bash
-$ ./hcasm -o <target> <source>
+$ ./hcasm [-h] [--help] [--version] [-o VAR] [-c] [-v VAR] source
 ```
 
-To compile a program to an object file:
-
-```bash
-$ ./hcasm -c <target> <source>
-```
-
-To do things with a different verbosity level (`debug`, `info`, `warning`, `error`):
-
-```bash
-$ ./hcasm -v <verbosity_level> ...
-```
-
-To display help message and exit:
-
-```bash
-$ ./hcasm -h # = ./hcasm --help
-```
-
-To display program version and exit:
-
-```bash
-$ ./hcasm --version
-```
+* `source` — source code file to be compiled.
+* `-h`, `--help` — display help message and exit.
+* `--version` — display program version and exit.
+* `-o VAR` — specify output binary file name.
+* `-c` — generate an object file.
+* `-v VAR` — specify verbosity level (`debug`, `info`, `warning`, `error`). Default value is `warning`.
 
 #### `hcemul` (hCPU emulator)
 
-To run a binary:
-
 ```bash
-$ ./hcasm <target>
+$ ./hcemul [-h] [--help] [--version] [-v VAR] [-m VAR] [--memory VAR] binary
 ```
 
-To do things with a different verbosity level (`debug`, `info`, `warning`, `error`):
-
-```bash
-$ ./hcemul -v <verbosity_level> ...
-```
-
-To display help message and exit:
-
-```bash
-$ ./hcemul -h # = ./hcemul --help
-```
-
-To display program version and exit:
-
-```bash
-$ ./hcemul --version
-```
-
+* `binary` — binary file to be executed.
+* `-h`, `--help` — display help message and exit.
+* `--version` — display program version and exit.
+* `-v VAR` — specify verbosity level (`debug`, `info`, `warning`, `error`). Default value is `warning`.
+* `-m`, `--memory` — specify max. memory amount to be used. Postfixes are supported. Default value is `8K`.
 
 ### Contributing
 
 HyperCPU is in active development and we will be happy to hear any feedback from you. Do not hesitate to report bugs or suggest any ideas using "Issues" page.
 
-See how you can contribute in [CONTRIBUTION.MD](CONTRIBUTION.md).
+Wanna contribute to the project? Read [CONTRIBUTION.md](CONTRIBUTION.md) firstly.
 
 Thank you for your interest in HyperCPU.
 
 ### Authors
 
-HyperCPU is brought to you by:
+* **[HyperWin](https://github.com/HyperWinX) (2024 - present time)**\
+  *HyperCPU Founder and Lead Developer, Documentation Author*
 
-* [HyperWin](https://github.com/HyperWinX) (2024 - present time) - idea, code, documentation.
-* [Ivan Movchan](https://github.com/ivan-movchan) (2025 - present time) - artwork, beta testing, sample programs.
+* **[Ivan Movchan](https://github.com/ivan-movchan) (2025 - present time)**\
+  *Beta Tester, Developer and Artist*
 
 ### License
 
@@ -164,5 +134,4 @@ HyperCPU is free software: you can redistribute it and/or modify it under the te
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
