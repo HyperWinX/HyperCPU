@@ -52,5 +52,5 @@ jobs:
         with:
           context: "{{ defaultContext }}:docker/{{ matrix.config.tag }}"
           push: true
-          tag: hyperwin/hcpu-ci:{{ matrix.config.tag }}
+          tags: hyperwin/hcpu-ci:{{ matrix.config.tag }}
 
