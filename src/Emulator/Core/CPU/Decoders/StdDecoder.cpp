@@ -88,11 +88,11 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
     case R_RM: {
       std::uint8_t tmp = mem_controller->Fetch8(*xip);
       dcdr_assert(Validator::IsValidRegister(tmp));
-      memcpy(&instruction.m_op1, &tmp, sizeof(std::uint8_t));
+      instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(tmp));
 
       tmp = mem_controller->Fetch8(*xip);
       dcdr_assert(Validator::IsValidRegister(tmp));
-      memcpy(&instruction.m_op2, &tmp, sizeof(std::uint8_t));
+      instruction.m_op2 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(tmp));
       break;
     }
 
@@ -100,7 +100,7 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
     case R_M: {
       std::uint8_t tmp = mem_controller->Fetch8(*xip);
       dcdr_assert(Validator::IsValidRegister(tmp));
-      memcpy(&instruction.m_op1, &tmp, sizeof(std::uint8_t));
+      instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(tmp));
 
       instruction.m_op2 = OperandContainer{mem_controller->Fetch64(*xip)};
       break;
@@ -110,24 +110,24 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
     case R_IMM: {
       std::uint8_t tmp = mem_controller->Fetch8(*xip);
       dcdr_assert(Validator::IsValidRegister(tmp));
-      memcpy(&instruction.m_op1, &tmp, sizeof(std::uint8_t));
+      instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(tmp));
 
       switch (instruction.m_opcode_mode) {
         case b8: {
           std::uint8_t vtmp = mem_controller->Fetch8(*xip);
-          memcpy(&instruction.m_op2, &vtmp, sizeof(std::uint8_t));
+         instruction.m_op2 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(vtmp));
           break;
         }
 
         case b16: {
           std::uint16_t vtmp = mem_controller->Fetch16(*xip);
-          memcpy(&instruction.m_op2, &vtmp, sizeof(std::uint16_t));
+          instruction.m_op2 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(vtmp));
           break;
         }
 
         case b32: {
           std::uint32_t vtmp = mem_controller->Fetch32(*xip);
-          memcpy(&instruction.m_op2, &vtmp, sizeof(std::uint32_t));
+          instruction.m_op2 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(vtmp));
           break;
         }
 
@@ -144,14 +144,14 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
 
       std::uint8_t tmp = mem_controller->Fetch8(*xip);
       dcdr_assert(Validator::IsValidRegister(tmp));
-      memcpy(&instruction.m_op2, &tmp, sizeof(std::uint8_t));
+      instruction.m_op2 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(tmp));
       break;
     }
 
     case R: {
       std::uint8_t tmp = mem_controller->Fetch8(*xip);
       dcdr_assert(Validator::IsValidRegister(tmp));
-      memcpy(&instruction.m_op1, &tmp, sizeof(std::uint8_t));
+      instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(tmp));
       break;
     }
 
@@ -163,19 +163,19 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
       switch (instruction.m_opcode_mode) {
         case b8: {
           std::uint8_t vtmp = mem_controller->Fetch8(*xip);
-          memcpy(&instruction.m_op1, &vtmp, sizeof(std::uint8_t));
+          instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(vtmp));
           break;
         }
 
         case b16: {
           std::uint16_t vtmp = mem_controller->Fetch16(*xip);
-          memcpy(&instruction.m_op1, &vtmp, sizeof(std::uint16_t));
+          instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(vtmp));
           break;
         }
 
         case b32: {
           std::uint32_t vtmp = mem_controller->Fetch32(*xip);
-          memcpy(&instruction.m_op1, &vtmp, sizeof(std::uint32_t));
+          instruction.m_op1 = OperandContainer(HyperCPU::bit_cast<std::uint64_t>(vtmp));
           break;
         }
 
