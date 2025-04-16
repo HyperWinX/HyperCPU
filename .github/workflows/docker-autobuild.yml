@@ -24,8 +24,6 @@ jobs:
             name: Arch Linux
           - tag: gentoo-glibc
             name: Gentoo GLibc
-          - tag: gentoo-musl
-            name: Gentoo Musl
           - tag: alpine
             name: Alpine
           - tag: ubuntu
@@ -52,5 +50,75 @@ jobs:
         with:
           context: "{{ defaultContext }}:docker/${{ matrix.config.tag }}"
           push: true
-          tags: hyperwin/hcpu-ci:${{ matrix.config.tag }}
+          tags: hyperwin/hcpu-ci:${{ matrix.config.tag }}-build
+  
+  build-gentoo-musl-stage1:
+    runs-on: ubuntu-latest
+    name: "Update Gentoo Musl Docker image - stage 1"
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: hyperwin
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          submodules: true
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{ defaultContext }}:docker/gentoo-musl/stage1"
+          push: true
+          tags: hyperwin/hcpu-ci:gentoo-musl-build
+          
+  build-gentoo-musl-stage2:
+    runs-on: ubuntu-latest
+    name: "Update Gentoo Musl Docker image - stage 2"
+    needs: build-gentoo-musl-stage1
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: hyperwin
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          submodules: true
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{ defaultContext }}:docker/gentoo-musl/stage2"
+          push: true
+          tags: hyperwin/hcpu-ci:gentoo-musl-build
+     
+  build-gentoo-musl-stage3:
+    runs-on: ubuntu-latest
+    name: "Update Gentoo Musl Docker image - stage 3"
+    needs: build-gentoo-musl-stage2
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: hyperwin
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          submodules: true
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{ defaultContext }}:docker/gentoo-musl/stage3"
+          push: true
+          tags: hyperwin/hcpu-ci:gentoo-musl
