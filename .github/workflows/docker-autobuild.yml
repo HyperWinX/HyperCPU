@@ -10,7 +10,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:${{ matrix.config.tag }}
     name: "Update ${{ matrix.config.name }} Docker image"
     strategy:
       matrix:
