@@ -50,7 +50,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: "{{ defaultContext }}:docker/{{ matrix.config.tag }}"
+          context: "{{ defaultContext }}:docker/${{ matrix.config.tag }}"
           push: true
-          tags: hyperwin/hcpu-ci:{{ matrix.config.tag }}
+          tags: hyperwin/hcpu-ci:${{ matrix.config.tag }}
 
