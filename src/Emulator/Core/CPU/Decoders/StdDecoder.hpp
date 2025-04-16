@@ -4,6 +4,8 @@
 #include <Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/IDecoder.hpp>
+#include <Misc/bit_cast.hpp>
+#include <cstddef>
 
 
 namespace HyperCPU {
@@ -13,11 +15,48 @@ namespace HyperCPU {
     EnabledOp2 = 0b11
   };
 
+  struct OperandContainer {
+  public:
+    OperandContainer() : value(0) { }
+    OperandContainer(std::nullptr_t) : value(0) { }
+    explicit OperandContainer(std::uint64_t value) : value(value) { }
+    template<typename T>
+    explicit OperandContainer(T* ptr) : value(HyperCPU::bit_cast<std::uint64_t>(ptr)) { } // Supposed to be executed from GetRegister()
+    
+    operator std::uint8_t() const noexcept { return HyperCPU::bit_cast<std::uint8_t>(value); }
+    operator std::uint16_t() const noexcept { return HyperCPU::bit_cast<std::uint16_t>(value); }
+    operator std::uint32_t() const noexcept { return HyperCPU::bit_cast<std::uint32_t>(value); }
+    operator std::uint64_t() const noexcept { return value; }
+
+    std::uint64_t& ref() noexcept {
+      return value;
+    }
+    
+    template<typename T>
+    operator T*() const noexcept {
+      return HyperCPU::bit_cast<T*>(value);
+    }
+
+    template<typename T>
+    T& deref() const noexcept {
+      return *static_cast<T*>(*this);
+    }
+
+    template<typename T>
+    T* ptr() const noexcept {
+      return static_cast<T*>(*this);
+    }
+
+    ~OperandContainer() { }
+  private:
+    std::uint64_t value;
+  };
+
   struct IInstruction {
     Opcode m_opcode;
     Mode m_opcode_mode;
     OperandTypes m_op_types;
-    std::size_t m_op1, m_op2;
+    OperandContainer m_op1, m_op2;
     AddrExtensionStatus addr_extension_status;
     std::uint8_t extension;
   };

@@ -1,5 +1,10 @@
 include(cmake/Variables.cmake)
 
+function(append_compile_flags flag)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
+  message(STATUS "${CMAKE_CXX_FLAGS}")
+endfunction()
+
 function(set_compile_flags)
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     add_compile_options(${FAST_COMPILE_FLAGS})
