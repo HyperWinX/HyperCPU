@@ -2,9 +2,6 @@ name: HyperCPU CI/CD Pipeline (update Docker images)
 
 on:
   push:
-    branches:
-      - docker-image-autoupdate
-
 
 permissions:
   contents: read
