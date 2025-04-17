@@ -1,10 +1,11 @@
+#include "Core/CPU/Decoders/StdDecoder.hpp"
 #include <Core/CPU/Instructions/Flags.hpp>
 
 #include <fixtures.hpp>
 
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_REGISTERS_EVALUATION) {
-  std::size_t arg = 0;
+  HyperCPU::OperandContainer arg = 0;
   HyperCPU::Registers reg;
   
   reg = HyperCPU::Registers::X0;
@@ -165,7 +166,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_REGISTERS_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_R_EVALUATION) {
-  std::size_t arg1, arg2;
+  HyperCPU::OperandContainer arg1, arg2;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0, reg2 = HyperCPU::Registers::X1;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
   std::memcpy(&arg2, &reg2, sizeof(HyperCPU::Registers));
@@ -178,7 +179,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_R_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_RM_EVALUATION) {
-  std::size_t arg1, arg2;
+  HyperCPU::OperandContainer arg1, arg2;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0, reg2 = HyperCPU::Registers::X1;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
   std::memcpy(&arg2, &reg2, sizeof(HyperCPU::Registers));
@@ -191,7 +192,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_RM_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_R_EVALUATION) {
-  std::size_t arg1, arg2;
+  HyperCPU::OperandContainer arg1, arg2;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0, reg2 = HyperCPU::Registers::X1;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
   std::memcpy(&arg2, &reg2, sizeof(HyperCPU::Registers));
@@ -204,7 +205,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_R_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_M_EVALUATION) {
-  std::size_t arg1, arg2 = 1024;
+  HyperCPU::OperandContainer arg1, arg2 = 1024;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
 
@@ -216,7 +217,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_M_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_M_EVALUATION) {
-  std::size_t arg1, arg2 = 1024;
+  HyperCPU::OperandContainer arg1, arg2 = 1024;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
 
@@ -228,7 +229,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_M_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B8_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFF;
   std::uint8_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -243,7 +244,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B8_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B16_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFFFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFFFF;
   std::uint16_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -258,7 +259,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B16_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B32_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFFFFFFFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFFFFFFFF;
   std::uint32_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -273,7 +274,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B32_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B64_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFFFFFFFFFFFFFFFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFFFFFFFFFFFFFFFF;
   std::uint64_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -288,7 +289,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B64_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B8_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFF;
   std::uint8_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -303,7 +304,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B8_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B16_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFFFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFFFF;
   std::uint16_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -318,7 +319,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B16_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B32_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFFFFFFFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFFFFFFFF;
   std::uint32_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -333,7 +334,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B32_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B64_EVALUATION) {
-  std::size_t arg1, arg2, arg3 = 0xFFFFFFFFFFFFFFFF;
+  HyperCPU::OperandContainer arg1, arg2, arg3 = 0xFFFFFFFFFFFFFFFF;
   std::uint64_t imm;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
@@ -348,7 +349,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B64_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_M_R_EVALUATION) {
-  std::size_t arg1 = 1024, arg2;
+  HyperCPU::OperandContainer arg1 = 1024, arg2;
   HyperCPU::Registers reg2 = HyperCPU::Registers::X0;
   std::memcpy(&arg2, &reg2, sizeof(HyperCPU::Registers));
 
@@ -360,7 +361,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_M_R_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_R_EVALUATION) {
-  std::size_t arg1, arg2;
+  HyperCPU::OperandContainer arg1, arg2;
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   std::memcpy(&arg1, &reg1, sizeof(HyperCPU::Registers));
 
@@ -372,7 +373,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_M_EVALUATION) {
-  std::size_t arg1 = 1024, arg2;
+  HyperCPU::OperandContainer arg1 = 1024, arg2;
 
   result = cpu.GetOperands(HyperCPU::OperandTypes::M, 
     HyperCPU::Mode::b8, arg1, arg2);
@@ -382,7 +383,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_M_EVALUATION) {
 }
 
 TEST_F(OPERAND_EVAL_TEST, PROPER_NONE_EVALUATION) {
-  std::size_t arg1, arg2;
+  HyperCPU::OperandContainer arg1, arg2;
 
   result = cpu.GetOperands(HyperCPU::OperandTypes::NONE,
     HyperCPU::Mode::b8, arg1, arg2);
