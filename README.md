@@ -25,7 +25,7 @@
 </p>
 
 >[!IMPORTANT]
-> HyperCPU is almost ready for use! Wait for 1.0 release to try it out or build the project yourself, test and report found issues.
+> HyperCPU is almost ready for use! Wait for 1.0 release to try it out or build the project yourself, test it and report issues.
 
 <img alt="HyperCPU screenshot" src="images/screenshot.png">
 
@@ -45,7 +45,7 @@ See [ROADMAP.md](ROADMAP.md) for project ideas and tasks.
 >[!WARNING]
 > HyperCPU supports 64-bit GNU/Linux systems only. It is known to be successfully built and running on `amd64` and `aarch64` architectures.
 >
-> HyperCPU fails to build and/or work properly under \*BSD systems ­— please do not ask us for support of these systems. Windows porting and support are also not planned.
+> HyperCPU fails to build and/or work properly under \*BSD systems ­— please do not ask us for support of these systems. Windows support is also not planned.
 
 #### Binaries
 
@@ -55,9 +55,9 @@ Pre-compiled binaries are currently not available. Sorry.
 
 Building HyperCPU requires these dependencies to be installed:
 
-* **Compilers:** GCC 12+, Clang 14+.
-* **Build systems:** CMake 3.25 or newer, Ninja, GNU make.
-* **Libraries:** re2, fmt (development files of course).
+* **C++20 compilers:** GCC 12+, Clang 14+.
+* **Build systems:** CMake 3.25+, Ninja, GNU make.
+* **Libraries:** re2, fmt (development files, of course).
 
 Building the tests requires googletest (gtest) to be installed. Generating the documentation in HTML format requires Python 3 and a few modules (`python3-pip`, `python3-sphinx`, `python3-sphinx-rtd-theme`) to be installed.
 
@@ -81,7 +81,7 @@ Build process can be tweaked by defining various build options (`cmake ... -DBUI
 * `HCPU_MARCH_NATIVE:BOOL` — use native architecture (`-march=native`).
 * `HCPU_SANITIZERS:BOOL` — use ASan and LSan sanitizers. Enabled by default — set to `OFF` to disable.
 
-The compiled binaries should be located in `build` directory. The generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
+The compiled binaries should be located in `build` directory, and the generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
 
 Do not forget to check out [examples](examples) folder for interesting code examples that will help you better understand the syntax of hASM and the power of HyperCPU.
 
