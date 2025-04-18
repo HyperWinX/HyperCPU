@@ -2,7 +2,7 @@ name: HyperCPU CI/CD Pipeline (update Docker images)
 
 on:
   schedule:
-    - cron: "* * */7 * *"
+    - cron: "0 0 */7 * *"
 
 permissions:
   contents: read
