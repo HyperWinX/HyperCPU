@@ -50,7 +50,7 @@ jobs:
         with:
           context: "{{ defaultContext }}:docker/${{ matrix.config.tag }}"
           push: true
-          tags: hyperwin/hcpu-ci:${{ matrix.config.tag }}-build
+          tags: hyperwin/hcpu-ci:${{ matrix.config.tag }}
   
   build-gentoo-musl-stage1:
     runs-on: ubuntu-latest
