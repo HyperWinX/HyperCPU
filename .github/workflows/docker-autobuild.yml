@@ -97,28 +97,5 @@ jobs:
         with:
           context: "{{ defaultContext }}:docker/gentoo-musl/stage2"
           push: true
-          tags: hyperwin/hcpu-ci:gentoo-musl-build
-     
-  build-gentoo-musl-stage3:
-    runs-on: ubuntu-latest
-    name: "Update Gentoo Musl Docker image - stage 3"
-    needs: build-gentoo-musl-stage2
-    steps:
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
-        with:
-          username: hyperwin
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-          submodules: true
-
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          context: "{{ defaultContext }}:docker/gentoo-musl/stage3"
-          push: true
           tags: hyperwin/hcpu-ci:gentoo-musl
+ 
