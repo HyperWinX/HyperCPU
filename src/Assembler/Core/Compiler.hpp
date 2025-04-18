@@ -1,10 +1,6 @@
 #pragma once
 
-#include <type_traits>
-#include <utility>
-#include <string>
-#include <vector>
-#include <queue>
+#include <pch.hpp>
 
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
@@ -75,7 +71,7 @@ namespace HCAsm {
   struct Value {
     std::variant<std::int64_t, std::uint64_t, std::string, Operand, Instruction> val;
   };
- 
+
   struct Label {
     std::string name;
     std::uint64_t index;
@@ -98,7 +94,7 @@ namespace HCAsm {
       std::memcpy(binary + ptr, &data, sizeof(data));
       ptr += sizeof(data);
     }
-    
+
     inline void push(const std::string& data) {
       std::memcpy(binary + ptr, data.data(), data.length());
       ptr += data.length();
@@ -254,5 +250,5 @@ namespace HCAsm {
     std::uint8_t ModeToSize(const Operand& op);
     std::uint8_t ModeToSize(Mode md);
   };
-  
+
 }

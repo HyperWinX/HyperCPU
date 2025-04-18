@@ -1,6 +1,4 @@
-#include <string>
-#include <fstream>
-#include <utility>
+#include <pch.hpp>
 
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/BinaryTransformer.hpp>
@@ -70,7 +68,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
   parser.token("\\.b64")
     .fullword()
     .symbol(".b64");
-  
+
   parser.token("[a-zA-Z_][a-zA-Z0-9_]*")
     .symbol("ident")
     .action(TokenizeIdentifier);
@@ -164,7 +162,7 @@ HCAsm::CompilerState HCAsm::HCAsmCompiler::TransformToIR(std::string& src) {
   parser.prepare();
   logger.Log(LogLevel::DEBUG, "Parser prepared.");
   logger.Log(LogLevel::DEBUG, "Compiling...");
-  
+
   parser.parse(src);
   current_state = nullptr;
   return state;
@@ -226,7 +224,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     default:
       break;
   }
-  
+
   std::uint8_t result = 3; // Opcode is always two bytes long + one byte for operand types
   switch (instr.op1.type) {
     case OperandType::reg: // R_*
@@ -318,7 +316,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
 HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState& ir) {
   // Count code size - pass 1
   logger.Log(LogLevel::DEBUG, "Running pass 1 - counting code size");
-  
+
   for (auto& instr : ir.ir) {
     VisitVariant(instr,
       [this, &ir](Instruction& instruction) mutable -> void {

@@ -1,6 +1,4 @@
-#include <csignal>
-#include <filesystem>
-#include <fstream>
+#include <pch.hpp>
 
 #include <Assembler/Utils/Extension.hpp>
 #include <Assembler/Core/Compiler.hpp>

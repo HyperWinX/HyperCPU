@@ -1,5 +1,5 @@
 #include "Logger/Logger.hpp"
-#include <gtest/gtest.h>
+#include <pch.hpp>
 
 #define private public
 #include <Core/CPU/CPU.hpp>

@@ -1,5 +1,4 @@
-#include "gtest/gtest.h"
-#include <gtest/gtest.h>
+#include <pch.hpp>
 
 #include <fixtures.hpp>
 

@@ -3,7 +3,6 @@
 #include <Core/Compiler.hpp>
 
 #include <pog/line_spec.h>
-#include <string>
 
 using HCAsm::Value;
 
@@ -262,7 +261,7 @@ Value HCAsm::ParseOperand11(pog::Parser<Value>& parser, std::vector<pog::TokenWi
       parser, 
       fmt::format("unknown data size specified: \"{}\"", mode));
   }
-  
+
   return {
     .val = Operand {
       .type = HCAsm::OperandType::sint,
@@ -297,7 +296,7 @@ Value HCAsm::ParseOperand12(pog::Parser<Value>& parser, std::vector<pog::TokenWi
       }
     };
   }
-  
+
   return {
     .val = Operand {
       .type = HCAsm::OperandType::reg,

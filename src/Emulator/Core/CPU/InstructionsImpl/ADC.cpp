@@ -1,5 +1,3 @@
-#include <cstdint>
-
 #include <Core/CPU/CPU.hpp>
 #include <Core/CPU/ALU.hpp>
 

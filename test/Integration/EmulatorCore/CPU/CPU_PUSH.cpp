@@ -1,7 +1,7 @@
 #include "Core/CPU/Instructions/Registers.hpp"
 #include <cstdint>
 #include <fixtures.hpp>
-#include <gtest/gtest.h>
+#include <pch.hpp>
 #include <Misc/bit_cast.hpp>
 // TODO: fix include order
 

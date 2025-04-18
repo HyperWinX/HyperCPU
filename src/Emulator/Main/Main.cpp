@@ -1,8 +1,3 @@
-#include <filesystem>
-#include <limits>
-
-#include <csignal>
-
 #include <Assembler/Core/Compiler.hpp>
 #include <Emulator/Core/CPU/CPU.hpp>
 #include <Emulator/Main/Main.hpp>

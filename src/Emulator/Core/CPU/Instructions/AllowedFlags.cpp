@@ -1,4 +1,4 @@
-#include <cstdint>
+#include <pch.hpp>
 
 #include <Core/CPU/Instructions/AllowedFlags.hpp>
 
