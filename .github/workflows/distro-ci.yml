@@ -38,7 +38,7 @@ jobs:
           set -e
           DISTRO=$( cat /etc/*-release | tr [:upper:] [:lower:] | grep -Poi '(debian|ubuntu|fedora|gentoo|alpine)' | uniq )
           if [ "$DISTRO" == "gentoo" ]; then source /etc/profile; fi
-          git clone https://github.com/${{ github.repository }}.git
+          git clone https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git && cd HyperCPU
           git checkout ${{ github.event.pull_request.head.sha }}
           git submodule update --init --recursive
           cd dist/pog && git pull origin master && cd ../..
