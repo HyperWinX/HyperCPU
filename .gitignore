@@ -89,4 +89,5 @@ CMakeUserPresets*
 .vscode
 
 # Distribution packages
-dist/**
+dist/*
+!dist/CMakeLists.txt
