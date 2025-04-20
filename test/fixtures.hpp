@@ -69,16 +69,17 @@ class DECODER_TEST : public ::testing::Test {
 protected:
   HyperCPU::Decoder decoder;
   std::size_t counter;
+  std::unique_ptr<HyperCPU::MemoryControllerST> mem_ctrl;
 
   DECODER_TEST() = default;
 
   void SetUp() {
-    decoder = HyperCPU::Decoder(new HyperCPU::MemoryControllerST(MEM_SIZE), &counter, nullptr);
+    mem_ctrl = std::make_unique<HyperCPU::MemoryControllerST>(MEM_SIZE);
+    decoder = HyperCPU::Decoder(mem_ctrl.get(), &counter, nullptr);
     counter = 0;
   }
 
   void TearDown() {
-    delete dynamic_cast<HyperCPU::MemoryControllerST*>(decoder.mem_controller);
     decoder.~Decoder();
   }
 };
@@ -95,7 +96,7 @@ class OPERAND_EVAL_TEST : public ::testing::Test {
 protected:
   HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
-  std::pair<std::uint64_t, std::uint64_t> result;
+  std::pair<HyperCPU::OperandContainer, HyperCPU::OperandContainer> result;
 
   OPERAND_EVAL_TEST() : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) { }
 };

@@ -28,7 +28,7 @@ void HyperCPU::CPU::ExecSUB(const IInstruction& instr, OperandContainer op1, Ope
 
         case b64:
           udf = SubtractionWillUnderflow(op1.deref<std::uint64_t>(), op2.deref<std::uint64_t>());
-          op1.deref<std::uint32_t>() = __hcpu_sub(op1.deref<std::uint64_t>(), HyperCPU::bit_cast_from<std::uint64_t>(op2.ptr<std::uint64_t>()));
+          op1.deref<std::uint64_t>() = __hcpu_sub(op1.deref<std::uint64_t>(), HyperCPU::bit_cast_from<std::uint64_t>(op2.ptr<std::uint64_t>()));
           break;
       } // TODO: mark defaults as std::unreachable()
       break;
