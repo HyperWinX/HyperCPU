@@ -27,7 +27,7 @@ Value HCAsm::TokenizeSignedInt(std::string_view str) {
 }
 
 Value HCAsm::TokenizeUnsignedInt(std::string_view str) {
-  return { std::stoul(str.begin() + 2) };
+  return { std::stoull(str.begin() + 2) };
 }
 
 Value HCAsm::TokenizeString(std::string_view str) {

@@ -15,9 +15,9 @@
 #include <Core/CPU/CPU.hpp>
 
 
-static constexpr std::size_t MEM_SIZE = 4096;
-static constexpr std::size_t MEM_FIXTURE_MEM_SIZE = 1024;
-static constexpr std::size_t MEM_PTR = 0x0102030405060708;
+static constexpr std::uint64_t MEM_SIZE = 4096;
+static constexpr std::uint64_t MEM_FIXTURE_MEM_SIZE = 1024;
+static constexpr std::uint64_t MEM_PTR = 0x0102030405060708;
 
 class TempDir {
 public:
@@ -42,7 +42,7 @@ class MC_ST_TEST : public testing::Test {
   protected:
     HyperCPU::MemoryControllerST mcmt;
     char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
-    std::size_t counter;
+    std::uint64_t counter;
     MC_ST_TEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(0) {
       std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
     }
@@ -52,7 +52,7 @@ class MC_ST_FAILTEST : public testing::Test {
   protected:
     HyperCPU::MemoryControllerST mcmt;
     char tmp_buffer[MEM_FIXTURE_MEM_SIZE];
-    std::size_t counter;
+    std::uint64_t counter;
     MC_ST_FAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE), counter(LONG_MAX) {
       std::memset(tmp_buffer, 0x55, MEM_FIXTURE_MEM_SIZE);
     }
@@ -61,14 +61,14 @@ class MC_ST_FAILTEST : public testing::Test {
 class MC_ST_NEARFAILTEST : public testing::Test {
   protected:
     HyperCPU::MemoryControllerST mcmt;
-    std::size_t counter;
+    std::uint64_t counter;
     MC_ST_NEARFAILTEST() : mcmt(MEM_FIXTURE_MEM_SIZE) {}
 };
 
 class DECODER_TEST : public ::testing::Test {
 protected:
   HyperCPU::Decoder decoder;
-  std::size_t counter;
+  std::uint64_t counter;
   std::unique_ptr<HyperCPU::MemoryControllerST> mem_ctrl;
 
   DECODER_TEST() = default;
