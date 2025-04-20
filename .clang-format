@@ -1,0 +1,27 @@
+BasedOnStyle: google
+
+# Ident namespaces with 4 spaces (tab)
+NamespaceIndentation: All
+IndentWidth: 4
+
+# Pointers and references are aligned to left: Type* or Type&
+PointerAlignment: Left
+
+# Transfer closing brackets to next line
+BinPackParameters: false
+AllowAllParametersOfDeclarationOnNextLine: false
+PenaltyReturnTypeOnItsOwnLine: 0
+
+# Move access modifiers (public, private) at
+# the same indention level as class keyword 
+AccessModifierOffset: -4
+
+# Allow empty lines for includes
+SortIncludes: true
+IncludeBlocks: Preserve
+
+# Expand line columns' limit
+ColumnLimit: 150
+
+# Avoid short functions
+AllowShortFunctionsOnASingleLine: None

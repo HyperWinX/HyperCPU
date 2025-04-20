@@ -9,4 +9,4 @@
 
 ## For other contributors
 
-1. Almost the same thing as for collabolators, BUT - you have to fork the repository, and work there. Notice, that you probably have to disable GitHub Actions, or connect the self-hosted runner (no guarantee that HyperCPU workflows will execute successfully on custom runner). When you are ready to send your changes - make a PR - and there goes the same cycle, until the PR gets merged:)
+1. Almost the same thing as for collaborators, BUT - you have to fork the repository, and work there. Notice, that you probably have to disable GitHub Actions, or connect the self-hosted runner (no guarantee that HyperCPU workflows will execute successfully on custom runner). When you are ready to send your changes - make a PR - and there goes the same cycle, until the PR gets merged:)
