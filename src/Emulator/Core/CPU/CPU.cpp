@@ -7,7 +7,7 @@
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/CPU.hpp>
 
-HyperCPU::CPU::CPU(std::size_t core_count, std::size_t mem_size, char* binary, std::uint64_t binary_size) :
+HyperCPU::CPU::CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary, std::uint64_t binary_size) :
   mem_controller(dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this))),
   logger(LogLevel::ERROR),
   core_count(core_count),

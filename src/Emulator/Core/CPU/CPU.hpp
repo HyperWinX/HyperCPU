@@ -30,8 +30,8 @@ namespace HyperCPU {
 
     // Data
     const HyperCPU::Logger logger;
-    std::size_t core_count;
-    std::size_t total_mem;
+    std::uint16_t core_count;
+    std::uint64_t total_mem;
     bool halted;
 
     // General space for registers
@@ -121,7 +121,7 @@ namespace HyperCPU {
     std::unique_ptr<SimpleIOImpl> io_ctl;
     
   public:
-    CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
+    CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
     void Run();
 
