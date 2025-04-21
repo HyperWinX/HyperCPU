@@ -15,13 +15,13 @@ import multiprocessing
 from pathlib import Path
 from collections import OrderedDict
 from dataclasses import dataclass, field
-from typing import Callable, Iterable, Union, Tuple, Collection
+from typing import Callable, Iterable, Union, Tuple, Collection, Optional
 
-from conan.api.subapi.profiles import Profile
 from conan.api.conan_api import ConanAPI, ConanException
 # this is not part of external API, but those formatters are really cool
-from conan.cli.printers.graph import print_graph_basic
+from conan.api.output import ConanOutput
 from conan.cli.printers import print_profiles
+from conan.cli.printers.graph import print_graph_basic, print_graph_packages
 
 
 logger = logging.getLogger(__file__ if '__file__' in vars() else 'build.helper')
@@ -35,10 +35,14 @@ DESCRIPTION = '''
 @dataclass
 class Config:
     build_directory: Path = field(default_factory=lambda: Path.cwd().joinpath('build'))
-    build_configs: Iterable[str] = field(default_factory=lambda: ['Debug'])
     cores: int = multiprocessing.cpu_count()
-    generator: str = 'Ninja'
+    # CMake-specific
+    build_configs: Iterable[str] = field(default_factory=lambda: ['Debug'])
+    generator: Optional[str] = None
+    defines: Collection[Tuple[str, str, str]] = field(default_factory=lambda: [])
     # Conan-specific
+    # allow conan to detect profile (might be inaccurate)
+    allow_profile_detection: bool = False
     # build profile specifies target environment
     build_profile: str = 'default'
     # host profile describes host environment (where build happens)
@@ -82,16 +86,29 @@ class Routines:
 
     @routine(4)
     def conan_install(self):
-        api = ConanAPI()
+        api = ConanAPI(str(self.__params.build_directory / 'conan2'))
 
-        logger.debug(f'detected profiles: ' + ', '.join(api.profiles.list()))
+        detect_profiles = False
+        profiles = api.profiles.list()
+        if len(profiles) > 0:
+            logger.debug(f'detected profiles: ' + ', '.join(profiles))
+        else:
+            if not self.__params.allow_profile_detection:
+                raise FileNotFoundError(
+                    'no profiles exist and autodetection is turned off'
+                )
+            detect_profiles = True
+
         logger.info(
             'please notice, this script modifies "build_type" in incoming profile, to match running params'
         )
         remotes = api.remotes.list()
 
         for config in self.__params.build_configs:
-            self._conan_install_for_config(config, api, remotes)
+            if not self._conan_install_for_config(config, api, remotes, detect_profiles=detect_profiles):
+                raise RuntimeError(
+                    f'failed to install dependencies for config: {config}, see error from conan above'
+                )
 
     @routine(3)
     def configure(self):
@@ -101,37 +118,34 @@ class Routines:
         use_presets = self.CMAKE_USER_PRESETS.is_file()
         if use_presets:
             logger.info('found CMake presets')
-            presets = self._inspect_cmake_presets(self.CMAKE_USER_PRESETS)
-            
-            # make sure that presets are enabled for all possible cmake invocations (configure, build, test)
-            preset_types = [key for key in presets if key.endswith('Presets')]
-
-            presets_available = {}
-            for config in self.__params.build_configs:
-                presets_available[config] = all(f'conan-{config.lower()}' in presets[key] for key in preset_types)
 
         logger.info('configuring for CMake build configs: ' + ', '.join(self.__params.build_configs))
-
         for config in self.__params.build_configs:
             source = Path.cwd()
             binary = self.__params.build_directory.joinpath(config)
 
+            # TODO: allow multiconfigs
             command = [
                 'cmake',
                 '--preset', f'conan-{config.lower()}',
-                '-G', self.__params.generator,
                 '-B', str(binary),
                 '-S', str(source),
                 self._decorate_cmake_variable('CMAKE_EXPORT_COMPILE_COMMANDS', 'ON', 'BOOL'),
                 self._decorate_cmake_variable('CMAKE_BUILD_TYPE', config)
             ] if use_presets else [
                 'cmake',
-                '-G', self.__params.generator,
                 '-B', str(binary),
                 '-S', str(source),
                 self._decorate_cmake_variable('CMAKE_EXPORT_COMPILE_COMMANDS', 'ON', 'BOOL'),
                 self._decorate_cmake_variable('CMAKE_BUILD_TYPE', config)
             ]
+
+            if self.__params.generator is not None:
+                command.extend(['-G', self.__params.generator])
+
+            if len(self.__params.defines) > 0:
+                for key, var_type, value in self.__params.defines:
+                    command.append(self._decorate_cmake_variable(key, value, var_type))
 
             logger.info(f'running configure command for CMake config {config}')
             self._run(command)
@@ -175,15 +189,27 @@ class Routines:
         self,
         config: str,
         api: ConanAPI,
-        remotes: list
-    ):        
-        # fetch requested profiles
+        remotes: list,
+        detect_profiles: bool = False
+    ) -> bool:
+        out = ConanOutput()
         try:
-            # all profile tweaks should be done here, for some reason later modifications to Profile object
-            # have no effect
-            build_profile = api.profiles.get_profile([self.__params.build_profile], settings=[f'build_type={config}'])
-            host_profile = api.profiles.get_profile([self.__params.host_profile], settings=[f'build_type={config}'])
+            if detect_profiles:
+                build_profile = host_profile = api.profiles.detect()
+            else:
+                build_profile = api.profiles.get_profile([self.__params.build_profile])
+                host_profile = api.profiles.get_profile([self.__params.host_profile])
+
+            mixin = OrderedDict({'build_type': config})
+            for profile in (build_profile, host_profile):
+                profile.update_settings(mixin)
+                if profile.processed_settings is None:
+                    profile.process_settings(api.config.settings_yml)
+
+            if detect_profiles:
+                out.title('Autodetected profiles (be careful using them!)')
             print_profiles(host_profile, build_profile)
+
         except ConanException as conan_error:
             raise RuntimeError(
                 f'getting requested profiles failed: {(self.__params.build_profile, self.__params.host_profile)}'
@@ -206,48 +232,24 @@ class Routines:
                 update=True,
                 check_updates=True
             )
-            api.graph.analyze_binaries(graph, build_mode=['missing'], remotes=remotes, update=True)
-            graph.report_graph_error()
             print_graph_basic(graph)
+            graph.report_graph_error()
+            api.graph.analyze_binaries(graph, build_mode=['missing'], remotes=remotes, update=True)
+            print_graph_packages(graph)
 
         except ConanException as conan_error:
-            raise RuntimeError(
-                f'failed to generate build graph, Conan API failed'
-            ) from conan_error
+            out.error(str(conan_error))
+            return False
 
         # make sure to define cmake layout in conanfile.py
         try:
             api.install.install_binaries(graph, remotes)
             api.install.install_consumer(graph, source_folder=Path.cwd())
         except ConanException as conan_error:
-            raise RuntimeError(
-                f'failed to install deps, Conan API failed'
-            ) from conan_error
-
-    def _inspect_cmake_presets(self, presets_file: Path) -> Collection[Tuple[str, dict]]:
-        if not presets_file.is_file():
-            raise FileNotFoundError(f'file "{presets_file}" does not exist')
+            out.error(str(conan_error))
+            return False
         
-        with open(presets_file, 'r') as fd:
-            presets = json.load(fd)
-
-        includes = presets['include']
-        for file_to_include in map(Path, includes):
-            if not file_to_include.is_absolute():
-                file_to_include = presets_file.parent / file_to_include
-
-            with open(file_to_include, 'r') as file:
-                contents = json.load(file)
-
-            for key in contents:
-                if key.endswith('Presets'):
-                    if key not in presets:
-                        presets[key] = []
-
-                    # FIXME: probably should prefer initial values if set
-                    presets[key].append(contents[key])
-            
-        return presets
+        return True
 
     def _run(self: 'Routines', command: typing.List[str]) -> None:
         logger.info('running command: ' + ' '.join(command))
@@ -255,10 +257,35 @@ class Routines:
         if code:
             sys.exit(f'error: subprocess failed: {errno.errorcode[code]} (code: {code})')
 
-    def _decorate_cmake_variable(self: 'Routines', var: str, value: str, type: Union[str, None] = None) -> str:
-        if type is not None:
-            return f'-D{var.upper()}:{type}={value}'
+    def _decorate_cmake_variable(self: 'Routines', var: str, value: str, var_type: Union[str, None] = None) -> str:
+        if var_type is not None:
+            return f'-D{var.upper()}:{var_type}={value}'
         return f'-D{var.upper()}={value}'
+    
+
+def resolve_profiles(config: Config, args: argparse.Namespace):
+    if args.profile_all is not None:
+        config.build_profile = config.host_profile = args.profile_all
+        logger.info(f'using specified "all" (build and host) profile: {args.profile_all}')
+        return
+    
+    if args.profile_host is not None:
+        config.host_profile = args.profile_host
+        logger.info(f'using specified "host" profile: {args.profile_host}')
+
+    if args.profile_build is not None:
+        config.build_profile = args.profile_build
+        logger.info(f'using specified "host" profile: {args.profile_build}')
+    
+    if all(profile is None for profile in (args.profile_all, args.profile_host, args.profile_build)):
+        logger.info('no profiles were specified. Using default for both "host" and "build"')
+
+
+def resolve_defines(config: Config, args: argparse.Namespace):
+    for define in args.defines:
+        name, value = define.split('=')
+        var_name, var_type = name.split(':')
+        config.defines.append((var_name, var_type, value))
 
 
 def parse_cli_args() -> argparse.Namespace:
@@ -271,10 +298,17 @@ def parse_cli_args() -> argparse.Namespace:
     parser.add_argument('-l', '--symlink-compile-commands', action='store_true', dest='symlink_compile_commands')
     # Environment
     parser.add_argument('--build-dir', action='store', dest='build_directory')
+    # TODO: allow more configs
     parser.add_argument('--config', action='append', dest='configs', choices=['Debug', 'Release'])
     parser.add_argument('--parallel', action='store', dest='cores')
     parser.add_argument('--generator', action='store', dest='generator')
-    parser.add_argument('--profile', action='store', dest='profile')
+    # Profiles
+    parser.add_argument('--pr:a', action='store', dest='profile_all')
+    parser.add_argument('--pr:h', action='store', dest='profile_host')
+    parser.add_argument('--pr:b', action='store', dest='profile_build')
+    parser.add_argument('--profiles-detection', action='store_true', dest='profile_detect')
+    # Arbitrary CMake flags
+    parser.add_argument('-D', metavar='KEY:TYPE=VALUE', action='append', default=[], dest='defines')
     return parser.parse_args()
 
 
@@ -309,12 +343,13 @@ def main():
     if getattr(args, 'cores') is not None:
         params.cores = int(args.cores)
         logger.info(f'config: user-provided threads, that will be run in parallel: "{params.cores}"')
-    if getattr(args, 'profile') is not None:
-        params.profile = args.profile
-        logger.info(f'config: user-provided conan profile: "{params.profile}"')
     if getattr(args, 'generator') is not None:
         params.generator = args.generator
         logger.info(f'config: user-provided generator: "{params.generator}"')
+    params.allow_profile_detection = args.profile_detect
+
+    resolve_profiles(params, args)
+    resolve_defines(params, args)
 
     r = Routines(params)
     for routine, f in r.routines():

@@ -15,14 +15,14 @@ class HyperCPU(ConanFile):
         self.__requirements = {
             'gtest': '1.14.0',
             'benchmark': '1.9.1',
-            'abseil': '20250127.0',
-            'libbacktrace': 'cci.20240730',
+            'abseil': '20240116.1',
+            'libbacktrace': 'cci.20210118',
             'argparse': '3.2',
             'eternal': '1.0.1',
-            # 're2': '20230801',
+            're2': '20230801',
             'fmt': '11.1.4',
             'libunwind': '1.8.1',
-            # 'boost': '1.84.0'
+            'boost': '1.87.0'
         }
         super().__init__(display_name)
 

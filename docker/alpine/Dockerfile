@@ -1,4 +1,6 @@
 FROM alpine:latest
 
 RUN apk update && \
-    apk add clang gcc git cmake make gtest-dev gtest-src re2 re2-dev fmt fmt-dev nodejs grep
+    apk add --no-cache python3 py3-pip clang gcc git cmake make \
+        ninja nodejs grep \
+    && pip3 install --no-cache-dir --break-system-packages conan

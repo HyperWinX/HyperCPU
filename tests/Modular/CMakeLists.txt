@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.25)
 
 
-add_executable(modular_testing 
-    ${CMAKE_SOURCE_DIR}/test/main.cpp
+add_executable(
+    modular_testing 
+        ${CMAKE_SOURCE_DIR}/tests/main.cpp
         EmulatorCore/Decoding/CMPInstr/R_R.cpp
         EmulatorCore/Decoding/CMPInstr/RM_IMM.cpp
         EmulatorCore/Decoding/CMPInstr/RM_M.cpp
@@ -94,6 +95,28 @@ add_executable(modular_testing
         EmulatorCore/Decoding/CALLInstr/test_decoder_imm.cpp
         EmulatorCore/Decoding/CALLInstr/test_decoder_unsupported.cpp
         EmulatorCore/Decoding/ADCInstr/R_R.cpp
+        EmulatorCore/Decoding/ADCInstr/Unsupported.cpp
+        EmulatorCore/Decoding/ADCInstr/R_RM.cpp
+        EmulatorCore/Decoding/ADCInstr/R_IMM.cpp
+        EmulatorCore/Decoding/ADCInstr/R_M.cpp
+        EmulatorCore/Decoding/Features/AddressAddition.cpp
+        EmulatorCore/Decoding/HALTInstr/Unsupported.cpp
+        EmulatorCore/Decoding/HALTInstr/None.cpp
+        EmulatorCore/Decoding/ORInstr/R_R.cpp
+        EmulatorCore/Decoding/ORInstr/Unsupported.cpp
+        EmulatorCore/Decoding/ORInstr/R_RM.cpp
+        EmulatorCore/Decoding/ORInstr/R_IMM.cpp
+        EmulatorCore/Decoding/ORInstr/R_M.cpp
+        EmulatorCore/Decoding/READInstr/IMM.cpp
+        EmulatorCore/Decoding/READInstr/Unsupported.cpp
+        EmulatorCore/Decoding/CCRFInstr/test_decoder_unsupported.cpp
+        EmulatorCore/Decoding/CCRFInstr/test_decoder_none.cpp
+        EmulatorCore/MemoryControllers/ST.cpp
+        EmulatorCore/CPUInit/CPUInit.cpp
+        EmulatorCore/Stack/Stack.cpp
+        AssemblerCore/Parser/Statements.cpp
+        AssemblerCore/Parser/Operands.cpp
+        AssemblerCore/Parser/Tokens.cpp
 )
 target_link_libraries(
     modular_testing
@@ -107,5 +130,12 @@ target_link_libraries(
 target_include_directories(
     modular_testing
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/test
+        ${CMAKE_SOURCE_DIR}/tests
+)
+
+gtest_add_tests(
+    TARGET 
+        modular_testing
+    EXTRA_ARGS
+        --gtest_brief=1
 )

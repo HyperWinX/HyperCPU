@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22..3.25)
 
 project(HyperCPU CXX)
 
@@ -8,16 +8,17 @@ option(HCPU_SANITIZERS "HCPU: Enable sanitizers" OFF)
 option(HCPU_BUILD_TESTS "HCPU: Build tests" ON)
 option(HCPU_BUILD_BENCHMARKS "HCPU: Build benchmarks" OFF)
 
-# FIXME: add pthread, boost & re2
 find_package(GTest 1.14.0 REQUIRED)         # GoogleTest
 find_package(benchmark 1.9.1 REQUIRED)      # Google Benchmark
-find_package(absl 20250127.0 REQUIRED)      # Abseil (CMake target: absl::absl)
+find_package(absl 20240116.1 REQUIRED)      # Abseil (CMake target: absl::absl)
 find_package(libbacktrace CONFIG REQUIRED)  # libbacktrace (CMake target: libbacktrace::libbacktrace)
 find_package(argparse 3.2 REQUIRED)         # argparse.cpp (CMake target: argparse::argparse)
 find_package(eternal 1.0.1 REQUIRED)        # Eternal (CMake target: eternal::eternal)
-# find_package(RE2 20240702 REQUIRED)         # RE2 (CMake target: re2::re2)
+find_package(RE2 20230801 REQUIRED)         # RE2 (CMake target: re2::re2)
 find_package(fmt 11.1.4 REQUIRED)           # fmtlib (CMake target: fmt::fmt)
 find_package(libunwind 1.8.1 REQUIRED)      # libunwind (CMake target: libunwind::libunwind)
+find_package(Threads REQUIRED)              # pthread support (Threads::Threads)
+find_package(Boost 1.87.0 REQUIRED)         # Boost
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,11 +27,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # retained for backwards comparability, should be supplied in CLI or presets
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# FIXME: do we need this now?
-# Disable gtest requirement for google/benchmark
-set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
 # Fix -Wstrinop-overflow warning
-set(FMT_SYSTEM_HEADER ON) 
+set(FMT_SYSTEM_HEADER ON)
 
 # FIXME: patch hpool to enable -Werror
 add_compile_options(
@@ -54,7 +52,7 @@ if(HCPU_LTO)
     check_ipo_supported(RESULT result OUTPUT output)
     if(result)
         set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
-        message(STATUS "HCPU: Enabled lTO")
+        message(STATUS "HCPU: Enabled LTO")
     else()
         message(WARNING "HCPU: LTO is not supported: ${output}")
     endif()
@@ -77,6 +75,9 @@ else()
     message(STATUS "HCPU: Skipping sanitizers")
 endif()
 
+include(CTest)
+enable_testing()
+
 add_library(hcpu_unwind INTERFACE)
 target_link_libraries(
     hcpu_unwind
@@ -97,6 +98,5 @@ if(HCPU_BUILD_BENCHMARKS)
 endif()
 
 if(HCPU_BUILD_TESTS)
-    # FIXME: rename to tests
-    add_subdirectory(test)
+    add_subdirectory(tests)
 endif()

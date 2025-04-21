@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.25)
 
 add_executable(
     integration_testing
-    ${CMAKE_SOURCE_DIR}/test/main.cpp
+        ${CMAKE_SOURCE_DIR}/tests/main.cpp
         EmulatorCore/CPU/CPU_CALLE.cpp
         EmulatorCore/CPU/CPU_HID.cpp
         EmulatorCore/CPU/CPU_READ.cpp
@@ -56,5 +56,12 @@ target_link_libraries(
 target_include_directories(
     integration_testing
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/test
+        ${CMAKE_SOURCE_DIR}/tests
+)
+
+gtest_add_tests(
+    TARGET
+        integration_testing
+    ARGS
+        --gtest_brief=1
 )
