@@ -79,7 +79,7 @@ namespace HCAsm {
   };
 
   template<typename T>
-  concept UnsignedIntegral = std::is_integral_v<T> && std::is_unsigned_v<T>;
+  concept Integral = std::is_integral_v<T>;
 
   struct BinaryResult {
     BinaryResult() : binary(nullptr), ptr(0), entry_point(0) { }
@@ -89,7 +89,7 @@ namespace HCAsm {
     std::uint64_t ptr;
     std::uint32_t entry_point;
 
-    template<UnsignedIntegral T>
+    template<Integral T>
     constexpr inline void push(T data) {
       std::memcpy(binary + ptr, &data, sizeof(data));
       ptr += sizeof(data);
@@ -153,6 +153,7 @@ namespace HCAsm {
       case Registers::X7:
       case Registers::XBP:
       case Registers::XSP:
+      case Registers::XIP:
         return Mode::b64;
       case Registers::XH0:
       case Registers::XH1:

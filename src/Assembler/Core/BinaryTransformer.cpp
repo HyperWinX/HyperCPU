@@ -153,13 +153,24 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     case HyperCPU::OperandTypes::RM_IMM:
     case HyperCPU::OperandTypes::R_IMM:
       res.push(static_cast<std::uint8_t>(instr.op1.reg));
-      switch (md) {
-        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op2.variant)));  break;
-        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
-        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
-        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
-        default:
-          UNREACHABLE();
+      if (std::holds_alternative<std::uint64_t>(instr.op2.variant)) {
+        switch (md) {
+          case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op2.variant)));  break;
+          case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+          case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+          case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant))); break;
+          default:
+            UNREACHABLE();
+        }
+      } else {
+        switch (md) {
+          case HCAsm::Mode::b8:   res.push(static_cast<std::int8_t>(std::get<std::int64_t>(instr.op2.variant)));  break;
+          case HCAsm::Mode::b16:  res.push(static_cast<std::int16_t>(std::get<std::int64_t>(instr.op2.variant))); break;
+          case HCAsm::Mode::b32:  res.push(static_cast<std::int32_t>(std::get<std::int64_t>(instr.op2.variant))); break;
+          case HCAsm::Mode::b64:  res.push(static_cast<std::int64_t>(std::get<std::int64_t>(instr.op2.variant))); break;
+          default:
+            UNREACHABLE();
+        }
       }
       break;
     case HyperCPU::OperandTypes::R:
@@ -169,13 +180,24 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       res.push(std::get<std::uint64_t>(instr.op2.variant));
       break;
     case HyperCPU::OperandTypes::IMM:
-      switch (md) {
-        case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op1.variant)));  break;
-        case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
-        case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
-        case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
-        default:
-          UNREACHABLE();
+      if (std::holds_alternative<std::uint64_t>(instr.op2.variant)) {
+        switch (md) {
+          case HCAsm::Mode::b8:   res.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(instr.op1.variant)));  break;
+          case HCAsm::Mode::b16:  res.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
+          case HCAsm::Mode::b32:  res.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
+          case HCAsm::Mode::b64:  res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op1.variant))); break;
+          default:
+            UNREACHABLE();
+        }
+      } else {
+        switch (md) {
+          case HCAsm::Mode::b8:   res.push(static_cast<std::int8_t>(std::get<std::int64_t>(instr.op1.variant)));  break;
+          case HCAsm::Mode::b16:  res.push(static_cast<std::int16_t>(std::get<std::int64_t>(instr.op1.variant))); break;
+          case HCAsm::Mode::b32:  res.push(static_cast<std::int32_t>(std::get<std::int64_t>(instr.op1.variant))); break;
+          case HCAsm::Mode::b64:  res.push(static_cast<std::int64_t>(std::get<std::int64_t>(instr.op1.variant))); break;
+          default:
+            UNREACHABLE();
+        }
       }
       break;
     case HyperCPU::OperandTypes::M_R:
