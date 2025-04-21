@@ -19,9 +19,10 @@ class HyperCPU(ConanFile):
             'libbacktrace': 'cci.20240730',
             'argparse': '3.2',
             'eternal': '1.0.1',
-            're2': '20240702',
+            # 're2': '20230801',
             'fmt': '11.1.4',
-            'libunwind': '1.8.1'
+            'libunwind': '1.8.1',
+            # 'boost': '1.84.0'
         }
         super().__init__(display_name)
 

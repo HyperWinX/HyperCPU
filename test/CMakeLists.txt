@@ -1,19 +1,10 @@
-include(../cmake/Variables.cmake)
+# TODO: Enable CTest integration
+# FIXME: Add separate precompiled headers here, too
+cmake_minimum_required(VERSION 3.25)
 
-set(TESTS_INCLUDE_DIR 
-  ${ROOT_DIR}/dist/eternal/include
-  ${ROOT_DIR}/src/Emulator
-  ${ROOT_DIR}/test)
 
-add_executable(modular_testing ${ROOT_DIR}/test/main.cpp ${SOURCES_modular_testing})
-target_link_libraries(modular_testing emulator-core assembler-core gtest pthread)
-target_include_directories(modular_testing PUBLIC ${TESTS_INCLUDE_DIR})
-target_precompile_headers(modular_testing PRIVATE pch.hpp)
-
-add_executable(integration_testing ${ROOT_DIR}/test/main.cpp ${SOURCES_integration_testing})
-target_link_libraries(integration_testing emulator-core assembler-core gtest pthread)
-target_include_directories(integration_testing PUBLIC ${TESTS_INCLUDE_DIR})
-target_precompile_headers(integration_testing PRIVATE pch.hpp)
+add_subdirectory(Integration)
+add_subdirectory(Modular)
 
 add_custom_target(run-all-tests-github
     ${CMAKE_BINARY_DIR}/modular_testing --gtest_brief=1

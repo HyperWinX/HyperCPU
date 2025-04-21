@@ -1,0 +1,60 @@
+cmake_minimum_required(VERSION 3.25)
+
+
+add_executable(
+    integration_testing
+    ${CMAKE_SOURCE_DIR}/test/main.cpp
+        EmulatorCore/CPU/CPU_CALLE.cpp
+        EmulatorCore/CPU/CPU_HID.cpp
+        EmulatorCore/CPU/CPU_READ.cpp
+        EmulatorCore/CPU/CPU_AND.cpp
+        EmulatorCore/CPU/CPU_INC.cpp
+        EmulatorCore/CPU/CPU_COVF.cpp
+        EmulatorCore/CPU/CPU_CALLL.cpp
+        EmulatorCore/CPU/CPU_ADC.cpp
+        EmulatorCore/CPU/CPU_ADD.cpp
+        EmulatorCore/CPU/CPU_MOV.cpp
+        EmulatorCore/CPU/CPU_CMP.cpp
+        EmulatorCore/CPU/CPU_OR.cpp
+        EmulatorCore/CPU/CPU_SHFL.cpp
+        EmulatorCore/CPU/CPU_POP.cpp
+        EmulatorCore/CPU/CPU_DEC.cpp
+        EmulatorCore/CPU/CPU_JML.cpp
+        EmulatorCore/CPU/CPU_SHFR.cpp
+        EmulatorCore/CPU/CPU_CALL.cpp
+        EmulatorCore/CPU/CPU_JMP.cpp
+        EmulatorCore/CPU/CPU_INTR.cpp
+        EmulatorCore/CPU/CPU_WRITE.cpp
+        EmulatorCore/CPU/CPU_IRET.cpp
+        EmulatorCore/CPU/CPU_MUL.cpp
+        EmulatorCore/CPU/CPU_JME.cpp
+        EmulatorCore/CPU/CPU_CALLGR.cpp
+        EmulatorCore/CPU/CPU_ANDN.cpp
+        EmulatorCore/CPU/CPU_CCRF.cpp
+        EmulatorCore/CPU/CPU_LOIVT.cpp
+        EmulatorCore/CPU/CPU_SUB.cpp
+        EmulatorCore/CPU/CPU_PUSH.cpp
+        EmulatorCore/CPU/CPU_DIV.cpp
+        EmulatorCore/CPU/OperandsEvaluation.cpp
+        EmulatorCore/CPU/CPU_JMGR.cpp
+        EmulatorCore/CPU/CPU_CUDF.cpp
+        EmulatorCore/CPU/CPU_BSWAP.cpp
+        EmulatorCore/Exceptions/Exceptions.cpp
+        AssemblerCore/TwoOperandsSuccess.cpp
+        AssemblerCore/AssemblerSuccess.cpp
+        AssemblerCore/FullAssembler.cpp
+        AssemblerCore/AssemblerFail.cpp
+)
+target_link_libraries(
+    integration_testing
+    PRIVATE
+        emulator-core
+        assembler-core
+        GTest::gtest
+        pthread
+)
+target_include_directories(
+    integration_testing
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/test
+)
