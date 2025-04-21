@@ -153,6 +153,7 @@ class Routines:
 
     @routine(1)
     def symlink_compile_commands(self: 'Routines') -> None:
+        path = None
         if 'Debug' in self.__params.build_configs:
             path = self.__params.build_directory.joinpath('Debug').joinpath('compile_commands.json')
             logger.info(f'creating symlink for path \'{path}\'')

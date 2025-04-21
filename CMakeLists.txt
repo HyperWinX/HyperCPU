@@ -53,7 +53,7 @@ add_compile_options(
 if(HCPU_LTO)
     check_ipo_supported(RESULT result OUTPUT output)
     if(result)
-        set_property(TARGET foo PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
         message(STATUS "HCPU: Enabled lTO")
     else()
         message(WARNING "HCPU: LTO is not supported: ${output}")
