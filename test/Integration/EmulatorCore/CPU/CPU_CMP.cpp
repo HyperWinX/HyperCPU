@@ -4,11 +4,6 @@
 #include <fixtures.hpp>
 
 
-static constexpr std::uint8_t BYTE_DATA = 0x55;
-static constexpr std::uint16_t WORD_DATA = 0x5555;
-static constexpr std::uint32_t DWORD_DATA = 0x55555555;
-static constexpr std::uint64_t QWORD_DATA = 0x5555555555555555;
-
 TEST_F(CPU_TEST, INSTR_CMP_R_R_b8_LE) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::CMP);
   cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b8 << 4 | HyperCPU::OperandTypes::R_R);
