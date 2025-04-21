@@ -6,3 +6,4 @@ include(GoogleTest)
 
 add_subdirectory(Integration)
 add_subdirectory(Modular)
+add_subdirectory(Python/Buildsystem)

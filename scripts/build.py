@@ -59,8 +59,6 @@ def routine(priority: int) -> Callable:
 
 
 class Routines:
-    CMAKE_USER_PRESETS = Path.cwd() / 'CMakeUserPresets.json'
-
     def __init__(self, params: Config):
         self.__params = params
 
@@ -115,7 +113,7 @@ class Routines:
         if not self.__params.build_directory.is_dir():
             self.__params.build_directory.mkdir()
 
-        use_presets = self.CMAKE_USER_PRESETS.is_file()
+        use_presets = Path.cwd().joinpath('CMakeUserPresets.json').is_file()
         if use_presets:
             logger.info('found CMake presets')
 
