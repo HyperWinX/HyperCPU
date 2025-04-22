@@ -9,7 +9,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void HyperCPU::CPU::ExecWRITE(const IInstruction& instr, void* op1, void* op2) {
+void HyperCPU::CPU::ExecWRITE(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
   write_operation_handler& handler = write_io_handlers[*static_cast<std::uint8_t*>(op1)];
 
   if (handler) {

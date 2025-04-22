@@ -32,7 +32,7 @@ void HyperCPU::CPU::RunInterruptSubroutine() {
     if (instr.m_opcode == Opcode::IRET) {
       return;
     }
-    std::pair<void*, void*> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
+    std::pair<OperandContainer, OperandContainer> operands = GetOperands(instr.m_op_types, instr.m_opcode_mode, instr.m_op1, instr.m_op2);
     opcode_handler_assoc[static_cast<std::uint16_t>(instr.m_opcode)](instr, operands.first, operands.second);
   }
 }

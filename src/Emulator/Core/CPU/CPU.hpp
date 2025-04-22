@@ -8,29 +8,30 @@
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/IO/Simple.hpp>
+#include <Misc/bit_cast.hpp>
 
-#define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, void* op1, void* op2)
+#define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, OperandContainer op1, OperandContainer op2)
 
 namespace HyperCPU {
-  using opcode_handler = std::function<void(const IInstruction& instr, void* op1, void* op2)>;
-  using read_operation_handler = std::function<std::uint8_t()>;
-  using write_operation_handler = std::function<void(std::uint8_t)>;
-
   class MemoryControllerST;
 
   class CPU {
   private:
     friend class Decoder;
-    friend class MemoryControllerST;
-    friend class MemoryControllerMT;
+    friend class MemoryControllerST;    
+
+    using opcode_handler = std::function<void(const IInstruction& instr, OperandContainer op1, OperandContainer op2)>;
+    using read_operation_handler = std::function<std::uint8_t()>;
+    using write_operation_handler = std::function<void(std::uint8_t)>;
+
     // Components
     IMemoryController* mem_controller;
     std::unique_ptr<Decoder> m_decoder;
 
     // Data
     const HyperCPU::Logger logger;
-    std::size_t core_count;
-    std::size_t total_mem;
+    std::uint16_t core_count;
+    std::uint64_t total_mem;
     bool halted;
 
     // General space for registers
@@ -53,8 +54,8 @@ namespace HyperCPU {
 
     std::array<opcode_handler, 128> opcode_handler_assoc;
 
-    std::pair<void*, void*> GetOperands(OperandTypes op_types, Mode md, std::size_t& op1, std::size_t& op2);
-    void* GetRegister(std::size_t& op1);
+    std::pair<OperandContainer, OperandContainer> GetOperands(OperandTypes op_types, Mode md, OperandContainer& op1, OperandContainer& op2);
+    OperandContainer GetRegister(OperandContainer& op1);
 
     // Stack
     void StackPush8(std::uint8_t) noexcept;
@@ -120,7 +121,7 @@ namespace HyperCPU {
     std::unique_ptr<SimpleIOImpl> io_ctl;
     
   public:
-    CPU(std::size_t core_count, std::size_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
+    CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
     void Run();
 
