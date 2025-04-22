@@ -49,5 +49,5 @@ jobs:
             --config Debug                          \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
-            -D CMAKE_CXX_COMPILER:STRING=gcc
+            -D CMAKE_CXX_COMPILER:STRING=gcc        \
             --detect

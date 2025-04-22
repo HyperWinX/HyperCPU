@@ -92,6 +92,7 @@ class BuildsystemTestCase(unittest.TestCase):
 
     def test_05_symlink_debug_compile_commands(self):
         pass
+        pass
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
