@@ -1,5 +1,0 @@
-FROM gentoo/stage3:systemd
-
-RUN emerge --sync
-RUN getuto
-RUN emerge llvm-core/clang cmake gtest re2 libfmt dev-vcs/git --getbinpkg
