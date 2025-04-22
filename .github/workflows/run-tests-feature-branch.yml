@@ -21,7 +21,7 @@ jobs:
             --config Release                        \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
-            -D CMAKE_CXX_COMPILER:STRING=gcc        \
+            -D CMAKE_C_COMPILER:STRING=gcc          \
             --profiles-detection
           cd build/Release && ctest -V
           python3 scripts/build.py -r --config Release --build-dir build
