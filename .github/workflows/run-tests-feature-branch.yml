@@ -22,7 +22,7 @@ jobs:
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
             -D CMAKE_CXX_COMPILER:STRING=gcc        \
-            --detect
+            --profiles-detection
           cd build/Release && ctest -V
           python3 scripts/build.py -r --config Release --build-dir build
       
@@ -33,7 +33,7 @@ jobs:
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=clang++-19 \
             -D CMAKE_C_COMPILER:STRING=clang-19     \
-            --detect
+            --profiles-detection
           cd build/Release && ctest -V
           python3 scripts/build.py -r --config Release --build-dir build
 
