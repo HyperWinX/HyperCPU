@@ -1,3 +1,7 @@
 FROM archlinux:latest
 
-RUN pacman -Syu cmake git clang gcc gtest re2 fmt base-devel nodejs --noconfirm
+RUN pacman -Syu --noconfirm --needed \
+        python python-pip cmake git clang gcc \
+        base-devel nodejs \
+    && pip install --no-cache-dir --break-system-packages conan \
+    && pacman -Scc --noconfirm

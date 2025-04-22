@@ -4,8 +4,8 @@ on:
   schedule:
     - cron: "0 0 */7 * *"
   push:
-    paths: 
-      - 'docker/'
+    paths:
+      - 'docker/**'
 
 permissions:
   contents: read
