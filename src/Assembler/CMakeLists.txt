@@ -17,7 +17,7 @@ add_library(
         Core/ModeNameAssoc.hpp
 )
 target_include_directories(
-	assembler-core 
+	assembler-core
     PUBLIC
 	    ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}
