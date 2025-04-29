@@ -1,5 +1,4 @@
-#include "pog/line_spec.h"
-#include "pog/parser.h"
+#include <Pog/Pog.hpp>
 #include <Core/Compiler.hpp>
 #include <Core/OpcodeNameAssoc.hpp>
 #include <Core/RegNameAssoc.hpp>

@@ -7,8 +7,7 @@
 #include <Logger/Logger.hpp>
 #include <Exit.hpp>
 
-#include <pog/line_spec.h>
-#include <pog/pog.h>
+#include <Pog/Pog.hpp>
 
 
 using HyperCPU::LogLevel;

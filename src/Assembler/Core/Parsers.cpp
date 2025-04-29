@@ -2,7 +2,7 @@
 #include <Core/RegNameAssoc.hpp>
 #include <Core/Compiler.hpp>
 
-#include <pog/line_spec.h>
+#include <Pog/LineSpecialization.hpp>
 
 using HCAsm::Value;
 

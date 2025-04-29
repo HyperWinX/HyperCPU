@@ -25,7 +25,7 @@ target_include_directories(
 target_link_libraries(
 	assembler-core 
     PUBLIC
-	    fmt::fmt argparse::argparse pog eternal::eternal pch hpool
+	    fmt::fmt argparse::argparse pog eternal::eternal pch pog hpool
 )
 
 add_executable(hcasm Main/Main.cpp)

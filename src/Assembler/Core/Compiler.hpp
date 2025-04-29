@@ -10,8 +10,7 @@
 #include <Logger/Logger.hpp>
 #include <Exit.hpp>
 
-#include <pog/line_spec.h>
-#include <pog/parser.h>
+#include <Pog/Pog.hpp>
 
 #include <hpool.hpp>
 
