@@ -64,17 +64,17 @@ Building the tests requires googletest (gtest) to be installed. Generating the d
 After installing dependencies run these commands in the terminal:
 
 ```bash
-$ git clone --recursive https://github.com/HyperWinX/HyperCPU
+$ git clone --recursive https://github.com/HyperCPU-Project/HyperCPU
 $ cd HyperCPU
 $ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 $ make -C build default -j$(nproc)
 ```
 
-Build process can be tweaked by defining various build options (`cmake ... -DBUILD_OPTION=VALUE ...`):
+The build process can be customized using various build options (`cmake ... -DBUILD_OPTION=VALUE ...`):
 
 * `CMAKE_BUILD_TYPE:STRING` — project build profile (`Release`, `RelWithDebInfo` or `Debug`). Mandatory to be specified.
 * `HCPU_COMPILER:STRING` allows to select a compiler that will be used to build the project. Supported values:
-    * `auto` — let CMake automatically detect a needed compiler or use compiler paths defined by user.
+    * `auto` (default) — let CMake automatically detect a needed compiler or use compiler paths defined by user.
     * `clang` — use Clang, search for `clang` and `clang++` binaries. Hinting is supported, so if your `clang` binary is called `clang-19`, you can pass: `-DHCPU_COMPILER=clang -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19`.
     * `gcc` — use GCC, search for `gcc` and `g++` binaries. Be careful: in some environments Clang can do `gcc --> clang` symlinks. You can hint the binary name the same way as with `clang` mode: `-DHCPU_COMPILER=gcc -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14`.
 * `HCPU_LTO:BOOL` — enable building with LTO. If Clang is used, CMake will search for LLD. If LLD is found, LTO will be enabled, otherwise not. If using GCC, there are no dependencies.
@@ -83,7 +83,7 @@ Build process can be tweaked by defining various build options (`cmake ... -DBUI
 
 The compiled binaries should be located in `build` directory, and the generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
 
-Do not forget to check out [examples](examples) folder for interesting code examples that will help you better understand the syntax of hASM and the power of HyperCPU.
+Check out [examples](examples) folder for interesting code examples that will help you better understand the syntax of hASM and the power of HyperCPU.
 
 ### Usage
 
@@ -114,19 +114,16 @@ $ ./hcemul [-h] [--help] [--version] [-v VAR] [-m VAR] [--memory VAR] binary
 
 ### Contributing
 
-HyperCPU is in active development and we will be happy to hear any feedback from you. Do not hesitate to report bugs or suggest any ideas using "Issues" page.
+We will be happy to hear any feedback from you. Do not hesitate to report bugs or suggest any ideas using "Issues" page.
 
-Wanna contribute to the project? Read [CONTRIBUTION.md](CONTRIBUTION.md) firstly.
+Want to contribute to the project? Read [CONTRIBUTION.md](CONTRIBUTION.md) firstly.
 
 Thank you for your interest in HyperCPU.
 
 ### Authors
 
-* **[HyperWin](https://github.com/HyperWinX) (2024 - present time)**\
-  *HyperCPU Founder and Lead Developer, Documentation Author*
-
-* **[Ivan Movchan](https://github.com/ivan-movchan) (2025 - present time)**\
-  *Beta Tester, Developer and Artist*
+* **[HyperWin](https://github.com/HyperWinX) (2024 - present time)** — HyperCPU Project founder, lead developer and documentation author.
+* **[Ivan Movchan](https://github.com/ivan-movchan) (2025 - present time)** — beta tester, artist and just a contributor.
 
 ### License
 
