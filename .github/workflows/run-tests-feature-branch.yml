@@ -18,6 +18,7 @@ jobs:
       - name: Build dependencies with Conan
         run: |
           python3 scripts/build.py -i               \
+            --config Release                        \
             --profiles-detection
       
       - name: Build and test with GCC on Release profile

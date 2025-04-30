@@ -20,6 +20,8 @@ jobs:
       - name: Build all dependencies
         run: |
           python3 scripts/build.py -i               \
+            --config Release                        \
+            --config Debug                          \
             --profiles-detection
       
       - name: Build and test with GCC on Debug profile
