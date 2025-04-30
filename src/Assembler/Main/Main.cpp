@@ -1,3 +1,4 @@
+#include <Pog/Pog.hpp>
 #include <pch.hpp>
 
 #include <Assembler/Utils/Extension.hpp>
@@ -5,7 +6,6 @@
 #include <Emulator/Main/Main.hpp>
 #include <NotImplemented.hpp>
 #include <Logger/Logger.hpp>
-#include <Logger/Colors.hpp>
 #include <Exit.hpp>
 
 #include <argparse/argparse.hpp>

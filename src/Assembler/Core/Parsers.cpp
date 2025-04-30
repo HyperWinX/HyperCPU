@@ -1,8 +1,9 @@
+#include <Pog/Pog.hpp>
+#include <pch.hpp>
+
 #include <Core/ModeNameAssoc.hpp>
 #include <Core/RegNameAssoc.hpp>
 #include <Core/Compiler.hpp>
-
-#include <Pog/LineSpecialization.hpp>
 
 using HCAsm::Value;
 

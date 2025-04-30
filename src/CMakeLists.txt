@@ -11,7 +11,7 @@ add_library(
 	pog INTERFACE
 	Pog/Pog.hpp
 )
-target_precompile_headers(pog INTERFACE pog.hpp)
+target_precompile_headers(pog INTERFACE Pog/Pog.hpp)
 target_include_directories(
 		pog
 	INTERFACE

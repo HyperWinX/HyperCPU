@@ -1,5 +1,7 @@
-#include "Core/CPU/ALU.hpp"
+#include <pch.hpp>
+
 #include <Core/CPU/CPU.hpp>
+#include <Core/CPU/ALU.hpp>
 
 #include <Misc/bit_cast.hpp>
 

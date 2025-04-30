@@ -1,4 +1,6 @@
 #include <Pog/Pog.hpp>
+#include <pch.hpp>
+
 #include <Core/Compiler.hpp>
 #include <Core/OpcodeNameAssoc.hpp>
 #include <Core/RegNameAssoc.hpp>

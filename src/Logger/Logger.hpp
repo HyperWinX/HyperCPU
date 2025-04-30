@@ -3,9 +3,9 @@
 #include <pch.hpp>
 
 #include <Emulator/Misc/print.hpp>
-#include <Emulator/Misc/unreachable.hpp>
-#include <Exit.hpp>
 #include <Logger/Colors.hpp>
+#include <Exit.hpp>
+
 
 namespace HyperCPU {
     enum class LogLevel : std::uint_fast8_t { DEBUG = 0, INFO = 1, WARNING = 2, ERROR = 3 };

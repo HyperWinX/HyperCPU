@@ -1,8 +1,9 @@
+#include <pch.hpp>
+
 #include <Assembler/Core/Compiler.hpp>
 #include <Emulator/Core/CPU/CPU.hpp>
 #include <Emulator/Main/Main.hpp>
 #include <Logger/Logger.hpp>
-#include <Logger/Colors.hpp>
 #include <Version.hpp>
 #include <Exit.hpp>
 

@@ -1,3 +1,5 @@
+#include <pch.hpp>
+
 #include <Core/CPU/CPU.hpp>
 
 #include <Misc/bit_cast.hpp>
