@@ -51,6 +51,3 @@ jobs:
             -D CMAKE_CXX_COMPILER:STRING=g++        \
             -D CMAKE_CXX_COMPILER:STRING=gcc        \
             --detect
-          
-          cd build/Release && ctest && cd ../..
-          cd build/Debug && ctest && cd ../..

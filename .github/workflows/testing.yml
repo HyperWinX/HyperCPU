@@ -16,55 +16,48 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-
-      - name: Build all dependencies
-        run: |
-          python3 scripts/build.py -i               \
-            --config Release                        \
-            --config Debug                          \
-            --profiles-detection
       
       - name: Build and test with GCC on Debug profile
         run: |
-          python3 scripts/build.py -cb              \
+          python3 scripts/build.py -icb             \
             --config Debug                          \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
-            -D CMAKE_C_COMPILER:STRING=gcc
-          
+            -D CMAKE_C_COMPILER:STRING=gcc          \
+            --profiles-detection
           cd build/Debug && ctest -V && cd ../..
           python3 scripts/build.py -r --config Debug --build-dir build
 
       - name: Build and test with GCC on Release profile
         run: |
-          python3 scripts/build.py -cb              \
+          python3 scripts/build.py -icb             \
             --config Release                        \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
-            -D CMAKE_C_COMPILER:STRING=gcc
-          
+            -D CMAKE_C_COMPILER:STRING=gcc          \
+            --profiles-detection
           cd build/Release && ctest -V && cd ../..
           python3 scripts/build.py -r --config Release --build-dir build
 
       - name: Build and test with LLVM on Debug profile
         run: |
-          python3 scripts/build.py -cb              \
+          python3 scripts/build.py -icb             \
             --config Debug                          \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=clang++-19 \
-            -D CMAKE_C_COMPILER:STRING=clang-19
-          
+            -D CMAKE_C_COMPILER:STRING=clang-19     \
+            --profiles-detection
           cd build/Debug && ctest -V && cd ../..
           python3 scripts/build.py -r --config Debug --build-dir build
 
       - name: Build and test with LLVM on Release profile
         run: |
-          python3 scripts/build.py -cb             \
+          python3 scripts/build.py -icb             \
             --config Release                        \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=clang++-19 \
-            -D CMAKE_C_COMPILER:STRING=clang-19
-          
+            -D CMAKE_C_COMPILER:STRING=clang-19     \
+            --profiles-detection
           cd build/Release && ctest -V && cd ../..
           python3 scripts/build.py -r --config Release --build-dir build
 
