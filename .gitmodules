@@ -1,6 +1,3 @@
-[submodule "dist/pog"]
-	path = dist/pog
-	url = https://github.com/HyperWinX/HPog
 [submodule "dist/HPool"]
 	path = dist/HPool
 	url = https://github.com/randommfs/HPool
