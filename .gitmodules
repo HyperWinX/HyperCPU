@@ -1,27 +1,6 @@
-[submodule "dist/googletest"]
-	path = dist/googletest
-	url = https://github.com/google/googletest
-[submodule "dist/HBench"]
-	path = dist/HBench
-	url = https://github.com/randommfs/HBench
-[submodule "dist/argparse"]
-	path = dist/argparse
-	url = https://github.com/p-ranav/argparse
-[submodule "dist/pog"]
-	path = dist/pog
-	url = https://github.com/HyperWinX/HPog
-[submodule "dist/eternal"]
-	path = dist/eternal
-	url = https://github.com/mapbox/eternal
 [submodule "dist/HPool"]
 	path = dist/HPool
 	url = https://github.com/randommfs/HPool
-[submodule "dist/benchmark"]
-	path = dist/benchmark
-	url = https://github.com/google/benchmark
-[submodule "dist/libbacktrace"]
-	path = dist/libbacktrace
-	url = https://github.com/ianlancetaylor/libbacktrace
 [submodule "dist/libunwind"]
 	path = dist/libunwind
 	url = https://github.com/libunwind/libunwind

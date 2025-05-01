@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pch.hpp>
+
 #include <Core/MemoryController/IMemoryController.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>

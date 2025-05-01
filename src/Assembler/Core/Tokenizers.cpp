@@ -1,3 +1,6 @@
+#include <Pog/Pog.hpp>
+#include <pch.hpp>
+
 #include <Core/Compiler.hpp>
 
 using HCAsm::Value;

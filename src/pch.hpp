@@ -35,3 +35,4 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <mapbox/eternal.hpp>

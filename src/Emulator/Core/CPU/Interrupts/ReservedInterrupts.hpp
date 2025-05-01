@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <pch.hpp>
 
 
 namespace HyperCPU {

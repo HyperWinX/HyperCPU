@@ -1,3 +1,4 @@
+#include <Pog/Pog.hpp>
 #include <pch.hpp>
 
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
@@ -6,9 +7,6 @@
 #include <Core/Compiler.hpp>
 #include <Logger/Logger.hpp>
 #include <Exit.hpp>
-
-#include <pog/line_spec.h>
-#include <pog/pog.h>
 
 
 using HyperCPU::LogLevel;

@@ -1,0 +1,60 @@
+# Base style configuration
+# Inherit all formatting rules from the LLVM style as a starting point.
+BasedOnStyle: LLVM
+
+# Indentation settings
+# - IndentWidth: number of spaces per indent level.
+# - TabWidth: visual width of tab characters.
+# - UseTab: whether to emit real tab characters.
+# - NamespaceIndentation: ident namespaces
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+NamespaceIndentation: All
+
+# Include directives
+# - SortIncludes: controls ordering of #include statements.
+# - IncludeBlocks: allow empty lines for includes.
+SortIncludes: true
+IncludeBlocks: Preserve
+
+# Short constructs on single lines
+# Disallow collapsing blocks, loops, cases, ifs, and functions into a single line.
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+# Access modifiers formatting
+# Shift class access specifiers (public/protected/private) relative to class indent.
+AccessModifierOffset: -2
+
+# Brace placement
+# Attach opening braces to the control statement or declaration line.
+BreakBeforeBraces: Attach
+
+# Spacing around parentheses and casts
+# ControlStatements: space before parens in if/for/while only.
+# No extra spaces inside parentheses, angles, container literals, or square brackets.
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: false
+SpacesInParentheses: false
+SpacesInAngles: false
+SpacesInContainerLiterals: false
+SpacesInSquareBrackets: false
+SpaceBeforeSquareBrackets: false
+
+# Template keyword spacing
+# Always place a space after the 'template' keyword.
+SpaceAfterTemplateKeyword: true
+
+# Line length
+# ColumnLimit: 0 disables automatic wrapping; allows unlimited line length.
+ColumnLimit: 0
+
+# Pointer alignment
+# DerivePointerAlignment: ignore inference, use PointerAlignment setting.
+# PointerAlignment: align the '*' or '&' to the left with the type.
+DerivePointerAlignment: false
+PointerAlignment: Left

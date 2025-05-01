@@ -37,15 +37,17 @@ jobs:
       - run: |
           set -e
           DISTRO=$( cat /etc/*-release | tr [:upper:] [:lower:] | grep -Poi '(debian|ubuntu|fedora|gentoo|alpine)' | uniq )
-          if [ "$DISTRO" == "gentoo" ]; then source /etc/profile; fi
+          if [ "$DISTRO" == "gentoo" ]; then
+            source /etc/profile
+          fi
           git clone https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git && cd HyperCPU
           git checkout ${{ github.event.pull_request.head.sha }}
           git submodule update --init --recursive
-          cd dist/pog && git pull origin master && cd ../..
-          cmake -S. -Bbuild -DHCPU_COMPILER=clang -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
-          rm -rf build
-          cmake -S. -Bbuild -DHCPU_COMPILER=gcc -DHCPU_LTO=ON -DHCPU_SANITIZERS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target run-all-tests-github -j8
-          cmake --build build --target default -j8
+          
+          python3 scripts/build.py -icb             \
+            --config Release                        \
+            --config Debug                          \
+            --build-dir build                       \
+            -D CMAKE_CXX_COMPILER:STRING=g++        \
+            -D CMAKE_CXX_COMPILER:STRING=gcc        \
+            --profiles-detection

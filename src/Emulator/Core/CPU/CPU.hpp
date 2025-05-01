@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Logger/Logger.hpp"
 #include <pch.hpp>
 
 #include <Core/MemoryController/IMemoryController.hpp>
@@ -8,7 +7,8 @@
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/IO/Simple.hpp>
-#include <Misc/bit_cast.hpp>
+#include <Logger/Logger.hpp>
+
 
 #define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, OperandContainer op1, OperandContainer op2)
 
