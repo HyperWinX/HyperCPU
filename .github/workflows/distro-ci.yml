@@ -50,4 +50,4 @@ jobs:
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
             -D CMAKE_CXX_COMPILER:STRING=gcc        \
-            --detect
+            --profiles-detection
