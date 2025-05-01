@@ -1,8 +1,6 @@
 #include <pch.hpp>
 
 #include <termios.h>
-#include <unistd.h>
-
 
 namespace HyperCPU {
   class SimpleIOImpl {

@@ -1,6 +1,8 @@
 #ifdef HCPU_ENABLE_LIBUNWIND
 
 #define UNW_LOCAL_ONLY
+#include <pch.hpp>
+
 #include <libunwind.h>
 #include <backtrace.h>
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pch.hpp>
+
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
 
 #include <mapbox/eternal.hpp>

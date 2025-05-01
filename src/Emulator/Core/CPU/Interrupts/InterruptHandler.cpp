@@ -1,6 +1,7 @@
+#include <pch.hpp>
+
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Assembler/Core/Compiler.hpp>
 #include <Logger/Logger.hpp>
 #include <Core/CPU/CPU.hpp>
 #include <Exit.hpp>

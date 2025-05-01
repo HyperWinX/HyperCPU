@@ -17,7 +17,7 @@ add_library(
         Core/ModeNameAssoc.hpp
 )
 target_include_directories(
-	assembler-core 
+	assembler-core
     PUBLIC
 	    ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -25,7 +25,13 @@ target_include_directories(
 target_link_libraries(
 	assembler-core 
     PUBLIC
-	    fmt::fmt argparse::argparse pog eternal::eternal pch hpool
+	    fmt::fmt
+		argparse::argparse
+		eternal::eternal
+		re2::re2
+		pch
+		pog
+		hpool
 )
 
 add_executable(hcasm Main/Main.cpp)

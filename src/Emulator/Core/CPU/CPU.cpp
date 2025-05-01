@@ -1,11 +1,11 @@
-#include "Core/CPU/Instructions/Opcodes.hpp"
-#include "Logger/Logger.hpp"
 #include <pch.hpp>
 
 #include <Core/MemoryController/MemoryControllerST.hpp>
-#include <Core/CPU/Decoders/IDecoder.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
+#include <Logger/Logger.hpp>
 #include <Core/CPU/CPU.hpp>
+
 
 HyperCPU::CPU::CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary, std::uint64_t binary_size) :
   mem_controller(dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this))),

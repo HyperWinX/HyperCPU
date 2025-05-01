@@ -25,7 +25,7 @@ jobs:
             -D CMAKE_CXX_COMPILER:STRING=g++        \
             -D CMAKE_C_COMPILER:STRING=gcc          \
             --profiles-detection
-          cd build/Debug && ctest -V
+          cd build/Debug && ctest -V && cd ../..
           python3 scripts/build.py -r --config Debug --build-dir build
 
       - name: Build and test with GCC on Release profile
@@ -36,7 +36,7 @@ jobs:
             -D CMAKE_CXX_COMPILER:STRING=g++        \
             -D CMAKE_C_COMPILER:STRING=gcc          \
             --profiles-detection
-          cd build/Release && ctest -V
+          cd build/Release && ctest -V && cd ../..
           python3 scripts/build.py -r --config Release --build-dir build
 
       - name: Build and test with LLVM on Debug profile
@@ -47,7 +47,7 @@ jobs:
             -D CMAKE_CXX_COMPILER:STRING=clang++-19 \
             -D CMAKE_C_COMPILER:STRING=clang-19     \
             --profiles-detection
-          cd build/Debug && ctest -V
+          cd build/Debug && ctest -V && cd ../..
           python3 scripts/build.py -r --config Debug --build-dir build
 
       - name: Build and test with LLVM on Release profile
@@ -58,7 +58,7 @@ jobs:
             -D CMAKE_CXX_COMPILER:STRING=clang++-19 \
             -D CMAKE_C_COMPILER:STRING=clang-19     \
             --profiles-detection
-          cd build/Release && ctest -V
+          cd build/Release && ctest -V && cd ../..
           python3 scripts/build.py -r --config Release --build-dir build
 
       - name: Cleanup (Conan cache + leftovers in build)

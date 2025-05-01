@@ -1,4 +1,4 @@
-#include "pog/line_spec.h"
+#include <LineSpecialization.hpp>
 #include <fixtures.hpp>
 
 TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
