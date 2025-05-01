@@ -1,35 +1,54 @@
-from typing import Self, List
-from functools import lru_cache
+import enum
+
+from functools import cached_property, lru_cache
+from typing import Dict, Any, Collection, Mapping, Callable, Optional, cast
 
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout
+from conan.tools.google import bazel_layout
+from conan.errors import ConanInvalidConfiguration
+
+
+class Buildsystem(enum.StrEnum):
+    CMAKE = 'cmake'
+    BAZEL = 'bazel'
 
 
 class HyperCPU(ConanFile):
-    generators: List[str] = ['CMakeToolchain', 'CMakeDeps']
-    settings: List[str] = ['os', 'compiler', 'build_type', 'arch']
+    name: 'HyperCPU'
+    # generators =
+    settings = ['os', 'compiler', 'build_type', 'arch']
 
-    def __init__(self: Self, display_name: str = '') -> None:
-        self.name = 'HyperCPU'
+    # conan data is fetched dynamically from
+    # conandata.yml
+    conan_data: Dict[str, Any]
 
-        self.__requirements = {
-            'gtest': '1.14.0',
-            'benchmark': '1.9.1',
-            'abseil': '20240116.1',
-            'libbacktrace': 'cci.20210118',
-            'argparse': '3.2',
-            'eternal': '1.0.1',
-            're2': '20230801',
-            'fmt': '11.1.4',
-            'libunwind': '1.8.1',
-            'boost': '1.87.0'
-        }
-        super().__init__(display_name)
+    @cached_property
+    def generators(self) -> Collection[str]:
+        return cast(Collection[str], self.__resolve_buildsystem({
+            Buildsystem.CMAKE: lambda _: ['CMakeToolchain', 'CMakeDeps'],
+            Buildsystem.BAZEL: lambda _: ['BazelToolchain', 'BazelDeps']
+        }))
 
     @lru_cache
-    def requirements(self: Self) -> None:
-        for req, version in self.__requirements.items():
+    def requirements(self) -> None:
+        for req, version in self.conan_data['requirements'].items():
             self.requires(f'{req}/{version}')
 
     def layout(self):
-        cmake_layout(self)
+        self.__resolve_buildsystem({
+            Buildsystem.CMAKE: lambda self: cmake_layout(self),
+            Buildsystem.BAZEL: lambda self: bazel_layout(self)
+        })
+
+    def __resolve_buildsystem(
+        self,
+        visitors: Mapping[Buildsystem, Callable[['HyperCPU'], Optional[Any]]]
+    ) -> Optional[Any]:
+        buildsystem = Buildsystem(self.conan_data['buildsystem'])
+        if buildsystem not in visitors:
+            raise ConanInvalidConfiguration(
+                f'buildsystem: {buildsystem} is not supported by visitors: ' + ', '.join(visitors)
+            )
+
+        return visitors[buildsystem](self)
