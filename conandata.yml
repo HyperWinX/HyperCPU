@@ -1,7 +1,7 @@
 # HyperCPU works with multiple buildsystems, this
 # switch affects which one will be used to defined project layout,
 # toolchains etc.
-buildsystem: "cmake"
+buildsystem: "bazel"
 
 requirements:
   gtest: "1.14.0"

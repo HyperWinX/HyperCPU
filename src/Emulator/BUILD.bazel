@@ -1,0 +1,28 @@
+load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
+
+
+cc_library(
+    name = 'emulator_core',
+    srcs = glob(['**/*.cpp']),
+    hdrs = glob(['**/*.hpp']),
+    includes = [
+        '//src',
+        '//src/Emulator'
+    ],
+    deps = [
+        '@fmt//:fmt',
+        '@argparse//:argparse',
+        '@eternal//:eternal',
+        '//src:pch',
+        '//src/Pog:pog'
+    ]
+)
+
+
+cc_binary(
+    name = 'hcemul',
+    srcs = glob(['**/*.cpp']),
+    deps = [
+        ':emulator_core'
+    ]
+)

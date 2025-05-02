@@ -1,5 +1,6 @@
 import enum
 
+from pathlib import Path
 from functools import cached_property, lru_cache
 from typing import Dict, Any, Collection, Mapping, Callable, Optional, cast
 
@@ -16,7 +17,6 @@ class Buildsystem(enum.StrEnum):
 
 class HyperCPU(ConanFile):
     name: 'HyperCPU'
-    # generators =
     settings = ['os', 'compiler', 'build_type', 'arch']
 
     # conan data is fetched dynamically from

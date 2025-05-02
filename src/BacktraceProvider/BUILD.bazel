@@ -1,0 +1,24 @@
+load('@rules_cc//cc:defs.bzl', 'cc_library')
+
+
+cc_library(
+    name = 'backtrace_provider',
+    srcs = [
+        'BacktraceProvider.cpp'
+    ],
+    hdrs = [
+        'BacktraceProvider.hpp'
+    ],
+    includes = [
+        '//src'
+    ],
+    deps = [
+        '@fmt//:fmt',
+        '@argparse//:argparse',
+        '@eternal//:eternal',
+        '//src:pch',
+        '//src/Pog:pog',
+        '@libbacktrace//:libbacktrace',
+        '@libunwind//:libunwind'
+    ]
+)

@@ -1,1 +1,36 @@
+'HyperCPU'
 
+module(
+    name = 'hyper-cpu',
+    compatibility_level = 1
+)
+
+# We use conan for deps management
+conan = use_extension('//conan:conan_deps_module_extension.bzl', 'conan_extension')
+
+use_repo(
+    conan,
+    'abseil',
+    'argparse',
+    'benchmark',
+    'boost',
+    'eternal',
+    'gtest',
+    'libbacktrace',
+    'libunwind',
+    'bzip2',
+    'fmt',
+    're2',
+    'xz_utils',
+    'zlib'
+)
+
+bazel_dep(name = 'rules_cc', version = '0.0.17')
+bazel_dep(name = 'rules_foreign_cc', version = '0.11.1')
+
+bazel_dep(name = 'hedron_compile_commands', dev_dependency = True)
+git_override(
+    module_name = 'hedron_compile_commands',
+    remote = 'https://github.com/hedronvision/bazel-compile-commands-extractor.git',
+    commit = '4f28899228fb3ad0126897876f147ca15026151e'
+)

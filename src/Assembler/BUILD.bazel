@@ -1,0 +1,29 @@
+load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
+
+
+cc_library(
+    name = 'assembler_core',
+    srcs = glob(['**/*.cpp']),
+    hdrs = glob(['**/*.hpp']),
+    includes = [
+        '//src',
+        '//src/Assembler'
+    ],
+    deps = [
+        '@fmt//:fmt',
+        '@argparse//:argparse',
+        '@eternal//:eternal',
+        '@re2//:re2',
+        '//src:pch',
+        '//src/Pog:pog'
+    ]
+)
+
+
+cc_binary(
+    name = 'hcasm',
+    srcs = glob(['**/*.cpp']),
+    deps = [
+        ':assembler_core'
+    ]
+)

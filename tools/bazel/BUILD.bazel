@@ -1,0 +1,8 @@
+'Common macros, rules etc. used by HyperCPU'
+
+
+package(
+    default_visibility = [
+        "//:__subpackages__",
+    ],
+)
