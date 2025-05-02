@@ -88,6 +88,8 @@ CMakeUserPresets*
 # VS Code settings
 .vscode
 
+# Zed editor settings
+.zed
+
 # Distribution packages
-dist/*
 !dist/CMakeLists.txt

@@ -18,6 +18,11 @@ target_include_directories(
 		${CMAKE_SOURCE_DIR}/src
 		${CMAKE_CURRENT_SOURCE_DIR}/Pog
 )
+target_link_libraries(
+		pog
+	INTERFACE re2::re2
+	INTERFACE fmt::fmt
+)
 
 add_subdirectory(Emulator)
 add_subdirectory(Assembler)
