@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/CPU.hpp>
 #include <Core/CPU/ALU.hpp>
@@ -114,21 +114,21 @@ void HyperCPU::CPU::ExecSUB(const IInstruction& instr, OperandContainer op1, Ope
           op1.deref<std::uint8_t>() = __hcpu_sub(op1.deref<std::uint8_t>(), val);
           break;
         }
-          
+
         case b16: {
           std::uint16_t val = HyperCPU::bit_cast<std::uint16_t>(op2);
           udf = SubtractionWillUnderflow(op1.deref<std::uint16_t>(), val);
           op1.deref<std::uint16_t>() = __hcpu_sub(op1.deref<std::uint16_t>(), val);
           break;
         }
-        
+
         case b32: {
           std::uint32_t val = HyperCPU::bit_cast<std::uint32_t>(op2);
           udf = SubtractionWillUnderflow(op1.deref<std::uint32_t>(), val);
           op1.deref<std::uint32_t>() = __hcpu_sub(op1.deref<std::uint32_t>(), val);
           break;
         }
-        
+
         case b64: {
           std::uint64_t val = HyperCPU::bit_cast<std::uint64_t>(op2);
           udf = SubtractionWillUnderflow(op1.deref<std::uint64_t>(), val);

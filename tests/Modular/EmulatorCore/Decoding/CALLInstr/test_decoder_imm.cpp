@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
@@ -11,7 +11,7 @@ TEST_F(DECODER_TEST, CALL_INSTR_IMM) {
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;
-  
+
   std::uint64_t mem_ptr;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
 
@@ -20,4 +20,5 @@ TEST_F(DECODER_TEST, CALL_INSTR_IMM) {
 
   memcpy(&mem_ptr, &instr.m_op1, sizeof(std::uint64_t));
   ASSERT_EQ(mem_ptr, MEM_PTR);
+}
 }

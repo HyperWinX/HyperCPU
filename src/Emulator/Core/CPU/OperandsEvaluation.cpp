@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/Instructions/Registers.hpp>
 #include <Misc/bit_cast.hpp>
@@ -72,7 +72,7 @@ std::pair<HyperCPU::OperandContainer, HyperCPU::OperandContainer> HyperCPU::CPU:
       op_2 = GetRegister(op2);
       return std::make_pair(op_1, op_2);
     }
-    
+
     case RM_M:
     case R_M:
       return std::make_pair(GetRegister(op1), op2);
@@ -106,10 +106,10 @@ std::pair<HyperCPU::OperandContainer, HyperCPU::OperandContainer> HyperCPU::CPU:
 
     case M_R:
       return std::make_pair(op1, GetRegister(op2));
-    
+
     case R:
       return std::make_pair(GetRegister(op1), nullptr);
-    
+
     case IMM:
     case M:
       return std::make_pair(op1, nullptr);

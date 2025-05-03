@@ -1,5 +1,5 @@
 #include <Pog/Pog.hpp>
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/Compiler.hpp>
 #include <Core/OpcodeNameAssoc.hpp>
@@ -101,7 +101,7 @@ Value HCAsm::CompileLabel(pog::Parser<Value>& parser, std::vector<pog::TokenWith
 Value HCAsm::CompileEntryLabel(pog::Parser<Value>& parser, std::vector<pog::TokenWithLineSpec<Value>>&& args) {
   // Label cant be register or instruction name
   auto& name = std::get<std::string>(args[1].value.val);
-  
+
   if (opcode_assoc.contains(name.c_str()) || registers_assoc.contains(name.c_str())) {
     ThrowError(args[0], parser, "reserved identifier cannot be used as a label");
   }
@@ -134,7 +134,7 @@ Value HCAsm::CompileRawValueb8_str([[maybe_unused]] pog::Parser<Value>& parser, 
       .variant = std::make_shared<std::string>(std::move(std::get<std::string>(args[1].value.val)))
     }
   });
-  
+
   return {};
 }
 

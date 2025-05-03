@@ -22,7 +22,8 @@ use_repo(
     'fmt',
     're2',
     'xz_utils',
-    'zlib'
+    'zlib',
+    'plog'
 )
 
 bazel_dep(name = 'rules_cc', version = '0.0.17')

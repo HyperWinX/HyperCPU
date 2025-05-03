@@ -1,14 +1,12 @@
 load('//tools/bazel:pch.bzl', 'precompiled_headers')
 
-
 package(
     default_visibility = [
         "//:__subpackages__",
     ],
 )
 
-
 precompiled_headers(
-    name = 'pch',
-    main = 'pch.hpp'
+    name = 'pch_cstd',
+    main = 'CStd.hpp'
 )

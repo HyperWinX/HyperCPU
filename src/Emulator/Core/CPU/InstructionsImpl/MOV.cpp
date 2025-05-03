@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/CPU.hpp>
 
@@ -63,11 +63,11 @@ void HyperCPU::CPU::ExecMOV(const IInstruction& instr, OperandContainer op1, Ope
         case b16:
           *static_cast<std::uint16_t*>(op1) = mem_controller->Read16(ptr);
           break;
-        
+
         case b32:
           *static_cast<std::uint32_t*>(op1) = mem_controller->Read32(ptr);
           break;
-        
+
         case b64:
           *static_cast<std::uint64_t*>(op1) = mem_controller->Read64(ptr);
           break;
@@ -80,15 +80,15 @@ void HyperCPU::CPU::ExecMOV(const IInstruction& instr, OperandContainer op1, Ope
         case b8:
           std::memcpy(op1, &op2.ref(), 1);
           break;
-          
+
         case b16:
           std::memcpy(op1, &op2.ref(), 2);
           break;
-        
+
         case b32:
           std::memcpy(op1, &op2.ref(), 4);
           break;
-        
+
         case b64:
           std::memcpy(op1, &op2.ref(), 8);
           break;
@@ -102,10 +102,10 @@ void HyperCPU::CPU::ExecMOV(const IInstruction& instr, OperandContainer op1, Ope
       ptr2 = op2;
 
       switch (instr.m_opcode_mode) {
-        case b8: 
+        case b8:
           mem_controller->Load8(ptr1, mem_controller->Read8(ptr2));
           break;
-        
+
         case b16:
           mem_controller->Load16(ptr1, mem_controller->Read16(ptr2));
           break;
@@ -113,7 +113,7 @@ void HyperCPU::CPU::ExecMOV(const IInstruction& instr, OperandContainer op1, Ope
         case b32:
           mem_controller->Load32(ptr1, mem_controller->Read32(ptr2));
           break;
-        
+
         case b64:
           mem_controller->Load64(ptr1, mem_controller->Read64(ptr2));
           break;
@@ -155,15 +155,15 @@ void HyperCPU::CPU::ExecMOV(const IInstruction& instr, OperandContainer op1, Ope
         case b8:
           mem_controller->Load8(ptr1, HyperCPU::bit_cast<std::uint8_t>(op2));
           break;
-          
+
         case b16:
           mem_controller->Load16(ptr1, HyperCPU::bit_cast<std::uint16_t>(op2));
           break;
-        
+
         case b32:
           mem_controller->Load32(ptr1, HyperCPU::bit_cast<std::uint32_t>(op2));
           break;
-        
+
         case b64:
           mem_controller->Load64(ptr1, HyperCPU::bit_cast<std::uint64_t>(op2));
           break;

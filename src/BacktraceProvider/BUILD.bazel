@@ -9,16 +9,14 @@ cc_library(
     hdrs = [
         'BacktraceProvider.hpp'
     ],
-    includes = [
-        '//src'
-    ],
     deps = [
         '@fmt//:fmt',
         '@argparse//:argparse',
         '@eternal//:eternal',
-        '//src:pch',
         '//src/Pog:pog',
+        '//src:pch',
         '@libbacktrace//:libbacktrace',
-        '@libunwind//:libunwind'
+        '@libunwind//:libunwind',
+        '//src:include_proxy'
     ]
 )

@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Assembler/Core/Compiler.hpp>
 #include <Emulator/Core/CPU/CPU.hpp>
@@ -51,11 +51,11 @@ int main(int argc, char** argv) {
   }
 
   std::ifstream file(source);
-  
+
   std::int64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
 
   HyperCPU::GenericHeader header = ParseHeader(file);
-  
+
   // Validate header contents
   if (header.magic != HyperCPU::magic) {
     logger.Log(HyperCPU::LogLevel::ERROR, "Invalid magic!");

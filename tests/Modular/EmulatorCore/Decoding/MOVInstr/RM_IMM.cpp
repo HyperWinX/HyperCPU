@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
@@ -13,7 +13,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_RM_IMM_B8) {
   ++counter;
   decoder.mem_controller->Load8(counter, 0x55);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint8_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -37,7 +37,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_RM_IMM_B16) {
   ++counter;
   decoder.mem_controller->Load16(counter, 0x5555);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint16_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -61,7 +61,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_RM_IMM_B32) {
   ++counter;
   decoder.mem_controller->Load32(counter, 0x55555555);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint32_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -85,7 +85,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_RM_IMM_B64) {
   ++counter;
   decoder.mem_controller->Load64(counter, 0x5555555555555555);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint64_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();

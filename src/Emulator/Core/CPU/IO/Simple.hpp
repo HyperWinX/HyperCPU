@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <termios.h>
 
@@ -6,7 +6,7 @@ namespace HyperCPU {
   class SimpleIOImpl {
   public:
     SimpleIOImpl();
-    
+
     std::function<void(std::uint8_t)> GetPutchar();
     std::function<std::uint8_t()> GetGetchar();
 
@@ -21,7 +21,7 @@ namespace HyperCPU {
       EnablePrinting = 0x10,
       DisablePrinting = 0x11,
     };
-  
+
     void Putchar(std::uint8_t);
     std::uint8_t Getchar();
 

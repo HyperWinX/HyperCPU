@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Pog/Pog.hpp>
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Emulator/Core/CPU/Instructions/Registers.hpp>
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>

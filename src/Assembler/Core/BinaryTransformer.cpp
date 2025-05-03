@@ -1,12 +1,12 @@
 #include <Pog/Pog.hpp>
-#include <pch.hpp>
+#include "pch.hpp"
 
-#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
-#include <Emulator/Core/CPU/Instructions/Flags.hpp>
-#include <Core/BinaryTransformer.hpp>
-#include <Core/Compiler.hpp>
-#include <Logger/Logger.hpp>
-#include <Exit.hpp>
+#include "Emulator/Core/CPU/Instructions/Opcodes.hpp"
+#include "Emulator/Core/CPU/Instructions/Flags.hpp"
+#include "Assembler/Core/BinaryTransformer.hpp"
+#include "Assembler/Core/Compiler.hpp"
+#include "Logger/Logger.hpp"
+#include "Exit.hpp"
 
 
 HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& op1, Operand& op2) {
@@ -81,7 +81,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       // Do nothing - bit 0 means first operand
     }
   }
-  
+
   // Handle case when one of operands is a label - we should mock the immediate 64 bit value
   switch (instr.op1.type) {
     case HCAsm::OperandType::label:

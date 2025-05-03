@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <iostream>
 
@@ -15,7 +15,7 @@ void HyperCPU::CPU::ExecCALLGR(const IInstruction& instr, OperandContainer op1, 
   if (!(!zrf && !crf)) {
     return;
   }
-  
+
   switch (instr.m_op_types) { // Placeholders
     case R:
       StackPush64(*xip);

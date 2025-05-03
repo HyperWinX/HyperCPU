@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pch.hpp>
+#include "pch.hpp"
 
 
 namespace HyperCPU {
@@ -18,7 +18,7 @@ namespace HyperCPU {
     Object = 0x01,
     Binary = 0x02
   };
-  
+
   using Magic = std::uint64_t;
 
   static inline constexpr Magic magic = 0xb7a6457636cf6c3a;

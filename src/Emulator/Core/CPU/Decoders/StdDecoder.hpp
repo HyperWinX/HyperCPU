@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/MemoryController/IMemoryController.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
@@ -24,7 +24,7 @@ namespace HyperCPU {
     explicit OperandContainer(std::uint64_t value) : value(value) { }
     template<typename T>
     explicit OperandContainer(T* ptr) : value(HyperCPU::bit_cast<std::uint64_t>(ptr)) { } // Supposed to be executed from GetRegister()
-    
+
     operator std::uint8_t() const noexcept { return HyperCPU::bit_cast<std::uint8_t>(value); }
     operator std::uint16_t() const noexcept { return HyperCPU::bit_cast<std::uint16_t>(value); }
     operator std::uint32_t() const noexcept { return HyperCPU::bit_cast<std::uint32_t>(value); }
@@ -33,7 +33,7 @@ namespace HyperCPU {
     std::uint64_t& ref() noexcept {
       return value;
     }
-    
+
     template<typename T>
     operator T*() const noexcept {
       return HyperCPU::bit_cast<T*>(value);
@@ -77,7 +77,7 @@ namespace HyperCPU {
 
   public:
     explicit Decoder() = default; // For testing purposes - causes UB if used incorrectly
-    explicit Decoder(IMemoryController* mc, std::uint64_t* counter, class CPU* cpu) 
+    explicit Decoder(IMemoryController* mc, std::uint64_t* counter, class CPU* cpu)
       : mem_controller(mc)
       , xip(counter)
       , cpu(cpu)
@@ -87,5 +87,8 @@ namespace HyperCPU {
     bool IsHalted() const noexcept override;
 
     ~Decoder() = default;
+  };
+}
+;
   };
 }

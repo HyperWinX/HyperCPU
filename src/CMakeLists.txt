@@ -4,9 +4,9 @@
 add_library(
     pch
     INTERFACE
-        pch.hpp
+        "pch.hpp"
 )
-target_precompile_headers(pch INTERFACE pch.hpp)
+target_precompile_headers(pch INTERFACE "pch.hpp")
 
 add_library(
     pog

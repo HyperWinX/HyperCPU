@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/CPU.hpp>
@@ -36,19 +36,19 @@ void HyperCPU::CPU::ExecSHFR(const IInstruction& instr, OperandContainer op1, Op
           op1.deref<std::uint8_t>() >>= val;
           break;
         }
-          
+
         case b16: {
           std::uint16_t val = HyperCPU::bit_cast<std::uint16_t>(op2);
           op1.deref<std::uint16_t>() >>= val;
           break;
         }
-        
+
         case b32: {
           std::uint32_t val = HyperCPU::bit_cast<std::uint32_t>(op2);
           op1.deref<std::uint32_t>() >>= val;
           break;
         }
-        
+
         case b64: {
           std::uint64_t val = HyperCPU::bit_cast<std::uint64_t>(op2);
           op1.deref<std::uint64_t>() >>= val;

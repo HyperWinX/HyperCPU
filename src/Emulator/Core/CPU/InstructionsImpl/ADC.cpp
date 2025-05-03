@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/CPU.hpp>
 #include <Core/CPU/ALU.hpp>
@@ -127,7 +127,7 @@ void HyperCPU::CPU::ExecADC(const IInstruction& instr, OperandContainer op1, Ope
           if (crf) ++op1.deref<std::uint8_t>();
           break;
         }
-          
+
         case b16: {
           std::uint16_t val = HyperCPU::bit_cast<std::uint16_t>(op2);
           ovf = AdditionWillOverflow(op1.deref<std::uint16_t>(), val);
@@ -135,7 +135,7 @@ void HyperCPU::CPU::ExecADC(const IInstruction& instr, OperandContainer op1, Ope
           if (crf) ++op1.deref<std::uint16_t>();
           break;
         }
-        
+
         case b32: {
           std::uint32_t val = HyperCPU::bit_cast<std::uint32_t>(op2);
           ovf = AdditionWillOverflow(op1.deref<std::uint32_t>(), val);
@@ -143,7 +143,7 @@ void HyperCPU::CPU::ExecADC(const IInstruction& instr, OperandContainer op1, Ope
           if (crf) ++op1.deref<std::uint32_t>();
           break;
         }
-        
+
         case b64: {
           std::uint64_t val = HyperCPU::bit_cast<std::uint64_t>(op2);
           ovf = AdditionWillOverflow(op1.deref<std::uint64_t>(), val);

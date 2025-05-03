@@ -1,3 +1,4 @@
+load('@rules_cc//cc:defs.bzl', 'cc_library')
 load('//tools/bazel:pch.bzl', 'precompiled_headers')
 
 
@@ -8,7 +9,21 @@ package(
 )
 
 
+cc_library(
+    name = 'pog_core',
+    hdrs = glob(['**/*.hpp'], exclude = ['Pog.hpp']),
+    include_prefix = 'src',
+    includes = [
+        # should remove in the future, all includes must be relative to src/
+        '.'
+    ]
+)
+
+
 precompiled_headers(
     name = 'pog',
-    main = 'Pog.hpp'
+    main = 'Pog.hpp',
+    deps = [
+        ':pog_core'
+    ]
 )

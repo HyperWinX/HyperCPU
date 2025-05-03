@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/MemoryController/IMemoryController.hpp>
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
@@ -18,7 +18,7 @@ namespace HyperCPU {
   class CPU {
   private:
     friend class Decoder;
-    friend class MemoryControllerST;    
+    friend class MemoryControllerST;
 
     using opcode_handler = std::function<void(const IInstruction& instr, OperandContainer op1, OperandContainer op2)>;
     using read_operation_handler = std::function<std::uint8_t()>;
@@ -78,7 +78,7 @@ namespace HyperCPU {
     std::optional<std::uint64_t> pending_interrupt;
     void DecodingThread();
     void ExecutingThread();
-    
+
     // All instructions
     DECLARE_INSTR(ADD);
     DECLARE_INSTR(ADC);
@@ -119,7 +119,7 @@ namespace HyperCPU {
     std::array<read_operation_handler, 256> read_io_handlers;
     std::array<write_operation_handler, 256> write_io_handlers;
     std::unique_ptr<SimpleIOImpl> io_ctl;
-    
+
   public:
     CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
@@ -128,7 +128,7 @@ namespace HyperCPU {
     bool CanExecuteInterrupts();
     void SetEntryPoint(std::uint32_t entry_point);
     const HyperCPU::Logger& GetLogger() const noexcept;
-    
+
     ~CPU();
   };
 }

@@ -1,9 +1,9 @@
 #include <Pog/Pog.hpp>
-#include <pch.hpp>
+#include "pch.hpp"
 
+#include <Emulator/Misc/print.hpp>
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
 #include <Core/BinaryTransformer.hpp>
-#include <Emulator/Misc/print.hpp>
 #include <Core/Compiler.hpp>
 #include <Logger/Logger.hpp>
 #include <Exit.hpp>
@@ -138,7 +138,7 @@ HCAsm::HCAsmCompiler::HCAsmCompiler(LogLevel lvl) : pool(32) {
 
 }
 
-HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::uint32_t& code_size) { 
+HCAsm::BinaryResult HCAsm::HCAsmCompiler::Compile(std::string& contents, std::uint32_t& code_size) {
   files.push(std::move(contents));
 
   logger.Log(LogLevel::DEBUG, "Stage 1 compiling - transforming to IR");
@@ -354,7 +354,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
 
     for (auto& args : ir.pending_resolves) {
       auto& instr = ir.ir[args.idx];
-      auto* op = args.op ? &std::get<Instruction>(instr).op2 : &std::get<Instruction>(instr).op1; 
+      auto* op = args.op ? &std::get<Instruction>(instr).op2 : &std::get<Instruction>(instr).op1;
 
       if (ir.labels.contains(*std::get<std::shared_ptr<std::string>>(op->variant))) {
         op->type = OperandType::uint;
@@ -377,23 +377,23 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   BinaryTransformer transformer(binary, &ir);
 
   for (auto& instr : ir.ir) {
-    VisitVariant(instr, 
+    VisitVariant(instr,
       [&transformer](Instruction& instruction) mutable -> void {
         transformer.EncodeInstruction(instruction);
       },
       [&binary, &ir, this](RawValue& raw) mutable -> void {
         switch (raw.mode) {
           case Mode::b8_str:
-            binary.push(*std::get<std::shared_ptr<std::string>>(raw.value.variant)); 
+            binary.push(*std::get<std::shared_ptr<std::string>>(raw.value.variant));
             break;
-          case Mode::b8:  
-            binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant))); 
+          case Mode::b8:
+            binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant)));
             break;
-          case Mode::b16: 
-            binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant))); 
+          case Mode::b16:
+            binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant)));
             break;
-          case Mode::b32: 
-            binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant))); 
+          case Mode::b32:
+            binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant)));
             break;
           case Mode::b64_label:
             if (!ir.labels.contains(*std::get<std::shared_ptr<std::string>>(raw.value.variant))) {
@@ -401,7 +401,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
             }
             binary.push(static_cast<std::uint64_t>(ir.labels.at(*std::get<std::shared_ptr<std::string>>(raw.value.variant))));
             break;
-          case Mode::b64: 
+          case Mode::b64:
             binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant)));
             break;
           default: ABORT();
@@ -459,4 +459,6 @@ void HCAsm::WriteResultFile(HyperCPU::FileType type, HCAsm::BinaryResult& result
   output.write(reinterpret_cast<char*>(&gen_header), sizeof(gen_header));
 
   output.write(reinterpret_cast<char*>(result.binary), code_size);
+}
+de_size);
 }

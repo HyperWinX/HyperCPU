@@ -1,6 +1,6 @@
 #include <fixtures.hpp>
 
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
@@ -13,7 +13,7 @@ TEST_F(DECODER_TEST, ADDR_ADDITION_DISABLED) {
   ++counter;
   decoder.mem_controller->Load8(counter, 0x55);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint8_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -40,7 +40,7 @@ TEST_F(DECODER_TEST, ADDR_ADDITION_OP1) {
   ++counter;
   decoder.mem_controller->Load8(counter, 0x55);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint8_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -68,7 +68,7 @@ TEST_F(DECODER_TEST, ADDR_ADDITION_OP2) {
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
-  
+
   HyperCPU::Registers reg1, reg2;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
 

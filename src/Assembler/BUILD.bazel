@@ -1,29 +1,34 @@
 load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
 
 
+package(
+    default_visibility = [
+        "//:__subpackages__",
+    ],
+)
+
+
 cc_library(
     name = 'assembler_core',
-    srcs = glob(['**/*.cpp']),
-    hdrs = glob(['**/*.hpp']),
-    includes = [
-        '//src',
-        '//src/Assembler'
-    ],
+    srcs = glob(['**/*.cpp'], exclude = ['Main']),
+    hdrs = glob(['**/*.hpp'], exclude = ['Main']),
     deps = [
         '@fmt//:fmt',
         '@argparse//:argparse',
         '@eternal//:eternal',
         '@re2//:re2',
         '//src:pch',
-        '//src/Pog:pog'
+        '//src/Pog:pog',
+        '//src:include_proxy'
     ]
 )
 
 
 cc_binary(
     name = 'hcasm',
-    srcs = glob(['**/*.cpp']),
+    srcs = glob(['Main/**/*.cpp']),
     deps = [
-        ':assembler_core'
+        ':assembler_core',
+        '//src:include_proxy'
     ]
 )

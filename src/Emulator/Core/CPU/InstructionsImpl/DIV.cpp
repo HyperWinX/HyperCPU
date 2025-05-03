@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/CPU.hpp>
@@ -23,7 +23,7 @@ void HyperCPU::CPU::ExecDIV(const IInstruction& instr, OperandContainer op1, Ope
       dst = __hcpu_div(dst, static_cast<std::uint8_t>(*x2));
       break;
     }
-    
+
     case b16: {
       auto& dst = op1.deref<std::uint16_t>();
       *x1 = __hcpu_div_remainder(dst, static_cast<std::uint16_t>(*x2));

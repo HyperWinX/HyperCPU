@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/AllowedFlags.hpp>
@@ -155,7 +155,7 @@ HyperCPU::IInstruction HyperCPU::Decoder::FetchAndDecode() {
     case M:
       instruction.m_op1 = OperandContainer{mem_controller->Fetch64(*xip)};
       break;
-    
+
     case IMM:
       switch (instruction.m_opcode_mode) {
         case b8: {

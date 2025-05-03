@@ -1,10 +1,11 @@
-#include <pch.hpp>
+#pragma once
 
-#include <Core/CPU/Instructions/AllowedFlags.hpp>
+#include "src/PCH/CStd.hpp"
 
 
 namespace HyperCPU {
-  const std::uint8_t allowed_op_modes[128][12] = {
+  inline static constexpr std::uint8_t SUPPORT_ALL = 0b00011011;
+  inline static const std::uint8_t AllowedOpModes[128][12] = {
     {}, // NULL
     {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ADC
     {SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, SUPPORT_ALL, 0, 0, 0, 0, 0, 0, 0, 0}, // ADD

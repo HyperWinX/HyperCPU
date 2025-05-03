@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/CPU.hpp>
 #include <Core/CPU/ALU.hpp>
@@ -65,11 +65,11 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
         case b16:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint16_t>(op1.ptr<std::uint16_t>()), mem_controller->Read16(ptr));
           break;
-        
+
         case b32:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint32_t>(op1.ptr<std::uint32_t>()), mem_controller->Read32(ptr));
           break;
-        
+
         case b64:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint64_t>(op1.ptr<std::uint64_t>()), mem_controller->Read64(ptr));
           break;
@@ -82,15 +82,15 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
         case b8:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint8_t>(op1.ptr<std::uint8_t>()), HyperCPU::bit_cast<std::uint8_t>(op2));
           break;
-          
+
         case b16:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint16_t>(op1.ptr<std::uint16_t>()), HyperCPU::bit_cast<std::uint16_t>(op2));
           break;
-        
+
         case b32:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint32_t>(op1.ptr<std::uint32_t>()), HyperCPU::bit_cast<std::uint32_t>(op2));
           break;
-        
+
         case b64:
           res = StdALU::__hcpu_cmp(HyperCPU::bit_cast_from<std::uint64_t>(op1.ptr<std::uint64_t>()), HyperCPU::bit_cast<std::uint64_t>(op2));
           break;
@@ -107,7 +107,7 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
         case b8:
           res = StdALU::__hcpu_cmp(mem_controller->Read8(ptr1), mem_controller->Read8(ptr2));
           break;
-        
+
         case b16:
           res = StdALU::__hcpu_cmp(mem_controller->Read16(ptr1), mem_controller->Read16(ptr2));
           break;
@@ -115,7 +115,7 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
         case b32:
           res = StdALU::__hcpu_cmp(mem_controller->Read32(ptr1), mem_controller->Read32(ptr2));
           break;
-        
+
         case b64:
           res = StdALU::__hcpu_cmp(mem_controller->Read64(ptr1), mem_controller->Read64(ptr2));
           break;
@@ -131,7 +131,7 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
           res = StdALU::__hcpu_cmp(mem_controller->Read8(ptr), HyperCPU::bit_cast_from<std::uint8_t>(op2.ptr<std::uint8_t>()));
           break;
 
-        case b16: 
+        case b16:
           res = StdALU::__hcpu_cmp(mem_controller->Read16(ptr), HyperCPU::bit_cast_from<std::uint16_t>(op2.ptr<std::uint16_t>()));
           break;
 
@@ -153,15 +153,15 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
         case b8:
           res = StdALU::__hcpu_cmp(mem_controller->Read8(ptr), HyperCPU::bit_cast<std::uint8_t>(op2));
           break;
-          
+
         case b16:
           res = StdALU::__hcpu_cmp(mem_controller->Read16(ptr), HyperCPU::bit_cast<std::uint16_t>(op2));
         break;
-        
+
         case b32:
           res = StdALU::__hcpu_cmp(mem_controller->Read32(ptr), HyperCPU::bit_cast<std::uint32_t>(op2));
         break;
-        
+
         case b64:
           res = StdALU::__hcpu_cmp(mem_controller->Read64(ptr), HyperCPU::bit_cast<std::uint64_t>(op2));
         break;
@@ -174,18 +174,18 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
 
       switch (instr.m_opcode_mode) {
         case b8:
-          res = StdALU::__hcpu_cmp(mem_controller->Read8(ptr), HyperCPU::bit_cast_from<std::uint8_t>(op2.ptr<std::uint8_t>())); 
+          res = StdALU::__hcpu_cmp(mem_controller->Read8(ptr), HyperCPU::bit_cast_from<std::uint8_t>(op2.ptr<std::uint8_t>()));
           break;
 
         case b16:
-          res = StdALU::__hcpu_cmp(mem_controller->Read16(ptr), HyperCPU::bit_cast_from<std::uint16_t>(op2.ptr<std::uint16_t>())); 
+          res = StdALU::__hcpu_cmp(mem_controller->Read16(ptr), HyperCPU::bit_cast_from<std::uint16_t>(op2.ptr<std::uint16_t>()));
           break;
 
         case b32:
-          res = StdALU::__hcpu_cmp(mem_controller->Read32(ptr), HyperCPU::bit_cast_from<std::uint32_t>(op2.ptr<std::uint32_t>())); 
+          res = StdALU::__hcpu_cmp(mem_controller->Read32(ptr), HyperCPU::bit_cast_from<std::uint32_t>(op2.ptr<std::uint32_t>()));
           break;
 
-        case b64: 
+        case b64:
           res = StdALU::__hcpu_cmp(mem_controller->Read64(ptr), HyperCPU::bit_cast_from<std::uint64_t>(op2.ptr<std::uint64_t>()));
           break;
       }
@@ -203,6 +203,14 @@ void HyperCPU::CPU::ExecCMP(const IInstruction& instr, OperandContainer op1, Ope
       break;
     case 0:
       zrf = 1;
+      crf = 0;
+      break;
+    case 1:
+      zrf = 0;
+      crf = 0;
+      break;
+  }
+}
       crf = 0;
       break;
     case 1:

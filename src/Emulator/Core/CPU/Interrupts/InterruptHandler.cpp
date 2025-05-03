@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/CPU/Instructions/Opcodes.hpp>
@@ -12,7 +12,7 @@ void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
     logger.Log(LogLevel::ERROR, "Interrupt was triggered, but failed to execute handler! XIP: {}", *xip);
     ABORT();
   }
-  
+
   pending_interrupt = std::make_optional(mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception))));
 
   /*
@@ -28,7 +28,7 @@ void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
 void HyperCPU::CPU::RunInterruptSubroutine() {
   while (1) {
     if (halted) return;
-    
+
     HyperCPU::IInstruction instr = m_decoder->FetchAndDecode();
     if (instr.m_opcode == Opcode::IRET) {
       return;

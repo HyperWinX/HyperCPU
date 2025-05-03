@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
 

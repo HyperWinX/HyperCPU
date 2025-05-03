@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <termios.h>
 #include <unistd.h>
@@ -71,6 +71,6 @@ void HyperCPU::SimpleIOImpl::DisablePrinting() {
 
 void HyperCPU::SimpleIOImpl::EnablePrinting() {
   newt.c_lflag |= ECHO;
-  newt.c_lflag |= ECHONL; 
+  newt.c_lflag |= ECHONL;
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 }

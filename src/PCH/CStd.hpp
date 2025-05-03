@@ -1,7 +1,7 @@
 /*
- * Precompiled headers
- * ! Only add headers that will not be modified !
+ * Precompiled headers that belong to standard library
  */
+
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -13,11 +13,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cxxabi.h>
 #include <expected>
 #include <filesystem>
-#include <fmt/format.h>
-#include <fmt/printf.h>
 #include <fstream>
 #include <functional>
 #include <iomanip>
@@ -35,4 +32,3 @@
 #include <utility>
 #include <variant>
 #include <vector>
-#include <mapbox/eternal.hpp>

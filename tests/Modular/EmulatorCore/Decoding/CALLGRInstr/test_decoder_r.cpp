@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
@@ -13,10 +13,11 @@ TEST_F(DECODER_TEST, CALLGR_INSTR_R) {
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
-  
+
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
 
   ASSERT_EQ(instr.m_opcode, HyperCPU::Opcode::CALLGR);
   ASSERT_EQ(instr.m_opcode_mode, HyperCPU::Mode::b64);
   ASSERT_EQ(instr.m_op_types, HyperCPU::OperandTypes::R);
+}
 }
