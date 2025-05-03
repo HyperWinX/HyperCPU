@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
 
 
 add_library(
-    emulator-core
+    hcpu::emulator-core
     STATIC
         Core/CPU/Instructions/AllowedFlags.cpp
         Core/CPU/Interrupts/InterruptHandler.cpp
@@ -70,28 +70,29 @@ add_library(
 )
 
 target_include_directories(
-    emulator-core
+    hcpu::emulator-core
     PUBLIC
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(
-    emulator-core
+    hcpu::emulator-core
     PUBLIC
+        hcpu::pog
+        hcpu::pch
+        dist::hpool
         fmt::fmt
         argparse::argparse
-        pog
         eternal::eternal
-        pch
-        hpool
 )
 
 add_executable(
-    hcemul
+    hcpu::hcemul
         Main/Main.hpp
         Main/Main.cpp
         Main/ExceptionHandling.cpp
         Main/ExceptionHandling.hpp
 )
-target_link_libraries(hcemul PRIVATE emulator-core)
+
+target_link_libraries(hcpu::hcemul PRIVATE hcpu::emulator-core)

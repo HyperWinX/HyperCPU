@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Operations/Operation.hpp>
-#include <Types/StateAndSymbol.hpp>
+#include "src/Pog/Operations/Operation.hpp"
+#include "src/Pog/Types/StateAndSymbol.hpp"
 
 namespace pog {
 

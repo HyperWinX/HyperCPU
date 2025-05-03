@@ -4,8 +4,8 @@
 
 #include <fmt/ranges.h>
 
-#include <Types/StateAndSymbol.hpp>
-#include <Relations/Relation.hpp>
+#include "src/Pog/Types/StateAndSymbol.hpp"
+#include "src/Pog/Relations/Relation.hpp"
 
 namespace pog {
 

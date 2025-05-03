@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <Automaton.hpp>
-#include <Grammar.hpp>
+#include "src/Pog/Automaton.hpp"
+#include "src/Pog/Grammar.hpp"
 
 namespace pog {
 

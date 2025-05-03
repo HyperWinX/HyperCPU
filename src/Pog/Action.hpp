@@ -1,10 +1,9 @@
 #pragma once
 
-#include <cstdint>
 #include <variant>
 
-#include <State.hpp>
-#include <Rule.hpp>
+#include "src/Pog/State.hpp"
+#include "src/Pog/Rule.hpp"
 
 namespace pog {
 

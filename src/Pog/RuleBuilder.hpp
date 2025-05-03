@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Grammar.hpp>
-#include <Rule.hpp>
+#include "src/Pog/Grammar.hpp"
+#include "src/Pog/Rule.hpp"
 
 namespace pog {
 

@@ -90,6 +90,7 @@ CMakeUserPresets*
 
 # Distribution packages
 dist/*
+!dist/BUILD.bazel
 !dist/CMakeLists.txt
 
 # Bazel stuff

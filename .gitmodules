@@ -1,6 +1,3 @@
 [submodule "dist/HPool"]
 	path = dist/HPool
 	url = https://github.com/randommfs/HPool
-[submodule "dist/libunwind"]
-	path = dist/libunwind
-	url = https://github.com/libunwind/libunwind

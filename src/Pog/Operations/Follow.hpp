@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Types/StateAndSymbol.hpp>
-#include <Operations/Operation.hpp>
-#include <Relations/Includes.hpp>
-#include <Operations/Read.hpp>
-#include <DigraphAlgo.hpp>
+#include "src/Pog/Types/StateAndSymbol.hpp"
+#include "src/Pog/Operations/Operation.hpp"
+#include "src/Pog/Relations/Includes.hpp"
+#include "src/Pog/Operations/Read.hpp"
+#include "src/Pog/DigraphAlgo.hpp"
 
 namespace pog {
 

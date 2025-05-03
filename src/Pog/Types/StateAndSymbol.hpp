@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Symbol.hpp>
-#include <State.hpp>
+#include "src/Pog/Symbol.hpp"
+#include "src/Pog/State.hpp"
 
 namespace pog {
 

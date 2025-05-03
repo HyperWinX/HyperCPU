@@ -1,34 +1,28 @@
-load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
+# load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
 
+# package(
+#     default_visibility = [
+#         "//src/Emulator:__package__",
+#     ],
+# )
 
-package(
-    default_visibility = [
-        "//:__subpackages__",
-    ],
-)
+# cc_library(
+#     name = 'assembler_core',
+#     srcs = glob(['**/*.cpp'], exclude = ['Main']),
+#     hdrs = glob(['**/*.hpp'], exclude = ['Main']),
+#     deps = [
+#         '@fmt//:fmt',
+#         '@eternal//:eternal',
+#         '@re2//:re2',
+#         '//src/PCH:pch_cstd',
+#         '//src/Pog:pog'
+#     ]
+# )
 
-
-cc_library(
-    name = 'assembler_core',
-    srcs = glob(['**/*.cpp'], exclude = ['Main']),
-    hdrs = glob(['**/*.hpp'], exclude = ['Main']),
-    deps = [
-        '@fmt//:fmt',
-        '@argparse//:argparse',
-        '@eternal//:eternal',
-        '@re2//:re2',
-        '//src:pch',
-        '//src/Pog:pog',
-        '//src:include_proxy'
-    ]
-)
-
-
-cc_binary(
-    name = 'hcasm',
-    srcs = glob(['Main/**/*.cpp']),
-    deps = [
-        ':assembler_core',
-        '//src:include_proxy'
-    ]
-)
+# cc_binary(
+#     name = 'hcasm',
+#     srcs = glob(['Main/**/*.cpp']),
+#     deps = [
+#         ':assembler_core',
+#     ]
+# )

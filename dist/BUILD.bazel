@@ -1,0 +1,12 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+
+cmake(
+    name = 'hpool',
+    cache_entries = {
+        'HPOOL_BUILD_TESTS': False,
+        'HPOOL_BUILD_BENCHMARKS': False
+    },
+    includes = [
+        '.'
+    ]
+)

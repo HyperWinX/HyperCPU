@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <exception>
 #include <string>
 #include <vector>
@@ -7,8 +8,7 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
-#include <Symbol.hpp>
-#include <Rule.hpp>
+#include "src/Pog/Symbol.hpp"
 
 namespace pog {
 

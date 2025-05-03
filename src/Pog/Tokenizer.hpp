@@ -17,9 +17,9 @@
 #define debug_tokenizer(...)
 #endif
 
-#include <LineSpecialization.hpp>
-#include <Grammar.hpp>
-#include <Token.hpp>
+#include "src/Pog/LineSpecialization.hpp"
+#include "src/Pog/Grammar.hpp"
+#include "src/Pog/Token.hpp"
 
 namespace pog {
 
@@ -223,7 +223,7 @@ public:
 					continue;
 
         return TokenMatchType {
-          best_match->get_symbol(), 
+          best_match->get_symbol(),
           std::move(value),
           static_cast<std::size_t>(longest_match),
           LineSpecialization {

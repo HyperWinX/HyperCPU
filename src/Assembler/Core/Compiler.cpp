@@ -1,12 +1,8 @@
-#include <Pog/Pog.hpp>
-#include "pch.hpp"
-
-#include <Emulator/Misc/print.hpp>
-#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/BinaryTransformer.hpp>
-#include <Core/Compiler.hpp>
-#include <Logger/Logger.hpp>
-#include <Exit.hpp>
+#include "src/Pog/Pog.hpp"
+#include "src/PCH/CStd.hpp"
+#include "src/Common/LanguageSpec/Flags.hpp"
+#include "src/Assembler/Core/BinaryTransformer.hpp"
+#include "src/Assembler/Core/Compiler.hpp"
 
 
 using HyperCPU::LogLevel;

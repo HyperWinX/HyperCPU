@@ -2,16 +2,15 @@
 
 #include <unordered_map>
 
-#include <Operations/Lookahead.hpp>
-#include <Types/StateAndSymbol.hpp>
-#include <Types/StateAndRule.hpp>
-#include <ParserReport.hpp>
-#include <Automaton.hpp>
-#include <Grammar.hpp>
-#include <Action.hpp>
-#include <Errors.hpp>
-#include <Symbol.hpp>
-#include <State.hpp>
+#include "src/Pog/Operations/Lookahead.hpp"
+#include "src/Pog/Types/StateAndSymbol.hpp"
+#include "src/Pog/Types/StateAndRule.hpp"
+#include "src/Pog/ParserReport.hpp"
+#include "src/Pog/Automaton.hpp"
+#include "src/Pog/Grammar.hpp"
+#include "src/Pog/Action.hpp"
+#include "src/Pog/Symbol.hpp"
+#include "src/Pog/State.hpp"
 
 namespace pog {
 

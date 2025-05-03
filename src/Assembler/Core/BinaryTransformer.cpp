@@ -1,12 +1,9 @@
-#include <Pog/Pog.hpp>
-#include "pch.hpp"
-
-#include "Emulator/Core/CPU/Instructions/Opcodes.hpp"
-#include "Emulator/Core/CPU/Instructions/Flags.hpp"
-#include "Assembler/Core/BinaryTransformer.hpp"
-#include "Assembler/Core/Compiler.hpp"
-#include "Logger/Logger.hpp"
-#include "Exit.hpp"
+#include "src/Pog/Pog.hpp"
+#include "src/PCH/CStd.hpp"
+#include "src/Common/LanguageSpec/Opcodes.hpp"
+#include "src/Common/LanguageSpec/Flags.hpp"
+#include "src/Assembler/Core/BinaryTransformer.hpp"
+#include "src/Assembler/Core/Compiler.hpp"
 
 
 HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& op1, Operand& op2) {

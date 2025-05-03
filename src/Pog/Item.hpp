@@ -1,13 +1,10 @@
 #pragma once
 
 #include <cassert>
-#include <functional>
-#include <unordered_set>
 
 #include <fmt/ranges.h>
 
-#include <Utils.hpp>
-#include <Rule.hpp>
+#include "src/Pog/Rule.hpp"
 
 namespace pog {
 

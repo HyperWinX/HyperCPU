@@ -1,9 +1,8 @@
 #pragma once
 
-#include "pch.hpp"
-
-#include <Emulator/Core/CPU/Instructions/Flags.hpp>
-#include <Core/Compiler.hpp>
+#include "src/PCH/CStd.hpp"
+#include "src/Common/LanguageSpec/Flags.hpp"
+#include "src/Assembler/Core/Compiler.hpp"
 
 
 namespace HCAsm {

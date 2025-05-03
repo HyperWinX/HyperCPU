@@ -15,24 +15,24 @@
 #define debug_parser(...)
 #endif
 
-#include <LineSpecialization.hpp>
-#include <ParserReport.hpp>
-#include <ParsingTable.hpp>
-#include <TokenBuilder.hpp>
-#include <RuleBuilder.hpp>
-#include <Automaton.hpp>
-#include <Tokenizer.hpp>
-#include <Grammar.hpp>
-#include <Action.hpp>
-#include <Errors.hpp>
-#include <Symbol.hpp>
-#include <State.hpp>
+#include "src/Pog/LineSpecialization.hpp"
+#include "src/Pog/ParserReport.hpp"
+#include "src/Pog/ParsingTable.hpp"
+#include "src/Pog/TokenBuilder.hpp"
+#include "src/Pog/RuleBuilder.hpp"
+#include "src/Pog/Automaton.hpp"
+#include "src/Pog/Tokenizer.hpp"
+#include "src/Pog/Grammar.hpp"
+#include "src/Pog/Action.hpp"
+#include "src/Pog/Errors.hpp"
+#include "src/Pog/Symbol.hpp"
+#include "src/Pog/State.hpp"
 
-#include <Operations/Lookahead.hpp>
-#include <Operations/Follow.hpp>
-#include <Operations/Read.hpp>
-#include <Relations/Includes.hpp>
-#include <Relations/Lookback.hpp>
+#include "src/Pog/Operations/Lookahead.hpp"
+#include "src/Pog/Operations/Follow.hpp"
+#include "src/Pog/Operations/Read.hpp"
+#include "src/Pog/Relations/Includes.hpp"
+#include "src/Pog/Relations/Lookback.hpp"
 
 namespace HCAsm {
 

@@ -1,35 +1,25 @@
-# load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
-
+load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
 
 # cc_library(
 #     name = 'emulator_core',
 #     srcs = glob(['**/*.cpp']),
 #     hdrs = glob(['**/*.hpp']),
-#     copts = [
-#         '-Isrc/',
-#         '-Isrc/Assembler/',
-#         '-Isrc/Emulator/'
-#     ],
 #     deps = [
 #         '@fmt//:fmt',
 #         '@argparse//:argparse',
 #         '@eternal//:eternal',
 #         '//src/Assembler:assembler_core',
-#         '//src:pch',
-#         '//src/Pog:pog',
-#         '//src/Logger:logger',
-#         '//src:include_proxy'
+#         '//src/PCH:pch_cstd',
+#         '//src/Pog:pog'
 #     ]
 # )
-
 
 # cc_binary(
 #     name = 'hcemul',
 #     srcs = glob(['**/*.cpp']),
 #     deps = [
 #         ':emulator_core',
-#         '//src:pch',
-#         '//src/Pog:pog',
-#         '//src:include_proxy'
+#         '//src/PCH:pch_cstd',
+#         '//src/Pog:pog'
 #     ]
 # )

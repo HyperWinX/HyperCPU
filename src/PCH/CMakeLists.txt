@@ -1,3 +1,4 @@
-add_library(pch INTERFACE "CStd.hpp")
+cmake_minimum_required(VERSION 3.22)
 
-target_precompile_headers(pch INTERFACE "CStd.hpp")
+add_library(hcpu::pch INTERFACE "CStd.hpp")
+target_precompile_headers(hcpu::pch INTERFACE "CStd.hpp")
