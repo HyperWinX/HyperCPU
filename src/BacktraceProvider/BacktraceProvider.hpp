@@ -1,8 +1,11 @@
+#pragma once
+
 #ifdef HCPU_ENABLE_LIBUNWIND
-#include "pch.hpp"
 
 #include <backtrace.h>
 #include <libunwind.h>
+
+#include "src/PCH/CStd.hpp"
 
 extern "C" {
   void bt_create_error_callback(void*, const char* msg, int err);

@@ -11,12 +11,8 @@ cc_library(
     ],
     deps = [
         '@fmt//:fmt',
-        '@argparse//:argparse',
-        '@eternal//:eternal',
-        '//src/Pog:pog',
-        '//src:pch',
+        '//src/PCH:pch_cstd',
         '@libbacktrace//:libbacktrace',
         '@libunwind//:libunwind',
-        '//src:include_proxy'
     ]
 )

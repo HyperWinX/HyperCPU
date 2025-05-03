@@ -1,15 +1,14 @@
 #ifdef HCPU_ENABLE_LIBUNWIND
 
 #define UNW_LOCAL_ONLY
-#include "pch.hpp"
 
+#include <fmt/base.h>
 #include <libunwind.h>
 #include <backtrace.h>
 
-#include <fmt/base.h>
+#include "src/PCH/CStd.hpp"
+#include "src/BacktraceProvider/BacktraceProvider.hpp"
 
-#include <BacktraceProvider/BacktraceProvider.hpp>
-#include <Logger/Colors.hpp>
 
 extern "C" {
   void SignalHandler(int signal) {

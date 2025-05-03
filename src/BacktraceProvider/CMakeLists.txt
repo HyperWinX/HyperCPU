@@ -10,15 +10,12 @@ add_library(
 target_include_directories(
     backtrace-provider
     PUBLIC
-        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}
 )
 target_link_libraries(
     backtrace-provider
     PUBLIC
         fmt::fmt
-        argparse::argparse
-        pog
-        eternal::eternal
         hcpu_unwind
-        pch
+        pch_cstd
 )

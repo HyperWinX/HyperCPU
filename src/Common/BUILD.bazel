@@ -6,6 +6,7 @@ cc_library(
     srcs = glob(['**/*.cpp'], allow_empty = True),
     hdrs = glob(['**/*.hpp']),
     deps = [
-        '@plog//:plog'
+        '@plog//:plog',
+        '//src/PCH:pch_cstd'
     ]
 )
