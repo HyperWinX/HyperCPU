@@ -2,5 +2,5 @@
 
 #define POG_VERSION "0.5.3"
 
-#include "src/Pog/HTMLReport.hpp"
-#include "src/Pog/Parser.hpp"
+#include "Pog/HTMLReport.hpp"
+#include "Pog/Parser.hpp"

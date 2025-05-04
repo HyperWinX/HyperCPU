@@ -4,7 +4,7 @@
 
 #include <fmt/ranges.h>
 
-#include "src/Pog/Rule.hpp"
+#include "Pog/Rule.hpp"
 
 namespace pog {
 

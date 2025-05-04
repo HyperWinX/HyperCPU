@@ -1,8 +1,8 @@
 #pragma once
 
-#include "src/PCH/CStd.hpp"
-#include "src/Common/LanguageSpec/Flags.hpp"
-#include "src/Assembler/Core/Compiler.hpp"
+#include "PCH/CStd.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Assembler/Core/Compiler.hpp"
 
 
 namespace HCAsm {

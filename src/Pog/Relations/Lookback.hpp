@@ -2,9 +2,9 @@
 
 #include <cassert>
 
-#include "src/Pog/Types/StateAndSymbol.hpp"
-#include "src/Pog/Relations/Relation.hpp"
-#include "src/Pog/Types/StateAndRule.hpp"
+#include "Pog/Types/StateAndSymbol.hpp"
+#include "Pog/Relations/Relation.hpp"
+#include "Pog/Types/StateAndRule.hpp"
 
 namespace pog {
 

@@ -6,9 +6,9 @@
 
 #include <fmt/ranges.h>
 
-#include "src/Pog/Types/StateAndSymbol.hpp"
-#include "src/Pog/Grammar.hpp"
-#include "src/Pog/State.hpp"
+#include "Pog/Types/StateAndSymbol.hpp"
+#include "Pog/Grammar.hpp"
+#include "Pog/State.hpp"
 
 namespace pog {
 

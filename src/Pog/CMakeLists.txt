@@ -38,4 +38,4 @@ add_library(
 )
 
 target_precompile_headers(hcpu::pog INTERFACE Pog.hpp)
-target_include_directories(hcpu::pog INTERFACE ${CMAKE_SOURCE_DIR})
+target_include_directories(hcpu::pog INTERFACE ${CMAKE_SOURCE_DIR}/src)

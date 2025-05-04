@@ -1,12 +1,12 @@
 load('@rules_cc//cc:defs.bzl', 'cc_library')
 
-
 cc_library(
     name = 'hcpu_common',
     srcs = glob(['**/*.cpp'], allow_empty = True),
     hdrs = glob(['**/*.hpp']),
+    strip_include_prefix = '/src',
     deps = [
-        '@plog//:plog',
+        '@spdlog//:spdlog',
         '//src/PCH:pch_cstd'
     ]
 )

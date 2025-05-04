@@ -1,10 +1,10 @@
 #pragma once
 
-#include "pch.hpp"
-
-#include <Emulator/Core/CPU/Instructions/Registers.hpp>
-
 #include <mapbox/eternal.hpp>
+
+#include "PCH/CStd.hpp"
+#include "Common/LanguageSpec/Registers.hpp"
+
 
 constexpr inline const auto registers_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, HyperCPU::Registers>({
     {"x0", HyperCPU::Registers::X0},

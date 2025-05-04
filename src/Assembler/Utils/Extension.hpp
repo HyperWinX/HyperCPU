@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pch.hpp"
+#include "PCH/CStd.hpp"
 
 namespace HCAsm {
   std::string CreateObjectFilename(std::string str);

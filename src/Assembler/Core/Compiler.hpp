@@ -2,10 +2,10 @@
 
 #include <hpool.hpp>
 
-#include "src/Pog/Pog.hpp"
-#include "src/PCH/CStd.hpp"
-#include "src/Common/LanguageSpec/Opcodes.hpp"
-#include "src/Common/LanguageSpec/Flags.hpp"
+#include "Pog/Pog.hpp"
+#include "PCH/CStd.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
 
 
 namespace HCAsm {

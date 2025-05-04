@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-#include "src/Pog/Precedence.hpp"
+#include "Pog/Precedence.hpp"
 
 namespace pog {
 

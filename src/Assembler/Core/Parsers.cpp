@@ -1,9 +1,8 @@
-#include <Pog/Pog.hpp>
-#include "pch.hpp"
-
-#include <Core/ModeNameAssoc.hpp>
-#include <Core/RegNameAssoc.hpp>
-#include <Core/Compiler.hpp>
+#include "Pog/Pog.hpp"
+#include "PCH/CStd.hpp"
+#include "Assembler/Core/ModeNameAssoc.hpp"
+#include "Assembler/Core/RegNameAssoc.hpp"
+#include "Assembler/Core/Compiler.hpp"
 
 using HCAsm::Value;
 

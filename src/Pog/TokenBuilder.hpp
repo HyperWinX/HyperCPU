@@ -1,8 +1,8 @@
 #pragma once
 
-#include "src/Pog/Tokenizer.hpp"
-#include "src/Pog/Grammar.hpp"
-#include "src/Pog/Token.hpp"
+#include "Pog/Tokenizer.hpp"
+#include "Pog/Grammar.hpp"
+#include "Pog/Token.hpp"
 
 namespace pog {
 

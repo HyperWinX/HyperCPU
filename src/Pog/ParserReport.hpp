@@ -5,8 +5,8 @@
 
 #include <fmt/ranges.h>
 
-#include "src/Pog/State.hpp"
-#include "src/Pog/Rule.hpp"
+#include "Pog/State.hpp"
+#include "Pog/Rule.hpp"
 
 namespace pog {
 

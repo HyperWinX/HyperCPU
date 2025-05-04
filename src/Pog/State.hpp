@@ -3,9 +3,9 @@
 #include <map>
 #include <memory>
 
-#include "src/Pog/FilterView.hpp"
-#include "src/Pog/Utils.hpp"
-#include "src/Pog/Item.hpp"
+#include "Pog/FilterView.hpp"
+#include "Pog/Utils.hpp"
+#include "Pog/Item.hpp"
 
 namespace pog {
 

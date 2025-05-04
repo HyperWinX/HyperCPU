@@ -3,13 +3,14 @@ load('//tools/bazel:pch.bzl', 'precompiled_headers')
 
 package(
     default_visibility = [
-        "//:__subpackages__",
+        '//:__subpackages__',
     ],
 )
 
 cc_library(
     name = 'pog_core',
-    hdrs = glob(['**/*.hpp'], exclude = ['Pog.hpp'])
+    hdrs = glob(['**/*.hpp'], exclude = ['Pog.hpp']),
+    strip_include_prefix = '/src'
 )
 
 precompiled_headers(

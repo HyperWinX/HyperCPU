@@ -6,8 +6,8 @@
 #include <libunwind.h>
 #include <backtrace.h>
 
-#include "src/PCH/CStd.hpp"
-#include "src/BacktraceProvider/BacktraceProvider.hpp"
+#include "PCH/CStd.hpp"
+#include "BacktraceProvider/BacktraceProvider.hpp"
 
 
 extern "C" {

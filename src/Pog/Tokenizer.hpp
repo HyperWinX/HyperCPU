@@ -17,9 +17,9 @@
 #define debug_tokenizer(...)
 #endif
 
-#include "src/Pog/LineSpecialization.hpp"
-#include "src/Pog/Grammar.hpp"
-#include "src/Pog/Token.hpp"
+#include "Pog/LineSpecialization.hpp"
+#include "Pog/Grammar.hpp"
+#include "Pog/Token.hpp"
 
 namespace pog {
 

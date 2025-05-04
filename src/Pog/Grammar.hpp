@@ -4,11 +4,11 @@
 #include <unordered_set>
 #include <vector>
 
-#include "src/Pog/LineSpecialization.hpp"
-#include "src/Pog/Rule.hpp"
-#include "src/Pog/Symbol.hpp"
-#include "src/Pog/Token.hpp"
-#include "src/Pog/Utils.hpp"
+#include "Pog/LineSpecialization.hpp"
+#include "Pog/Rule.hpp"
+#include "Pog/Symbol.hpp"
+#include "Pog/Token.hpp"
+#include "Pog/Utils.hpp"
 
 namespace pog {
 

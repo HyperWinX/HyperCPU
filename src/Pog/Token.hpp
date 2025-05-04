@@ -7,7 +7,7 @@
 
 #include <re2/re2.h>
 
-#include "src/Pog/Symbol.hpp"
+#include "Pog/Symbol.hpp"
 
 namespace pog {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/PCH/CStd.hpp"
+#include "PCH/CStd.hpp"
 
 
 namespace HyperCPU {

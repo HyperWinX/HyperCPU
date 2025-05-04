@@ -1,8 +1,8 @@
-#include "src/Pog/Pog.hpp"
-#include "src/PCH/CStd.hpp"
-#include "src/Common/LanguageSpec/Flags.hpp"
-#include "src/Assembler/Core/BinaryTransformer.hpp"
-#include "src/Assembler/Core/Compiler.hpp"
+#include "Pog/Pog.hpp"
+#include "PCH/CStd.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Assembler/Core/BinaryTransformer.hpp"
+#include "Assembler/Core/Compiler.hpp"
 
 
 using HyperCPU::LogLevel;

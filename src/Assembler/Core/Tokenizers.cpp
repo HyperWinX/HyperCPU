@@ -1,7 +1,7 @@
-#include <Pog/Pog.hpp>
-#include "pch.hpp"
+#include "Pog/Pog.hpp"
+#include "PCH/CStd.hpp"
+#include "Assembler/Core/Compiler.hpp"
 
-#include <Core/Compiler.hpp>
 
 using HCAsm::Value;
 

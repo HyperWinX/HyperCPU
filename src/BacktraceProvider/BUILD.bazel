@@ -9,6 +9,7 @@ cc_library(
     hdrs = [
         'BacktraceProvider.hpp'
     ],
+    strip_include_prefix = '/src',
     deps = [
         '@fmt//:fmt',
         '//src/PCH:pch_cstd',

@@ -9,8 +9,8 @@
 #include <fmt/ostream.h>
 #include <fmt/ranges.h>
 
-#include "src/Pog/LineSpecialization.hpp"
-#include "src/Pog/Symbol.hpp"
+#include "Pog/LineSpecialization.hpp"
+#include "Pog/Symbol.hpp"
 
 namespace pog {
 

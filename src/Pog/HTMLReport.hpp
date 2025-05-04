@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "src/Pog/Parser.hpp"
+#include "Pog/Parser.hpp"
 
 namespace pog {
 

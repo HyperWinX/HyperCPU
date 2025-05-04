@@ -1,10 +1,10 @@
 #pragma once
 
-#include "pch.hpp"
-
-#include <Emulator/Core/CPU/Instructions/Opcodes.hpp>
-
 #include <mapbox/eternal.hpp>
+
+#include "PCH/CStd.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+
 
 constexpr inline const auto opcode_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, HyperCPU::Opcode>({
     {"adc",   HyperCPU::Opcode::ADC},

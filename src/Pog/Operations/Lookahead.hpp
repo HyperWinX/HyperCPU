@@ -1,9 +1,9 @@
 #pragma once
 
-#include "src/Pog/Operations/Operation.hpp"
-#include "src/Pog/Types/StateAndRule.hpp"
-#include "src/Pog/Relations/Lookback.hpp"
-#include "src/Pog/Operations/Follow.hpp"
+#include "Pog/Operations/Operation.hpp"
+#include "Pog/Types/StateAndRule.hpp"
+#include "Pog/Relations/Lookback.hpp"
+#include "Pog/Operations/Follow.hpp"
 
 namespace pog {
 
