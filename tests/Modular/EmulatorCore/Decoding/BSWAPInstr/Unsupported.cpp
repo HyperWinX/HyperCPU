@@ -5,9 +5,9 @@
 #include <fixtures.hpp>
 
 #ifdef __HCPU_DEBUG
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
 #else
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
 #endif
 
 TEST_F(DECODER_TEST, BSWAP_INSTR_R_R_B8) {

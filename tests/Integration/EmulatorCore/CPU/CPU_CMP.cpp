@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 TEST_F(CPU_TEST, INSTR_CMP_R_R_b8_LE) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::CMP);
@@ -40,7 +39,7 @@ TEST_F(CPU_TEST, INSTR_CMP_R_R_b8_EQ) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::CMP);
   cpu.mem_controller->Load8(*cpu.xip + 2, HyperCPU::Mode::b8 << 4 | HyperCPU::OperandTypes::R_R);
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLLL0);
-  cpu.mem_controller->Load8(*cpu.xip + 4, HyperCPU::Registers::XLLL1); 
+  cpu.mem_controller->Load8(*cpu.xip + 4, HyperCPU::Registers::XLLL1);
   cpu.mem_controller->Load16(*cpu.xip + 5, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 7, HyperCPU::OperandTypes::NONE);
   *cpu.xlll0 = 0x1F;

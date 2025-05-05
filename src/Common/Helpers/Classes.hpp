@@ -1,20 +1,19 @@
 #pragma once
 
-#include "pch.hpp"
-
+#include "PCH/CStd.hpp"
 
 namespace HyperCPU {
-  enum Version : std::uint8_t {
+  enum class Version : std::uint8_t {
     PreRelease = 0x01,
     Release1_0 = 0x02
   };
 
-  enum IOSubsystem : std::uint8_t {
+  enum class IOSubsystem : std::uint8_t {
     NCurses = 0x01,
     Simple = 0x02
   };
 
-  enum FileType : std::uint8_t {
+  enum class FileType : std::uint8_t {
     Object = 0x01,
     Binary = 0x02
   };
@@ -38,4 +37,4 @@ namespace HyperCPU {
   };
 
   std::uint64_t ParseMemoryString(const std::string& str);
-}
+} // namespace HyperCPU

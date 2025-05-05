@@ -1,0 +1,2 @@
+build --cxxopt=-std=c++23 --cxxopt=-Isrc/
+build --aspects //tools/bazel:linting.bzl%clang_tidy

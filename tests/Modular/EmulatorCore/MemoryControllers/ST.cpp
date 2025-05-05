@@ -5,23 +5,22 @@
 #define private public
 #include <Core/MemoryController/MemoryControllerST.hpp>
 
-
 static constexpr std::uint8_t BYTE = 0x55;
 static constexpr std::uint16_t WORD = 0x5555;
 static constexpr std::uint32_t DWORD = 0x55555555;
 static constexpr std::uint64_t QWORD = 0x5555555555555555;
 
 #ifdef __HCPU_DEBUG
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
 #else
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
 #endif
 
 TEST_F(MC_ST_TEST, LOAD8) {
   for (std::size_t i = 0; i < MEM_FIXTURE_MEM_SIZE; ++i, ++counter)
     mcmt.Load8(counter, BYTE);
 
-  ASSERT_TRUE(std::memcmp(mcmt.memory,&tmp_buffer, MEM_FIXTURE_MEM_SIZE) == 0);
+  ASSERT_TRUE(std::memcmp(mcmt.memory, &tmp_buffer, MEM_FIXTURE_MEM_SIZE) == 0);
 }
 
 TEST_F(MC_ST_TEST, LOAD16) {

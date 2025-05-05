@@ -2,9 +2,8 @@
 
 #include <mapbox/eternal.hpp>
 
-#include "PCH/CStd.hpp"
 #include "Assembler/Core/Compiler.hpp"
-
+#include "PCH/CStd.hpp"
 
 constexpr inline const auto mode_assoc = mapbox::eternal::hash_map<mapbox::eternal::string, HCAsm::Mode>({
     {"b8", HCAsm::Mode::b8},

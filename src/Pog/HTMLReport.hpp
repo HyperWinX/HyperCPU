@@ -6,20 +6,20 @@
 
 namespace pog {
 
-template <typename ValueT>
-class HtmlReport
-{
-public:
-	using ParserType = Parser<ValueT>;
+  template <typename ValueT>
+  class HtmlReport {
+  public:
+    using ParserType = Parser<ValueT>;
 
-	using ShiftActionType = Shift<ValueT>;
-	using ReduceActionType = Reduce<ValueT>;
+    using ShiftActionType = Shift<ValueT>;
+    using ReduceActionType = Reduce<ValueT>;
 
-	HtmlReport(const ParserType& parser) : _parser(parser) {}
+    HtmlReport(const ParserType& parser)
+        : _parser(parser) {
+    }
 
-	void save(const std::string& file_path)
-	{
-		static const std::string html_page_template = R"(<!doctype html>
+    void save(const std::string& file_path) {
+      static const std::string html_page_template = R"(<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
@@ -72,38 +72,33 @@ var clipboard = new ClipboardJS('.btn');
 	</body>
 </html>)";
 
-		using namespace fmt;
+      using namespace fmt;
 
-		std::ofstream file(file_path, std::ios::out | std::ios::trunc);
-		if (file.is_open())
-			file << fmt::format(html_page_template,
-				"issues"_a = build_issues(),
-				"parsing_table"_a = build_parsing_table(),
-				"states"_a = build_states(),
-				"automaton"_a = generate_automaton_graph(),
-				"generated_at"_a = current_time("%Y-%m-%d %H:%M:%S %Z")
-			);
-		file.close();
-	}
+      std::ofstream file(file_path, std::ios::out | std::ios::trunc);
+      if (file.is_open())
+        file << fmt::format(html_page_template,
+                            "issues"_a = build_issues(),
+                            "parsing_table"_a = build_parsing_table(),
+                            "states"_a = build_states(),
+                            "automaton"_a = generate_automaton_graph(),
+                            "generated_at"_a = current_time("%Y-%m-%d %H:%M:%S %Z"));
+      file.close();
+    }
 
-private:
-	std::string build_issues()
-	{
-		using namespace fmt;
+  private:
+    std::string build_issues() {
+      using namespace fmt;
 
-		if (_parser._report)
-			return std::string{};
+      if (_parser._report)
+        return std::string{};
 
-		std::vector<std::string> issues(_parser._report.number_of_issues());
-		std::transform(_parser._report.begin(), _parser._report.end(), issues.begin(), [](const auto& issue) {
-			return fmt::format("<li><span>{}</span></li>", visit_with(issue,
-				[&](const ShiftReduceConflict<ValueT>& sr) { return sr.to_string("→", "ε"); },
-				[&](const ReduceReduceConflict<ValueT>& rr) { return rr.to_string("→", "ε"); }
-			));
-		});
+      std::vector<std::string> issues(_parser._report.number_of_issues());
+      std::transform(_parser._report.begin(), _parser._report.end(), issues.begin(), [](const auto& issue) {
+        return fmt::format("<li><span>{}</span></li>", visit_with(issue, [&](const ShiftReduceConflict<ValueT>& sr) { return sr.to_string("→", "ε"); }, [&](const ReduceReduceConflict<ValueT>& rr) { return rr.to_string("→", "ε"); }));
+      });
 
-		return fmt::format(
-			R"(<div class="pt-3 row justify-content-center">
+      return fmt::format(
+          R"(<div class="pt-3 row justify-content-center">
 				<div class="col-12 alert alert-danger">
 					<h3 class="font-weight-bold">Issues</h3>
 					<ul>
@@ -111,84 +106,65 @@ private:
 					</ul>
 				</div>
 			</div>)",
-			"issues"_a = fmt::join(issues.begin(), issues.end(), "")
-		);
-	}
+          "issues"_a = fmt::join(issues.begin(), issues.end(), ""));
+    }
 
-	std::string build_parsing_table()
-	{
-		using namespace fmt;
+    std::string build_parsing_table() {
+      using namespace fmt;
 
-		auto terminal_symbols = _parser._grammar.get_terminal_symbols();
-		auto nonterminal_symbols = _parser._grammar.get_nonterminal_symbols();
+      auto terminal_symbols = _parser._grammar.get_terminal_symbols();
+      auto nonterminal_symbols = _parser._grammar.get_nonterminal_symbols();
 
-		std::vector<std::string> symbol_headers(terminal_symbols.size() + nonterminal_symbols.size());
-		std::transform(terminal_symbols.begin(), terminal_symbols.end(), symbol_headers.begin(), [](const auto& s) {
-			return fmt::format("<th>{}</th>", s->get_name());
-		});
-		std::transform(nonterminal_symbols.begin(), nonterminal_symbols.end(), symbol_headers.begin() + terminal_symbols.size(), [](const auto& s) {
-			return fmt::format("<th>{}</th>", s->get_name());
-		});
+      std::vector<std::string> symbol_headers(terminal_symbols.size() + nonterminal_symbols.size());
+      std::transform(terminal_symbols.begin(), terminal_symbols.end(), symbol_headers.begin(), [](const auto& s) {
+        return fmt::format("<th>{}</th>", s->get_name());
+      });
+      std::transform(nonterminal_symbols.begin(), nonterminal_symbols.end(), symbol_headers.begin() + terminal_symbols.size(), [](const auto& s) {
+        return fmt::format("<th>{}</th>", s->get_name());
+      });
 
-		std::vector<std::string> rows(_parser._automaton.get_states().size());
-		for (const auto& state : _parser._automaton.get_states())
-		{
-			std::vector<std::string> row;
-			row.push_back(fmt::format(
-				"<tr><td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{}\" data-html=\"true\">{}</td>",
-				state->to_string("→", "ε", "•", "<br/>"),
-				state->get_index()
-			));
-			for (const auto& sym : terminal_symbols)
-			{
-				auto action = _parser._parsing_table.get_action(state.get(), sym);
-				if (!action)
-				{
-					row.push_back("<td></td>");
-					continue;
-				}
+      std::vector<std::string> rows(_parser._automaton.get_states().size());
+      for (const auto& state : _parser._automaton.get_states()) {
+        std::vector<std::string> row;
+        row.push_back(fmt::format(
+            "<tr><td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{}\" data-html=\"true\">{}</td>",
+            state->to_string("→", "ε", "•", "<br/>"),
+            state->get_index()));
+        for (const auto& sym : terminal_symbols) {
+          auto action = _parser._parsing_table.get_action(state.get(), sym);
+          if (!action) {
+            row.push_back("<td></td>");
+            continue;
+          }
 
-				row.push_back(visit_with(action.value(),
-					[](const ShiftActionType& shift) {
-						return fmt::format(
-							"<td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{state_str}\" data-html=\"true\"><a href=\"#state{state_id}\">s{state_id}</a></td>",
-							"state_str"_a = shift.state->to_string("→", "ε", "•", "<br/>"),
-							"state_id"_a = shift.state->get_index()
-						);
-					},
-					[](const ReduceActionType& reduce) {
-						return fmt::format(
-							"<td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{}\">r{}</td>",
-							reduce.rule->to_string("→", "ε"),
-							reduce.rule->get_index()
-						);
-					},
-					[](const Accept&) -> std::string { return "<td><span class=\"fa fa-check-square\" style=\"color: green\"/></td>"; }
-				));
-			}
+          row.push_back(visit_with(action.value(), [](const ShiftActionType& shift) { return fmt::format(
+                                                                                          "<td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{state_str}\" data-html=\"true\"><a href=\"#state{state_id}\">s{state_id}</a></td>",
+                                                                                          "state_str"_a = shift.state->to_string("→", "ε", "•", "<br/>"),
+                                                                                          "state_id"_a = shift.state->get_index()); }, [](const ReduceActionType& reduce) { return fmt::format(
+                                                                                                                                                                                                                                                                                                                                                                                                                   "<td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{}\">r{}</td>",
+                                                                                                                                                                                                                                                                                                                                                                                                                   reduce.rule->to_string("→", "ε"),
+                                                                                                                                                                                                                                                                                                                                                                                                                   reduce.rule->get_index()); }, [](const Accept&) -> std::string { return "<td><span class=\"fa fa-check-square\" style=\"color: green\"/></td>"; }));
+        }
 
-			for (const auto& sym : nonterminal_symbols)
-			{
-				auto go_to = _parser._parsing_table.get_transition(state.get(), sym);
-				if (!go_to)
-				{
-					row.push_back("<td></td>");
-					continue;
-				}
+        for (const auto& sym : nonterminal_symbols) {
+          auto go_to = _parser._parsing_table.get_transition(state.get(), sym);
+          if (!go_to) {
+            row.push_back("<td></td>");
+            continue;
+          }
 
-				row.push_back(fmt::format(
-					"<td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{state_str}\" data-html=\"true\"><a href=\"#state{state_id}\">{state_id}</a></td>",
-					"state_str"_a = go_to.value()->to_string("→", "ε", "•", "<br/>"),
-					"state_id"_a = go_to.value()->get_index()
-				));
-			}
+          row.push_back(fmt::format(
+              "<td data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{state_str}\" data-html=\"true\"><a href=\"#state{state_id}\">{state_id}</a></td>",
+              "state_str"_a = go_to.value()->to_string("→", "ε", "•", "<br/>"),
+              "state_id"_a = go_to.value()->get_index()));
+        }
 
-			row.push_back("</tr>");
-			rows.push_back(fmt::format("{}", fmt::join(row.begin(), row.end(), "")));
-		}
+        row.push_back("</tr>");
+        rows.push_back(fmt::format("{}", fmt::join(row.begin(), row.end(), "")));
+      }
 
-		return fmt::format(
-			R"(<div class="pt-3 row justify-content-center">
+      return fmt::format(
+          R"(<div class="pt-3 row justify-content-center">
 				<h3 class="col text-center">Parsing Table</h3>
 				<div class="w-100"></div>
 				<div class="col">
@@ -209,19 +185,17 @@ private:
 					</table>
 				</div>
 			</div>)",
-			"number_of_terminals"_a = terminal_symbols.size(),
-			"number_of_nonterminals"_a = nonterminal_symbols.size(),
-			"symbols"_a = fmt::join(symbol_headers.begin(), symbol_headers.end(), ""),
-			"rows"_a = fmt::join(rows.begin(), rows.end(), "")
-		);
-	}
+          "number_of_terminals"_a = terminal_symbols.size(),
+          "number_of_nonterminals"_a = nonterminal_symbols.size(),
+          "symbols"_a = fmt::join(symbol_headers.begin(), symbol_headers.end(), ""),
+          "rows"_a = fmt::join(rows.begin(), rows.end(), ""));
+    }
 
-	std::string build_states()
-	{
-		using namespace fmt;
+    std::string build_states() {
+      using namespace fmt;
 
-		static const std::string single_state_template =
-			R"(<div class="col-4">
+      static const std::string single_state_template =
+          R"(<div class="col-4">
 				<table class="state-table table table-bordered table-sm ml-auto mr-auto" id="state{id}">
 					<thead class="thead-dark">
 						<tr><th>State {id}</th></tr>
@@ -232,35 +206,31 @@ private:
 				</table>
 			</div>)";
 
-		std::vector<std::string> states;
-		for (const auto& state : _parser._automaton.get_states())
-		{
-			std::vector<std::string> cols(state->size());
-			std::transform(state->begin(), state->end(), cols.begin(), [](const auto& item) {
-				return fmt::format("<tr><td>{}</td></tr>", item->to_string("→", "ε", "•"));
-			});
-			states.push_back(fmt::format(
-				single_state_template,
-				"id"_a = state->get_index(),
-				"rows"_a = fmt::join(cols.begin(), cols.end(), "")
-			));
-		}
+      std::vector<std::string> states;
+      for (const auto& state : _parser._automaton.get_states()) {
+        std::vector<std::string> cols(state->size());
+        std::transform(state->begin(), state->end(), cols.begin(), [](const auto& item) {
+          return fmt::format("<tr><td>{}</td></tr>", item->to_string("→", "ε", "•"));
+        });
+        states.push_back(fmt::format(
+            single_state_template,
+            "id"_a = state->get_index(),
+            "rows"_a = fmt::join(cols.begin(), cols.end(), "")));
+      }
 
-		return fmt::format(
-			R"(<div class="row justify-content-around">
+      return fmt::format(
+          R"(<div class="row justify-content-around">
 				<h3 class="col text-center">States</h3>
 				<div class="w-100"></div>
 				{states}
 			</div>)",
-			"states"_a = fmt::join(states.begin(), states.end(), "")
-		);
-	}
+          "states"_a = fmt::join(states.begin(), states.end(), ""));
+    }
 
-	std::string generate_automaton_graph()
-	{
-		using namespace fmt;
+    std::string generate_automaton_graph() {
+      using namespace fmt;
 
-		return fmt::format(R"(<div class="row justify-content-center">
+      return fmt::format(R"(<div class="row justify-content-center">
 				<h3 class="col text-center">Automaton (graphviz)</h3>
 				<div class="w-100"></div>
 				<textarea id="automaton" class="textarea form-control text-monospace" style="height: 20em; resize: none; font-size: 12px;" readonly>{automaton}</textarea>
@@ -271,14 +241,13 @@ private:
 					</button>
 				</div>
 			</div>)",
-			"automaton"_a = _parser._automaton.generate_graph()
-		);
-	}
+                         "automaton"_a = _parser._automaton.generate_graph());
+    }
 
-	const ParserType& _parser;
-};
+    const ParserType& _parser;
+  };
 
-template <typename ValueT>
-HtmlReport(const Parser<ValueT>&) -> HtmlReport<ValueT>;
+  template <typename ValueT>
+  HtmlReport(const Parser<ValueT>&) -> HtmlReport<ValueT>;
 
 } // namespace pog

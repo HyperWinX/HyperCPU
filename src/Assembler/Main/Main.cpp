@@ -1,22 +1,21 @@
-#include <mapbox/eternal.hpp>
 #include <argparse/argparse.hpp>
+#include <mapbox/eternal.hpp>
 
-#include "Pog/Pog.hpp"
-#include "PCH/CStd.hpp"
-#include "Assembler/Utils/Extension.hpp"
 #include "Assembler/Core/Compiler.hpp"
+#include "Assembler/Utils/Extension.hpp"
 #include "Common/NotImplemented.hpp"
-
+#include "PCH/CStd.hpp"
+#include "Pog/Pog.hpp"
 
 #ifdef HCPU_ENABLE_LIBUNWIND
 #include "BacktraceProvider/BacktraceProvider.hpp"
 #endif
 
 constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eternal::string, HyperCPU::LogLevel>({
-  {"debug", HyperCPU::LogLevel::DEBUG},
-  {"info", HyperCPU::LogLevel::INFO},
-  {"warning", HyperCPU::LogLevel::WARNING},
-  {"error", HyperCPU::LogLevel::ERROR},
+    {"debug", HyperCPU::LogLevel::DEBUG},
+    {"info", HyperCPU::LogLevel::INFO},
+    {"warning", HyperCPU::LogLevel::WARNING},
+    {"error", HyperCPU::LogLevel::ERROR},
 });
 
 int main(int argc, char** argv) {
@@ -28,18 +27,17 @@ int main(int argc, char** argv) {
 #endif
   argparse::ArgumentParser program("hcasm");
   program.add_argument("source")
-    .help("source file to be assembled")
-    .required();
+      .help("source file to be assembled")
+      .required();
   program.add_argument("-o")
-    .help("name of the binary file");
+      .help("name of the binary file");
   program.add_argument("-c")
-    .help("compile to object file")
-    .default_value(false)
-    .implicit_value(true);
+      .help("compile to object file")
+      .default_value(false)
+      .implicit_value(true);
   program.add_argument("-v")
-    .default_value(std::string{"warning"})
-    .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
-
+      .default_value(std::string{"warning"})
+      .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
 
   try {
     program.parse_args(argc, argv);
@@ -63,7 +61,7 @@ int main(int argc, char** argv) {
     HyperCPU::PrintUnsupported("Compilation to object files is not implemented!");
   }
 
-  HCAsm::HCAsmCompiler compiler{ loglevel_assoc.at(program.get<std::string>("-v").c_str()) };
+  HCAsm::HCAsmCompiler compiler{loglevel_assoc.at(program.get<std::string>("-v").c_str())};
 
   // Verify that files are available
   if (!std::filesystem::is_regular_file(source)) {
@@ -88,9 +86,8 @@ int main(int argc, char** argv) {
   src.open(source);
 
   std::string contents(
-    (std::istreambuf_iterator<char>(src)),
-    std::istreambuf_iterator<char>()
-    );
+      (std::istreambuf_iterator<char>(src)),
+      std::istreambuf_iterator<char>());
 
   std::uint32_t code_size;
 

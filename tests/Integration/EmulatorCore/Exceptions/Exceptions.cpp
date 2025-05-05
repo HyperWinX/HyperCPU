@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 TEST_F(EXCEPTION_TEST, CPU_EXCEPTION_IO) {
   cpu.mem_controller->Load16(*cpu.xip, 8273);

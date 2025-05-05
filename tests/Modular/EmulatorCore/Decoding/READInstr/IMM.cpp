@@ -10,7 +10,7 @@ TEST_F(DECODER_TEST, READ_INSTR_IMM) {
   ++counter;
   decoder.mem_controller->Load8(counter, 0x55);
   counter = 0;
-  
+
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
 
   ASSERT_EQ(instr.m_opcode, HyperCPU::Opcode::READ);
@@ -21,7 +21,8 @@ TEST_F(DECODER_TEST, READ_INSTR_IMM) {
 }
 
 TEST_F(DECODER_TEST, READ_INSTR_R) {
-  decoder.mem_controller->Load16(counter, HyperCPU::READ);   counter += 2;
+  decoder.mem_controller->Load16(counter, HyperCPU::READ);
+  counter += 2;
   decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::R);
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::XLLL0);

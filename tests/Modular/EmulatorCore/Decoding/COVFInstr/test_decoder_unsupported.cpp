@@ -5,9 +5,9 @@
 #include <fixtures.hpp>
 
 #ifdef __HCPU_DEBUG
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
 #else
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
 #endif
 
 TEST_F(DECODER_TEST, COVF_INSTR_R_R_B8) {
@@ -527,7 +527,6 @@ TEST_F(DECODER_TEST, COVF_INSTR_M_B64) {
 
   HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
-
 
 TEST_F(DECODER_TEST, COVF_INSTR_IMM) {
   decoder.mem_controller->Load16(counter, HyperCPU::COVF);

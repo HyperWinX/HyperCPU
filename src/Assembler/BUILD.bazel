@@ -11,25 +11,22 @@ cc_library(
     srcs = glob(['**/*.cpp'], exclude = ['Main']),
     hdrs = glob(['**/*.hpp'], exclude = ['Main']),
     strip_include_prefix = '/src',
-    copts = [
-        '-Isrc/'
-    ],
     deps = [
         '//src/PCH:pch_cstd',
         '//src/Pog:pog',
+        '//src/Common:hcpu_common',
         '@fmt//:fmt',
         '@re2//:re2',
         '@eternal//:eternal',
-        '@argparse//:argparse'
+        '@argparse//:argparse',
+        '@spdlog//:spdlog',
+        '//dist:hpool'
     ]
 )
 
 cc_binary(
     name = 'hcasm',
     srcs = glob(['Main/**/*.cpp']),
-    copts = [
-        '-Isrc/'
-    ],
     deps = [
         ':assembler_core',
         '@eternal//:eternal'

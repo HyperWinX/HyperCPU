@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 static constexpr std::uint8_t BYTE_DATA = 0x55;
 static constexpr std::uint16_t WORD_DATA = 0x5555;
@@ -347,7 +346,7 @@ TEST_F(CPU_TEST, INSTR_MOV_RM_M_b64) {
   cpu.mem_controller->Load64(*cpu.xip + 4, 1536);
   cpu.mem_controller->Load16(*cpu.xip + 12, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 14, HyperCPU::OperandTypes::NONE);
-  cpu.mem_controller->Load64(1536,  QWORD_DATA);
+  cpu.mem_controller->Load64(1536, QWORD_DATA);
   *cpu.x0 = 1024;
 
   cpu.Run();

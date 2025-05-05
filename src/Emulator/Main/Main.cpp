@@ -3,9 +3,9 @@
 #include <Assembler/Core/Compiler.hpp>
 #include <Emulator/Core/CPU/CPU.hpp>
 #include <Emulator/Main/Main.hpp>
+#include <Exit.hpp>
 #include <Logger/Logger.hpp>
 #include <Version.hpp>
-#include <Exit.hpp>
 
 #include <argparse/argparse.hpp>
 
@@ -25,14 +25,14 @@ int main(int argc, char** argv) {
   HyperCPU::Logger logger{HyperCPU::LogLevel::ERROR};
   argparse::ArgumentParser program("hcemul", HCPU_VERSION);
   program.add_argument("binary")
-    .help("binary file to execute")
-    .required();
+      .help("binary file to execute")
+      .required();
   program.add_argument("-v")
-    .default_value(std::string{"debug"})
-    .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
+      .default_value(std::string{"debug"})
+      .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
   program.add_argument("-m", "--memory")
-    .default_value(std::string{"8K"})
-    .help("max memory to use");
+      .default_value(std::string{"8K"})
+      .help("max memory to use");
 
   try {
     program.parse_args(argc, argv);
@@ -63,23 +63,23 @@ int main(int argc, char** argv) {
   }
 
   switch (header.version) {
-    case HyperCPU::Version::PreRelease:
-    case HyperCPU::Version::Release1_0:
-      break;
-    default:
-      logger.Log(HyperCPU::LogLevel::ERROR, "Invalid release field!");
-      EXIT(1);
+  case HyperCPU::Version::PreRelease:
+  case HyperCPU::Version::Release1_0:
+    break;
+  default:
+    logger.Log(HyperCPU::LogLevel::ERROR, "Invalid release field!");
+    EXIT(1);
   }
 
   switch (header.type) {
-    case HyperCPU::FileType::Binary:
-      break;
-    case HyperCPU::FileType::Object:
-      logger.Log(HyperCPU::LogLevel::ERROR, "Executing object files is not supported, please link it first!");
-      EXIT(1);
-    default:
-      logger.Log(HyperCPU::LogLevel::ERROR, "Invalid type field!");
-      EXIT(1);
+  case HyperCPU::FileType::Binary:
+    break;
+  case HyperCPU::FileType::Object:
+    logger.Log(HyperCPU::LogLevel::ERROR, "Executing object files is not supported, please link it first!");
+    EXIT(1);
+  default:
+    logger.Log(HyperCPU::LogLevel::ERROR, "Invalid type field!");
+    EXIT(1);
   }
 
   std::unique_ptr<char[]> buf(new char[binarysize]);
@@ -133,20 +133,20 @@ std::uint64_t HyperCPU::ParseMemoryString(const std::string& str) {
 
   std::uint64_t multiplier;
   switch (suffix) {
-    case 'K':
-      multiplier = 1024ULL;
-      break;
-    case 'M':
-      multiplier = 1024ULL * 1024;
-      break;
-    case 'G':
-      multiplier = 1024ULL * 1024 * 1024;
-      break;
-    case 'T':
-      multiplier = 1024ULL * 1024 * 1024 * 1024;
-      break;
-    default:
-      return std::numeric_limits<std::uint64_t>::max();
+  case 'K':
+    multiplier = 1024ULL;
+    break;
+  case 'M':
+    multiplier = 1024ULL * 1024;
+    break;
+  case 'G':
+    multiplier = 1024ULL * 1024 * 1024;
+    break;
+  case 'T':
+    multiplier = 1024ULL * 1024 * 1024 * 1024;
+    break;
+  default:
+    return std::numeric_limits<std::uint64_t>::max();
   }
 
   std::uint64_t result;

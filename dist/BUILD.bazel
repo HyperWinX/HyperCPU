@@ -1,12 +1,13 @@
-load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+load('@rules_cc//cc:defs.bzl', 'cc_library')
 
-cmake(
+package(
+    default_visibility = [
+        '//:__subpackages__',
+    ],
+)
+
+cc_library(
     name = 'hpool',
-    cache_entries = {
-        'HPOOL_BUILD_TESTS': False,
-        'HPOOL_BUILD_BENCHMARKS': False
-    },
-    includes = [
-        '.'
-    ]
+    hdrs = ['HPool/hpool.hpp'],
+    includes = ['HPool'],
 )

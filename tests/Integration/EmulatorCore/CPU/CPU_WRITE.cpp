@@ -1,7 +1,7 @@
 #include "Core/CPU/Instructions/Registers.hpp"
+#include "pch.hpp"
 #include <cstdint>
 #include <fixtures.hpp>
-#include "pch.hpp"
 
 TEST_F(CPU_TEST, INSTR_WRITE) {
   std::uint8_t t = 0;

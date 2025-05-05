@@ -1,11 +1,10 @@
 #include <bit>
 
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 #include <Misc/byteswap.hpp>
 
 #include <fixtures.hpp>
-
 
 static constexpr std::uint8_t BYTE_DATA1 = 0x12;
 static constexpr std::uint8_t BYTE_RESULT = BYTE_DATA1;

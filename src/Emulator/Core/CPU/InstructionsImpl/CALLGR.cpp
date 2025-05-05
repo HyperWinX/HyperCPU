@@ -7,7 +7,6 @@
 
 #include <Misc/bit_cast.hpp>
 
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -17,17 +16,17 @@ void HyperCPU::CPU::ExecCALLGR(const IInstruction& instr, OperandContainer op1, 
   }
 
   switch (instr.m_op_types) { // Placeholders
-    case R:
-      StackPush64(*xip);
-      *xip = op1.deref<std::uint64_t>();
-      break;
-    case IMM:
-      StackPush64(*xip);
-      *xip = HyperCPU::bit_cast<std::uint64_t>(op1);
-      break;
-    default:
-      h_assert(false, {std::cout << "HyperCPU::CPU::ExecCALLGR placeholder reached: please report bug\n"; exit(1); });
-      break;
+  case R:
+    StackPush64(*xip);
+    *xip = op1.deref<std::uint64_t>();
+    break;
+  case IMM:
+    StackPush64(*xip);
+    *xip = HyperCPU::bit_cast<std::uint64_t>(op1);
+    break;
+  default:
+    h_assert(false, {std::cout << "HyperCPU::CPU::ExecCALLGR placeholder reached: please report bug\n"; exit(1); });
+    break;
   }
 }
 

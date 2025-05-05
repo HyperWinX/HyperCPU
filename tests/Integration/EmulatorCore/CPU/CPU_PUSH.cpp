@@ -1,8 +1,8 @@
 #include "Core/CPU/Instructions/Registers.hpp"
-#include <cstdint>
-#include <fixtures.hpp>
 #include "pch.hpp"
 #include <Misc/bit_cast.hpp>
+#include <cstdint>
+#include <fixtures.hpp>
 // TODO: fix include order
 
 // TODO: fix constexpr naming

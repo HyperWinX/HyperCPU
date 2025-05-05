@@ -11,6 +11,7 @@ namespace HyperCPU {
     std::function<std::uint8_t()> GetGetchar();
 
     ~SimpleIOImpl();
+
   private:
     enum class CurrentState {
       Default,
@@ -33,4 +34,4 @@ namespace HyperCPU {
     bool was_printing, printing;
     struct termios oldt, newt;
   };
-}
+} // namespace HyperCPU

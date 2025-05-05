@@ -1,6 +1,5 @@
 #include <fixtures.hpp>
 
-
 static constexpr std::uint8_t BYTE_DATA = 0x55;
 static constexpr std::uint16_t WORD_DATA = 0x5555;
 static constexpr std::uint32_t DWORD_DATA = 0x55555555;

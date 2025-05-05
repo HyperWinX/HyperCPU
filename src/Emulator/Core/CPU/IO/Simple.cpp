@@ -6,7 +6,8 @@
 #include <Core/CPU/IO/Simple.hpp>
 #include <Misc/bit_cast.hpp>
 
-HyperCPU::SimpleIOImpl::SimpleIOImpl() : state(CurrentState::Default), was_printing(true), printing(true) {
+HyperCPU::SimpleIOImpl::SimpleIOImpl()
+    : state(CurrentState::Default), was_printing(true), printing(true) {
   tcgetattr(STDIN_FILENO, &oldt);
   newt = oldt;
   newt.c_lflag &= ~(ICANON | ECHO);
@@ -21,31 +22,31 @@ HyperCPU::SimpleIOImpl::~SimpleIOImpl() {
 
 void HyperCPU::SimpleIOImpl::Putchar(std::uint8_t c) {
   if (state == CurrentState::WaitingForCommand) {
-    switch(HyperCPU::bit_cast<Command>(c)) {
-      case Command::EnablePrinting:
-        EnablePrinting();
-        printing = true;
-        was_printing = true;
-        break;
-      case Command::DisablePrinting:
-        DisablePrinting();
-        printing = false;
-        was_printing = false;
-        break;
-      default:
-        break;
+    switch (HyperCPU::bit_cast<Command>(c)) {
+    case Command::EnablePrinting:
+      EnablePrinting();
+      printing = true;
+      was_printing = true;
+      break;
+    case Command::DisablePrinting:
+      DisablePrinting();
+      printing = false;
+      was_printing = false;
+      break;
+    default:
+      break;
     }
     state = CurrentState::Default;
     return;
   }
 
   switch (c) {
-    case 0xFF:
-      state = CurrentState::WaitingForCommand;
-      return;
-    default:
-      std::putchar(c);
-      break;
+  case 0xFF:
+    state = CurrentState::WaitingForCommand;
+    return;
+  default:
+    std::putchar(c);
+    break;
   }
 }
 

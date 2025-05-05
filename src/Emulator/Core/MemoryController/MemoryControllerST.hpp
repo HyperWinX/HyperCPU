@@ -6,7 +6,6 @@
 #include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Core/MemoryController/IMemoryController.hpp>
 
-
 namespace HyperCPU {
   class MemoryControllerST final : public IMemoryController {
   private:
@@ -15,7 +14,8 @@ namespace HyperCPU {
     std::size_t total_mem;
 
   public:
-    explicit MemoryControllerST(std::size_t mem_size, class CPU* cpu = nullptr) : cpu(cpu), total_mem(mem_size) {
+    explicit MemoryControllerST(std::size_t mem_size, class CPU* cpu = nullptr)
+        : cpu(cpu), total_mem(mem_size) {
       memory = static_cast<char*>(calloc(total_mem, 1));
       if (!memory)
         throw std::runtime_error("Failed to allocate memory!");
@@ -100,10 +100,12 @@ namespace HyperCPU {
       memcpy(&memory[ptr], &data, sizeof(std::uint64_t));
     }
 
-    std::uint8_t* get_ptr() const noexcept override { return reinterpret_cast<std::uint8_t*>(memory); }
+    std::uint8_t* get_ptr() const noexcept override {
+      return reinterpret_cast<std::uint8_t*>(memory);
+    }
 
     ~MemoryControllerST() {
       free(memory);
     }
   };
-}
+} // namespace HyperCPU

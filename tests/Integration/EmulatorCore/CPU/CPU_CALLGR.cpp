@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 TEST_F(CPU_TEST, INSTR_CALLGR_R_TRUE) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::CALLGR);
@@ -13,7 +12,6 @@ TEST_F(CPU_TEST, INSTR_CALLGR_R_TRUE) {
   *cpu.xbp = 512;
   *cpu.xsp = *cpu.xbp;
   *cpu.x0 = 1536;
-
 
   cpu.Run();
 
@@ -33,7 +31,6 @@ TEST_F(CPU_TEST, INSTR_CALLGR_R_FALSE) {
   *cpu.x0 = 1536;
   cpu.zrf = 1;
 
-
   cpu.Run();
 
   ASSERT_EQ(*cpu.xip, 7);
@@ -47,7 +44,6 @@ TEST_F(CPU_TEST, INSTR_CALLGR_IMM_TRUE) {
   cpu.mem_controller->Load8(1538, HyperCPU::OperandTypes::NONE);
   *cpu.xbp = 512;
   *cpu.xsp = *cpu.xbp;
-
 
   cpu.Run();
 
@@ -65,7 +61,6 @@ TEST_F(CPU_TEST, INSTR_CALLGR_IMM_FALSE) {
   *cpu.xbp = 512;
   *cpu.xsp = *cpu.xbp;
   cpu.zrf = 1;
-
 
   cpu.Run();
 

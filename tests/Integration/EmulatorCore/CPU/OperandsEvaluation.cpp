@@ -3,11 +3,10 @@
 
 #include <fixtures.hpp>
 
-
 TEST_F(OPERAND_EVAL_TEST, PROPER_REGISTERS_EVALUATION) {
   HyperCPU::OperandContainer arg = 0;
   HyperCPU::Registers reg;
-  
+
   reg = HyperCPU::Registers::X0;
   arg = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg)};
   ASSERT_EQ(cpu.GetRegister(arg), cpu.x0);
@@ -171,8 +170,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_R_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg2)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_R, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_R,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
   ASSERT_EQ(result.second.ptr<void>(), cpu.x1);
@@ -184,8 +183,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_RM_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg2)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_RM, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_RM,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
   ASSERT_EQ(result.second.ptr<void>(), cpu.x1);
@@ -197,8 +196,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_R_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg2)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_R, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_R,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
   ASSERT_EQ(result.second.ptr<void>(), cpu.x1);
@@ -209,8 +208,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_M_EVALUATION) {
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_M, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_M,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
   ASSERT_EQ(result.second.ref(), arg2.ref());
@@ -221,8 +220,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_M_EVALUATION) {
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_M, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_M,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
   ASSERT_EQ(result.second.ref(), arg2.ref());
@@ -235,8 +234,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B8_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint8_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -249,8 +248,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B16_EVALUATION) {
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
-  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM, 
-    HyperCPU::Mode::b16, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM,
+                           HyperCPU::Mode::b16, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint16_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -264,8 +263,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B32_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM, 
-    HyperCPU::Mode::b32, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM,
+                           HyperCPU::Mode::b32, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint32_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -279,8 +278,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_RM_IMM_B64_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM, 
-    HyperCPU::Mode::b64, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::RM_IMM,
+                           HyperCPU::Mode::b64, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint64_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -294,8 +293,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B8_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint8_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -309,8 +308,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B16_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM, 
-    HyperCPU::Mode::b16, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM,
+                           HyperCPU::Mode::b16, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint16_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -324,8 +323,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B32_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM, 
-    HyperCPU::Mode::b32, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM,
+                           HyperCPU::Mode::b32, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint32_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -339,8 +338,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_IMM_B64_EVALUATION) {
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(arg3)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM, 
-    HyperCPU::Mode::b64, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R_IMM,
+                           HyperCPU::Mode::b64, arg1, arg2);
 
   std::memcpy(&imm, &result.second, sizeof(std::uint64_t));
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
@@ -352,8 +351,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_M_R_EVALUATION) {
   HyperCPU::Registers reg2 = HyperCPU::Registers::X0;
   arg2 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg2)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::M_R, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::M_R,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ref(), arg1.ref());
   ASSERT_EQ(result.second.ptr<void>(), cpu.x0);
@@ -364,8 +363,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_EVALUATION) {
   HyperCPU::Registers reg1 = HyperCPU::Registers::X0;
   arg1 = HyperCPU::OperandContainer{HyperCPU::bit_cast<std::uint64_t>(reg1)};
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::R, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::R,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), cpu.x0);
   ASSERT_EQ(result.second.ptr<void>(), nullptr);
@@ -374,8 +373,8 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_R_EVALUATION) {
 TEST_F(OPERAND_EVAL_TEST, PROPER_M_EVALUATION) {
   HyperCPU::OperandContainer arg1 = HyperCPU::OperandContainer{1024}, arg2;
 
-  result = cpu.GetOperands(HyperCPU::OperandTypes::M, 
-    HyperCPU::Mode::b8, arg1, arg2);
+  result = cpu.GetOperands(HyperCPU::OperandTypes::M,
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ref(), arg1.ref());
   ASSERT_EQ(result.second.ptr<void>(), nullptr);
@@ -385,7 +384,7 @@ TEST_F(OPERAND_EVAL_TEST, PROPER_NONE_EVALUATION) {
   HyperCPU::OperandContainer arg1, arg2;
 
   result = cpu.GetOperands(HyperCPU::OperandTypes::NONE,
-    HyperCPU::Mode::b8, arg1, arg2);
+                           HyperCPU::Mode::b8, arg1, arg2);
 
   ASSERT_EQ(result.first.ptr<void>(), nullptr);
   ASSERT_EQ(result.second.ptr<void>(), nullptr);

@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 TEST_F(CPU_TEST, INSTR_JME_R_TRUE) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::JME);
@@ -12,7 +11,6 @@ TEST_F(CPU_TEST, INSTR_JME_R_TRUE) {
   cpu.mem_controller->Load8(1538, HyperCPU::OperandTypes::NONE);
   *cpu.x0 = 1536;
   cpu.zrf = 1;
-
 
   cpu.Run();
 
@@ -28,7 +26,6 @@ TEST_F(CPU_TEST, INSTR_JME_R_FALSE) {
   cpu.mem_controller->Load16(1536, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(1538, HyperCPU::OperandTypes::NONE);
   *cpu.x0 = 1536;
-
 
   cpu.Run();
 

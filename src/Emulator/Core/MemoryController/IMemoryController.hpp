@@ -2,15 +2,15 @@
 
 #include "pch.hpp"
 
-
-#define mem_ctlr_assert(expr)                       \
-  do {                                              \
+#define mem_ctlr_assert(expr)                                             \
+  do {                                                                    \
     if (!(expr) && (!cpu || !cpu->CanExecuteInterrupts())) [[unlikely]] { \
-      HyperCPU::println("Assertion failed: {}", #expr);  \
-      ABORT();                                 \
-    } else if (!(expr) && cpu && cpu->CanExecuteInterrupts()) { \
-      cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::SEGF); \
-    } else [[likely]] {  }                          \
+      HyperCPU::println("Assertion failed: {}", #expr);                   \
+      ABORT();                                                            \
+    } else if (!(expr) && cpu && cpu->CanExecuteInterrupts()) {           \
+      cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::SEGF);              \
+    } else [[likely]] {                                                   \
+    }                                                                     \
   } while (false)
 
 namespace HyperCPU {
@@ -33,7 +33,7 @@ namespace HyperCPU {
 
     virtual std::uint8_t* get_ptr() const noexcept = 0;
 
-    virtual ~IMemoryController() { };
+    virtual ~IMemoryController() {};
   };
 
-}
+} // namespace HyperCPU

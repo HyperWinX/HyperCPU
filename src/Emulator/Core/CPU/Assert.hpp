@@ -2,5 +2,7 @@
 
 #include "pch.hpp"
 
-
-#define h_assert(expr, statement) if (!(expr)) { statement; }
+#define h_assert(expr, statement) \
+  if (!(expr)) {                  \
+    statement;                    \
+  }

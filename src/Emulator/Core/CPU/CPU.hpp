@@ -2,13 +2,12 @@
 
 #include "pch.hpp"
 
-#include <Core/MemoryController/IMemoryController.hpp>
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
 #include <Core/CPU/Decoders/StdDecoder.hpp>
 #include <Core/CPU/IO/Simple.hpp>
+#include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
+#include <Core/MemoryController/IMemoryController.hpp>
 #include <Logger/Logger.hpp>
-
 
 #define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, OperandContainer op1, OperandContainer op2)
 
@@ -40,7 +39,7 @@ namespace HyperCPU {
     // GP Registers
     std::uint64_t *x0, *x1, *x2, *x3, *x4, *x5, *x6, *x7;
     std::uint32_t *xh0, *xh1, *xh2, *xh3, *xh4, *xh5, *xh6, *xh7;
-    std::uint32_t *xl0, *xl1,* xl2, *xl3, *xl4, *xl5, *xl6, *xl7;
+    std::uint32_t *xl0, *xl1, *xl2, *xl3, *xl4, *xl5, *xl6, *xl7;
     std::uint16_t *xll0, *xll1, *xll2, *xll3;
     std::uint8_t *xllh0, *xllh1, *xllh2, *xllh3;
     std::uint8_t *xlll0, *xlll1, *xlll2, *xlll3;
@@ -131,4 +130,4 @@ namespace HyperCPU {
 
     ~CPU();
   };
-}
+} // namespace HyperCPU

@@ -1,11 +1,10 @@
 #include "pch.hpp"
 
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Logger/Logger.hpp>
 #include <Core/CPU/CPU.hpp>
+#include <Core/CPU/Instructions/Opcodes.hpp>
+#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
 #include <Exit.hpp>
-
+#include <Logger/Logger.hpp>
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
   if (!ivt_initialized || pending_interrupt.has_value()) {
@@ -27,7 +26,8 @@ void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
 
 void HyperCPU::CPU::RunInterruptSubroutine() {
   while (1) {
-    if (halted) return;
+    if (halted)
+      return;
 
     HyperCPU::IInstruction instr = m_decoder->FetchAndDecode();
     if (instr.m_opcode == Opcode::IRET) {

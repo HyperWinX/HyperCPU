@@ -1,6 +1,6 @@
 #include "Core/CPU/Instructions/Flags.hpp"
-#include <fixtures.hpp>
 #include "pch.hpp"
+#include <fixtures.hpp>
 
 TEST_F(CPU_TEST, INSTR_READ) {
   cpu.read_io_handlers[1] = []() -> std::uint8_t {

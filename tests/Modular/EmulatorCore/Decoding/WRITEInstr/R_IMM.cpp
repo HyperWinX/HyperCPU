@@ -9,7 +9,7 @@ TEST_F(DECODER_TEST, WRITE_INSTR_R_IMM_B8) {
   ++counter;
   decoder.mem_controller->Load8(counter, 0x55);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::uint8_t data;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -23,4 +23,3 @@ TEST_F(DECODER_TEST, WRITE_INSTR_R_IMM_B8) {
   ASSERT_EQ(reg1, HyperCPU::Registers::X3);
   ASSERT_EQ(data, 0x55);
 }
-

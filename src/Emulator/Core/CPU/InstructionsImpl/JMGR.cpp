@@ -7,7 +7,6 @@
 
 #include <Misc/bit_cast.hpp>
 
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -17,15 +16,15 @@ void HyperCPU::CPU::ExecJMGR(const IInstruction& instr, OperandContainer op1, Op
   }
 
   switch (instr.m_op_types) { // Placeholders
-    case R:
-      *xip = op1.deref<std::uint64_t>();
-      break;
-    case IMM:
-      *xip = HyperCPU::bit_cast<std::uint64_t>(op1);
-      break;
-    default:
-      h_assert(false, {std::cout << "HyperCPU::CPU::ExecJMP placeholder reached: please report bug\n"; exit(1); });
-      break;
+  case R:
+    *xip = op1.deref<std::uint64_t>();
+    break;
+  case IMM:
+    *xip = HyperCPU::bit_cast<std::uint64_t>(op1);
+    break;
+  default:
+    h_assert(false, {std::cout << "HyperCPU::CPU::ExecJMP placeholder reached: please report bug\n"; exit(1); });
+    break;
   }
 }
 

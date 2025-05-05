@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 static constexpr std::uint8_t BYTE_DATA1 = 0x60;
 static constexpr std::uint8_t BYTE_DATA2 = 0x55;

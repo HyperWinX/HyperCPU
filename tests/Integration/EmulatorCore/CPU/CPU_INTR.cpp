@@ -1,15 +1,14 @@
-#include <Core/CPU/Instructions/Registers.hpp>
 #include <Core/CPU/Instructions/Flags.hpp>
+#include <Core/CPU/Instructions/Registers.hpp>
 
 #include <fixtures.hpp>
-
 
 TEST_F(CPU_TEST, INSTR_INTR_R_b64) {
   // Setup stack
   *cpu.xbp = 512;
   *cpu.xsp = 512;
   // Setup IVT
-  cpu.mem_controller->Load64(2048, 1536); // First IVT entry
+  cpu.mem_controller->Load64(2048, 1536);                   // First IVT entry
   cpu.mem_controller->Load16(1536, HyperCPU::Opcode::HALT); // Code for interrupt handler
   cpu.mem_controller->Load16(1538, HyperCPU::OperandTypes::NONE);
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::LOIVT);
