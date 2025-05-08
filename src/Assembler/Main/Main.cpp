@@ -1,8 +1,8 @@
+#include <spdlog/spdlog.h>
 #include <argparse/argparse.hpp>
 #include <mapbox/eternal.hpp>
 
 #include "Assembler/Core/Compiler.hpp"
-#include "Assembler/Utils/Extension.hpp"
 #include "Common/NotImplemented.hpp"
 #include "PCH/CStd.hpp"
 #include "Pog/Pog.hpp"
@@ -11,12 +11,13 @@
 #include "BacktraceProvider/BacktraceProvider.hpp"
 #endif
 
-constexpr const inline auto loglevel_assoc = mapbox::eternal::map<mapbox::eternal::string, HyperCPU::LogLevel>({
-    {"debug", HyperCPU::LogLevel::DEBUG},
-    {"info", HyperCPU::LogLevel::INFO},
-    {"warning", HyperCPU::LogLevel::WARNING},
-    {"error", HyperCPU::LogLevel::ERROR},
-});
+std::string CreateObjectFilename(std::string str) {
+  std::size_t lastDotPos = str.rfind('.');
+  if (lastDotPos != std::string::npos) {
+    str.replace(lastDotPos + 1, str.length() - lastDotPos - 1, "o");
+  }
+  return str;
+}
 
 int main(int argc, char** argv) {
 #ifdef HCPU_ENABLE_LIBUNWIND
@@ -43,7 +44,7 @@ int main(int argc, char** argv) {
     program.parse_args(argc, argv);
   } catch (const std::exception& err) {
     std::cerr << err.what() << '\n';
-    EXIT(1);
+    return 1;
   }
 
   auto source = program.get<std::string>("source");
@@ -51,7 +52,7 @@ int main(int argc, char** argv) {
   if (program.present("-o")) {
     result = program.get<std::string>("-o");
   } else {
-    result = HCAsm::CreateObjectFilename(source);
+    result = CreateObjectFilename(source);
     if (result == source) {
       result += ".o";
     }
@@ -61,22 +62,22 @@ int main(int argc, char** argv) {
     HyperCPU::PrintUnsupported("Compilation to object files is not implemented!");
   }
 
-  HCAsm::HCAsmCompiler compiler{loglevel_assoc.at(program.get<std::string>("-v").c_str())};
+  HCAsm::HCAsmCompiler compiler;
 
   // Verify that files are available
   if (!std::filesystem::is_regular_file(source)) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Source file \"{}\" is not a regular file!", source);
-    EXIT(1);
+      spdlog::error("Source file \"{}\" is not a regular file!", source);
+      return 1;
   }
 
   std::ifstream src(source);
   std::ofstream dst(result, std::ios::binary | std::ios::ate);
   if (!src.is_open()) {
-    HCAsm::logger.Log(HyperCPU::LogLevel::ERROR, "Failed to open source file!");
-    EXIT(1);
+    spdlog::error("Failed to open source file!");
+    return 1;
   }
 
-  HCAsm::logger.Log(HyperCPU::LogLevel::DEBUG, "Source and destination files handles acquired");
+  spdlog::error("Source and destination files handles acquired");
   HyperCPU::GenericHeader hdr;
   src.read(reinterpret_cast<char*>(&hdr), sizeof(hdr));
   if (hdr.magic == HyperCPU::magic) {
@@ -87,19 +88,12 @@ int main(int argc, char** argv) {
 
   std::string contents(
       (std::istreambuf_iterator<char>(src)),
-      std::istreambuf_iterator<char>());
+      std::istreambuf_iterator<char>()
+  );
 
   std::uint32_t code_size;
 
   auto binary = compiler.Compile(contents, code_size);
 
   HCAsm::WriteResultFile(HyperCPU::FileType::Binary, binary, dst, code_size, binary.entry_point);
-}
-
-std::string HCAsm::CreateObjectFilename(std::string str) {
-  std::size_t lastDotPos = str.rfind('.');
-  if (lastDotPos != std::string::npos) {
-    str.replace(lastDotPos + 1, str.length() - lastDotPos - 1, "o");
-  }
-  return str;
 }

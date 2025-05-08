@@ -1,12 +1,14 @@
 #pragma once
 
+// TODO: fix this in hpool
+#include <cstring>
 #include <hpool.hpp>
 
-#include "Common/LanguageSpec/Flags.hpp"
+#include "Common/Helpers/Classes.hpp"
 #include "Common/LanguageSpec/Opcodes.hpp"
 #include "Common/LanguageSpec/Registers.hpp"
-#include "PCH/CStd.hpp"
 #include "Pog/Pog.hpp"
+#include "PCH/CStd.hpp"
 
 namespace HCAsm {
   enum class ValueType {
@@ -183,7 +185,9 @@ namespace HCAsm {
     case Reg::XLLL2:
     case Reg::XLLL3:
       return Mode::b8;
+    default: std::abort();
     }
+    // TODO: handle missing return
   }
 
   std::string_view FindLine(const pog::LineSpecialization&, const std::string_view&);

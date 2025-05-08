@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstdlib>
-#include <cstring>
-
-#include <algorithm>
+#include "PCH/CStd.hpp"
 
 namespace HyperCPU {
   template <typename To, typename From>

@@ -1,13 +1,12 @@
 #pragma once
 
-#include "pch.hpp"
+#include "PCH/CStd.hpp"
 
-#include <Core/CPU/Decoders/IDecoder.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/MemoryController/IMemoryController.hpp>
-#include <Misc/bit_cast.hpp>
-#include <cstddef>
+#include "Emulator/Core/CPU/Decoders/IDecoder.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/MemoryController/IMemoryController.hpp"
+#include "Emulator/Misc/bit_cast.hpp"
 
 namespace HyperCPU {
   enum class AddrExtensionStatus {
@@ -104,6 +103,3 @@ namespace HyperCPU {
     ~Decoder() = default;
   };
 };
-}
-;
-}

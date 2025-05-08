@@ -1,13 +1,12 @@
 #pragma once
 
-#include "pch.hpp"
+#include "PCH/CStd.hpp"
 
-#include <Core/CPU/Decoders/StdDecoder.hpp>
-#include <Core/CPU/IO/Simple.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Core/MemoryController/IMemoryController.hpp>
-#include <Logger/Logger.hpp>
+#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
+#include "Emulator/Core/CPU/IO/Simple.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Emulator/Core/CPU/Interrupts/ReservedInterrupts.hpp"
+#include "Emulator/Core/MemoryController/IMemoryController.hpp"
 
 #define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, OperandContainer op1, OperandContainer op2)
 
@@ -28,7 +27,6 @@ namespace HyperCPU {
     std::unique_ptr<Decoder> m_decoder;
 
     // Data
-    const HyperCPU::Logger logger;
     std::uint16_t core_count;
     std::uint64_t total_mem;
     bool halted;
@@ -126,7 +124,6 @@ namespace HyperCPU {
 
     bool CanExecuteInterrupts();
     void SetEntryPoint(std::uint32_t entry_point);
-    const HyperCPU::Logger& GetLogger() const noexcept;
 
     ~CPU();
   };

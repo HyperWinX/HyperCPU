@@ -12,8 +12,8 @@ refresh_compile_commands(
 
 format_multirun(
     name = 'format',
-    cc = '@llvm_toolchain_llvm//:bin/clang-format',
-    # python = '@aspect_rules_lint//format:ruff',
-    # starlark = '@buildifier_prebuilt//:buildifier',
+    cc = '@llvm_toolchain//:bin/clang-format',
+    python = '@aspect_rules_lint//format:ruff',
+    starlark = '@buildifier_prebuilt//:buildifier',
     print_command = True
 )

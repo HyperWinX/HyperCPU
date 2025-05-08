@@ -1,7 +1,8 @@
 #pragma once
 
 #include <fmt/format.h>
-#include <iostream>
+
+#include "PCH/CStd.hpp"
 
 namespace HyperCPU {
   template <typename... Args>

@@ -1,15 +1,14 @@
-#include "pch.hpp"
+#include <spdlog/spdlog.h>
 
-#include <Core/CPU/CPU.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Exit.hpp>
-#include <Logger/Logger.hpp>
+#include "PCH/CStd.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/CPU/Interrupts/ReservedInterrupts.hpp"
 
 void HyperCPU::CPU::TriggerInterrupt(HyperCPU::cpu_exceptions exception) {
   if (!ivt_initialized || pending_interrupt.has_value()) {
-    logger.Log(LogLevel::ERROR, "Interrupt was triggered, but failed to execute handler! XIP: {}", *xip);
-    ABORT();
+    spdlog::error("Interrupt was triggered, but failed to execute handler! XIP: {}", *xip);
+    std::abort();
   }
 
   pending_interrupt = std::make_optional(mem_controller->Read64((*xivt) + (8 * static_cast<std::uint8_t>(exception))));

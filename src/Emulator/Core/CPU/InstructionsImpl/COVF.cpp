@@ -1,12 +1,6 @@
-#include "pch.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
 
-#include <Core/CPU/CPU.hpp>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-
-void HyperCPU::CPU::ExecCOVF(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
+void HyperCPU::CPU::ExecCOVF(const IInstruction& /* instr */, OperandContainer /* op1 */, OperandContainer /* op2 */) {
   ovf = false;
 }
-
-#pragma GCC diagnostic pop

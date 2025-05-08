@@ -1,12 +1,15 @@
 #pragma once
 
-#include "pch.hpp"
+#include <spdlog/spdlog.h>
 
+#include "PCH/CStd.hpp"
+
+// TODO: позор партии, убрать и переделать в функцию
 #define mem_ctlr_assert(expr)                                             \
   do {                                                                    \
     if (!(expr) && (!cpu || !cpu->CanExecuteInterrupts())) [[unlikely]] { \
-      HyperCPU::println("Assertion failed: {}", #expr);                   \
-      ABORT();                                                            \
+      spdlog::error("Assertion failed: {}", #expr);                       \
+      std::abort();                                                       \
     } else if (!(expr) && cpu && cpu->CanExecuteInterrupts()) {           \
       cpu->TriggerInterrupt(HyperCPU::cpu_exceptions::SEGF);              \
     } else [[likely]] {                                                   \

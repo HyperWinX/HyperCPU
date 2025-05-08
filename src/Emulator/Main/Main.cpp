@@ -1,101 +1,14 @@
-#include "pch.hpp"
-
-#include <Assembler/Core/Compiler.hpp>
-#include <Emulator/Core/CPU/CPU.hpp>
-#include <Emulator/Main/Main.hpp>
-#include <Exit.hpp>
-#include <Logger/Logger.hpp>
-#include <Version.hpp>
-
 #include <argparse/argparse.hpp>
+
+#include "PCH/CStd.hpp"
+#include "Assembler/Core/Compiler.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
+// TODO: move this header (it needs some prefix, otherwise quotes look in this dir)
+#include "Common/Version.hpp"
 
 #ifdef HCPU_ENABLE_LIBUNWIND
 #include <BacktraceProvider/BacktraceProvider.hpp>
 #endif
-
-HyperCPU::GenericHeader ParseHeader(std::ifstream& binary);
-
-int main(int argc, char** argv) {
-#ifdef HCPU_ENABLE_LIBUNWIND
-  global_bt_controller = BacktraceController(argv[0]);
-
-  std::signal(SIGSEGV, SignalHandler);
-  std::signal(SIGFPE, SignalHandler);
-#endif
-  HyperCPU::Logger logger{HyperCPU::LogLevel::ERROR};
-  argparse::ArgumentParser program("hcemul", HCPU_VERSION);
-  program.add_argument("binary")
-      .help("binary file to execute")
-      .required();
-  program.add_argument("-v")
-      .default_value(std::string{"debug"})
-      .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
-  program.add_argument("-m", "--memory")
-      .default_value(std::string{"8K"})
-      .help("max memory to use");
-
-  try {
-    program.parse_args(argc, argv);
-  } catch (const std::exception& err) {
-    std::cerr << err.what() << '\n';
-    EXIT(1);
-  }
-
-  auto source = program.get<std::string>("binary");
-  if (!std::filesystem::exists(source)) {
-    logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Binary \"{}\" does not exist!", source));
-    EXIT(1);
-  } else if (!std::filesystem::is_regular_file(source)) {
-    logger.Log(HyperCPU::LogLevel::ERROR, fmt::format("Source path \"{}\" is not a regular file!", source));
-    EXIT(1);
-  }
-
-  std::ifstream file(source);
-
-  std::int64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
-
-  HyperCPU::GenericHeader header = ParseHeader(file);
-
-  // Validate header contents
-  if (header.magic != HyperCPU::magic) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Invalid magic!");
-    EXIT(1);
-  }
-
-  switch (header.version) {
-  case HyperCPU::Version::PreRelease:
-  case HyperCPU::Version::Release1_0:
-    break;
-  default:
-    logger.Log(HyperCPU::LogLevel::ERROR, "Invalid release field!");
-    EXIT(1);
-  }
-
-  switch (header.type) {
-  case HyperCPU::FileType::Binary:
-    break;
-  case HyperCPU::FileType::Object:
-    logger.Log(HyperCPU::LogLevel::ERROR, "Executing object files is not supported, please link it first!");
-    EXIT(1);
-  default:
-    logger.Log(HyperCPU::LogLevel::ERROR, "Invalid type field!");
-    EXIT(1);
-  }
-
-  std::unique_ptr<char[]> buf(new char[binarysize]);
-  file.read(buf.get(), binarysize);
-
-  auto memory = HyperCPU::ParseMemoryString(program.get<std::string>("-m"));
-  if (memory == std::numeric_limits<decltype(memory)>::max()) {
-    logger.Log(HyperCPU::LogLevel::ERROR, "Failed to parse memory amount argument.");
-    EXIT(1);
-  }
-
-  HyperCPU::CPU cpu{1, memory, buf.get(), static_cast<std::uint64_t>(binarysize)};
-
-  cpu.SetEntryPoint(header.entry_point);
-  cpu.Run();
-}
 
 HyperCPU::GenericHeader ParseHeader(std::ifstream& file) {
   HyperCPU::GenericHeader header;
@@ -104,7 +17,7 @@ HyperCPU::GenericHeader ParseHeader(std::ifstream& file) {
   return header;
 }
 
-std::uint64_t HyperCPU::ParseMemoryString(const std::string& str) {
+std::uint64_t ParseMemoryString(const std::string& str) {
   if (str.empty()) {
     return std::numeric_limits<std::uint64_t>::max();
   }
@@ -160,4 +73,85 @@ std::uint64_t HyperCPU::ParseMemoryString(const std::string& str) {
   }
 
   return result * multiplier;
+}
+
+int main(int argc, char** argv) {
+#ifdef HCPU_ENABLE_LIBUNWIND
+  global_bt_controller = BacktraceController(argv[0]);
+
+  std::signal(SIGSEGV, SignalHandler);
+  std::signal(SIGFPE, SignalHandler);
+#endif
+
+  argparse::ArgumentParser program("hcemul", HCPU_VERSION);
+  program.add_argument("binary")
+      .help("binary file to execute")
+      .required();
+  program.add_argument("-v")
+      .default_value(std::string{"debug"})
+      .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
+  program.add_argument("-m", "--memory")
+      .default_value(std::string{"8K"})
+      .help("max memory to use");
+
+  try {
+    program.parse_args(argc, argv);
+  } catch (const std::exception& err) {
+    std::cerr << err.what() << '\n';
+    return 1;
+  }
+
+  auto source = program.get<std::string>("binary");
+  if (!std::filesystem::exists(source)) {
+    spdlog::error("Binary \"{}\" does not exist!", source);
+    return 1;
+  } else if (!std::filesystem::is_regular_file(source)) {
+    spdlog::error("Source path \"{}\" is not a regular file!", source);
+    return 1;
+  }
+
+  std::ifstream file(source);
+  std::int64_t binarysize = std::filesystem::file_size(source) - sizeof(HyperCPU::GenericHeader);
+
+  HyperCPU::GenericHeader header = ParseHeader(file);
+
+  // Validate header contents
+  if (header.magic != HyperCPU::magic) {
+    spdlog::error("Invalid magic!");
+    return 1;
+  }
+
+  switch (header.version) {
+  case HyperCPU::Version::PreRelease:
+  case HyperCPU::Version::Release1_0:
+    break;
+  default:
+    spdlog::error("Invalid release field!");
+    return 1;
+  }
+
+  switch (header.type) {
+  case HyperCPU::FileType::Binary:
+    break;
+  case HyperCPU::FileType::Object:
+    spdlog::error("Executing object files is not supported, please link it first!");
+    return 1;
+  default:
+    spdlog::error("Invalid type field!");
+    return 1;
+  }
+
+  std::unique_ptr<char[]> buf(new char[binarysize]);
+  file.read(buf.get(), binarysize);
+
+  auto memory = ParseMemoryString(program.get<std::string>("-m"));
+  if (memory == std::numeric_limits<decltype(memory)>::max()) {
+    spdlog::error("Failed to parse memory amount argument.");
+    return 1;
+  }
+
+  HyperCPU::CPU cpu{1, memory, buf.get(), static_cast<std::uint64_t>(binarysize)};
+
+  cpu.SetEntryPoint(header.entry_point);
+  cpu.Run();
 }

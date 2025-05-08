@@ -29,8 +29,8 @@ use_repo(
 bazel_dep(name = 'rules_cc', version = '0.0.17')
 bazel_dep(name = 'aspect_rules_lint', version = '1.3.5')
 bazel_dep(name = 'bazel_skylib', version = '1.7.1')
-bazel_dep(name = 'toolchains_llvm', version = '1.4.0')
 bazel_dep(name = 'hedron_compile_commands', dev_dependency = True)
+bazel_dep(name = 'buildifier_prebuilt', version = '8.0.3', dev_dependency = True)
 
 git_override(
     module_name = 'hedron_compile_commands',
@@ -38,10 +38,12 @@ git_override(
     commit = '4f28899228fb3ad0126897876f147ca15026151e'
 )
 
+# We use this for static analysis
+bazel_dep(name = 'toolchains_llvm', version = '1.4.0', dev_dependency = True)
+
 llvm = use_extension('@toolchains_llvm//toolchain/extensions:llvm.bzl', 'llvm')
 llvm.toolchain(
-    llvm_versions = {
-        '': '19.1.7',
-    }
+   llvm_version = '19.1.7',
 )
-use_repo(llvm, 'llvm_toolchain', 'llvm_toolchain_llvm')
+
+use_repo(llvm, 'llvm_toolchain')

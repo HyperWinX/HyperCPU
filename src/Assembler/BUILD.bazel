@@ -15,12 +15,12 @@ cc_library(
         '//src/PCH:pch_cstd',
         '//src/Pog:pog',
         '//src/Common:hcpu_common',
+        '//dist:hpool',
         '@fmt//:fmt',
         '@re2//:re2',
         '@eternal//:eternal',
-        '@argparse//:argparse',
         '@spdlog//:spdlog',
-        '//dist:hpool'
+        '@argparse//:argparse'
     ]
 )
 
@@ -29,6 +29,6 @@ cc_binary(
     srcs = glob(['Main/**/*.cpp']),
     deps = [
         ':assembler_core',
-        '@eternal//:eternal'
+        # TODO: research why direct deps do not provide system headers
     ]
 )

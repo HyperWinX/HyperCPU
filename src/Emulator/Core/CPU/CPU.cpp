@@ -1,14 +1,13 @@
-#include "pch.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "PCH/CStd.hpp"
 
-#include <Core/CPU/CPU.hpp>
-#include <Core/CPU/Decoders/StdDecoder.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/MemoryController/MemoryControllerST.hpp>
-#include <Logger/Logger.hpp>
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/MemoryController/MemoryControllerST.hpp"
 
 HyperCPU::CPU::CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary, std::uint64_t binary_size)
     : mem_controller(dynamic_cast<IMemoryController*>(new MemoryControllerST(mem_size, this))),
-      logger(LogLevel::ERROR),
       core_count(core_count),
       total_mem(mem_size),
       halted(false),
@@ -256,9 +255,9 @@ void HyperCPU::CPU::Run() {
     buffer = m_decoder->FetchAndDecode();
 
     switch (buffer.m_opcode) {
-    case _CONT:
+    case HyperCPU::Opcode::_CONT:
       continue;
-    case IRET:
+    case HyperCPU::Opcode::IRET:
       *xip = StackPop64();
       continue;
     default:
@@ -276,8 +275,4 @@ bool HyperCPU::CPU::CanExecuteInterrupts() {
 
 void HyperCPU::CPU::SetEntryPoint(std::uint32_t entry_point) {
   *xip = entry_point;
-}
-
-const HyperCPU::Logger& HyperCPU::CPU::GetLogger() const noexcept {
-  return logger;
 }

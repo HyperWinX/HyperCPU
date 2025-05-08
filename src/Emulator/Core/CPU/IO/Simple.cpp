@@ -1,10 +1,10 @@
-#include "pch.hpp"
+#include "PCH/CStd.hpp"
 
 #include <termios.h>
 #include <unistd.h>
 
-#include <Core/CPU/IO/Simple.hpp>
-#include <Misc/bit_cast.hpp>
+#include "Emulator/Core/CPU/IO/Simple.hpp"
+#include "Emulator/Misc/bit_cast.hpp"
 
 HyperCPU::SimpleIOImpl::SimpleIOImpl()
     : state(CurrentState::Default), was_printing(true), printing(true) {

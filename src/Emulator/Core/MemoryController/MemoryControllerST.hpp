@@ -1,10 +1,10 @@
 #pragma once
 
-#include "pch.hpp"
+#include "PCH/CStd.hpp"
 
-#include <Core/CPU/CPU.hpp>
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Core/MemoryController/IMemoryController.hpp>
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/CPU/Interrupts/ReservedInterrupts.hpp"
+#include "Emulator/Core/MemoryController/IMemoryController.hpp"
 
 namespace HyperCPU {
   class MemoryControllerST final : public IMemoryController {

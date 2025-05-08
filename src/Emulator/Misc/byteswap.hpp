@@ -1,8 +1,7 @@
 #pragma once
 
-#include "pch.hpp"
-
-#include <Misc/bit_cast.hpp>
+#include "PCH/CStd.hpp"
+#include "Emulator/Misc/bit_cast.hpp"
 
 namespace HyperCPU {
   template <std::integral T>
