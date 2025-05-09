@@ -29,6 +29,19 @@ namespace HyperCPU {
     virtual std::uint32_t Read32(std::uint64_t) = 0;
     virtual std::uint64_t Read64(std::uint64_t) = 0;
 
+    template <bool, typename T>
+    struct loadTypeChooser;
+
+    template <typename T>
+    struct loadTypeChooser<false, T> {
+        using type = T;
+    };
+
+    template <typename T>
+    struct loadTypeChooser<true, T> {
+        using type = std::underlying_type_t<T>;
+    };
+
     template<typename T>
     void Load8(std::uint64_t, T);
     template<typename T>
@@ -52,7 +65,7 @@ namespace HyperCPU {
 
 template<typename T>
 void HyperCPU::IMemoryController::Load8(std::uint64_t address, T value) {
-    using ActualFrom = std::conditional_t<std::is_enum_v<T>, typename std::underlying_type_t<T>::type, T>;
+    using ActualFrom = typename loadTypeChooser<std::is_enum_v<T>, T>::type;
     static_assert(std::is_convertible_v<ActualFrom, std::uint8_t>, "Value must be convertable to integer type");
 
     load8(address, static_cast<std::uint8_t>(value));
@@ -60,7 +73,7 @@ void HyperCPU::IMemoryController::Load8(std::uint64_t address, T value) {
 
 template<typename T>
 void HyperCPU::IMemoryController::Load16(std::uint64_t address, T value) {
-    using ActualFrom = std::conditional_t<std::is_enum_v<T>, typename std::underlying_type_t<T>::type, T>;
+    using ActualFrom = typename loadTypeChooser<std::is_enum_v<T>, T>::type;
     static_assert(std::is_convertible_v<ActualFrom, std::uint16_t>, "Value must be convertable to integer type");
 
     load16(address, static_cast<std::uint16_t>(value));
@@ -68,7 +81,7 @@ void HyperCPU::IMemoryController::Load16(std::uint64_t address, T value) {
 
 template<typename T>
 void HyperCPU::IMemoryController::Load32(std::uint64_t address, T value) {
-    using ActualFrom = std::conditional_t<std::is_enum_v<T>, typename std::underlying_type_t<T>::type, T>;
+    using ActualFrom = typename loadTypeChooser<std::is_enum_v<T>, T>::type;
     static_assert(std::is_convertible_v<ActualFrom, std::uint32_t>, "Value must be convertable to integer type");
 
     load32(address, static_cast<std::uint32_t>(value));
@@ -76,7 +89,7 @@ void HyperCPU::IMemoryController::Load32(std::uint64_t address, T value) {
 
 template<typename T>
 void HyperCPU::IMemoryController::Load64(std::uint64_t address, T value) {
-    using ActualFrom = std::conditional_t<std::is_enum_v<T>, typename std::underlying_type_t<T>::type, T>;
+    using ActualFrom = typename loadTypeChooser<std::is_enum_v<T>, T>::type;
     static_assert(std::is_convertible_v<ActualFrom, std::uint64_t>, "Value must be convertable to integer type");
 
     load64(address, static_cast<std::uint64_t>(value));
