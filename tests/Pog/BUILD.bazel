@@ -5,6 +5,7 @@ cc_test(
     srcs = glob(['**/*.cpp']),
     deps = [
         '//tests:pch_gtest',
+        '//tests:test_fixtures',
         '//src/PCH:pch_cstd',
         '//src/Pog:pog',
         '@gtest//:gtest-gmock_main',
