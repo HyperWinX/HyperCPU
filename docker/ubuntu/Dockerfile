@@ -1,5 +1,8 @@
 FROM ubuntu:latest
 
+ARG USER=bazel
+ARG BAZELISK_TAG=v1.15.0
+
 RUN apt update && apt install -y --no-install-recommends \
     git cmake clang libre2-10 libre2-dev python3 python3-pip wget make gcc g++ \
     && pip3 install --no-cache-dir --break-system-packages conan \
