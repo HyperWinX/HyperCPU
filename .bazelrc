@@ -40,3 +40,13 @@ build:linux-opt --cxxopt=-O3
 # ----------------------------
 
 # Distro-specific configurations
+# ...
+
+# --- Testing ---
+# Linux, Debug
+test:linux --config=dbg-linux
+# Verbose output
+test:linux --test_summary=detailed
+# Stream test results to stdout
+test:linux --test_output=streamed
+# ---------------
