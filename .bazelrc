@@ -43,8 +43,7 @@ build:linux-opt --cxxopt=-O3
 # ...
 
 # --- Testing ---
-# Linux, Debug
-test:linux --config=dbg-linux
+# Linux
 # Verbose output
 test:linux --test_summary=detailed
 # Stream test results to stdout
