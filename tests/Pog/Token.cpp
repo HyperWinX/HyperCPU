@@ -1,6 +1,7 @@
-#include <gmock/gmock.h>
+#include "Pog/Token.hpp"
 
-#include <Token.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 using namespace pog;
 using namespace ::testing;

@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/Rule.hpp"
 
-#include <Rule.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 class TestRule : public ::testing::Test {};
 

@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/TokenBuilder.hpp"
 
-#include <TokenBuilder.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 using namespace pog;
 

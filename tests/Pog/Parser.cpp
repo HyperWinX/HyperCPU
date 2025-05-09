@@ -1,6 +1,8 @@
-#include <gmock/gmock.h>
+#include "Pog/Parser.hpp"
 
-#include <Parser.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
+
 
 using namespace pog;
 using namespace ::testing;

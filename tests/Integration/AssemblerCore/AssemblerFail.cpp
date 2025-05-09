@@ -1,8 +1,7 @@
-#include "pch.hpp"
+#include "PCH/CStd.hpp"
+#include "tests/fixtures.hpp"
 
-#include <fixtures.hpp>
-
-#ifdef __HCPU_DEBUG
+#ifdef NDEBUG
 #define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
 #else
 #define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)

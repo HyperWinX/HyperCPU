@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/Precedence.hpp"
 
-#include <Precedence.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 class TestPrecedence : public ::testing::Test {};
 

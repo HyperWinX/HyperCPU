@@ -1,6 +1,8 @@
-#include <gtest/gtest.h>
+#include "Pog/Grammar.hpp"
 
-#include <Grammar.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
+
 
 using namespace pog;
 

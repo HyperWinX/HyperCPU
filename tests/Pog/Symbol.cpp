@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/Symbol.hpp"
 
-#include <Symbol.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 class TestSymbol : public ::testing::Test {};
 

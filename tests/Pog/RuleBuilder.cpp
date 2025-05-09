@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/RuleBuilder.hpp"
 
-#include <RuleBuilder.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 using namespace pog;
 

@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/ParsingTable.hpp"
 
-#include <ParsingTable.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 using namespace pog;
 

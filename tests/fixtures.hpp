@@ -1,18 +1,16 @@
 #pragma once
 
-#include <gtest/gtest.h>
-#include <unistd.h>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 #define private public
-#include <Assembler/Core/Compiler.hpp>
-#include <Core/CPU/CPU.hpp>
-#include <Core/CPU/Decoders/IDecoder.hpp>
-#include <Core/CPU/Decoders/StdDecoder.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/CPU/Instructions/Registers.hpp>
-#include <Core/MemoryController/MemoryControllerST.hpp>
-#include <Logger/Logger.hpp>
+#include "Assembler/Core/Compiler.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/MemoryController/MemoryControllerST.hpp"
+#undef private
 
 static constexpr std::uint64_t MEM_SIZE = 4096;
 static constexpr std::uint64_t MEM_FIXTURE_MEM_SIZE = 1024;
@@ -91,32 +89,29 @@ protected:
 
 class CPU_TEST : public ::testing::Test {
 protected:
-  HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
   CPU_TEST()
-      : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
+      : cpu(1, 4096) {
   }
 };
 
 class OPERAND_EVAL_TEST : public ::testing::Test {
 protected:
-  HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
   std::pair<HyperCPU::OperandContainer, HyperCPU::OperandContainer> result;
 
   OPERAND_EVAL_TEST()
-      : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
+      : cpu(1, 4096) {
   }
 };
 
 class STACK_TEST : public ::testing::Test {
 protected:
-  HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
   STACK_TEST()
-      : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
+      : cpu(1, 4096) {
     *cpu.xbp = 1024;
     *cpu.xsp = 1024;
   }
@@ -124,21 +119,19 @@ protected:
 
 class IVT_INIT_TEST : public ::testing::Test {
 protected:
-  HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
   IVT_INIT_TEST()
-      : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
+      : cpu(1, 4096) {
   }
 };
 
 class EXCEPTION_TEST : public ::testing::Test {
 protected:
-  HyperCPU::Logger logger;
   HyperCPU::CPU cpu;
 
   EXCEPTION_TEST()
-      : logger(HyperCPU::LogLevel::ERROR), cpu(1, 4096) {
+      : cpu(1, 4096) {
   }
 
   virtual void SetUp() {
@@ -148,8 +141,8 @@ protected:
     cpu.mem_controller->Load64(2048, 1536);
     cpu.mem_controller->Load64(2056, 1536);
     cpu.mem_controller->Load64(2064, 1536);
-    cpu.mem_controller->Load64(1536, HyperCPU::Opcode::HALT);
-    cpu.mem_controller->Load64(1538, HyperCPU::OperandTypes::NONE);
+    cpu.mem_controller->Load64(1536, static_cast<std::uint64_t>(HyperCPU::Opcode::HALT));
+    cpu.mem_controller->Load64(1538, static_cast<std::uint64_t>(HyperCPU::OperandTypes::NONE));
     cpu.ivt_initialized = true;
   }
 };
@@ -161,7 +154,7 @@ protected:
   pog::Parser<HCAsm::Value>& parser;
 
   ASM_PARSER_TEST()
-      : compiler(HyperCPU::LogLevel::ERROR), _state(compiler.pool), parser(compiler.parser) {
+      : compiler(), _state(compiler.pool), parser(compiler.parser) {
     parser.set_compiler_state(&_state);
   }
 };
@@ -171,7 +164,7 @@ protected:
   HCAsm::HCAsmCompiler compiler;
 
   ASM_PARSER_STMT_TEST()
-      : compiler(HyperCPU::LogLevel::ERROR) {
+      : compiler() {
   }
 
   virtual void TearDown() {
@@ -184,7 +177,7 @@ protected:
   HCAsm::HCAsmCompiler compiler;
 
   ASSEMBLER()
-      : compiler(HyperCPU::LogLevel::ERROR) {
+      : compiler() {
   }
 
   virtual void TearDown() {
@@ -198,7 +191,7 @@ protected:
   TempDir dir;
 
   FULL_ASSEMBLER()
-      : compiler(HyperCPU::LogLevel::ERROR), dir(::testing::UnitTest::GetInstance()->current_test_info()->test_case_name()) {
+      : compiler(), dir(::testing::UnitTest::GetInstance()->current_test_info()->test_case_name()) {
   }
 
   virtual void TearDown() {
@@ -211,7 +204,7 @@ protected:
   HCAsm::HCAsmCompiler compiler;
 
   TWO_OPERANDS_SUCCESS()
-      : compiler(HyperCPU::LogLevel::ERROR) {
+      : compiler() {
   }
 
   virtual void TearDown() {
@@ -224,7 +217,7 @@ protected:
   HCAsm::HCAsmCompiler compiler;
 
   TWO_OPERANDS_FAILURE()
-      : compiler(HyperCPU::LogLevel::ERROR) {
+      : compiler() {
   }
 
   virtual void TearDown() {

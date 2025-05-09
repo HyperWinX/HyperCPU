@@ -1,8 +1,8 @@
-#include <cctype>
+#include "Pog/Automaton.hpp"
 
-#include <gtest/gtest.h>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
-#include <Automaton.hpp>
 
 using namespace pog;
 

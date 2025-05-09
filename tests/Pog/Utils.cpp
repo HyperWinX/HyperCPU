@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "Pog/Utils.hpp"
 
-#include <Utils.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 class TestUtils : public ::testing::Test {};
 
