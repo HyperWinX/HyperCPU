@@ -9,13 +9,13 @@ package(
 
 precompiled_headers(
     name = 'pch_gtest',
-    main = 'gtest.hpp'
+    main = 'gtest.hpp',
+    deps = [
+        '@gtest//:gtest-gmock_main'
+    ]
 )
 
 cc_library(
     name = 'test_fixtures',
-    hdrs = ['fixtures.hpp'],
-    deps = [
-        '@gtest//:gtest-gmock_main'
-    ]
+    hdrs = ['fixtures.hpp']
 )
