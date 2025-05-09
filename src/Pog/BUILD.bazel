@@ -9,7 +9,11 @@ package(
 
 cc_library(
     name = 'pog_core',
-    hdrs = glob(['**/*.hpp'], exclude = ['Pog.hpp'])
+    hdrs = glob(['**/*.hpp'], exclude = ['Pog.hpp']),
+    deps = [
+        '@re2//:re2',
+        '@fmt//:fmt'
+    ]
 )
 
 precompiled_headers(
