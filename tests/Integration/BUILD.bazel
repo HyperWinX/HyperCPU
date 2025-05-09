@@ -1,11 +1,16 @@
-# load('@rules_cc//cc:defs.bzl', 'cc_test')
+load('@rules_cc//cc:defs.bzl', 'cc_test')
 
 
-# cc_test(
-#     name = 'integration-test',
-#     srcs = glob(['**/*.cpp']),
-#     deps = [
-#         '//tests:pch_gtest',
-#         '@gtest//:gtest_main_precompiled'
-#     ]
-# )
+cc_test(
+    name = 'integration-test',
+    srcs = glob(['**/*.cpp']),
+    deps = [
+        '//src/PCH:pch_cstd',
+        '//tests:pch_gtest',
+        '//src/Assembler:assembler_core',
+        '//src/Emulator:emulator_core',
+        '//tests:test_fixtures',
+        '@gtest//:gtest',
+        '@fmt//:fmt'
+    ]
+)

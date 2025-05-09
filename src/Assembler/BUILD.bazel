@@ -11,6 +11,10 @@ cc_library(
     srcs = glob(['**/*.cpp'], exclude = ['Main']),
     hdrs = glob(['**/*.hpp'], exclude = ['Main']),
     strip_include_prefix = '/src',
+    visibility = [
+        '//tests:__subpackages__',
+        '//src/Emulator:__pkg__'
+    ],
     deps = [
         '//src/PCH:pch_cstd',
         '//src/Pog:pog',

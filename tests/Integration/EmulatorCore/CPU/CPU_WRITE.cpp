@@ -1,7 +1,4 @@
-#include "Core/CPU/Instructions/Registers.hpp"
-#include "pch.hpp"
-#include <cstdint>
-#include <fixtures.hpp>
+#include "tests/fixtures.hpp"
 
 TEST_F(CPU_TEST, INSTR_WRITE) {
   std::uint8_t t = 0;
@@ -11,8 +8,8 @@ TEST_F(CPU_TEST, INSTR_WRITE) {
   };
 
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::WRITE);
-  cpu.mem_controller->Load8(*cpu.xip + 2, (HyperCPU::Mode::b8 << 4) | HyperCPU::OperandTypes::R_IMM);
-  cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Registers::XLLL0);
+  cpu.mem_controller->Load8(*cpu.xip + 2, EncodeTestFlags(HyperCPU::Mode::b8, HyperCPU::OperandTypes::R_IMM));
+  cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Reg::XLLL0);
   cpu.mem_controller->Load8(*cpu.xip + 4, 0x55);
   cpu.mem_controller->Load16(*cpu.xip + 5, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 7, HyperCPU::OperandTypes::NONE);

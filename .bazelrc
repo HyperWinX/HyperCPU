@@ -16,8 +16,9 @@ build:linux --cxxopt=-Wno-missing-field-initializers
 build:linux --cxxopt=-Wno-stringop-overflow
 
 # LTO, see: https://gcc.gnu.org/wiki/LinkTimeOptimization
-build:linux --cxxopt=-flto
-build:linux --linkopt=-flto
+# TODO: make conan build all dependencies with LTO - right now triggers "final link failed: bad value" errors
+# build:linux --cxxopt=-flto
+# build:linux --linkopt=-flto
 
 # Optimize for native (host) architecture
 # Be warned - might break distribution builds

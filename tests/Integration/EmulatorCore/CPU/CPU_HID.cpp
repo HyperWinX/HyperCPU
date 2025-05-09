@@ -1,8 +1,6 @@
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Core/CPU/Instructions/Registers.hpp>
-#include <Core/CPU/Version.hpp>
+#include "Emulator/Core/CPU/Version.hpp"
 
-#include <fixtures.hpp>
+#include "tests/fixtures.hpp"
 
 TEST_F(CPU_TEST, INSTR_HID_0) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::HID);

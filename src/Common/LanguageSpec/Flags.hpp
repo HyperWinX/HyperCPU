@@ -3,7 +3,7 @@
 #include "PCH/CStd.hpp"
 
 namespace HyperCPU {
-  enum class Mode {
+  enum class Mode : std::uint8_t {
     b8 = 0,
     b16,
     b32,

@@ -224,3 +224,7 @@ protected:
     HCAsm::current_index = 0;
   }
 };
+
+constexpr inline std::uint8_t EncodeTestFlags(HyperCPU::Mode md, HyperCPU::OperandTypes types) {
+    return (static_cast<std::uint8_t>(md) << 4) | static_cast<std::uint8_t>(types);
+}

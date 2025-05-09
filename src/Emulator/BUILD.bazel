@@ -4,6 +4,9 @@ cc_library(
     name = 'emulator_core',
     srcs = glob(['**/*.cpp']),
     hdrs = glob(['**/*.hpp']),
+    visibility = [
+        '//tests:__subpackages__'
+    ],
     deps = [
         '@fmt//:fmt',
         '@argparse//:argparse',
