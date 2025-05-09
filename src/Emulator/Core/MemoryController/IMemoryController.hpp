@@ -52,7 +52,7 @@ namespace HyperCPU {
 
 template<typename T>
 void HyperCPU::IMemoryController::Load8(std::uint64_t address, T value) {
-    using ActualFrom = std::conditional_t<std::is_enum_v<T>, std::underlying_type_t<T>, T>;
+    using ActualFrom = std::conditional_t<std::is_enum_v<T>, typename std::underlying_type_t<T>, T>;
     static_assert(std::is_convertible_v<ActualFrom, std::uint8_t>, "Value must be convertable to integer type");
 
     load8(address, static_cast<std::uint8_t>(value));
