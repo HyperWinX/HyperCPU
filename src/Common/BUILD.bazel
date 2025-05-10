@@ -1,11 +1,5 @@
 load('@rules_cc//cc:defs.bzl', 'cc_library')
 
-package(
-    default_visibility = [
-        '//:__subpackages__',
-    ],
-)
-
 cc_library(
     name = 'hcpu_common',
     srcs = glob(['**/*.cpp'], allow_empty = True),
@@ -14,5 +8,6 @@ cc_library(
     deps = [
         '@spdlog//:spdlog',
         '//src/PCH:pch_cstd'
-    ]
+    ],
+    visibility = ['//visibility:public']
 )

@@ -1,38 +1,28 @@
 load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
 
-package(
-    default_visibility = [
-        '//src/Emulator:__pkg__',
-    ],
-)
-
 cc_library(
     name = 'assembler_core',
     srcs = glob(['**/*.cpp'], exclude = ['Main.cpp']),
     hdrs = glob(['**/*.hpp']),
-    strip_include_prefix = '/src',
-    visibility = [
-        '//tests:__subpackages__',
-        '//src/Emulator:__pkg__'
-    ],
     deps = [
-        '//src/PCH:pch_cstd',
-        '//src/Pog:pog',
-        '//src/Common:hcpu_common',
-        '//dist:hpool',
         '@fmt//:fmt',
         '@re2//:re2',
         '@eternal//:eternal',
         '@spdlog//:spdlog',
-        '@argparse//:argparse'
-    ]
+        '//dist:hpool',
+        '//src/PCH:pch_cstd',
+        '//src/Pog:pog',
+        '//src/Common:hcpu_common'
+    ],
+    visibility = ['//visibility:public']
 )
 
 cc_binary(
     name = 'hcasm',
     srcs = ['Main.cpp'],
     deps = [
-        ':assembler_core',
-        # TODO: research why direct deps do not provide system headers
-    ]
+        '@argparse//:argparse',
+        ':assembler_core'
+    ],
+    visibility = ['//visibility:private']
 )

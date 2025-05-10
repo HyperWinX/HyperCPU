@@ -1,19 +1,14 @@
 load('@rules_cc//cc:defs.bzl', 'cc_library')
 
-
 cc_library(
     name = 'backtrace_provider',
-    srcs = [
-        'BacktraceProvider.cpp'
-    ],
-    hdrs = [
-        'BacktraceProvider.hpp'
-    ],
-    strip_include_prefix = '/src',
+    srcs = ['BacktraceProvider.cpp'],
+    hdrs = ['BacktraceProvider.hpp'],
     deps = [
         '@fmt//:fmt',
-        '//src/PCH:pch_cstd',
         '@libbacktrace//:libbacktrace',
         '@libunwind//:libunwind',
-    ]
+        '//src/PCH:pch_cstd'
+    ],
+    visibility = ['//visibility:public']
 )

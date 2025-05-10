@@ -4,23 +4,22 @@ cc_library(
     name = 'emulator_core',
     srcs = glob(['**/*.cpp'], exclude = ['Main.cpp']),
     hdrs = glob(['**/*.hpp']),
-    visibility = [
-        '//tests:__subpackages__'
-    ],
     deps = [
         '@fmt//:fmt',
-        '@argparse//:argparse',
         '@eternal//:eternal',
         '//src/Assembler:assembler_core',
         '//src/PCH:pch_cstd',
         '//src/Pog:pog'
-    ]
+    ],
+    visibility = ['//visibility:public']
 )
 
 cc_binary(
     name = 'hcemul',
     srcs = ['Main.cpp'],
     deps = [
+        '@argparse//:argparse',
         ':emulator_core'
-    ]
+    ],
+    visibility = ['//visibility:private']
 )
