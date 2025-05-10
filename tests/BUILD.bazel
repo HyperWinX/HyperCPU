@@ -3,7 +3,7 @@ load('//tools/bazel:pch.bzl', 'precompiled_headers')
 
 package(
     default_visibility = [
-        '//:__subpackages__',
+        '//tests:__subpackages__',
     ],
 )
 
@@ -11,7 +11,7 @@ precompiled_headers(
     name = 'pch_gtest',
     main = 'gtest.hpp',
     deps = [
-        '@gtest//:gtest-gmock_main'
+        '@gtest//:gtest-libgtest'
     ]
 )
 

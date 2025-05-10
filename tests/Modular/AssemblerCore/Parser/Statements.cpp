@@ -1,6 +1,6 @@
-#include <fixtures.hpp>
+#include "tests/fixtures.hpp"
+#include "Assembler/Core/Compiler.hpp"
 
-#include <Core/Compiler.hpp>
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
   std::string data = "adc x0, x1;";
@@ -13,10 +13,10 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
   EXPECT_EQ(instr.opcode, HyperCPU::Opcode::ADC);
 
   EXPECT_EQ(instr.op1.type, HCAsm::OperandType::reg);
-  EXPECT_EQ(instr.op1.reg, HyperCPU::Registers::X0);
+  EXPECT_EQ(instr.op1.reg, HyperCPU::Reg::X0);
 
   EXPECT_EQ(instr.op2.type, HCAsm::OperandType::reg);
-  EXPECT_EQ(instr.op2.reg, HyperCPU::Registers::X1);
+  EXPECT_EQ(instr.op2.reg, HyperCPU::Reg::X1);
 }
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT2) {
@@ -30,7 +30,7 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT2) {
   EXPECT_EQ(instr.opcode, HyperCPU::Opcode::ADC);
 
   EXPECT_EQ(instr.op1.type, HCAsm::OperandType::reg);
-  EXPECT_EQ(instr.op1.reg, HyperCPU::Registers::X0);
+  EXPECT_EQ(instr.op1.reg, HyperCPU::Reg::X0);
 
   EXPECT_EQ(instr.op2.type, HCAsm::OperandType::none);
 }

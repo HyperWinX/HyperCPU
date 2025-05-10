@@ -1,9 +1,9 @@
-#include "pch.hpp"
-
-#include <fixtures.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/fixtures.hpp"
 
 #define private public
-#include <Core/MemoryController/MemoryControllerST.hpp>
+#include "Emulator/Core/MemoryController/MemoryControllerST.hpp"
+#undef private
 
 static constexpr std::uint8_t BYTE = 0x55;
 static constexpr std::uint16_t WORD = 0x5555;

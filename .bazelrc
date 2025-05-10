@@ -1,6 +1,11 @@
 # Make Bazel print out all options from rc files
 common --announce_rc
 
+# Verbose test output
+common --test_summary=detailed
+# Stream test results to stdout
+common --test_output=streamed
+
 # We use 23 standard
 build:linux --cxxopt=-std=c++23
 # Include: source directory
@@ -42,11 +47,3 @@ build:linux-opt --cxxopt=-O3
 
 # Distro-specific configurations
 # ...
-
-# --- Testing ---
-# Linux
-# Verbose output
-test:linux --test_summary=detailed
-# Stream test results to stdout
-test:linux --test_output=streamed
-# ---------------

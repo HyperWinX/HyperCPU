@@ -1,5 +1,4 @@
-#include <LineSpecialization.hpp>
-#include <fixtures.hpp>
+#include "tests/fixtures.hpp"
 
 TEST_F(ASM_PARSER_TEST, TOKEN_STRING) {
   std::string str = "this is a string to test parser\\n\\r\\\"\\\'\\a\\\\";
