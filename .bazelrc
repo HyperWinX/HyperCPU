@@ -41,7 +41,7 @@ build:linux-dbg --config=linux-fragile
 build:linux-dbg --cxxopt=-ggdb3
 # Linux, Release
 build:linux-opt --compilation_mode opt
-build:linux-opt --config=linux-strict
+build:linux-opt --config=linux
 build:linux-opt --cxxopt=-O3
 # ----------------------------
 
