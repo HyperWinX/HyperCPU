@@ -1,4 +1,4 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
@@ -11,7 +11,7 @@ TEST_F(DECODER_TEST, CALLGR_INSTR_IMM) {
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;
-  
+
   std::uint64_t mem_ptr;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
 

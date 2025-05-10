@@ -1,37 +1,27 @@
-#include <pch.hpp>
-
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Misc/bit_cast.hpp>
-#include <Core/CPU/CPU.hpp>
-#include <Exit.hpp>
+#include "Emulator/Core/CPU/CPU.hpp"
 
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-
-void HyperCPU::CPU::ExecPUSH(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
+void HyperCPU::CPU::ExecPUSH(const IInstruction& instr, OperandContainer op1, OperandContainer /* op2 */) {
   switch (instr.m_op_types) {
-    case R:
+    case OperandTypes::R:
       switch (instr.m_opcode_mode) {
         case HyperCPU::Mode::b8: StackPush8(HyperCPU::bit_cast_from<std::uint8_t>(op1.ptr<std::uint8_t>())); break;
         case HyperCPU::Mode::b16: StackPush16(HyperCPU::bit_cast_from<std::uint16_t>(op1.ptr<std::uint16_t>())); break;
         case HyperCPU::Mode::b32: StackPush32(HyperCPU::bit_cast_from<std::uint32_t>(op1.ptr<std::uint32_t>())); break;
         case HyperCPU::Mode::b64: StackPush64(HyperCPU::bit_cast_from<std::uint64_t>(op1.ptr<std::uint64_t>())); break;
-        default: UNREACHABLE();
+        default: std::abort();
       }
       break;
-    case IMM:
+    case OperandTypes::IMM:
       switch (instr.m_opcode_mode) {
         case HyperCPU::Mode::b8: StackPush8(HyperCPU::bit_cast<std::uint8_t>(op1)); break;
         case HyperCPU::Mode::b16: StackPush16(HyperCPU::bit_cast<std::uint16_t>(op1)); break;
         case HyperCPU::Mode::b32: StackPush32(HyperCPU::bit_cast<std::uint32_t>(op1)); break;
         case HyperCPU::Mode::b64: StackPush64(HyperCPU::bit_cast<std::uint64_t>(op1)); break;
-        default: UNREACHABLE();
+        default: std::abort();
       }
       break;
     default:
-      UNREACHABLE();
+      std::abort();
   }
 }
-
-#pragma GCC diagnostic pop

@@ -1,8 +1,7 @@
-#include <Core/CPU/Instructions/Registers.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
+#include <Common/LanguageSpec/Flags.hpp>
+#include <Common/LanguageSpec/Registers.hpp>
 
-#include <fixtures.hpp>
-
+#include "tests/fixtures.hpp"
 
 TEST_F(CPU_TEST, INSTR_CUDF_SET) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::CUDF);

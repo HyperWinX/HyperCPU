@@ -90,4 +90,15 @@ CMakeUserPresets*
 
 # Distribution packages
 dist/*
+!dist/BUILD.bazel
 !dist/CMakeLists.txt
+
+# Bazel stuff
+*.lock
+
+# Conan toolchain generated for Bazel
+conan/
+
+# Bazel builds with four directories, see for info:
+# https://bazel.build/remote/output-directories
+bazel-*

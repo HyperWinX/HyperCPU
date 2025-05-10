@@ -8,4 +8,4 @@ namespace HyperCPU {
     virtual IInstruction FetchAndDecode() = 0;
     virtual bool IsHalted() const noexcept = 0;
   };
-}
+} // namespace HyperCPU

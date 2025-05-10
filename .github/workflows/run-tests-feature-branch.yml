@@ -13,29 +13,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: 'true'
-      
+          submodules: "true"
+
       - name: Build and test with GCC on Release profile
         run: |
-          python3 scripts/build.py -icb             \
+          python3 tools/build.py -icb             \
             --config Release                        \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=g++        \
             -D CMAKE_C_COMPILER:STRING=gcc          \
             --profiles-detection
           cd build/Release && ctest -V && cd ../..
-          python3 scripts/build.py -r --config Release --build-dir build
-      
+          python3 tools/build.py -r --config Release --build-dir build
+
       - name: Build and test with LLVM on Release profile
         run: |
-          python3 scripts/build.py -icb             \
+          python3 tools/build.py -icb             \
             --config Release                        \
             --build-dir build                       \
             -D CMAKE_CXX_COMPILER:STRING=clang++-19 \
             -D CMAKE_C_COMPILER:STRING=clang-19     \
             --profiles-detection
           cd build/Release && ctest -V && cd ../..
-          python3 scripts/build.py -r --config Release --build-dir build
+          python3 tools/build.py -r --config Release --build-dir build
 
       - name: Cleanup (Conan cache + leftovers in build)
         run: |

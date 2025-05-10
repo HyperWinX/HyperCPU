@@ -1,5 +1,5 @@
 #include "Core/CPU/Instructions/Opcodes.hpp"
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
@@ -14,7 +14,7 @@ TEST_F(DECODER_TEST, CMP_INSTR_RM_M_B8) {
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::size_t mem_ptr;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -38,7 +38,7 @@ TEST_F(DECODER_TEST, CMP_INSTR_RM_M_B16) {
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::size_t mem_ptr;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -62,7 +62,7 @@ TEST_F(DECODER_TEST, CMP_INSTR_RM_M_B32) {
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::size_t mem_ptr;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -86,7 +86,7 @@ TEST_F(DECODER_TEST, CMP_INSTR_RM_M_B64) {
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;
-  
+
   HyperCPU::Registers reg1;
   std::size_t mem_ptr;
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
@@ -99,4 +99,6 @@ TEST_F(DECODER_TEST, CMP_INSTR_RM_M_B64) {
   memcpy(&mem_ptr, &instr.m_op2, sizeof(std::size_t));
   ASSERT_EQ(reg1, HyperCPU::Registers::X3);
   ASSERT_EQ(mem_ptr, MEM_PTR);
+}
+PTR);
 }

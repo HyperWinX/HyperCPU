@@ -32,7 +32,7 @@ jobs:
             name: Alpine
           - tag: ubuntu
             name: Ubuntu
-    
+
     steps:
       - run: |
           set -e
@@ -43,8 +43,8 @@ jobs:
           git clone https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git && cd HyperCPU
           git checkout ${{ github.event.pull_request.head.sha }}
           git submodule update --init --recursive
-          
-          python3 scripts/build.py -icb             \
+
+          python3 tools/build.py -icb               \
             --config Release                        \
             --config Debug                          \
             --build-dir build                       \

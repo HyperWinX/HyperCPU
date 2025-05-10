@@ -1,0 +1,26 @@
+'Top level build configuration, use for tooling only'
+
+load('@aspect_rules_lint//format:defs.bzl', 'format_multirun')
+load('@hedron_compile_commands//:refresh_compile_commands.bzl', 'refresh_compile_commands')
+
+package(
+    default_visibility = [
+        '//visibility:private',
+    ],
+)
+
+refresh_compile_commands(
+    name = 'refresh_compile_commands',
+    targets = {
+      '//src/...': '',
+      '//tests/...': ''
+    }
+)
+
+format_multirun(
+    name = 'format',
+    cc = '@llvm_toolchain//:bin/clang-format',
+    python = '@aspect_rules_lint//format:ruff',
+    starlark = '@buildifier_prebuilt//:buildifier',
+    print_command = True
+)

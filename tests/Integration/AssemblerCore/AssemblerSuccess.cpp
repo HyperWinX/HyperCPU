@@ -1,9 +1,5 @@
-#include <Core/CPU/Instructions/Registers.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Misc/bit_cast.hpp>
+#include "tests/fixtures.hpp"
 
-#include <fixtures.hpp>
 
 TEST_F(ASSEMBLER, ASM_R_R_b8) {
   std::string data = "mov xlll0, xlll1;";
@@ -22,12 +18,12 @@ TEST_F(ASSEMBLER, ASM_R_R_b8) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLLL0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLLL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::XLLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::XLLL1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_R_b16) {
@@ -48,12 +44,12 @@ TEST_F(ASSEMBLER, ASM_R_R_b16) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLL0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::XLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::XLL1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_R_b32) {
@@ -74,12 +70,12 @@ TEST_F(ASSEMBLER, ASM_R_R_b32) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XL0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::XL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::XL1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_R_b64) {
@@ -100,12 +96,12 @@ TEST_F(ASSEMBLER, ASM_R_R_b64) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_RM_b8) {
@@ -126,12 +122,12 @@ TEST_F(ASSEMBLER, ASM_R_RM_b8) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLLL0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::XLLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_RM_b16) {
@@ -152,12 +148,12 @@ TEST_F(ASSEMBLER, ASM_R_RM_b16) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XLL0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::XLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_RM_b32) {
@@ -178,12 +174,12 @@ TEST_F(ASSEMBLER, ASM_R_RM_b32) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::XL0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::XL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_RM_b64) {
@@ -204,12 +200,12 @@ TEST_F(ASSEMBLER, ASM_R_RM_b64) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_RM);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_R_M_b8) {
@@ -230,12 +226,12 @@ TEST_F(ASSEMBLER, ASM_R_M_b8) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XLLL0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_M_b16) {
@@ -256,12 +252,12 @@ TEST_F(ASSEMBLER, ASM_R_M_b16) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XLL0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_M_b32) {
@@ -282,12 +278,12 @@ TEST_F(ASSEMBLER, ASM_R_M_b32) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XL0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_M_b64) {
@@ -308,12 +304,12 @@ TEST_F(ASSEMBLER, ASM_R_M_b64) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_IMM_b8) {
@@ -334,12 +330,12 @@ TEST_F(ASSEMBLER, ASM_R_IMM_b8) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XLLL0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_IMM_b16) {
@@ -360,12 +356,12 @@ TEST_F(ASSEMBLER, ASM_R_IMM_b16) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint16_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XLL0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_IMM_b32) {
@@ -386,12 +382,12 @@ TEST_F(ASSEMBLER, ASM_R_IMM_b32) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint32_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XL0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XL0);
 }
 
 TEST_F(ASSEMBLER, ASM_R_IMM_b64) {
@@ -412,12 +408,12 @@ TEST_F(ASSEMBLER, ASM_R_IMM_b64) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_R_b8) {
@@ -438,12 +434,12 @@ TEST_F(ASSEMBLER, ASM_RM_R_b8) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLLL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::XLLL1);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_R_b16) {
@@ -464,12 +460,12 @@ TEST_F(ASSEMBLER, ASM_RM_R_b16) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XLL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::XLL1);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_R_b32) {
@@ -490,12 +486,12 @@ TEST_F(ASSEMBLER, ASM_RM_R_b32) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::XL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::XL1);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_R_b64) {
@@ -516,12 +512,12 @@ TEST_F(ASSEMBLER, ASM_RM_R_b64) {
   std::memcpy(&reg2, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_R);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg1), HyperCPU::Registers::X0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg2), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg1), HyperCPU::Reg::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg2), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_M_b8) {
@@ -542,12 +538,12 @@ TEST_F(ASSEMBLER, ASM_RM_M_b8) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_M_b16) {
@@ -568,12 +564,12 @@ TEST_F(ASSEMBLER, ASM_RM_M_b16) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_M_b32) {
@@ -594,12 +590,12 @@ TEST_F(ASSEMBLER, ASM_RM_M_b32) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_M_b64) {
@@ -620,12 +616,12 @@ TEST_F(ASSEMBLER, ASM_RM_M_b64) {
   std::memcpy(&addr, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_M);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_IMM_b8) {
@@ -646,12 +642,12 @@ TEST_F(ASSEMBLER, ASM_RM_IMM_b8) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_IMM_b16) {
@@ -672,12 +668,12 @@ TEST_F(ASSEMBLER, ASM_RM_IMM_b16) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint16_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_IMM_b32) {
@@ -698,12 +694,12 @@ TEST_F(ASSEMBLER, ASM_RM_IMM_b32) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint32_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_RM_IMM_b64) {
@@ -724,12 +720,12 @@ TEST_F(ASSEMBLER, ASM_RM_IMM_b64) {
   std::memcpy(&num, binary.binary + 4, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::RM_IMM);
   EXPECT_EQ(num, 16);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_M_R_b8) {
@@ -747,15 +743,15 @@ TEST_F(ASSEMBLER, ASM_M_R_b8) {
   std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
   std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
   std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
-  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 11, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b8);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLLL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XLLL1);
 }
 
 TEST_F(ASSEMBLER, ASM_M_R_b16) {
@@ -773,15 +769,15 @@ TEST_F(ASSEMBLER, ASM_M_R_b16) {
   std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
   std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
   std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
-  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 11, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b16);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XLL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XLL1);
 }
 
 TEST_F(ASSEMBLER, ASM_M_R_b32) {
@@ -799,15 +795,15 @@ TEST_F(ASSEMBLER, ASM_M_R_b32) {
   std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
   std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
   std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
-  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 11, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b32);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::XL1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::XL1);
 }
 
 TEST_F(ASSEMBLER, ASM_M_R_b64) {
@@ -825,15 +821,15 @@ TEST_F(ASSEMBLER, ASM_M_R_b64) {
   std::memcpy(&opcode, binary.binary, sizeof(std::uint16_t));
   std::memcpy(&flags, binary.binary + 2, sizeof(std::uint8_t));
   std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
-  std::memcpy(&reg,  binary.binary + 11, sizeof(std::uint8_t));
+  std::memcpy(&reg, binary.binary + 11, sizeof(std::uint8_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::M_R);
   EXPECT_EQ(addr, 0);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X1);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X1);
 }
 
 TEST_F(ASSEMBLER, ASM_IMM_b64) {
@@ -852,7 +848,7 @@ TEST_F(ASSEMBLER, ASM_IMM_b64) {
   std::memcpy(&addr, binary.binary + 3, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::CALL);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::IMM);
@@ -877,12 +873,12 @@ TEST_F(ASSEMBLER, ASM_REFERENCE_LABEL) {
   std::memcpy(&num, binary.binary + 9, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 5);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_REFERENCE_ENTRY_LABEL) {
@@ -903,12 +899,12 @@ TEST_F(ASSEMBLER, ASM_REFERENCE_ENTRY_LABEL) {
   std::memcpy(&num, binary.binary + 9, sizeof(std::uint64_t));
 
   EXPECT_EQ(static_cast<HyperCPU::Opcode>(opcode), HyperCPU::Opcode::MOV);
-  
+
   EXPECT_EQ(flags & 0b11000000, 0);
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 5);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_COMPILE) {
@@ -933,7 +929,7 @@ TEST_F(ASSEMBLER, ASM_COMPILE) {
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 5);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }
 
 TEST_F(ASSEMBLER, ASM_b8_str_DIRECTIVE) {
@@ -1015,5 +1011,5 @@ TEST_F(ASSEMBLER, ASM_ENTRY_LABEL) {
   EXPECT_EQ(static_cast<HyperCPU::Mode>((flags & 0b00110000) >> 4), HyperCPU::Mode::b64);
   EXPECT_EQ(static_cast<HyperCPU::OperandTypes>(flags & 0b00001111), HyperCPU::OperandTypes::R_IMM);
   EXPECT_EQ(num, 5);
-  EXPECT_EQ(static_cast<HyperCPU::Registers>(reg), HyperCPU::Registers::X0);
+  EXPECT_EQ(static_cast<HyperCPU::Reg>(reg), HyperCPU::Reg::X0);
 }

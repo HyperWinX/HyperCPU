@@ -9,7 +9,9 @@ class MC_ST : public benchmark::Fixture {
 public:
   HyperCPU::MemoryControllerST mc_st;
 
-  MC_ST() : mc_st(ITERATIONS) { }
+  MC_ST()
+      : mc_st(ITERATIONS) {
+  }
 };
 
 void mc_st_load8([[maybe_unused]] benchmark::State& state) {
@@ -37,7 +39,8 @@ void mc_st_load32([[maybe_unused]] benchmark::State& state) {
 }
 
 void mc_st_load64([[maybe_unused]] benchmark::State& state) {
-  std::size_t counter = 0;                                          HyperCPU::MemoryControllerST mc_st{ITERATIONS};
+  std::size_t counter = 0;
+  HyperCPU::MemoryControllerST mc_st{ITERATIONS};
   while (state.KeepRunning()) {
     mc_st.Load64(counter, 0x55);
   }
@@ -91,21 +94,24 @@ void mc_st_fetch16([[maybe_unused]] benchmark::State& state) {
   std::size_t counter = 0;
   HyperCPU::MemoryControllerST mc_st{ITERATIONS};
   while (state.KeepRunning()) {
-    [[maybe_unused]] auto t = mc_st.Fetch16(counter);                }
+    [[maybe_unused]] auto t = mc_st.Fetch16(counter);
+  }
 }
 
 void mc_st_fetch32([[maybe_unused]] benchmark::State& state) {
   std::size_t counter = 0;
   HyperCPU::MemoryControllerST mc_st{ITERATIONS};
   while (state.KeepRunning()) {
-    [[maybe_unused]] auto t = mc_st.Fetch32(counter);                }
+    [[maybe_unused]] auto t = mc_st.Fetch32(counter);
+  }
 }
 
 void mc_st_fetch64([[maybe_unused]] benchmark::State& state) {
   std::size_t counter = 0;
   HyperCPU::MemoryControllerST mc_st{ITERATIONS};
   while (state.KeepRunning()) {
-    [[maybe_unused]] auto t = mc_st.Fetch64(counter);                }
+    [[maybe_unused]] auto t = mc_st.Fetch64(counter);
+  }
 }
 
 BENCHMARK(mc_st_load8)->Iterations(ITERATIONS);

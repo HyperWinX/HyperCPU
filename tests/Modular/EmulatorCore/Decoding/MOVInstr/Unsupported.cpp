@@ -1,13 +1,13 @@
-#include <pch.hpp>
+#include "pch.hpp"
 
 #include <cstring>
 
 #include <fixtures.hpp>
 
 #ifdef __HCPU_DEBUG
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_DEATH(statement, regex)
 #else
-# define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
+#define HCPU_ASSERT_EXIT(statement, x, regex) ASSERT_EXIT(statement, x, regex)
 #endif
 
 TEST_F(DECODER_TEST, MOV_INSTR_R) {
@@ -19,7 +19,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_R) {
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
-  
+
   HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
@@ -32,7 +32,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_M) {
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
-  
+
   HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
@@ -45,7 +45,7 @@ TEST_F(DECODER_TEST, MOV_INSTR_IMM) {
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
-  
+
   HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }
 
@@ -58,6 +58,6 @@ TEST_F(DECODER_TEST, MOV_INSTR_NONE) {
   ++counter;
   decoder.mem_controller->Load8(counter, HyperCPU::Registers::X7);
   counter = 0;
-  
+
   HCPU_ASSERT_EXIT(decoder.FetchAndDecode(), ::testing::ExitedWithCode(1), "Invalid opcode!");
 }

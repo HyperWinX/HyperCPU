@@ -1,9 +1,10 @@
 #pragma once
 
-#include <pch.hpp>
+#include <spdlog/spdlog.h>
 
-#include <Emulator/Core/CPU/Instructions/Flags.hpp>
-#include <Core/Compiler.hpp>
+#include "PCH/CStd.hpp"
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Assembler/Core/Compiler.hpp"
 
 
 namespace HCAsm {
@@ -65,8 +66,8 @@ namespace HCAsm {
       case OperandTypes::IMM:     return HyperCPU::OperandTypes::IMM;
       case OperandTypes::NONE:    return HyperCPU::OperandTypes::NONE;
       default:
-        logger.Log(HyperCPU::LogLevel::ERROR, "Invalid operand types!");
-        EXIT(1);
+        spdlog::error("Invalid operand types!");
+        std::abort();
     }
   }
 
@@ -76,15 +77,13 @@ namespace HCAsm {
       case HCAsm::Mode::b16:  return HyperCPU::Mode::b16;
       case HCAsm::Mode::b32:  return HyperCPU::Mode::b32;
       case HCAsm::Mode::b64:  return HyperCPU::Mode::b64;
-      default:
-        UNREACHABLE();
+      default: std::abort();
     }
   }
 
-
-
   class BinaryTransformer {
   public:
+    // TODO: move to src
     BinaryTransformer(BinaryResult& result, CompilerState* state = nullptr) : res(result), state(state) { }
 
     void EncodeInstruction(Instruction& instr);

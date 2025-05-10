@@ -1,13 +1,8 @@
-#include <pch.hpp>
-
-#include <Core/CPU/CPU.hpp>
-#include <Core/CPU/Version.hpp>
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/CPU/Version.hpp"
 
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-
-void HyperCPU::CPU::ExecHID(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
+void HyperCPU::CPU::ExecHID(const IInstruction& /* instr */, OperandContainer /* op1 */, OperandContainer /* op2 */) {
   switch (*x0) {
     case 0:
       *x0 = 2;
@@ -22,5 +17,3 @@ void HyperCPU::CPU::ExecHID(const IInstruction& instr, OperandContainer op1, Ope
       break;
   }
 }
-
-#pragma GCC diagnostic pop

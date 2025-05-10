@@ -1,30 +1,20 @@
-#include <pch.hpp>
-
-#include <Core/CPU/Decoders/StdDecoder.hpp>
-#include <Misc/bit_cast.hpp>
-#include <Core/CPU/CPU.hpp>
-#include <Exit.hpp>
+#include "Emulator/Core/CPU/CPU.hpp"
 
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-
-void HyperCPU::CPU::ExecREAD(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
+void HyperCPU::CPU::ExecREAD(const IInstruction& instr, OperandContainer op1, OperandContainer /* op2 */) {
   read_operation_handler* handler = nullptr;
   switch (instr.m_op_types) {
-    case HyperCPU::IMM:
+    case OperandTypes::IMM:
       handler = &read_io_handlers[HyperCPU::bit_cast<std::uint8_t>(op1)];
       break;
-    case HyperCPU::R:
+    case OperandTypes::R:
       handler = &read_io_handlers[HyperCPU::bit_cast_from<std::uint8_t>(op1.ptr<std::uint8_t>())];
       break;
     default:
-      UNREACHABLE();
+      std::abort();
   }
 
   if (handler) {
     *xlll0 = (*handler)();
   }
 }
-
-#pragma GCC diagnostic pop
