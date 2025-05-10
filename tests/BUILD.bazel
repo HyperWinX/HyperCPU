@@ -17,5 +17,8 @@ precompiled_headers(
 
 cc_library(
     name = 'test_fixtures',
-    hdrs = ['fixtures.hpp']
+    hdrs = ['fixtures.hpp'],
+    deps = [
+        '//src/PCH:pch_cstd'
+    ]
 )

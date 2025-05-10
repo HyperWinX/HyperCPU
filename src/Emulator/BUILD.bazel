@@ -2,7 +2,7 @@ load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
 
 cc_library(
     name = 'emulator_core',
-    srcs = glob(['**/*.cpp']),
+    srcs = glob(['**/*.cpp'], exclude = ['Main.cpp']),
     hdrs = glob(['**/*.hpp']),
     visibility = [
         '//tests:__subpackages__'
@@ -19,7 +19,7 @@ cc_library(
 
 cc_binary(
     name = 'hcemul',
-    srcs = glob(['**/*.cpp']),
+    srcs = ['Main.cpp'],
     deps = [
         ':emulator_core'
     ]

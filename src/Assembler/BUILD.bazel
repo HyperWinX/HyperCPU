@@ -8,8 +8,8 @@ package(
 
 cc_library(
     name = 'assembler_core',
-    srcs = glob(['**/*.cpp'], exclude = ['Main']),
-    hdrs = glob(['**/*.hpp'], exclude = ['Main']),
+    srcs = glob(['**/*.cpp'], exclude = ['Main.cpp']),
+    hdrs = glob(['**/*.hpp']),
     strip_include_prefix = '/src',
     visibility = [
         '//tests:__subpackages__',
@@ -30,7 +30,7 @@ cc_library(
 
 cc_binary(
     name = 'hcasm',
-    srcs = glob(['Main/**/*.cpp']),
+    srcs = ['Main.cpp'],
     deps = [
         ':assembler_core',
         # TODO: research why direct deps do not provide system headers

@@ -3,6 +3,7 @@ load('@rules_cc//cc:defs.bzl', 'cc_test')
 
 cc_test(
     name = 'integration-test',
+    linkstatic = True,
     srcs = glob(['**/*.cpp']),
     deps = [
         '//src/PCH:pch_cstd',
@@ -10,7 +11,7 @@ cc_test(
         '//src/Assembler:assembler_core',
         '//src/Emulator:emulator_core',
         '//tests:test_fixtures',
-        '@gtest//:gtest',
+        '@gtest//:gtest-gmock_main',
         '@fmt//:fmt'
     ]
 )
