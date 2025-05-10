@@ -1,9 +1,9 @@
 #include "Common/LanguageSpec/Opcodes.hpp"
 #include "PCH/CStd.hpp"
 
+#include "Common/LanguageSpec/Opcodes.hpp"
 #include "Emulator/Core/CPU/CPU.hpp"
 #include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
-#include "Common/LanguageSpec/Opcodes.hpp"
 #include "Emulator/Core/MemoryController/MemoryControllerST.hpp"
 
 HyperCPU::CPU::CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary, std::uint64_t binary_size)

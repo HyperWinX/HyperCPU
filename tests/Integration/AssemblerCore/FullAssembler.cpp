@@ -1,6 +1,5 @@
 #include "tests/fixtures.hpp"
 
-
 TEST_F(FULL_ASSEMBLER, MULTUPLE_INSTRUCTIONS) {
   std::string data = "_start:\n\tmov x0, 0u1;\n\tmov x1, 0u2;\n\tadd x0, x1;";
   std::uint32_t code_size;

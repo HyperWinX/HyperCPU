@@ -1,17 +1,20 @@
-load('@rules_cc//cc:defs.bzl', 'cc_test')
+load("@rules_cc//cc:defs.bzl", "cc_test")
 
 cc_test(
-    name = 'modular-test',
-    linkstatic = True,
+    name = "modular-test",
     # TODO: remove when tests are fixed
-    srcs = glob(['**/*.cpp'], exclude = ['EmulatorCore/Decoding/**/*.cpp']),
+    srcs = glob(
+        ["**/*.cpp"],
+        exclude = ["EmulatorCore/Decoding/**/*.cpp"],
+    ),
+    linkstatic = True,
     deps = [
-        '@gtest//:gtest-gmock_main',
-        '@fmt//:fmt',
-        '//tests:pch_gtest',
-        '//tests:test_fixtures',
-        '//src/PCH:pch_cstd',
-        '//src/Assembler:assembler_core',
-        '//src/Emulator:emulator_core',
-    ]
+        "//src/Assembler:assembler_core",
+        "//src/Emulator:emulator_core",
+        "//src/PCH:pch_cstd",
+        "//tests:pch_gtest",
+        "//tests:test_fixtures",
+        "@fmt",
+        "@gtest//:gtest-gmock_main",
+    ],
 )

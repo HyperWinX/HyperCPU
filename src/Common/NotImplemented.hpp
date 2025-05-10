@@ -5,6 +5,6 @@
 
 namespace HyperCPU {
   HCPU_ALWAYS_INLINE static void PrintUnsupported(std::string_view /* msg */) {
-      std::abort();
+    std::abort();
   }
 } // namespace HyperCPU

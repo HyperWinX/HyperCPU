@@ -1,25 +1,28 @@
-load('@rules_cc//cc:defs.bzl', 'cc_library', 'cc_binary')
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
 cc_library(
-    name = 'emulator_core',
-    srcs = glob(['**/*.cpp'], exclude = ['Main.cpp']),
-    hdrs = glob(['**/*.hpp']),
+    name = "emulator_core",
+    srcs = glob(
+        ["**/*.cpp"],
+        exclude = ["Main.cpp"],
+    ),
+    hdrs = glob(["**/*.hpp"]),
+    visibility = ["//visibility:public"],
     deps = [
-        '@fmt//:fmt',
-        '@eternal//:eternal',
-        '//src/Assembler:assembler_core',
-        '//src/PCH:pch_cstd',
-        '//src/Pog:pog'
+        "//src/Assembler:assembler_core",
+        "//src/PCH:pch_cstd",
+        "//src/Pog:pog",
+        "@eternal",
+        "@fmt",
     ],
-    visibility = ['//visibility:public']
 )
 
 cc_binary(
-    name = 'hcemul',
-    srcs = ['Main.cpp'],
+    name = "hcemul",
+    srcs = ["Main.cpp"],
+    visibility = ["//visibility:private"],
     deps = [
-        '@argparse//:argparse',
-        ':emulator_core'
+        ":emulator_core",
+        "@argparse",
     ],
-    visibility = ['//visibility:private']
 )

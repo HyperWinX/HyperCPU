@@ -172,7 +172,8 @@ constexpr inline std::uint8_t HCAsm::HCAsmCompiler::OperandSize(HCAsm::OperandTy
   case HCAsm::OperandType::uint:
   case HCAsm::OperandType::label:
     return 8;
-    default: std::abort();
+  default:
+    std::abort();
   }
 }
 
@@ -189,7 +190,8 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(const Operand& op) {
   case Mode::b64_label:
   case Mode::b64:
     return 8;
-    default: std::abort();
+  default:
+    std::abort();
   }
 }
 
@@ -204,7 +206,8 @@ std::uint8_t HCAsm::HCAsmCompiler::ModeToSize(Mode md) {
   case Mode::b64_label:
   case Mode::b64:
     return 8;
-    default: std::abort();
+  default:
+    std::abort();
   }
 }
 
@@ -291,7 +294,8 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     break;
   case OperandType::none:
     break;
-    default: std::abort();
+  default:
+    std::abort();
   }
 
   return result;
@@ -307,21 +311,22 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
         if (label.is_entry_point) {
           ir.entry_point = ir.code_size;
         } }, [&ir](RawValue& raw) mutable -> void { ir.code_size += [&raw]() -> std::uint8_t {
-            switch (raw.mode) {
-                case Mode::b8_str:
-                    return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
-                case Mode::b8:
-                    return 1;
-                case Mode::b16:
-                    return 2;
-                case Mode::b32:
-                    return 4;
-                case Mode::b64_label:
-                case Mode::b64:
-                    return 8;
-                default: std::abort();
-            }
-        }(); });
+                                                                                                                                                                                                                   switch (raw.mode) {
+                                                                                                                                                                                                                   case Mode::b8_str:
+                                                                                                                                                                                                                     return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
+                                                                                                                                                                                                                   case Mode::b8:
+                                                                                                                                                                                                                     return 1;
+                                                                                                                                                                                                                   case Mode::b16:
+                                                                                                                                                                                                                     return 2;
+                                                                                                                                                                                                                   case Mode::b32:
+                                                                                                                                                                                                                     return 4;
+                                                                                                                                                                                                                   case Mode::b64_label:
+                                                                                                                                                                                                                   case Mode::b64:
+                                                                                                                                                                                                                     return 8;
+                                                                                                                                                                                                                   default:
+                                                                                                                                                                                                                     std::abort();
+                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                 }(); });
   }
 
   // Resolve references - pass 2

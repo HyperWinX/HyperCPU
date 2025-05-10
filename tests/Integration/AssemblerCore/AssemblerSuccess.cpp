@@ -1,6 +1,5 @@
 #include "tests/fixtures.hpp"
 
-
 TEST_F(ASSEMBLER, ASM_R_R_b8) {
   std::string data = "mov xlll0, xlll1;";
   auto state(compiler.TransformToIR(data));

@@ -1,6 +1,5 @@
 #include "tests/fixtures.hpp"
 
-
 TEST_F(TWO_OPERANDS_SUCCESS, OPERANDS_R_R_b8) {
   std::string data = "mov xlll0, xlll1;";
   std::uint32_t code_size;

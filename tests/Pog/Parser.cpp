@@ -3,7 +3,6 @@
 #include "PCH/CStd.hpp"
 #include "tests/gtest.hpp"
 
-
 using namespace pog;
 using namespace ::testing;
 

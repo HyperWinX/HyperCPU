@@ -1,7 +1,7 @@
 #include "PCH/CStd.hpp"
 
-#include "Emulator/Core/CPU/CPU.hpp"
 #include "Common/LanguageSpec/Registers.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
 #include "Emulator/Misc/bit_cast.hpp"
 
 HyperCPU::OperandContainer HyperCPU::CPU::GetRegister(OperandContainer& op1) {

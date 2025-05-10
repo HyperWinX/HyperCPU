@@ -1,8 +1,8 @@
 #include <argparse/argparse.hpp>
 
-#include "PCH/CStd.hpp"
 #include "Assembler/Core/Compiler.hpp"
 #include "Emulator/Core/CPU/CPU.hpp"
+#include "PCH/CStd.hpp"
 // TODO: move this header (it needs some prefix, otherwise quotes look in this dir)
 #include "Common/Version.hpp"
 

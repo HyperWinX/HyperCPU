@@ -1,6 +1,5 @@
-#include "tests/fixtures.hpp"
 #include "Assembler/Core/Compiler.hpp"
-
+#include "tests/fixtures.hpp"
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
   std::string data = "adc x0, x1;";

@@ -2,9 +2,9 @@
 
 #include "PCH/CStd.hpp"
 
-#include "Emulator/Core/CPU/Decoders/IDecoder.hpp"
 #include "Common/LanguageSpec/Flags.hpp"
 #include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/CPU/Decoders/IDecoder.hpp"
 #include "Emulator/Core/MemoryController/IMemoryController.hpp"
 #include "Emulator/Misc/bit_cast.hpp"
 
@@ -102,4 +102,4 @@ namespace HyperCPU {
 
     ~Decoder() = default;
   };
-};
+}; // namespace HyperCPU

@@ -5,10 +5,10 @@
 
 #define private public
 #include "Assembler/Core/Compiler.hpp"
-#include "Emulator/Core/CPU/CPU.hpp"
-#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
 #include "Common/LanguageSpec/Flags.hpp"
 #include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
 #include "Emulator/Core/MemoryController/MemoryControllerST.hpp"
 #undef private
 
@@ -226,5 +226,5 @@ protected:
 };
 
 constexpr inline std::uint8_t EncodeTestFlags(HyperCPU::Mode md, HyperCPU::OperandTypes types) {
-    return (static_cast<std::uint8_t>(md) << 4) | static_cast<std::uint8_t>(types);
+  return (static_cast<std::uint8_t>(md) << 4) | static_cast<std::uint8_t>(types);
 }

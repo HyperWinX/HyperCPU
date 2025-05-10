@@ -1,6 +1,5 @@
 #include "tests/fixtures.hpp"
 
-
 static constexpr std::uint8_t BYTE_DATA1 = 0x55;
 static constexpr std::uint8_t BYTE_DATA2 = 0x60;
 static constexpr std::uint8_t BYTE_SUM = BYTE_DATA1 + BYTE_DATA2;

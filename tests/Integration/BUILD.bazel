@@ -1,16 +1,16 @@
-load('@rules_cc//cc:defs.bzl', 'cc_test')
+load("@rules_cc//cc:defs.bzl", "cc_test")
 
 cc_test(
-    name = 'integration-test',
+    name = "integration-test",
+    srcs = glob(["**/*.cpp"]),
     linkstatic = True,
-    srcs = glob(['**/*.cpp']),
     deps = [
-        '@gtest//:gtest-gmock_main',
-        '@fmt//:fmt',
-        '//tests:pch_gtest',
-        '//tests:test_fixtures',
-        '//src/PCH:pch_cstd',
-        '//src/Assembler:assembler_core',
-        '//src/Emulator:emulator_core'
-    ]
+        "//src/Assembler:assembler_core",
+        "//src/Emulator:emulator_core",
+        "//src/PCH:pch_cstd",
+        "//tests:pch_gtest",
+        "//tests:test_fixtures",
+        "@fmt",
+        "@gtest//:gtest-gmock_main",
+    ],
 )

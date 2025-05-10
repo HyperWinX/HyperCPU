@@ -3,7 +3,6 @@
 #include "PCH/CStd.hpp"
 #include "tests/gtest.hpp"
 
-
 using namespace pog;
 
 class TestAutomaton : public ::testing::Test {

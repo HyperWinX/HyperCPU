@@ -1,11 +1,11 @@
 #include "PCH/CStd.hpp"
 
-#include "Emulator/Core/CPU/CPU.hpp"
-#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
 #include "Common/LanguageSpec/AllowedFlags.hpp"
 #include "Common/LanguageSpec/Flags.hpp"
-#include "Common/LanguageSpec/Registers.hpp"
 #include "Common/LanguageSpec/Opcodes.hpp"
+#include "Common/LanguageSpec/Registers.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
 
 // TODO: лишать кошка жена за такое
 #define dcdr_assert(expr)                        \

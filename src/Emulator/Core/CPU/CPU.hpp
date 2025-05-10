@@ -2,9 +2,9 @@
 
 #include "PCH/CStd.hpp"
 
+#include "Common/LanguageSpec/Flags.hpp"
 #include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
 #include "Emulator/Core/CPU/IO/Simple.hpp"
-#include "Common/LanguageSpec/Flags.hpp"
 #include "Emulator/Core/CPU/Interrupts/ReservedInterrupts.hpp"
 #include "Emulator/Core/MemoryController/IMemoryController.hpp"
 
