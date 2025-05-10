@@ -2,6 +2,7 @@
 
 module(
     name = 'hyper-cpu',
+    version = '0.4.13',
     compatibility_level = 1
 )
 
