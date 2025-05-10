@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Union
@@ -21,6 +23,8 @@ def dispatching_file(file: Union[Path, str]):
         @wraps(func)
         def dispatcher(*args, **kwargs):
             return func(*args, file=file, **kwargs)
+
+        return dispatcher
 
     return factory
 
@@ -50,11 +54,11 @@ class Incrementors:
         module = self.__bazel_find_module(contents)
         current_version = self.__bazel_find_version(module)
 
-        grouping = r'(.*)=[\'\"](.*)[\'\"]'
-        if (result := re.search(grouping, current_version)) is None:
+        grouping = r'(.*)=\s*[\'\"](.*)[\'\"]'
+        if (result := re.search(grouping, current_version, flags=re.DOTALL)) is None:
             raise ValueError(f'could not apply grouping: {grouping}')
 
-        version_str = result.group(1)
+        version_str = result.group(2)
         return Version.from_str(version_str)
 
     @dispatching_file('src/Common/Version.hpp')
@@ -70,7 +74,7 @@ class Incrementors:
 
                 version_matches += 1
                 prefix, _ = line.split('=')
-                contents.write(f'{prefix} = "{str(version)}";\n')
+                contents.write(f'{prefix.strip()} = "{str(version)}";\n')
 
         if version_matches < 1:
             raise ValueError('could not find a line with version string')
@@ -87,15 +91,15 @@ class Incrementors:
 
         module = self.__bazel_find_module(contents)
         current_version = self.__bazel_find_version(module)
-        newly_versioned_module = module.replace(current_version, 'version = ' + str(version))
+        newly_versioned_module = module.replace(current_version, f'version = \'{str(version)}\'')
         contents = contents.replace(module, newly_versioned_module)
 
         with open(file, 'w') as fd:
             fd.write(contents)
 
     def __bazel_find_module(self, contents: str) -> str:
-        module_pattern = r'module\(.*\)'
-        matches = re.findall(module_pattern, contents)
+        module_pattern = r'module\(.*?\)'
+        matches = re.findall(module_pattern, contents, flags=re.DOTALL)
         if len(matches) != 1:
             raise ValueError(f'regex {module_pattern} matched {len(matches)} times, expected to match only once')
 
@@ -103,7 +107,7 @@ class Incrementors:
 
     def __bazel_find_version(self, module: str) -> str:
         version_pattern = r'version\s*=\s*[\'\"].*[\'\"]'
-        matches = re.findall(version_pattern, module)
+        matches = re.findall(version_pattern, module, flags=re.DOTALL)
         if len(matches) != 1:
             raise ValueError(f'regex {version_pattern} matched {len(matches)} times, expected to match only once')
 
