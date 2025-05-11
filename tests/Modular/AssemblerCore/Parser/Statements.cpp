@@ -1,4 +1,3 @@
-#include "Assembler/Core/Compiler.hpp"
 #include "tests/fixtures.hpp"
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT1) {

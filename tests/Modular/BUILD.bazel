@@ -4,8 +4,7 @@ cc_test(
     name = "modular-test",
     # TODO: remove when tests are fixed
     srcs = glob(
-        ["**/*.cpp"],
-        exclude = ["EmulatorCore/Decoding/**/*.cpp"],
+        ["**/*.cpp"]
     ),
     linkstatic = True,
     deps = [

@@ -1,13 +1,9 @@
-#include "pch.hpp"
-
-#include <cstring>
-
-#include <fixtures.hpp>
+#include "tests/fixtures.hpp"
 
 TEST_F(DECODER_TEST, JME_INSTR_IMM) {
   decoder.mem_controller->Load16(counter, HyperCPU::Opcode::JME);
   counter += 2;
-  decoder.mem_controller->Load8(counter, (HyperCPU::Mode::b64 << 4) | HyperCPU::OperandTypes::IMM);
+  decoder.mem_controller->Load8(counter, EncodeTestFlags(HyperCPU::Mode::b64, HyperCPU::OperandTypes::IMM));
   ++counter;
   decoder.mem_controller->Load64(counter, MEM_PTR);
   counter = 0;

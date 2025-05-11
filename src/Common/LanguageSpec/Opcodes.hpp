@@ -56,11 +56,13 @@ namespace HyperCPU {
       case Opcode::CCRF:
       case Opcode::COVF:
       case Opcode::CUDF:
+      case Opcode::HALT:
       case Opcode::HID:
       case Opcode::INC:
       case Opcode::DEC:
       case Opcode::DIV:
       case Opcode::MUL:
+      case Opcode::MOV:
       case Opcode::SUB:
       case Opcode::SHFR:
       case Opcode::SHFL:

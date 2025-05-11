@@ -1,6 +1,3 @@
-#include <Common/LanguageSpec/Flags.hpp>
-#include <Common/LanguageSpec/Registers.hpp>
-
 #include "tests/fixtures.hpp"
 
 static constexpr std::uint8_t BYTE_DATA = 0x55;

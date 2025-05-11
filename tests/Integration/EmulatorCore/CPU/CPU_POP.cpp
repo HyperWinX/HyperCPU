@@ -8,7 +8,7 @@ static constexpr std::uint64_t QWORD_DATA1 = 0x555555555555555;
 
 TEST_F(CPU_TEST, INSTR_POP_R_b8) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::POP);
-  cpu.mem_controller->Load8(*cpu.xip + 2, EncodeTestFlags(HyperCPU::Mode::b8, HyperCPU::OperandTypes::R_R));
+  cpu.mem_controller->Load8(*cpu.xip + 2, EncodeTestFlags(HyperCPU::Mode::b8, HyperCPU::OperandTypes::R));
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Reg::XLLL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);
@@ -24,7 +24,7 @@ TEST_F(CPU_TEST, INSTR_POP_R_b8) {
 
 TEST_F(CPU_TEST, INSTR_POP_R_b16) {
   cpu.mem_controller->Load16(*cpu.xip, HyperCPU::Opcode::POP);
-  cpu.mem_controller->Load8(*cpu.xip + 2, EncodeTestFlags(HyperCPU::Mode::b16, HyperCPU::OperandTypes::R_R));
+  cpu.mem_controller->Load8(*cpu.xip + 2, EncodeTestFlags(HyperCPU::Mode::b16, HyperCPU::OperandTypes::R));
   cpu.mem_controller->Load8(*cpu.xip + 3, HyperCPU::Reg::XLL0);
   cpu.mem_controller->Load16(*cpu.xip + 4, HyperCPU::Opcode::HALT);
   cpu.mem_controller->Load8(*cpu.xip + 6, HyperCPU::OperandTypes::NONE);

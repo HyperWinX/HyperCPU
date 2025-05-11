@@ -1,8 +1,4 @@
-#include "tests/gtest.hpp"
-
-#define private public
-#include "Emulator/Core/CPU/CPU.hpp"
-#undef private
+#include "tests/fixtures.hpp"
 
 static constexpr std::uint64_t FULL_CONST = 0x0001020304050607;
 static constexpr std::uint32_t CONSTH = 0x00010203;

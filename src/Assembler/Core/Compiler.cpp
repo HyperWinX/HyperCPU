@@ -3,6 +3,7 @@
 #include "Assembler/Core/BinaryTransformer.hpp"
 #include "Assembler/Core/Compiler.hpp"
 #include "Common/Helpers/Classes.hpp"
+#include "Common/Exit.hpp"
 #include "Common/LanguageSpec/Flags.hpp"
 #include "PCH/CStd.hpp"
 #include "Pog/Pog.hpp"
@@ -311,22 +312,22 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
         if (label.is_entry_point) {
           ir.entry_point = ir.code_size;
         } }, [&ir](RawValue& raw) mutable -> void { ir.code_size += [&raw]() -> std::uint8_t {
-                                                                                                                                                                                                                   switch (raw.mode) {
-                                                                                                                                                                                                                   case Mode::b8_str:
-                                                                                                                                                                                                                     return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
-                                                                                                                                                                                                                   case Mode::b8:
-                                                                                                                                                                                                                     return 1;
-                                                                                                                                                                                                                   case Mode::b16:
-                                                                                                                                                                                                                     return 2;
-                                                                                                                                                                                                                   case Mode::b32:
-                                                                                                                                                                                                                     return 4;
-                                                                                                                                                                                                                   case Mode::b64_label:
-                                                                                                                                                                                                                   case Mode::b64:
-                                                                                                                                                                                                                     return 8;
-                                                                                                                                                                                                                   default:
-                                                                                                                                                                                                                     std::abort();
-                                                                                                                                                                                                                   }
-                                                                                                                                                                                                                 }(); });
+          switch (raw.mode) {
+          case Mode::b8_str:
+            return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
+          case Mode::b8:
+            return 1;
+          case Mode::b16:
+            return 2;
+          case Mode::b32:
+            return 4;
+          case Mode::b64_label:
+          case Mode::b64:
+            return 8;
+          default:
+            std::abort();
+          }
+        }(); });
   }
 
   // Resolve references - pass 2
@@ -421,8 +422,7 @@ std::string_view HCAsm::FindLine(const pog::LineSpecialization& line_spec, const
                 "", std::to_string(err_token.line_spec.line).length(),
                 "", err_token.line_spec.offset,
                 std::string(err_token.line_spec.length, '^'));
-  std::abort();
-  // handle error
+  HyperCPU::exit(1);
 }
 
 void HCAsm::WriteResultFile(HyperCPU::FileType type, HCAsm::BinaryResult& result, std::ofstream& output, std::uint32_t code_size, std::uint32_t entry_point) {
