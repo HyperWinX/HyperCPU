@@ -4,7 +4,6 @@
 #include "Assembler/Core/Compiler.hpp"
 #include "Common/Helpers/Classes.hpp"
 #include "Common/Exit.hpp"
-#include "Common/LanguageSpec/Flags.hpp"
 #include "PCH/CStd.hpp"
 #include "Pog/Pog.hpp"
 
@@ -245,6 +244,8 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     case OperandType::none: // R
       result += 1;
       break;
+    default:
+      HyperCPU::unreachable();
     }
     break;
   case OperandType::mem_reg_add_int:
@@ -268,6 +269,8 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     case OperandType::mem_reg_add_int:
       result += 10;
       break;
+    default:
+      HyperCPU::unreachable();
     }
     break;
   case OperandType::sint:
@@ -288,6 +291,8 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
     case OperandType::reg: // M_R
       ++result;
       break;
+    default:
+      HyperCPU::unreachable();
     }
     break;
   case OperandType::label:
@@ -307,27 +312,35 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   spdlog::info("Running pass 1 - counting code size");
 
   for (auto& instr : ir.ir) {
-    VisitVariant(instr, [this, &ir](Instruction& instruction) mutable -> void { ir.code_size += InstructionSize(instruction); }, [&ir](Label& label) mutable -> void {
-        ir.labels[label.name] = ir.code_size;
-        if (label.is_entry_point) {
-          ir.entry_point = ir.code_size;
-        } }, [&ir](RawValue& raw) mutable -> void { ir.code_size += [&raw]() -> std::uint8_t {
-          switch (raw.mode) {
-          case Mode::b8_str:
-            return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
-          case Mode::b8:
-            return 1;
-          case Mode::b16:
-            return 2;
-          case Mode::b32:
-            return 4;
-          case Mode::b64_label:
-          case Mode::b64:
-            return 8;
-          default:
-            std::abort();
-          }
-        }(); });
+    VisitVariant(instr, 
+    [this, &ir](Instruction& instruction) mutable -> void { 
+      ir.code_size += InstructionSize(instruction); 
+    }, 
+    [&ir](Label& label) mutable -> void {
+      ir.labels[label.name] = ir.code_size;
+      if (label.is_entry_point) {
+        ir.entry_point = ir.code_size;
+      } 
+    },
+    [&ir](RawValue& raw) mutable -> void { 
+      ir.code_size += [&raw]() -> std::uint8_t {
+        switch (raw.mode) {
+        case Mode::b8_str:
+          return std::get<std::shared_ptr<std::string>>(raw.value.variant)->size();
+        case Mode::b8:
+          return 1;
+        case Mode::b16:
+          return 2;
+        case Mode::b32:
+          return 4;
+        case Mode::b64_label:
+        case Mode::b64:
+          return 8;
+        default:
+          std::abort();
+        }
+      }(); 
+    });
   }
 
   // Resolve references - pass 2
@@ -352,7 +365,7 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   BinaryResult binary = {new unsigned char[ir.code_size]};
   if (!binary.binary) {
     spdlog::error("Failed to allocate memory for binary data!");
-    // TODO: handle error
+    HyperCPU::exit(1);
   }
 
   spdlog::info("Running pass 3 - compiling");
@@ -360,30 +373,39 @@ HCAsm::BinaryResult HCAsm::HCAsmCompiler::TransformToBinary(HCAsm::CompilerState
   BinaryTransformer transformer(binary, &ir);
 
   for (auto& instr : ir.ir) {
-    VisitVariant(instr, [&transformer](Instruction& instruction) mutable -> void { transformer.EncodeInstruction(instruction); }, [&binary, &ir, this](RawValue& raw) mutable -> void {
-        switch (raw.mode) {
-          case Mode::b8_str:
-            binary.push(*std::get<std::shared_ptr<std::string>>(raw.value.variant));
-            break;
-          case Mode::b8:
-            binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant)));
-            break;
-          case Mode::b16:
-            binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant)));
-            break;
-          case Mode::b32:
-            binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant)));
-            break;
-          case Mode::b64_label:
-            if (!ir.labels.contains(*std::get<std::shared_ptr<std::string>>(raw.value.variant))) {
-              ThrowError(*raw.value.tokens[1], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(raw.value.variant)));
-            }
-            binary.push(static_cast<std::uint64_t>(ir.labels.at(*std::get<std::shared_ptr<std::string>>(raw.value.variant))));
-            break;
-          case Mode::b64:
-            binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant)));
-            break;
-        } }, [](Label&) {});
+    VisitVariant(instr, 
+    [&transformer](Instruction& instruction) mutable -> void { 
+      transformer.EncodeInstruction(instruction); 
+    }, 
+    [&binary, &ir, this](RawValue& raw) mutable -> void {
+      switch (raw.mode) {
+        case Mode::b8_str:
+          binary.push(*std::get<std::shared_ptr<std::string>>(raw.value.variant));
+          break;
+        case Mode::b8:
+          binary.push(static_cast<std::uint8_t>(std::get<std::uint64_t>(raw.value.variant)));
+          break;
+        case Mode::b16:
+          binary.push(static_cast<std::uint16_t>(std::get<std::uint64_t>(raw.value.variant)));
+          break;
+        case Mode::b32:
+          binary.push(static_cast<std::uint32_t>(std::get<std::uint64_t>(raw.value.variant)));
+          break;
+        case Mode::b64_label:
+          if (!ir.labels.contains(*std::get<std::shared_ptr<std::string>>(raw.value.variant))) {
+            ThrowError(*raw.value.tokens[1], parser, fmt::format("failed to resolve undefined reference to \"{}\"", *std::get<std::shared_ptr<std::string>>(raw.value.variant)));
+          }
+          binary.push(static_cast<std::uint64_t>(ir.labels.at(*std::get<std::shared_ptr<std::string>>(raw.value.variant))));
+          break;
+        case Mode::b64:
+          binary.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(raw.value.variant)));
+          break;
+        default:
+          HyperCPU::unreachable();
+      } 
+    }, 
+    [](Label&) {}
+    );
   }
 
   binary.entry_point = ir.entry_point;

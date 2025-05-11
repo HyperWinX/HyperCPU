@@ -4,7 +4,7 @@
 
 using namespace HyperALU;
 
-void HyperCPU::CPU::ExecDIV(const IInstruction& instr, OperandContainer op1, OperandContainer op2) {
+void HyperCPU::CPU::ExecDIV(const IInstruction& instr, OperandContainer op1, OperandContainer /* op2 */) {
   if (!(*x2)) {
     TriggerInterrupt(cpu_exceptions::ZRDIV);
     return;

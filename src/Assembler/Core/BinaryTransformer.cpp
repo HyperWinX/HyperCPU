@@ -4,55 +4,59 @@
 #include "Assembler/Core/Compiler.hpp"
 #include "Common/LanguageSpec/Flags.hpp"
 #include "Common/LanguageSpec/Opcodes.hpp"
+#include "Common/Exit.hpp"
 #include "PCH/CStd.hpp"
-#include "Pog/Pog.hpp"
 
 HyperCPU::OperandTypes HCAsm::BinaryTransformer::DetermineOperandTypes(Operand& op1, Operand& op2) {
-  Op1T tp1;
-  Op2T tp2;
+  Op1T tp1 = Op1T::NONE; // Placeholder
+  Op2T tp2 = Op2T::NONE; // Placeholder
 
   switch (op1.type) {
-  case HCAsm::OperandType::reg:
-    tp1 = Op1T::R;
-    break;
-  case HCAsm::OperandType::mem_reg_add_int:
-  case HCAsm::OperandType::memaddr_reg:
-    tp1 = Op1T::RM;
-    break;
-  case HCAsm::OperandType::sint:
-  case HCAsm::OperandType::uint:
-  case HCAsm::OperandType::label:
-    tp1 = Op1T::IMM;
-    break;
-  case HCAsm::OperandType::memaddr_int:
-  case HCAsm::OperandType::memaddr_lbl:
-    tp1 = Op1T::M;
-    break;
-  case HCAsm::OperandType::none:
-    tp1 = Op1T::NONE;
-    break;
+    case HCAsm::OperandType::reg:
+      tp1 = Op1T::R;
+      break;
+    case HCAsm::OperandType::mem_reg_add_int:
+    case HCAsm::OperandType::memaddr_reg:
+      tp1 = Op1T::RM;
+      break;
+    case HCAsm::OperandType::sint:
+    case HCAsm::OperandType::uint:
+    case HCAsm::OperandType::label:
+      tp1 = Op1T::IMM;
+      break;
+    case HCAsm::OperandType::memaddr_int:
+    case HCAsm::OperandType::memaddr_lbl:
+      tp1 = Op1T::M;
+      break;
+    case HCAsm::OperandType::none:
+      tp1 = Op1T::NONE;
+      break;
+    default:
+      HyperCPU::unreachable();
   }
 
   switch (op2.type) {
-  case HCAsm::OperandType::reg:
-    tp2 = Op2T::R;
-    break;
-  case HCAsm::OperandType::mem_reg_add_int:
-  case HCAsm::OperandType::memaddr_reg:
-    tp2 = Op2T::RM;
-    break;
-  case HCAsm::OperandType::sint:
-  case HCAsm::OperandType::uint:
-  case HCAsm::OperandType::label:
-    tp2 = Op2T::IMM;
-    break;
-  case HCAsm::OperandType::memaddr_int:
-  case HCAsm::OperandType::memaddr_lbl:
-    tp2 = Op2T::M;
-    break;
-  case HCAsm::OperandType::none:
-    tp2 = Op2T::NONE;
-    break;
+    case HCAsm::OperandType::reg:
+      tp2 = Op2T::R;
+      break;
+    case HCAsm::OperandType::mem_reg_add_int:
+    case HCAsm::OperandType::memaddr_reg:
+      tp2 = Op2T::RM;
+      break;
+    case HCAsm::OperandType::sint:
+    case HCAsm::OperandType::uint:
+    case HCAsm::OperandType::label:
+      tp2 = Op2T::IMM;
+      break;
+    case HCAsm::OperandType::memaddr_int:
+    case HCAsm::OperandType::memaddr_lbl:
+      tp2 = Op2T::M;
+      break;
+    case HCAsm::OperandType::none:
+      tp2 = Op2T::NONE;
+      break;
+    default:
+      HyperCPU::unreachable();
   }
 
   return QuickCast(QuickOR(tp1, tp2));
@@ -103,7 +107,7 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
     break;
   }
 
-  HCAsm::Mode md;
+  HCAsm::Mode md = HCAsm::Mode::b8; // Placeholder
   switch (types) {
   case HyperCPU::OperandTypes::RM_M:
     if (instr.op2.mode != HCAsm::Mode::none) {
@@ -138,6 +142,8 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
   case HyperCPU::OperandTypes::NONE:
     md = HCAsm::Mode::b8; // Placeholder
     break;
+  default:
+    HyperCPU::unreachable();
   }
 
   encoded_operands |= (static_cast<std::uint8_t>(md) << 4);
@@ -174,6 +180,8 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       case HCAsm::Mode::b64:
         res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op2.variant)));
         break;
+      default:
+        HyperCPU::unreachable();
       }
     } else {
       switch (md) {
@@ -189,6 +197,8 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       case HCAsm::Mode::b64:
         res.push(static_cast<std::int64_t>(std::get<std::int64_t>(instr.op2.variant)));
         break;
+      default:
+        HyperCPU::unreachable();
       }
     }
     break;
@@ -213,6 +223,8 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       case HCAsm::Mode::b64:
         res.push(static_cast<std::uint64_t>(std::get<std::uint64_t>(instr.op1.variant)));
         break;
+      default:
+        HyperCPU::unreachable();
       }
     } else {
       switch (md) {
@@ -228,6 +240,8 @@ void HCAsm::BinaryTransformer::EncodeInstruction(HCAsm::Instruction& instr) {
       case HCAsm::Mode::b64:
         res.push(static_cast<std::int64_t>(std::get<std::int64_t>(instr.op1.variant)));
         break;
+      default:
+        HyperCPU::unreachable();
       }
     }
     break;
