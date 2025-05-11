@@ -1,6 +1,5 @@
 FROM debian:unstable
 
-ARG USER=bazel
 ARG BAZELISK_TAG=v1.15.0
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

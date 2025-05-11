@@ -1,6 +1,5 @@
 FROM archlinux:latest
 
-ARG USER=bazel
 ARG BAZELISK_TAG=v1.15.0
 
 RUN pacman -Syu --noconfirm --needed \
