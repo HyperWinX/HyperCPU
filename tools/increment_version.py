@@ -87,19 +87,30 @@ class Incrementors:
             fd.write(contents.getvalue())
 
     @dispatching_file("MODULE.bazel")
-    def update_module_file(self, file: Path, version=Version):
+    def update_module_file(self, file: Path, version: Version):
         with open(file, "r") as fd:
             contents = fd.read()
 
         module = self.__bazel_find_module(contents)
         current_version = self.__bazel_find_version(module)
         newly_versioned_module = module.replace(
-            current_version, f"version = '{str(version)}'"
+            current_version, f"version = \"{str(version)}\""
         )
         contents = contents.replace(module, newly_versioned_module)
 
         with open(file, "w") as fd:
             fd.write(contents)
+
+    @dispatching_file("README.md")
+    def update_readme(self, file: Path, version: Version):
+        with open(file, "r") as fd:
+            content = fd.read()
+
+        new_version = f'<img src=\"https://img.shields.io/badge/version-{version}-red\"'
+        pattern = r'<img src=\"https:\/\/img\.shields\.io\/badge\/version-[^"]*\"'
+        content = re.sub(pattern, new_version, content)
+        with open(file, "w") as fd:
+            fd.write(content)
 
     def __bazel_find_module(self, contents: str) -> str:
         module_pattern = r"module\(.*?\)"

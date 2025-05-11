@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: hyperwin/hcpu-ci:${{ matrix.config.tag }}
-      options: --user root
+      # see https://github.com/bazelbuild/bazel/issues/13823
+      options: --init
     name: "Build on ${{matrix.config.name}}"
     strategy:
       matrix:

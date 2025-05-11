@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: hyperwin/hcpu-ci:debian-unstable
-      options: --user root
+      # see https://github.com/bazelbuild/bazel/issues/13823
+      options: --init
     name: Run full test suite
 
     steps:
