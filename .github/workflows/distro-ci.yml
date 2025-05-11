@@ -11,7 +11,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:${{ matrix.config.tag }}
+    container:
+      image: hyperwin/hcpu-ci:${{ matrix.config.tag }}
+      options: --user root
     name: "Build on ${{matrix.config.name}}"
     strategy:
       matrix:

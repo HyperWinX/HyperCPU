@@ -12,10 +12,3 @@ RUN pacman -Syu --noconfirm --needed \
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/${BAZELISK_TAG}/bazelisk-linux-amd64 && \
     chmod 755 bazelisk-linux-amd64 && \
     mv bazelisk-linux-amd64 /usr/bin/bazelisk
-
-RUN useradd -m ${USER} && \
-    mkdir /home/${USER}/workspace && \
-    chown ${USER}:${USER} /home/${USER}/workspace
-
-USER ${USER}
-WORKDIR /home/${USER}/workspace

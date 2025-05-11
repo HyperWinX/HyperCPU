@@ -6,7 +6,9 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:debian-unstable
+    container:
+      image: hyperwin/hcpu-ci:debian-unstable
+      options: --user root
     if: (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/dev') || !contains(github.event.head_commit.message, '[ci skip]')
 
     steps:

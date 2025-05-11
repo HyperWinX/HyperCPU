@@ -8,7 +8,9 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
-    container: hyperwin/hcpu-ci:debian-unstable
+    container:
+      image: hyperwin/hcpu-ci:debian-unstable
+      options: --user root
     name: Run full test suite
 
     steps:
