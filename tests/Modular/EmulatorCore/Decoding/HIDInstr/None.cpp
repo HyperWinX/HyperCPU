@@ -1,15 +1,11 @@
-#include <pch.hpp>
-
-#include <cstring>
-
-#include <fixtures.hpp>
+#include "tests/fixtures.hpp"
 
 TEST_F(DECODER_TEST, HID_INSTR_NONE) {
-  decoder.mem_controller->Load16(counter, HyperCPU::HID);
+  decoder.mem_controller->Load16(counter, HyperCPU::Opcode::HID);
   counter += 2;
   decoder.mem_controller->Load8(counter, HyperCPU::OperandTypes::NONE);
   counter = 0;
-  
+
   HyperCPU::IInstruction instr = decoder.FetchAndDecode();
 
   ASSERT_EQ(instr.m_opcode, HyperCPU::Opcode::HID);

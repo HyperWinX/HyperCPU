@@ -1,8 +1,7 @@
-#include <pch.hpp>
+#include "PCH/CStd.hpp"
 
-#include <Core/CPU/Assert.hpp>
-#include <Core/CPU/CPU.hpp>
-
+#include "Emulator/Core/CPU/Assert.hpp"
+#include "Emulator/Core/CPU/CPU.hpp"
 
 void HyperCPU::CPU::StackPush8(std::uint8_t val) noexcept {
   h_assert(*xsp > 1, { std::cout << "Stack pointer too low!\n"; exit(1); });

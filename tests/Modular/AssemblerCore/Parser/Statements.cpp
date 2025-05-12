@@ -1,6 +1,4 @@
-#include <fixtures.hpp>
-
-#include <Core/Compiler.hpp>
+#include "tests/fixtures.hpp"
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
   std::string data = "adc x0, x1;";
@@ -11,12 +9,12 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT1) {
 
   auto& instr = std::get<HCAsm::Instruction>(state.ir[0]);
   EXPECT_EQ(instr.opcode, HyperCPU::Opcode::ADC);
-  
+
   EXPECT_EQ(instr.op1.type, HCAsm::OperandType::reg);
-  EXPECT_EQ(instr.op1.reg, HyperCPU::Registers::X0);
+  EXPECT_EQ(instr.op1.reg, HyperCPU::Reg::X0);
 
   EXPECT_EQ(instr.op2.type, HCAsm::OperandType::reg);
-  EXPECT_EQ(instr.op2.reg, HyperCPU::Registers::X1);
+  EXPECT_EQ(instr.op2.reg, HyperCPU::Reg::X1);
 }
 
 TEST_F(ASM_PARSER_STMT_TEST, STMT2) {
@@ -28,9 +26,9 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT2) {
 
   auto& instr = std::get<HCAsm::Instruction>(state.ir[0]);
   EXPECT_EQ(instr.opcode, HyperCPU::Opcode::ADC);
-  
+
   EXPECT_EQ(instr.op1.type, HCAsm::OperandType::reg);
-  EXPECT_EQ(instr.op1.reg, HyperCPU::Registers::X0);
+  EXPECT_EQ(instr.op1.reg, HyperCPU::Reg::X0);
 
   EXPECT_EQ(instr.op2.type, HCAsm::OperandType::none);
 }
@@ -44,7 +42,7 @@ TEST_F(ASM_PARSER_STMT_TEST, STMT3) {
 
   auto& instr = std::get<HCAsm::Instruction>(state.ir[0]);
   EXPECT_EQ(instr.opcode, HyperCPU::Opcode::ADC);
-  
+
   EXPECT_EQ(instr.op1.type, HCAsm::OperandType::none);
 
   EXPECT_EQ(instr.op2.type, HCAsm::OperandType::none);

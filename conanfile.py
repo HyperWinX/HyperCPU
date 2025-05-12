@@ -1,35 +1,26 @@
-from typing import Self, List
-from functools import lru_cache
+from typing import Dict, Any, Collection
+from functools import cached_property, lru_cache
 
 from conan import ConanFile
-from conan.tools.cmake import cmake_layout
+from conan.tools.google import bazel_layout
 
 
 class HyperCPU(ConanFile):
-    generators: List[str] = ['CMakeToolchain', 'CMakeDeps']
-    settings: List[str] = ['os', 'compiler', 'build_type', 'arch']
+    name: "HyperCPU"
+    settings = ["os", "compiler", "build_type", "arch"]
 
-    def __init__(self: Self, display_name: str = '') -> None:
-        self.name = 'HyperCPU'
+    # conan data is fetched dynamically from
+    # conandata.yml
+    conan_data: Dict[str, Any]
 
-        self.__requirements = {
-            'gtest': '1.14.0',
-            'benchmark': '1.9.1',
-            'abseil': '20240116.1',
-            'libbacktrace': 'cci.20210118',
-            'argparse': '3.2',
-            'eternal': '1.0.1',
-            're2': '20230801',
-            'fmt': '11.1.4',
-            'libunwind': '1.8.1',
-            'boost': '1.87.0'
-        }
-        super().__init__(display_name)
+    @cached_property
+    def generators(self) -> Collection[str]:
+        return ["BazelToolchain", "BazelDeps"]
 
     @lru_cache
-    def requirements(self: Self) -> None:
-        for req, version in self.__requirements.items():
-            self.requires(f'{req}/{version}')
+    def requirements(self) -> None:
+        for req, version in self.conan_data["requirements"].items():
+            self.requires(f"{req}/{version}")
 
     def layout(self):
-        cmake_layout(self)
+        bazel_layout(self)

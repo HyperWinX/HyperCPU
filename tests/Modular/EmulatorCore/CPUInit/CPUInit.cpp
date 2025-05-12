@@ -1,8 +1,4 @@
-#include "Logger/Logger.hpp"
-#include <gtest/gtest.h>
-
-#define private public
-#include <Core/CPU/CPU.hpp>
+#include "tests/fixtures.hpp"
 
 static constexpr std::uint64_t FULL_CONST = 0x0001020304050607;
 static constexpr std::uint32_t CONSTH = 0x00010203;
@@ -12,7 +8,6 @@ static constexpr std::uint8_t CONSTLLH = 0x06;
 static constexpr std::uint8_t CONSTLLL = 0x07;
 
 TEST(cpu_init, REGS_ARE_INITIALIZED) {
-  HyperCPU::Logger logger{HyperCPU::LogLevel::ERROR};
   HyperCPU::CPU cpu{1, 4096};
   for (std::size_t i = 0; i < 13; ++i)
     cpu.data[i] = FULL_CONST;

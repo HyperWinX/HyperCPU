@@ -1,14 +1,12 @@
 #pragma once
 
-#include <pch.hpp>
+#include "PCH/CStd.hpp"
 
-#include <Core/MemoryController/IMemoryController.hpp>
-#include <Core/CPU/Instructions/Opcodes.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Core/CPU/Decoders/IDecoder.hpp>
-#include <Misc/bit_cast.hpp>
-#include <cstddef>
-
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Common/LanguageSpec/Opcodes.hpp"
+#include "Emulator/Core/CPU/Decoders/IDecoder.hpp"
+#include "Emulator/Core/MemoryController/IMemoryController.hpp"
+#include "Emulator/Misc/bit_cast.hpp"
 
 namespace HyperCPU {
   enum class AddrExtensionStatus {
@@ -19,37 +17,55 @@ namespace HyperCPU {
 
   struct OperandContainer {
   public:
-    OperandContainer() : value(0) { }
-    OperandContainer(std::nullptr_t) : value(0) { }
-    explicit OperandContainer(std::uint64_t value) : value(value) { }
-    template<typename T>
-    explicit OperandContainer(T* ptr) : value(HyperCPU::bit_cast<std::uint64_t>(ptr)) { } // Supposed to be executed from GetRegister()
-    
-    operator std::uint8_t() const noexcept { return HyperCPU::bit_cast<std::uint8_t>(value); }
-    operator std::uint16_t() const noexcept { return HyperCPU::bit_cast<std::uint16_t>(value); }
-    operator std::uint32_t() const noexcept { return HyperCPU::bit_cast<std::uint32_t>(value); }
-    operator std::uint64_t() const noexcept { return value; }
+    OperandContainer()
+        : value(0) {
+    }
+    OperandContainer(std::nullptr_t)
+        : value(0) {
+    }
+    explicit OperandContainer(std::uint64_t value)
+        : value(value) {
+    }
+    template <typename T>
+    explicit OperandContainer(T* ptr)
+        : value(HyperCPU::bit_cast<std::uint64_t>(ptr)) {
+    } // Supposed to be executed from GetRegister()
+
+    operator std::uint8_t() const noexcept {
+      return HyperCPU::bit_cast<std::uint8_t>(value);
+    }
+    operator std::uint16_t() const noexcept {
+      return HyperCPU::bit_cast<std::uint16_t>(value);
+    }
+    operator std::uint32_t() const noexcept {
+      return HyperCPU::bit_cast<std::uint32_t>(value);
+    }
+    operator std::uint64_t() const noexcept {
+      return value;
+    }
 
     std::uint64_t& ref() noexcept {
       return value;
     }
-    
-    template<typename T>
+
+    template <typename T>
     operator T*() const noexcept {
       return HyperCPU::bit_cast<T*>(value);
     }
 
-    template<typename T>
+    template <typename T>
     T& deref() const noexcept {
       return *static_cast<T*>(*this);
     }
 
-    template<typename T>
+    template <typename T>
     T* ptr() const noexcept {
       return static_cast<T*>(*this);
     }
 
-    ~OperandContainer() { }
+    ~OperandContainer() {
+    }
+
   private:
     std::uint64_t value;
   };
@@ -77,15 +93,13 @@ namespace HyperCPU {
 
   public:
     explicit Decoder() = default; // For testing purposes - causes UB if used incorrectly
-    explicit Decoder(IMemoryController* mc, std::uint64_t* counter, class CPU* cpu) 
-      : mem_controller(mc)
-      , xip(counter)
-      , cpu(cpu)
-      , decoder_halted(false) {}
+    explicit Decoder(IMemoryController* mc, std::uint64_t* counter, class CPU* cpu)
+        : mem_controller(mc), xip(counter), cpu(cpu), decoder_halted(false) {
+    }
 
     IInstruction FetchAndDecode() override;
     bool IsHalted() const noexcept override;
 
     ~Decoder() = default;
   };
-}
+}; // namespace HyperCPU

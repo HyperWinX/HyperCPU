@@ -1,0 +1,19 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "modular-test",
+    # TODO: remove when tests are fixed
+    srcs = glob(
+        ["**/*.cpp"]
+    ),
+    linkstatic = True,
+    deps = [
+        "//src/Assembler:assembler_core",
+        "//src/Emulator:emulator_core",
+        "//src/PCH:pch_cstd",
+        "//tests:pch_gtest",
+        "//tests:test_fixtures",
+        "@fmt",
+        "@gtest//:gtest-gmock_main",
+    ],
+)

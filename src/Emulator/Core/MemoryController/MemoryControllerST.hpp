@@ -1,11 +1,9 @@
 #pragma once
 
-#include <pch.hpp>
+#include "PCH/CStd.hpp"
 
-#include <Core/CPU/CPU.hpp>
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Core/MemoryController/IMemoryController.hpp>
-
+#include "Emulator/Core/CPU/CPU.hpp"
+#include "Emulator/Core/MemoryController/IMemoryController.hpp"
 
 namespace HyperCPU {
   class MemoryControllerST final : public IMemoryController {
@@ -15,7 +13,8 @@ namespace HyperCPU {
     std::size_t total_mem;
 
   public:
-    explicit MemoryControllerST(std::size_t mem_size, class CPU* cpu = nullptr) : cpu(cpu), total_mem(mem_size) {
+    explicit MemoryControllerST(std::size_t mem_size, class CPU* cpu = nullptr)
+        : cpu(cpu), total_mem(mem_size) {
       memory = static_cast<char*>(calloc(total_mem, 1));
       if (!memory)
         throw std::runtime_error("Failed to allocate memory!");
@@ -80,30 +79,32 @@ namespace HyperCPU {
       return data;
     }
 
-    inline void Load8(std::uint64_t ptr, std::uint8_t data) override {
+    inline void load8(std::uint64_t ptr, std::uint8_t data) override {
       mem_ctlr_assert(ptr + sizeof(std::uint8_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint8_t));
     }
 
-    inline void Load16(std::uint64_t ptr, std::uint16_t data) override {
+    inline void load16(std::uint64_t ptr, std::uint16_t data) override {
       mem_ctlr_assert(ptr + sizeof(std::uint16_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint16_t));
     }
 
-    inline void Load32(std::uint64_t ptr, std::uint32_t data) override {
+    inline void load32(std::uint64_t ptr, std::uint32_t data) override {
       mem_ctlr_assert(ptr + sizeof(std::uint32_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint32_t));
     }
 
-    inline void Load64(std::uint64_t ptr, std::uint64_t data) override {
+    inline void load64(std::uint64_t ptr, std::uint64_t data) override {
       mem_ctlr_assert(ptr + sizeof(std::uint64_t) - 1 < total_mem);
       memcpy(&memory[ptr], &data, sizeof(std::uint64_t));
     }
 
-    std::uint8_t* get_ptr() const noexcept override { return reinterpret_cast<std::uint8_t*>(memory); }
+    std::uint8_t* get_ptr() const noexcept override {
+      return reinterpret_cast<std::uint8_t*>(memory);
+    }
 
     ~MemoryControllerST() {
       free(memory);
     }
   };
-}
+} // namespace HyperCPU

@@ -1,17 +1,21 @@
+#pragma once
+
 #ifdef HCPU_ENABLE_LIBUNWIND
-#include <pch.hpp>
 
 #include <backtrace.h>
 #include <libunwind.h>
 
+#include "PCH/CStd.hpp"
+
 extern "C" {
-  void bt_create_error_callback(void*, const char* msg, int err);
+void bt_create_error_callback(void*, const char* msg, int err);
 }
 
 class BacktraceController {
 public:
   BacktraceController() = default;
-  BacktraceController(char* name) : iteration(0), finished(false) {
+  BacktraceController(char* name)
+      : iteration(0), finished(false) {
     bt_state = backtrace_create_state(name, 0, bt_create_error_callback, nullptr);
   }
 
@@ -24,6 +28,7 @@ public:
   // libunwind
   unw_cursor_t cursor;
   unw_context_t context;
+
 private:
   // libbacktrace
   void* bt_state;

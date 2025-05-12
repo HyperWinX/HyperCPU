@@ -1,83 +1,84 @@
-#include <gtest/gtest.h>
+#include "Pog/FilterView.hpp"
 
-#include <FilterView.hpp>
+#include "PCH/CStd.hpp"
+#include "tests/gtest.hpp"
 
 class TestFilterView : public ::testing::Test {};
 
 TEST_F(TestFilterView,
-EmptyContainer) {
-	std::vector<int> v;
+       EmptyContainer) {
+  std::vector<int> v;
 
-	FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
+  FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
 
-	std::vector<int> actual;
-	for (auto x : fv)
-		actual.push_back(x);
+  std::vector<int> actual;
+  for (auto x : fv)
+    actual.push_back(x);
 
-	EXPECT_EQ(actual, (std::vector<int>{}));
+  EXPECT_EQ(actual, (std::vector<int>{}));
 }
 
 TEST_F(TestFilterView,
-BasicFilter) {
-	std::vector<int> v = {0, 1, 2, 3, 4, 5, 6};
+       BasicFilter) {
+  std::vector<int> v = {0, 1, 2, 3, 4, 5, 6};
 
-	FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
+  FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
 
-	std::vector<int> actual;
-	for (auto x : fv)
-		actual.push_back(x);
+  std::vector<int> actual;
+  for (auto x : fv)
+    actual.push_back(x);
 
-	EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
+  EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
 }
 
 TEST_F(TestFilterView,
-SharedEnd) {
-	std::vector<int> v = {0, 1, 2, 3, 4, 5};
+       SharedEnd) {
+  std::vector<int> v = {0, 1, 2, 3, 4, 5};
 
-	FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
+  FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
 
-	std::vector<int> actual;
-	for (auto x : fv)
-		actual.push_back(x);
+  std::vector<int> actual;
+  for (auto x : fv)
+    actual.push_back(x);
 
-	EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
+  EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
 }
 
 TEST_F(TestFilterView,
-SharedBegin) {
-	std::vector<int> v = {1, 2, 3, 4, 5, 6};
+       SharedBegin) {
+  std::vector<int> v = {1, 2, 3, 4, 5, 6};
 
-	FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
+  FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
 
-	std::vector<int> actual;
-	for (auto x : fv)
-		actual.push_back(x);
+  std::vector<int> actual;
+  for (auto x : fv)
+    actual.push_back(x);
 
-	EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
+  EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
 }
 
 TEST_F(TestFilterView,
-SharedBeginAndEnd) {
-	std::vector<int> v = {1, 2, 3, 4, 5};
+       SharedBeginAndEnd) {
+  std::vector<int> v = {1, 2, 3, 4, 5};
 
-	FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
+  FilterView fv(v.begin(), v.end(), [](int x) { return x & 1; });
 
-	std::vector<int> actual;
-	for (auto x : fv)
-		actual.push_back(x);
+  std::vector<int> actual;
+  for (auto x : fv)
+    actual.push_back(x);
 
-	EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
+  EXPECT_EQ(actual, (std::vector<int>{1, 3, 5}));
 }
 
 TEST_F(TestFilterView,
-NoElements) {
-	std::vector<int> v = {0, 1, 2, 3, 4, 5, 6};
+       NoElements) {
+  std::vector<int> v = {0, 1, 2, 3, 4, 5, 6};
 
-	FilterView fv(v.begin(), v.end(), [](int x) { return x > 10; });
+  FilterView fv(v.begin(), v.end(), [](int x) { return x > 10; });
 
-	std::vector<int> actual;
-	for (auto x : fv)
-		actual.push_back(x);
+  std::vector<int> actual;
+  for (auto x : fv)
+    actual.push_back(x);
 
-	EXPECT_EQ(actual, (std::vector<int>{}));
+  EXPECT_EQ(actual, (std::vector<int>{}));
 }

@@ -1,12 +1,11 @@
-#include <Pog/Pog.hpp>
-#include <pch.hpp>
-
-#include <Core/Compiler.hpp>
+#include "Assembler/Core/Compiler.hpp"
+#include "PCH/CStd.hpp"
+#include "Pog/Pog.hpp"
 
 using HCAsm::Value;
 
 [[gnu::visibility("hidden")]]
-std::uint64_t BinaryStrToUint64(std::string_view& binary_str) { 
+std::uint64_t BinaryStrToUint64(std::string_view& binary_str) {
   binary_str.remove_prefix(2);
   if (binary_str.length() > 64) {
     throw std::invalid_argument("Binary string is too long to fit in a uint64_t");
@@ -26,11 +25,11 @@ std::uint64_t BinaryStrToUint64(std::string_view& binary_str) {
 }
 
 Value HCAsm::TokenizeSignedInt(std::string_view str) {
-  return { std::stol(str.begin() + 2) };
+  return {std::stol(str.begin() + 2)};
 }
 
 Value HCAsm::TokenizeUnsignedInt(std::string_view str) {
-  return { std::stoull(str.begin() + 2) };
+  return {std::stoull(str.begin() + 2)};
 }
 
 Value HCAsm::TokenizeString(std::string_view str) {
@@ -47,37 +46,37 @@ Value HCAsm::TokenizeString(std::string_view str) {
       }
     } else {
       switch (c) {
-        case 'n':
-          res.push_back('\n');
-          break;
-        case 'r':
-          res.push_back('\r');
-          break;
-        case '\\':
-          res.push_back('\\');
-          break;
-        case '0':
-          res.push_back('\0');
-          break;
-        case 'e':
-          res.push_back(0x1B);
-          break;
-        case 'b':
-          res.push_back('\b');
-          break;
-        case 't':
-          res.push_back('\t');
-          break;
-        case '\n':
-          break;
-        default:
-          res.push_back(c);
-          break;
+      case 'n':
+        res.push_back('\n');
+        break;
+      case 'r':
+        res.push_back('\r');
+        break;
+      case '\\':
+        res.push_back('\\');
+        break;
+      case '0':
+        res.push_back('\0');
+        break;
+      case 'e':
+        res.push_back(0x1B);
+        break;
+      case 'b':
+        res.push_back('\b');
+        break;
+      case 't':
+        res.push_back('\t');
+        break;
+      case '\n':
+        break;
+      default:
+        res.push_back(c);
+        break;
       }
       escape = false;
     }
   }
-  return { res };
+  return {res};
 }
 
 Value HCAsm::TokenizeIdentifier(std::string_view str) {
@@ -97,5 +96,5 @@ Value HCAsm::TokenizeHexadecimal(std::string_view str) {
 }
 
 Value HCAsm::TokenizeBinary(std::string_view str) {
-  return { BinaryStrToUint64(str) };
+  return {BinaryStrToUint64(str)};
 }

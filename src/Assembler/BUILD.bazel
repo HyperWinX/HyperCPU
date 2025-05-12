@@ -1,0 +1,31 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+cc_library(
+    name = "assembler_core",
+    srcs = glob(
+        ["**/*.cpp"],
+        exclude = ["Main.cpp"],
+    ),
+    hdrs = glob(["**/*.hpp"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//dist:hpool",
+        "//src/Common:hcpu_common",
+        "//src/PCH:pch_cstd",
+        "//src/Pog:pog",
+        "@eternal",
+        "@fmt",
+        "@re2",
+        "@spdlog",
+    ],
+)
+
+cc_binary(
+    name = "hcasm",
+    srcs = ["Main.cpp"],
+    visibility = ["//visibility:private"],
+    deps = [
+        ":assembler_core",
+        "@argparse",
+    ],
+)

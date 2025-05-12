@@ -1,14 +1,12 @@
 #pragma once
 
-#include <pch.hpp>
+#include "PCH/CStd.hpp"
 
-#include <Core/MemoryController/IMemoryController.hpp>
-#include <Core/CPU/Interrupts/ReservedInterrupts.hpp>
-#include <Core/CPU/Instructions/Flags.hpp>
-#include <Core/CPU/Decoders/StdDecoder.hpp>
-#include <Core/CPU/IO/Simple.hpp>
-#include <Logger/Logger.hpp>
-
+#include "Common/LanguageSpec/Flags.hpp"
+#include "Emulator/Core/CPU/Decoders/StdDecoder.hpp"
+#include "Emulator/Core/CPU/IO/Simple.hpp"
+#include "Emulator/Core/CPU/Interrupts/ReservedInterrupts.hpp"
+#include "Emulator/Core/MemoryController/IMemoryController.hpp"
 
 #define DECLARE_INSTR(name) void Exec##name(const IInstruction& instr, OperandContainer op1, OperandContainer op2)
 
@@ -18,7 +16,7 @@ namespace HyperCPU {
   class CPU {
   private:
     friend class Decoder;
-    friend class MemoryControllerST;    
+    friend class MemoryControllerST;
 
     using opcode_handler = std::function<void(const IInstruction& instr, OperandContainer op1, OperandContainer op2)>;
     using read_operation_handler = std::function<std::uint8_t()>;
@@ -29,7 +27,6 @@ namespace HyperCPU {
     std::unique_ptr<Decoder> m_decoder;
 
     // Data
-    const HyperCPU::Logger logger;
     std::uint16_t core_count;
     std::uint64_t total_mem;
     bool halted;
@@ -40,7 +37,7 @@ namespace HyperCPU {
     // GP Registers
     std::uint64_t *x0, *x1, *x2, *x3, *x4, *x5, *x6, *x7;
     std::uint32_t *xh0, *xh1, *xh2, *xh3, *xh4, *xh5, *xh6, *xh7;
-    std::uint32_t *xl0, *xl1,* xl2, *xl3, *xl4, *xl5, *xl6, *xl7;
+    std::uint32_t *xl0, *xl1, *xl2, *xl3, *xl4, *xl5, *xl6, *xl7;
     std::uint16_t *xll0, *xll1, *xll2, *xll3;
     std::uint8_t *xllh0, *xllh1, *xllh2, *xllh3;
     std::uint8_t *xlll0, *xlll1, *xlll2, *xlll3;
@@ -78,7 +75,7 @@ namespace HyperCPU {
     std::optional<std::uint64_t> pending_interrupt;
     void DecodingThread();
     void ExecutingThread();
-    
+
     // All instructions
     DECLARE_INSTR(ADD);
     DECLARE_INSTR(ADC);
@@ -119,7 +116,7 @@ namespace HyperCPU {
     std::array<read_operation_handler, 256> read_io_handlers;
     std::array<write_operation_handler, 256> write_io_handlers;
     std::unique_ptr<SimpleIOImpl> io_ctl;
-    
+
   public:
     CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binary = nullptr, std::uint64_t binary_size = 0);
 
@@ -127,8 +124,7 @@ namespace HyperCPU {
 
     bool CanExecuteInterrupts();
     void SetEntryPoint(std::uint32_t entry_point);
-    const HyperCPU::Logger& GetLogger() const noexcept;
-    
+
     ~CPU();
   };
-}
+} // namespace HyperCPU
