@@ -1,5 +1,7 @@
 FROM fedora:latest
 
+ARG BAZELISK_TAG=v1.15.0
+
 RUN dnf update -y \
     && dnf install -y --setopt=install_weak_deps=False git cmake \
     clang gcc which nodejs python3 python3-pip make awk wget \
