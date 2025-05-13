@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
       .help("compile to object file")
       .default_value(false)
       .implicit_value(true);
-  program.add_argument("-v")
+  program.add_argument("-V")
       .default_value(std::string{"warning"})
       .help("set verbosity level. possible modes:\n- debug\n- info\n- warning\n- error");
 
