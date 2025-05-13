@@ -102,3 +102,5 @@ conan/
 # Bazel builds with four directories, see for info:
 # https://bazel.build/remote/output-directories
 bazel-*
+bazel
+output

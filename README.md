@@ -85,7 +85,7 @@ Check out [examples](examples) folder for interesting code examples that will he
 #### `hcasm` (hASM assembler)
 
 ```bash
-$ ./hcasm [-h] [--help] [--version] [-o VAR] [-c] [-v VAR] source
+$ ./hcasm [-h] [--help] [--version] [-o VAR] [-c] [-V VAR] source
 ```
 
 * `source` — source code file to be compiled.
@@ -93,7 +93,7 @@ $ ./hcasm [-h] [--help] [--version] [-o VAR] [-c] [-v VAR] source
 * `--version` — display program version and exit.
 * `-o VAR` — specify output binary file name.
 * `-c` — generate an object file.
-* `-v VAR` — specify verbosity level (`debug`, `info`, `warning`, `error`). Default value is `warning`.
+* `-V VAR` — specify verbosity level (`debug`, `info`, `warning`, `error`). Default value is `warning`.
 
 #### `hcemul` (hCPU emulator)
 
