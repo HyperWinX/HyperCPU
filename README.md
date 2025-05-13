@@ -56,32 +56,27 @@ Pre-compiled binaries are currently not available. Sorry.
 Building HyperCPU requires these dependencies to be installed:
 
 * **C++20 compilers:** GCC 12+, Clang 14+.
-* **Build systems:** CMake 3.25+, Ninja, GNU make.
-* **Libraries:** re2, fmt (development files, of course).
+* **Build system:** Bazel.
 
-Building the tests requires googletest (gtest) to be installed. Generating the documentation in HTML format requires Python 3 and a few modules (`python3-pip`, `python3-sphinx`, `python3-sphinx-rtd-theme`) to be installed.
+Generating the documentation in HTML format requires Python 3 and a few modules (`python3-sphinx`, `python3-sphinx-rtd-theme`) to be installed.
 
 After installing dependencies run these commands in the terminal:
 
 ```bash
-$ git clone --recursive https://github.com/HyperCPU-Project/HyperCPU
-$ cd HyperCPU
-$ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-$ make -C build default -j$(nproc)
+git clone --recursive https://github.com/HyperCPU-Project/HyperCPU
+cd HyperCPU
+bazel build //src/... --config=linux-opt
+cd docs
+make html
 ```
 
-The build process can be customized using various build options (`cmake ... -DBUILD_OPTION=VALUE ...`):
+The compiled binaries should be located in `bazel-out` directory, and the generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
 
-* `CMAKE_BUILD_TYPE:STRING` — project build profile (`Release`, `RelWithDebInfo` or `Debug`). Mandatory to be specified.
-* `HCPU_COMPILER:STRING` allows to select a compiler that will be used to build the project. Supported values:
-    * `auto` (default) — let CMake automatically detect a needed compiler or use compiler paths defined by user.
-    * `clang` — use Clang, search for `clang` and `clang++` binaries. Hinting is supported, so if your `clang` binary is called `clang-19`, you can pass: `-DHCPU_COMPILER=clang -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19`.
-    * `gcc` — use GCC, search for `gcc` and `g++` binaries. Be careful: in some environments Clang can do `gcc --> clang` symlinks. You can hint the binary name the same way as with `clang` mode: `-DHCPU_COMPILER=gcc -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14`.
-* `HCPU_LTO:BOOL` — enable building with LTO. If Clang is used, CMake will search for LLD. If LLD is found, LTO will be enabled, otherwise not. If using GCC, there are no dependencies.
-* `HCPU_MARCH_NATIVE:BOOL` — use native architecture (`-march=native`).
-* `HCPU_SANITIZERS:BOOL` — use ASan and LSan sanitizers. Enabled by default — set to `OFF` to disable.
-
-The compiled binaries should be located in `build` directory, and the generated documentation should be located in `docs/_build/html` directory. After building the project open `index.html` file and start reading the documentation.
+To run the resulting binaries without searching for them in `bazel-out`, use `bazel run`.
+```
+bazel run //src/Assembler:hcasm -- <args>
+bazel run //src/Emulator:hcemul -- <args>
+```
 
 Check out [examples](examples) folder for interesting code examples that will help you better understand the syntax of hASM and the power of HyperCPU.
 
@@ -124,6 +119,7 @@ Thank you for your interest in HyperCPU.
 
 * **[HyperWin](https://github.com/HyperWinX) (2024 - present time)** — HyperCPU Project founder, lead developer and documentation author.
 * **[Ivan Movchan](https://github.com/ivan-movchan) (2025 - present time)** — beta tester, artist and just a contributor.
+* **[AshFungor](https://github.com/AshFungor) (2025 - present time)** — good contributor:)
 
 ### License
 
