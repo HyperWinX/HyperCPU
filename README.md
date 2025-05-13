@@ -56,7 +56,7 @@ Pre-compiled binaries are currently not available. Sorry.
 Building HyperCPU requires these dependencies to be installed:
 
 * **C++20 compilers:** GCC 12+, Clang 14+.
-* **Build system:** Bazelisk.
+* **Build system:** Bazel.
 
 Generating the documentation in HTML format requires Python 3 and a few modules (`python3-sphinx`, `python3-sphinx-rtd-theme`) to be installed.
 
