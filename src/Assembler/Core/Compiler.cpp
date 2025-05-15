@@ -285,6 +285,7 @@ std::uint8_t HCAsm::HCAsmCompiler::InstructionSize(HCAsm::Instruction& instr) {
       break;
     }
     break;
+  case OperandType::memaddr_lbl:
   case OperandType::memaddr_int:
     result += 8;
     switch (instr.op2.type) {
