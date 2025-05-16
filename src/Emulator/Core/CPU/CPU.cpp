@@ -137,7 +137,11 @@ HyperCPU::CPU::CPU(std::uint16_t core_count, std::uint64_t mem_size, char* binar
       [this](const IInstruction& instr, OperandContainer op1, OperandContainer op2) -> void { this->ExecJML(instr, op1, op2); };
   opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::CMP)] =
       [this](const IInstruction& instr, OperandContainer op1, OperandContainer op2) -> void { this->ExecCMP(instr, op1, op2); };
-
+  opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::LODSB)] =
+      [this](const IInstruction& instr, OperandContainer op1, OperandContainer op2) -> void { this->ExecLODSB(instr, op1, op2); };
+  opcode_handler_assoc[static_cast<std::uint16_t>(HyperCPU::Opcode::STDSB)] =
+      [this](const IInstruction& instr, OperandContainer op1, OperandContainer op2) -> void { this->ExecSTDSB(instr, op1, op2); };
+  
   read_io_handlers[0] = io_ctl->GetGetchar();
 
   write_io_handlers[0] = io_ctl->GetPutchar();
