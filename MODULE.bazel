@@ -10,8 +10,6 @@ module(
 conan = use_extension("//conan:conan_deps_module_extension.bzl", "conan_extension")
 use_repo(
     conan,
-    "boost",
-    "bzip2",
     "eternal",
     "fmt",
     "libbacktrace",
@@ -21,6 +19,7 @@ use_repo(
     "zlib",
 )
 
+bazel_dep(name = "boost.system", version = "1.87.0")
 bazel_dep(name = "argparse", version = "3.0.0")
 bazel_dep(name = "google_benchmark", version = "1.9.2")
 bazel_dep(name = "googletest", version = "1.17.0")

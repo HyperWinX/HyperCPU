@@ -3,5 +3,4 @@ requirements:
   eternal: "1.0.1"
   fmt: "11.0.2"
   libunwind: "1.8.1"
-  boost: "1.87.0"
   spdlog: "1.15.0"
