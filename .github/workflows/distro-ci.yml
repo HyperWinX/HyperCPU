@@ -31,8 +31,8 @@ jobs:
             name: Gentoo GLibc
           - tag: gentoo-musl
             name: Gentoo Musl
-          - tag: alpine
-            name: Alpine
+          # - tag: alpine
+          #   name: Alpine
           - tag: ubuntu
             name: Ubuntu
 

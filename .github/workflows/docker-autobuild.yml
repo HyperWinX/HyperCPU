@@ -27,8 +27,8 @@ jobs:
             name: Arch Linux
           - tag: gentoo-glibc
             name: Gentoo GLibc
-          # - tag: alpine
-          #   name: Alpine
+          - tag: alpine
+            name: Alpine
           - tag: ubuntu
             name: Ubuntu
 
