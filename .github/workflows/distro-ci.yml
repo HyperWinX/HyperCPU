@@ -29,10 +29,10 @@ jobs:
             name: Arch Linux
           - tag: gentoo-glibc
             name: Gentoo GLibc
-#          - tag: gentoo-musl
-#            name: Gentoo Musl
-#          - tag: alpine
-#            name: Alpine
+          - tag: gentoo-musl
+            name: Gentoo Musl
+          - tag: alpine
+            name: Alpine
           - tag: ubuntu
             name: Ubuntu
 

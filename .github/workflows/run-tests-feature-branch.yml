@@ -24,10 +24,8 @@ jobs:
 
       - name: Build and test with GCC on Release profile
         run: |
-          bazelisk test //src/... //tests/... --config=linux-dbg --compiler=gcc
-          bazelisk clean --expunge
+          CC=gcc bazelisk test //src/... //tests/... --config=linux-dbg
 
       - name: Build and test with LLVM on Release profile
         run: |
-          bazelisk test //src/... //tests/... --config=linux-dbg --compiler=clang
-          bazelisk clean --expunge
+          CC=clang bazelisk test //src/... //tests/... --config=linux-dbg
