@@ -1146,6 +1146,86 @@ OR - Logical OR
 | None.
 
 
+=========================
+POP - Pop data from stack
+=========================
+
+.. list-table:: Possible usage
+   :widths: 17 21 1
+   :header-rows: 1
+
+   * - Opcode
+     - Instruction
+     - Operands type
+   * - 1C0008<r>
+     - pop <r8>
+     - R
+   * - 1C0048<r>
+     - pop <r16>
+     - R
+   * - 1C0088<r>
+     - pop <r32>
+     - R
+   * - 1C00C8<r>
+     - pop <r64>
+     - R
+
+| **Description**:
+| Pop data from stack to the specified register;
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+
+=========================
+PUSH - Push data to stack
+=========================
+
+.. list-table:: Possible usage
+   :widths: 17 21 1
+   :header-rows: 1
+
+   * - Opcode
+     - Instruction
+     - Operands type
+   * - 1B0008<r>
+     - push <r8>
+     - R
+   * - 1B0048<r>
+     - push <r16>
+     - R
+   * - 1B0088<r>
+     - push <r32>
+     - R
+   * - 1B00C8<r>
+     - push <r64>
+     - R
+   * - 1B000F<imm8>
+     - push <imm8>
+     - IMM
+   * - 1B004F<imm16>
+     - push <imm16>
+     - IMM
+   * - 1B008F<imm32>
+     - push <imm32>
+     - IMM
+   * - 1B00CF<imm64>
+     - push <imm64>
+     - IMM
+
+| **Description**:
+| Push data from immediate operand or from specified register onto the stack.
+
+| **Exceptions**:
+| None.
+
+| **Flags affected**:
+| None.
+
+
 =====================
 READ - Read From Port
 =====================
