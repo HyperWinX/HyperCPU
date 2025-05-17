@@ -10,7 +10,7 @@ cc_library(
     name = "pch_gtest",
     hdrs = ["gtest.hpp"],
     deps = [
-        "@gtest//:gtest-libgtest",
+        "@googletest//:gtest",
     ],
 )
 
