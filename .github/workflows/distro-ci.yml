@@ -21,20 +21,12 @@ jobs:
         config:
           - tag: fedora
             name: Fedora
-          - tag: debian-stable
-            name: Debian Stable
-          - tag: debian-unstable
-            name: Debian Unstable
+          - tag: debian
+            name: Debian
           - tag: archlinux
             name: Arch Linux
           - tag: gentoo-glibc
             name: Gentoo GLibc
-#          - tag: gentoo-musl
-#            name: Gentoo Musl
-#          - tag: alpine
-#            name: Alpine
-          - tag: ubuntu
-            name: Ubuntu
 
     steps:
       - run: |
