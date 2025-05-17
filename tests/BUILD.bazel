@@ -7,9 +7,9 @@ package(
     ],
 )
 
-precompiled_headers(
+cc_library(
     name = "pch_gtest",
-    main = "gtest.hpp",
+    hdrs = ["gtest.hpp"],
     deps = [
         "@gtest//:gtest-libgtest",
     ],
