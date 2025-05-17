@@ -1,5 +1,4 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("//tools/bazel:pch.bzl", "precompiled_headers")
 
 package(
     default_visibility = [
